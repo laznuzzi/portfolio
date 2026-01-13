@@ -145,12 +145,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg-primary);
   transition: background-color var(--transition-normal);
-  border: 14px solid var(--color-black);
   box-sizing: border-box;
-
-  :root.dark & {
-    border: none;
-  }
 }
 
 .app-header {
@@ -1834,30 +1829,8 @@ body {
   }
 }
 
-/* ==================== OPENING ANIMATION STYLES ==================== */
-.opening-animation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--bg-primary);
-  z-index: 9999;
-  overflow: hidden;
-}
-
-.opening-background-circles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9998;
-  overflow: hidden;
-}
-
-.opening-border-frame {
+/* ==================== PERSISTENT BORDER FRAME ==================== */
+.border-frame {
   position: fixed;
   top: 0;
   left: 0;
@@ -1865,7 +1838,25 @@ body {
   height: 100vh;
   border: 14px solid var(--color-black);
   pointer-events: none;
-  z-index: 10001;
+  z-index: 10000;
+  box-sizing: border-box;
+
+  :root.dark & {
+    border: none;
+  }
+}
+
+/* ==================== OPENING ANIMATION STYLES ==================== */
+.opening-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  z-index: 9999;
+  overflow: hidden;
+  transition: opacity 0.6s ease-out;
 }
 
 .opening-text-container {
@@ -1953,13 +1944,18 @@ body {
 .main-content-hidden {
   opacity: 0;
   visibility: hidden;
+  transition: opacity 0.6s ease-in, visibility 0s 0.6s;
+}
+
+#main-content {
+  transition: opacity 0.6s ease-in;
 }
 
 /* ==================== SECTIONS VIEWER LAYOUT ==================== */
 .sections-viewer {
   display: flex;
   gap: var(--space-6);
-  height: 60vh;
+  height: 75vh;
   width: 100%;
 }
 
@@ -1971,6 +1967,7 @@ body {
   padding: var(--space-6);
   overflow-y: auto;
   flex-shrink: 0;
+  font-family: 'Source Code Pro', 'Monaco', 'Courier New', monospace;
 
   :root.dark & {
     background-color: #231f28;
@@ -2003,6 +2000,7 @@ body {
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin: 0;
+  font-family: 'Source Code Pro', 'Monaco', 'Courier New', monospace;
 }
 
 .sections-nav-list {
@@ -2031,7 +2029,7 @@ body {
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-family: 'Chalet', sans-serif;
+  font-family: 'Source Code Pro', 'Monaco', 'Courier New', monospace;
   text-align: left;
 
   &:hover {
@@ -2085,7 +2083,7 @@ body {
   font-weight: var(--font-weight-normal);
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-family: 'Chalet', sans-serif;
+  font-family: 'Source Code Pro', 'Monaco', 'Courier New', monospace;
   text-align: left;
 
   &:hover {

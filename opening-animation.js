@@ -59,6 +59,9 @@
         });
     }
 
+    // Prevent body scrolling on main content initially
+    document.body.style.overflow = 'hidden';
+
     // Create the opening animation timeline
     const tl = gsap.timeline({
         scrollTrigger: {
@@ -106,37 +109,40 @@
 
     // Function to complete animation and show main content
     function completeAnimation() {
-        // Fade out opening animation
+        // Crossfade: fade out opening animation while fading in main content
         gsap.to(openingAnimation, {
             opacity: 0,
-            duration: 0.5,
+            duration: 0.6,
             ease: 'power2.inOut',
             onComplete: () => {
                 openingAnimation.style.display = 'none';
+                openingAnimation.style.pointerEvents = 'none';
 
-                // Show and fade in main content
-                mainContent.classList.remove('main-content-hidden');
-                gsap.fromTo(mainContent,
-                    { opacity: 0 },
-                    {
-                        opacity: 1,
-                        duration: 0.8,
-                        ease: 'power2.out',
-                        onComplete: () => {
-                            // Clean up scroll trigger
-                            ScrollTrigger.getAll().forEach(trigger => {
-                                if (trigger.vars.trigger === openingAnimation) {
-                                    trigger.kill();
-                                }
-                            });
-
-                            // Reset body overflow
-                            document.body.style.overflow = 'auto';
-                        }
+                // Clean up scroll trigger
+                ScrollTrigger.getAll().forEach(trigger => {
+                    if (trigger.vars.trigger === openingAnimation) {
+                        trigger.kill();
                     }
-                );
+                });
             }
         });
+
+        // Fade in main content simultaneously
+        mainContent.classList.remove('main-content-hidden');
+        mainContent.style.visibility = 'visible';
+        gsap.fromTo(mainContent,
+            { opacity: 0 },
+            {
+                opacity: 1,
+                duration: 0.6,
+                ease: 'power2.inOut',
+                delay: 0.2,
+                onComplete: () => {
+                    // Re-enable body scrolling
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        );
     }
 
     // Optional: Skip animation on click/tap (for returning users)
