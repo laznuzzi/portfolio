@@ -1954,3 +1954,249 @@ body {
   opacity: 0;
   visibility: hidden;
 }
+
+/* ==================== PORTFOLIO VIEWER LAYOUT ==================== */
+.portfolio-viewer {
+  display: flex;
+  gap: var(--space-6);
+  height: 60vh;
+  width: 100%;
+}
+
+/* Left Navigation Panel */
+.portfolio-nav {
+  width: 280px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex-shrink: 0;
+
+  :root.dark & {
+    background-color: #231f28;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-gray-400);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--color-gray-500);
+    }
+  }
+}
+
+.portfolio-nav-header {
+  margin-bottom: var(--space-6);
+}
+
+.portfolio-nav-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.portfolio-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Folder Styles */
+.nav-folder {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-folder-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: 'Chalet', sans-serif;
+  text-align: left;
+
+  &:hover {
+    background-color: var(--bg-tertiary);
+  }
+
+  .folder-icon {
+    flex-shrink: 0;
+    color: var(--text-secondary);
+  }
+
+  span {
+    flex: 1;
+  }
+
+  .chevron-icon {
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+    transition: transform var(--transition-fast);
+  }
+}
+
+.nav-folder.collapsed .chevron-icon {
+  transform: rotate(-90deg);
+}
+
+.nav-folder.collapsed .nav-folder-content {
+  display: none;
+}
+
+.nav-folder-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-left: var(--space-6);
+  margin-top: var(--space-1);
+}
+
+/* Page Item Styles */
+.nav-page-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: 'Chalet', sans-serif;
+  text-align: left;
+
+  &:hover {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+  }
+
+  &.active {
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-700);
+    font-weight: var(--font-weight-medium);
+
+    :root.dark & {
+      background-color: var(--color-primary-600);
+      color: var(--color-white);
+    }
+  }
+
+  .page-icon {
+    flex-shrink: 0;
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+/* Right Content Panel */
+.portfolio-content {
+  flex: 1;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  overflow-y: auto;
+  min-height: 0;
+
+  :root.dark & {
+    background-color: #231f28;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-gray-400);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--color-gray-500);
+    }
+  }
+}
+
+.portfolio-page {
+  display: none;
+
+  &.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+}
+
+.page-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-6);
+  font-family: 'Chalet', sans-serif;
+}
+
+.page-body {
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+
+  p {
+    margin-bottom: var(--space-4);
+  }
+}
+
+.content-placeholder {
+  margin-top: var(--space-6);
+  padding: var(--space-8);
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--border-primary);
+  text-align: center;
+  color: var(--text-tertiary);
+
+  :root.dark & {
+    background-color: var(--bg-primary);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .portfolio-viewer {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .portfolio-nav {
+    width: 100%;
+    max-height: 300px;
+  }
+
+  .portfolio-content {
+    min-height: 400px;
+  }
+}
