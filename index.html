@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazarena - Chat Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- GSAP Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+</head>
+<body class="app-body">
+    <!-- ==================== OPENING ANIMATION SECTION ==================== -->
+    <div id="opening-animation" class="opening-animation">
+        <!-- Background gradient circles -->
+        <div class="opening-background-circles">
+            <div class="gradient-circle gradient-circle-1"></div>
+            <div class="gradient-circle gradient-circle-2"></div>
+            <div class="gradient-circle gradient-circle-3"></div>
+            <div class="gradient-circle gradient-circle-4"></div>
+            <div class="gradient-circle gradient-circle-5"></div>
+        </div>
+
+        <div class="opening-border-frame"></div>
+
+        <div class="opening-icons-container"></div>
+
+        <div class="opening-text-container">
+            <div class="opening-text-wrapper">
+                <span class="opening-large-text">Howdy, I'm Naz/Nazzy/Nazarena</span>
+            </div>
+        </div>
+
+        <div class="opening-scroll-indicator">Scroll to continue</div>
+    </div>
+
+    <!-- Main content wrapper that will be hidden initially -->
+    <div id="main-content" class="main-content-hidden">
+    <!-- ==================== HEADER SECTION ==================== -->
+    <header id="app-header" class="app-header">
+        <button id="theme-toggle-button" class="theme-toggle-button" role="switch" aria-checked="false">
+            <span id="theme-toggle-circle" class="theme-toggle-circle">
+                <span class="theme-toggle-icon">
+                    <svg id="theme-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </span>
+            </span>
+            <span class="sr-only">Toggle theme</span>
+        </button>
+    </header>
+
+    <!-- ==================== BACKGROUND GRADIENT CIRCLES ==================== -->
+    <div class="background-circles">
+        <div class="gradient-circle gradient-circle-1"></div>
+        <div class="gradient-circle gradient-circle-2"></div>
+        <div class="gradient-circle gradient-circle-3"></div>
+        <div class="gradient-circle gradient-circle-4"></div>
+        <div class="gradient-circle gradient-circle-5"></div>
+    </div>
+
+    <!-- ==================== MAIN APPLICATION CONTAINER ==================== -->
+    <main id="main-app-container" class="main-container">
+        <div id="app-content-wrapper" class="content-wrapper">
+            
+            <!-- ==================== INTRO SECTION ==================== -->
+            <section id="intro-section" class="intro-section">
+                <div class="intro-content">
+                                        <h1 id="intro-heading" class="intro-heading">
+                        <span class="greeting-text typewriter-text" data-text="Lorem ipsum,"></span><br>
+                        <div class="intro-content-rest">
+                            dolor sit <span class="name-hover" data-name="amet">amet</span>, consectetur <span class="coding-text">&lt;adipiscing elit/&gt;</span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua <img class="intro-avatar" src="./img/avatar.jpeg" alt="Avatar">.
+                            <br>
+                            <span class="learn-more-text">Ut enim ad minim veniam ↓</span>
+                        </div>
+                    </h1>
+                </div>
+            </section>
+
+            <!-- ==================== MAIN CONTENT AREA ==================== -->
+            <section id="main-content-section" class="main-content-section">
+                
+                <!-- ==================== CHAT SECTION ==================== -->
+                <div class="chat-section">
+                    <!-- ==================== CHAT AREA ==================== -->
+                    <div id="chat-area" class="chat-area">
+                        <!-- Mobile menu button -->
+                        <div id="mobile-menu-trigger" class="mobile-menu-trigger">
+                            <button id="mobile-menu-button" class="mobile-menu-button">
+                                <svg class="icon-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Chat messages container -->
+                        <div id="chat-messages-container" class="chat-container">
+                            
+                            <!-- ==================== CHAT HEADER ==================== -->
+                            <div id="chat-header" class="chat-header">
+                                <div id="chat-status" class="chat-status">
+                                    <div class="status-indicator">
+                                        <span class="status-dot"></span>
+                                        <span class="status-message">Busy workin'</span>
+                                    </div>
+                                </div>
+                                <button id="clear-chat-button" class="clear-chat-button">
+                                    <svg class="icon-sm clear-chat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <!-- ==================== CHAT DIVIDER ==================== -->
+                            <hr id="chat-divider" class="chat-divider">
+                            
+                            <!-- ==================== MESSAGES LIST ==================== -->
+                            <div id="messages-scroll-container" class="messages-container">
+                                <div id="messages-list" class="messages-list">
+                                    <!-- Messages will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ==================== SIDEBAR (DESKTOP) ==================== -->
+                    <aside id="desktop-sidebar" class="desktop-sidebar">
+                        <div class="sidebar-content">
+                            <div id="sidebar-header">
+                                <h3 id="sidebar-title" class="sidebar-title">Available prompts</h3>
+                            </div>
+                            
+                            <div id="desktop-prompt-buttons" class="prompt-buttons-container">
+                                <!-- Prompt buttons will be inserted here -->
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                
+                <!-- ==================== MESSAGE INPUT SECTION ==================== -->
+                <section id="message-input-section" class="message-input-section">
+                    <div class="message-input-wrapper">
+                        <form id="message-input-form" class="message-form">
+                            <input
+                                id="message-input-field"
+                                type="text"
+                                placeholder="Type your message..."
+                                class="message-input-field"
+                            />
+                            <button type="submit" id="message-send-button" class="message-send-button">
+                                <svg class="icon-sm message-send-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- ==================== HORIZONTAL PROMPTS ==================== -->
+                    <div id="horizontal-prompts-section" class="horizontal-prompts-section">
+                        <div id="horizontal-prompt-buttons" class="horizontal-prompt-buttons">
+                            <!-- Prompt buttons will be inserted here -->
+                        </div>
+                    </div>
+                </section>
+            </section>
+            
+            <!-- ==================== FOOTER ==================== -->
+            <footer id="app-footer" class="app-footer">
+                <p class="footer-text">Designed and coded by me with a lil' help from Claude and Cursor too. © 2025</p>
+            </footer>
+        </div>
+    </main>
+
+    <!-- ==================== MOBILE SIDEBAR SHEET ==================== -->
+    <div id="mobile-sidebar-sheet" class="mobile-sidebar-sheet">
+        <div id="mobile-sheet-overlay" class="mobile-sheet-overlay"></div>
+        <div id="mobile-sheet-content" class="mobile-sheet-content">
+            <div id="mobile-sheet-inner" class="mobile-sheet-inner">
+                <div id="mobile-sheet-header" class="mobile-sheet-header">
+                    <h3 id="mobile-sheet-title" class="sidebar-title">Available prompts</h3>
+                    <button id="mobile-sheet-close-button" class="mobile-sheet-close-button">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="mobile-prompt-buttons" class="prompt-buttons-container">
+                    <!-- Mobile prompt buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- End main-content -->
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="opening-animation.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
