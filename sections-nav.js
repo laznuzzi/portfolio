@@ -1,4 +1,4 @@
-// ==================== PORTFOLIO NAVIGATION SCRIPT ====================
+// ==================== SECTIONS NAVIGATION SCRIPT ====================
 // Handles folder toggling and page navigation
 
 (function() {
@@ -30,7 +30,7 @@
     // Page navigation functionality
     function setupPageNavigation() {
         const pageItems = document.querySelectorAll('.nav-page-item');
-        const pages = document.querySelectorAll('.portfolio-page');
+        const pages = document.querySelectorAll('.section-page');
 
         pageItems.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -48,7 +48,7 @@
                 pages.forEach(page => page.classList.remove('active'));
 
                 // Show target page
-                const targetPage = document.querySelector(`.portfolio-page[data-page-id="${targetPageId}"]`);
+                const targetPage = document.querySelector(`.section-page[data-page-id="${targetPageId}"]`);
                 if (targetPage) {
                     targetPage.classList.add('active');
                 }
