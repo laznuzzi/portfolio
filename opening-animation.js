@@ -59,9 +59,6 @@
         });
     }
 
-    // Prevent body scrolling on main content initially
-    document.body.style.overflow = 'hidden';
-
     // Create the opening animation timeline
     const tl = gsap.timeline({
         scrollTrigger: {
@@ -70,6 +67,7 @@
             end: `+=${scrollDistance}`,
             scrub: 1,
             pin: true,
+            anticipatePin: 1,
             onUpdate: (self) => {
                 scrollProgress = self.progress;
 
@@ -130,17 +128,14 @@
         // Fade in main content simultaneously
         mainContent.classList.remove('main-content-hidden');
         mainContent.style.visibility = 'visible';
+        mainContent.style.pointerEvents = 'auto';
         gsap.fromTo(mainContent,
             { opacity: 0 },
             {
                 opacity: 1,
                 duration: 0.6,
                 ease: 'power2.inOut',
-                delay: 0.2,
-                onComplete: () => {
-                    // Re-enable body scrolling
-                    document.body.style.overflow = 'auto';
-                }
+                delay: 0.2
             }
         );
     }

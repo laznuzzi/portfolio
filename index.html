@@ -64,12 +64,18 @@
             <!-- ==================== INTRO SECTION ==================== -->
             <section id="intro-section" class="intro-section">
                 <div class="intro-content">
-                                        <h1 id="intro-heading" class="intro-heading">
-                        <span class="greeting-text typewriter-text" data-text="Lorem ipsum,"></span><br>
+                    <h1 id="intro-heading" class="intro-heading">
+                        <!-- Hidden for now: typewriter animation, avatar, code styling -->
+                        <span class="greeting-text typewriter-text" data-text="Lorem ipsum," style="display: none;"></span>
                         <div class="intro-content-rest">
-                            dolor sit <span class="name-hover" data-name="amet">amet</span> <img class="intro-avatar" src="./img/avatar.jpeg" alt="Avatar">, consectetur <span class="coding-text">&lt;adipiscing elit/&gt;</span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <br>
-                            <span class="learn-more-text">Ut enim ad minim veniam quis nostrud ↓</span>
+                            <div class="intro-placeholder-text">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            </div>
+                            <!-- Hidden elements -->
+                            <span style="display: none;">
+                                dolor sit <span class="name-hover" data-name="amet">amet</span> <img class="intro-avatar" src="./img/avatar.jpeg" alt="Avatar">, consectetur <span class="coding-text">&lt;adipiscing elit/&gt;</span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </span>
+                            <span class="learn-more-text" style="display: none;">Ut enim ad minim veniam quis nostrud ↓</span>
                         </div>
                     </h1>
                 </div>
@@ -78,106 +84,172 @@
             <!-- ==================== MAIN CONTENT AREA ==================== -->
             <section id="main-content-section" class="main-content-section">
 
-                <!-- ==================== SECTIONS VIEWER ==================== -->
-                <div class="sections-viewer">
-                    <!-- Left Navigation Panel -->
-                    <aside class="sections-nav">
-                        <div class="sections-nav-header">
-                            <h3 class="sections-nav-title">Sections</h3>
+                <!-- ==================== FOLDER ICON ==================== -->
+                <div id="folder-icon-container" class="folder-icon-container" style="display: none;">
+                    <div class="folder-icon" id="folder-icon">
+                        <div class="folder-icon-image">
+                            <svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Folder body -->
+                                <path d="M10 20C10 15.5817 13.5817 12 18 12H45L55 22H102C106.418 22 110 25.5817 110 30V82C110 86.4183 106.418 90 102 90H18C13.5817 90 10 86.4183 10 82V20Z" fill="#5B9DD9"/>
+                                <!-- Folder tab -->
+                                <path d="M10 20C10 15.5817 13.5817 12 18 12H45L55 22H18C13.5817 22 10 25.5817 10 30V20Z" fill="#78B5E5"/>
+                                <!-- Folder shadow/depth -->
+                                <path d="M18 90C13.5817 90 10 86.4183 10 82V30C10 25.5817 13.5817 22 18 22H102C106.418 22 110 25.5817 110 30V82C110 86.4183 106.418 90 102 90H18Z" fill="#4A8BC2" opacity="0.3"/>
+                            </svg>
                         </div>
-                        <nav class="sections-nav-list">
-                            <!-- Folder 1 -->
-                            <div class="nav-folder">
-                                <button class="nav-folder-toggle">
-                                    <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                                        <path d="M2 4h5l2 2h5v7H2V4z" stroke-width="1.5" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>Design Work</span>
-                                    <svg class="chevron-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <div class="folder-icon-label">My Documents</div>
+                    </div>
+                </div>
+
+                <!-- ==================== FINDER WINDOW ==================== -->
+                <div id="finder-window" class="finder-window">
+                    <div class="finder-container">
+                        <!-- Finder Title Bar -->
+                        <header class="finder-titlebar">
+                            <!-- Traffic Lights -->
+                            <div class="finder-traffic-lights">
+                                <span class="traffic-light traffic-light-red" id="finder-close"></span>
+                                <span class="traffic-light traffic-light-yellow"></span>
+                                <span class="traffic-light traffic-light-green"></span>
+                            </div>
+
+                            <!-- Navigation and Title -->
+                            <div class="finder-nav-section">
+                                <div class="finder-nav-buttons">
+                                    <button class="finder-nav-btn" aria-label="Back">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M15 18l-6-6 6-6"/>
+                                        </svg>
+                                    </button>
+                                    <button class="finder-nav-btn" aria-label="Forward">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 18l6-6-6-6"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <h2 class="finder-title">My_Documents</h2>
+                            </div>
+
+                            <!-- View Mode Buttons -->
+                            <div class="finder-view-modes">
+                                <button class="finder-view-btn active" aria-label="Icon view">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                                        <rect x="14" y="14" width="7" height="7" rx="1"/>
                                     </svg>
                                 </button>
-                                <div class="nav-folder-content">
-                                    <button class="nav-page-item active" data-page="project-1">
-                                        <svg class="page-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor">
-                                            <rect x="2" y="2" width="10" height="10" rx="1" stroke-width="1.5"/>
-                                        </svg>
-                                        <span>Project Alpha</span>
-                                    </button>
-                                    <button class="nav-page-item" data-page="project-2">
-                                        <svg class="page-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor">
-                                            <rect x="2" y="2" width="10" height="10" rx="1" stroke-width="1.5"/>
-                                        </svg>
-                                        <span>Project Beta</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Folder 2 -->
-                            <div class="nav-folder">
-                                <button class="nav-folder-toggle">
-                                    <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor">
-                                        <path d="M2 4h5l2 2h5v7H2V4z" stroke-width="1.5" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>About</span>
-                                    <svg class="chevron-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <button class="finder-view-btn" aria-label="List view">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="3" y1="6" x2="21" y2="6"/>
+                                        <line x1="3" y1="12" x2="21" y2="12"/>
+                                        <line x1="3" y1="18" x2="21" y2="18"/>
                                     </svg>
                                 </button>
-                                <div class="nav-folder-content">
-                                    <button class="nav-page-item" data-page="about-me">
-                                        <svg class="page-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor">
-                                            <rect x="2" y="2" width="10" height="10" rx="1" stroke-width="1.5"/>
+                                <button class="finder-view-btn" aria-label="Column view">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="7" height="18" rx="1"/>
+                                        <rect x="14" y="3" width="7" height="18" rx="1"/>
+                                    </svg>
+                                </button>
+                                <button class="finder-view-btn" aria-label="Gallery view">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="11" rx="1"/>
+                                        <rect x="7" y="17" width="10" height="4" rx="1"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </header>
+
+                        <!-- Finder Content Area -->
+                        <main class="finder-content">
+                            <div class="finder-files-grid">
+                                <!-- File 1 -->
+                                <button class="finder-file" data-file="document-a">
+                                    <div class="finder-file-icon">
+                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
+                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
+                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
+                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
                                         </svg>
-                                        <span>About Me</span>
-                                    </button>
-                                    <button class="nav-page-item" data-page="contact">
-                                        <svg class="page-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor">
-                                            <rect x="2" y="2" width="10" height="10" rx="1" stroke-width="1.5"/>
+                                    </div>
+                                    <div class="finder-file-name">Document_A.pdf</div>
+                                </button>
+
+                                <!-- File 2 -->
+                                <button class="finder-file" data-file="notes">
+                                    <div class="finder-file-icon">
+                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
+                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
+                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
+                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
                                         </svg>
-                                        <span>Contact</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </nav>
-                    </aside>
+                                    </div>
+                                    <div class="finder-file-name">Notes.pdf</div>
+                                </button>
 
-                    <!-- Right Content Panel -->
-                    <main class="sections-content">
-                        <div class="section-page active" data-page-id="project-1">
-                            <h2 class="page-title">Project Alpha</h2>
-                            <div class="page-body">
-                                <p>This is the content for Project Alpha. You can put images, text, and any other content here.</p>
-                                <div class="content-placeholder">
-                                    <p>Content goes here...</p>
-                                </div>
+                                <!-- File 3 -->
+                                <button class="finder-file" data-file="report">
+                                    <div class="finder-file-icon">
+                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
+                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
+                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
+                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
+                                        </svg>
+                                    </div>
+                                    <div class="finder-file-name">Report_Final.pdf</div>
+                                </button>
+
+                                <!-- File 4 -->
+                                <button class="finder-file" data-file="presentation">
+                                    <div class="finder-file-icon">
+                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
+                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
+                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
+                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
+                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
+                                        </svg>
+                                    </div>
+                                    <div class="finder-file-name">Presentation.pdf</div>
+                                </button>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+                <!-- ==================== FILE MODAL ==================== -->
+                <div id="file-modal" class="file-modal" style="display: none;">
+                    <div class="file-modal-overlay"></div>
+                    <div id="file-modal-content" class="file-modal-content">
+                        <div class="modal-titlebar" id="modal-titlebar">
+                            <div class="modal-traffic-lights">
+                                <span class="modal-traffic-light modal-traffic-light-red" id="modal-close"></span>
+                                <span class="modal-traffic-light modal-traffic-light-yellow"></span>
+                                <span class="modal-traffic-light modal-traffic-light-green"></span>
+                            </div>
+                            <h3 id="modal-file-title" class="modal-file-title"></h3>
+                        </div>
+                        <div id="modal-tabs-container" class="modal-tabs-container">
+                            <div id="modal-tabs" class="modal-tabs">
+                                <!-- Tabs will be inserted here -->
                             </div>
                         </div>
-
-                        <div class="section-page" data-page-id="project-2">
-                            <h2 class="page-title">Project Beta</h2>
-                            <div class="page-body">
-                                <p>This is the content for Project Beta.</p>
-                                <div class="content-placeholder">
-                                    <p>More content here...</p>
-                                </div>
-                            </div>
+                        <div id="modal-documents-container">
+                            <!-- Document bodies will be inserted here -->
                         </div>
-
-                        <div class="section-page" data-page-id="about-me">
-                            <h2 class="page-title">About Me</h2>
-                            <div class="page-body">
-                                <p>Information about me goes here.</p>
-                            </div>
-                        </div>
-
-                        <div class="section-page" data-page-id="contact">
-                            <h2 class="page-title">Contact</h2>
-                            <div class="page-body">
-                                <p>Contact information and form goes here.</p>
-                            </div>
-                        </div>
-                    </main>
+                    </div>
                 </div>
 
                 <!-- ==================== CHAT SECTION (HIDDEN) ==================== -->
