@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nazarena - Chat Interface</title>
+    <title>file experiment</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,6 +12,8 @@
     <!-- GSAP Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <!-- Matter.js Physics Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body class="app-body">
     <!-- ==================== SHARED BACKGROUND GRADIENT CIRCLES ==================== -->
@@ -33,9 +35,12 @@
 
         <div class="opening-text-container">
             <div class="opening-text-wrapper">
-                <span class="opening-large-text">Howdy, I'm Naz/Nazzy/Nazarena <img class="opening-avatar" src="./img/avatar.jpeg" alt="Avatar"></span>
+                <span class="opening-large-text">Howdy</span>
             </div>
         </div>
+
+        <!-- Physics Canvas Container -->
+        <div id="physics-container" class="physics-container" style="display: none;"></div>
 
         <div class="opening-scroll-indicator">Scroll to continue</div>
     </div>
@@ -84,149 +89,45 @@
             <!-- ==================== MAIN CONTENT AREA ==================== -->
             <section id="main-content-section" class="main-content-section">
 
-                <!-- ==================== FOLDER ICON ==================== -->
-                <div id="folder-icon-container" class="folder-icon-container" style="display: none;">
-                    <div class="folder-icon" id="folder-icon">
-                        <div class="folder-icon-image">
-                            <svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Folder body -->
-                                <path d="M10 20C10 15.5817 13.5817 12 18 12H45L55 22H102C106.418 22 110 25.5817 110 30V82C110 86.4183 106.418 90 102 90H18C13.5817 90 10 86.4183 10 82V20Z" fill="#5B9DD9"/>
-                                <!-- Folder tab -->
-                                <path d="M10 20C10 15.5817 13.5817 12 18 12H45L55 22H18C13.5817 22 10 25.5817 10 30V20Z" fill="#78B5E5"/>
-                                <!-- Folder shadow/depth -->
-                                <path d="M18 90C13.5817 90 10 86.4183 10 82V30C10 25.5817 13.5817 22 18 22H102C106.418 22 110 25.5817 110 30V82C110 86.4183 106.418 90 102 90H18Z" fill="#4A8BC2" opacity="0.3"/>
-                            </svg>
+                <!-- ==================== FILES SCATTERED ON PAGE ==================== -->
+                <div class="page-files-container">
+                    <!-- Popover for hover effect -->
+                    <div id="file-popover" class="document-popover" style="display: none;">
+                        <div class="popover-title"></div>
+                        <div class="popover-description"></div>
+                    </div>
+
+                    <!-- File 1 -->
+                    <button class="page-file" data-file="document-a" style="top: 15%; left: 20%;">
+                        <div class="page-file-thumbnail">
+                            <img src="./img/placeholder.jpeg" alt="Document A">
                         </div>
-                        <div class="folder-icon-label">My Documents</div>
-                    </div>
-                </div>
+                        <div class="page-file-name">Document_A.pdf</div>
+                    </button>
 
-                <!-- ==================== FINDER WINDOW ==================== -->
-                <div id="finder-window" class="finder-window">
-                    <div class="finder-container">
-                        <!-- Finder Title Bar -->
-                        <header class="finder-titlebar">
-                            <!-- Traffic Lights -->
-                            <div class="finder-traffic-lights">
-                                <span class="traffic-light traffic-light-red" id="finder-close"></span>
-                                <span class="traffic-light traffic-light-yellow"></span>
-                                <span class="traffic-light traffic-light-green"></span>
-                            </div>
+                    <!-- File 2 -->
+                    <button class="page-file" data-file="notes" style="top: 50%; left: 15%;">
+                        <div class="page-file-thumbnail">
+                            <img src="./img/placeholder.jpeg" alt="Notes">
+                        </div>
+                        <div class="page-file-name">Notes.pdf</div>
+                    </button>
 
-                            <!-- Navigation and Title -->
-                            <div class="finder-nav-section">
-                                <div class="finder-nav-buttons">
-                                    <button class="finder-nav-btn" aria-label="Back">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M15 18l-6-6 6-6"/>
-                                        </svg>
-                                    </button>
-                                    <button class="finder-nav-btn" aria-label="Forward">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M9 18l6-6-6-6"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <h2 class="finder-title">My_Documents</h2>
-                            </div>
+                    <!-- File 3 -->
+                    <button class="page-file" data-file="report" style="top: 28%; left: 60%;">
+                        <div class="page-file-thumbnail">
+                            <img src="./img/placeholder.jpeg" alt="Report">
+                        </div>
+                        <div class="page-file-name">Report_Final.pdf</div>
+                    </button>
 
-                            <!-- View Mode Buttons -->
-                            <div class="finder-view-modes">
-                                <button class="finder-view-btn active" aria-label="Icon view">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                                    </svg>
-                                </button>
-                                <button class="finder-view-btn" aria-label="List view">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <line x1="3" y1="6" x2="21" y2="6"/>
-                                        <line x1="3" y1="12" x2="21" y2="12"/>
-                                        <line x1="3" y1="18" x2="21" y2="18"/>
-                                    </svg>
-                                </button>
-                                <button class="finder-view-btn" aria-label="Column view">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="3" width="7" height="18" rx="1"/>
-                                        <rect x="14" y="3" width="7" height="18" rx="1"/>
-                                    </svg>
-                                </button>
-                                <button class="finder-view-btn" aria-label="Gallery view">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="3" width="18" height="11" rx="1"/>
-                                        <rect x="7" y="17" width="10" height="4" rx="1"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </header>
-
-                        <!-- Finder Content Area -->
-                        <main class="finder-content">
-                            <div class="finder-files-grid">
-                                <!-- File 1 -->
-                                <button class="finder-file" data-file="document-a">
-                                    <div class="finder-file-icon">
-                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
-                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
-                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
-                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
-                                        </svg>
-                                    </div>
-                                    <div class="finder-file-name">Document_A.pdf</div>
-                                </button>
-
-                                <!-- File 2 -->
-                                <button class="finder-file" data-file="notes">
-                                    <div class="finder-file-icon">
-                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
-                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
-                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
-                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
-                                        </svg>
-                                    </div>
-                                    <div class="finder-file-name">Notes.pdf</div>
-                                </button>
-
-                                <!-- File 3 -->
-                                <button class="finder-file" data-file="report">
-                                    <div class="finder-file-icon">
-                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
-                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
-                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
-                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
-                                        </svg>
-                                    </div>
-                                    <div class="finder-file-name">Report_Final.pdf</div>
-                                </button>
-
-                                <!-- File 4 -->
-                                <button class="finder-file" data-file="presentation">
-                                    <div class="finder-file-icon">
-                                        <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 0C4.477 0 0 4.477 0 10v100c0 5.523 4.477 10 10 10h80c5.523 0 10-4.477 10-10V30L70 0H10z" fill="#E8E8E8"/>
-                                            <path d="M70 0v20c0 5.523 4.477 10 10 10h20L70 0z" fill="#D0D0D0"/>
-                                            <rect x="15" y="45" width="50" height="3" fill="#888"/>
-                                            <rect x="15" y="55" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="65" width="70" height="3" fill="#888"/>
-                                            <rect x="15" y="75" width="45" height="3" fill="#888"/>
-                                        </svg>
-                                    </div>
-                                    <div class="finder-file-name">Presentation.pdf</div>
-                                </button>
-                            </div>
-                        </main>
-                    </div>
+                    <!-- File 4 -->
+                    <button class="page-file" data-file="presentation" style="top: 62%; left: 65%;">
+                        <div class="page-file-thumbnail">
+                            <img src="./img/placeholder.jpeg" alt="Presentation">
+                        </div>
+                        <div class="page-file-name">Presentation.pdf</div>
+                    </button>
                 </div>
 
                 <!-- ==================== FILE MODAL ==================== -->
@@ -240,6 +141,14 @@
                                 <span class="modal-traffic-light modal-traffic-light-green"></span>
                             </div>
                             <h3 id="modal-file-title" class="modal-file-title"></h3>
+                            <button class="modal-view-toggle" id="modal-view-toggle" title="Toggle view">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </button>
                         </div>
                         <div id="modal-tabs-container" class="modal-tabs-container">
                             <div id="modal-tabs" class="modal-tabs">
@@ -335,11 +244,6 @@
                     </div>
                 </section>
             </section>
-            
-            <!-- ==================== FOOTER ==================== -->
-            <footer id="app-footer" class="app-footer">
-                <p class="footer-text">Designed and coded by me with a lil' help from Claude and Cursor too. © 2025</p>
-            </footer>
         </div>
     </main>
 
@@ -364,6 +268,22 @@
     </div>
 
     </div> <!-- End main-content -->
+
+    <!-- ==================== MORE PROJECTS LAYER (REVEALED LAST) ==================== -->
+    <div id="more-projects-layer" class="more-projects-layer">
+        <div class="more-projects-content">
+            <h2 class="more-projects-title">More Projects</h2>
+            <p class="more-projects-text">
+                This layer is revealed when you scroll on the files section.
+            </p>
+            <p class="more-projects-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+        </div>
+        <footer class="app-footer">
+            <p class="footer-text">Designed and coded by me with a lil' help from Claude and Cursor too. © 2025</p>
+        </footer>
+    </div>
 
     <!-- ==================== SCRIPTS ==================== -->
     <script src="opening-animation.js"></script>
