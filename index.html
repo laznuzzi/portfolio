@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>file experiment</title>
+    <title>🦄 Nazarena Luzzi Castro - Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="capsule-styles.css">
     <link rel="stylesheet" href="styles.css">
 
     <!-- GSAP Libraries -->
@@ -16,14 +17,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body class="app-body">
-    <!-- ==================== SHARED BACKGROUND GRADIENT CIRCLES ==================== -->
-    <div class="background-circles">
-        <div class="gradient-circle gradient-circle-1"></div>
-        <div class="gradient-circle gradient-circle-2"></div>
-        <div class="gradient-circle gradient-circle-3"></div>
-        <div class="gradient-circle gradient-circle-4"></div>
-        <div class="gradient-circle gradient-circle-5"></div>
-    </div>
 
     <!-- ==================== PERSISTENT BORDER FRAME ==================== -->
     <div class="border-frame"></div>
@@ -35,7 +28,7 @@
 
         <div class="opening-text-container">
             <div class="opening-text-wrapper">
-                <span class="opening-large-text">Howdy</span>
+                <span class="opening-large-text">Howdy,</span>
             </div>
         </div>
 
@@ -91,18 +84,12 @@
 
                 <!-- ==================== FILES SCATTERED ON PAGE ==================== -->
                 <div class="page-files-container">
-                    <!-- Popover for hover effect -->
-                    <div id="file-popover" class="document-popover" style="display: none;">
-                        <div class="popover-title"></div>
-                        <div class="popover-description"></div>
-                    </div>
-
                     <!-- File 1 -->
-                    <button class="page-file" data-file="document-a" style="top: 15%; left: 20%;">
+                    <button class="page-file" data-file="device-hub" style="top: 15%; left: 20%;">
                         <div class="page-file-thumbnail">
                             <img src="./img/placeholder.jpeg" alt="Document A">
                         </div>
-                        <div class="page-file-name">Document_A.pdf</div>
+                        <div class="page-file-name">device-hub</div>
                     </button>
 
                     <!-- File 2 -->
@@ -128,37 +115,14 @@
                         </div>
                         <div class="page-file-name">Presentation.pdf</div>
                     </button>
-                </div>
 
-                <!-- ==================== FILE MODAL ==================== -->
-                <div id="file-modal" class="file-modal" style="display: none;">
-                    <div class="file-modal-overlay"></div>
-                    <div id="file-modal-content" class="file-modal-content">
-                        <div class="modal-titlebar" id="modal-titlebar">
-                            <div class="modal-traffic-lights">
-                                <span class="modal-traffic-light modal-traffic-light-red" id="modal-close"></span>
-                                <span class="modal-traffic-light modal-traffic-light-yellow"></span>
-                                <span class="modal-traffic-light modal-traffic-light-green"></span>
-                            </div>
-                            <h3 id="modal-file-title" class="modal-file-title"></h3>
-                            <button class="modal-view-toggle" id="modal-view-toggle" title="Toggle view">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="14" width="7" height="7"></rect>
-                                    <rect x="3" y="14" width="7" height="7"></rect>
-                                </svg>
-                            </button>
+                    <!-- File 5 - Website Folder -->
+                    <button class="page-file" data-file="website" style="top: 40%; left: 45%;">
+                        <div class="page-file-thumbnail">
+                            <img src="./img/folder.jpeg" alt="Website">
                         </div>
-                        <div id="modal-tabs-container" class="modal-tabs-container">
-                            <div id="modal-tabs" class="modal-tabs">
-                                <!-- Tabs will be inserted here -->
-                            </div>
-                        </div>
-                        <div id="modal-documents-container">
-                            <!-- Document bodies will be inserted here -->
-                        </div>
-                    </div>
+                        <div class="page-file-name">website</div>
+                    </button>
                 </div>
 
                 <!-- ==================== CHAT SECTION (HIDDEN) ==================== -->
@@ -285,8 +249,148 @@
         </footer>
     </div>
 
+    <!-- ==================== FILE POPOVER ==================== -->
+    <div id="file-popover" class="document-popover" style="display: none;">
+        <div class="popover-title"></div>
+        <div class="popover-role"></div>
+        <div class="popover-description"></div>
+    </div>
+
+    <!-- ==================== FILE MODAL ==================== -->
+    <div id="file-modal" class="file-modal" style="display: none;">
+        <div class="file-modal-overlay"></div>
+        <div id="file-modal-content" class="file-modal-content">
+            <div class="modal-titlebar" id="modal-titlebar">
+                <div class="modal-traffic-lights">
+                    <span class="modal-traffic-light modal-traffic-light-red" id="modal-close"></span>
+                    <span class="modal-traffic-light modal-traffic-light-yellow"></span>
+                    <span class="modal-traffic-light modal-traffic-light-green"></span>
+                </div>
+                <h3 id="modal-file-title" class="modal-file-title"></h3>
+                <button class="modal-view-toggle" id="modal-view-toggle" title="Toggle view">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </button>
+            </div>
+            <div id="modal-tabs-container" class="modal-tabs-container">
+                <div id="modal-tabs" class="modal-tabs">
+                    <!-- Tabs will be inserted here -->
+                </div>
+            </div>
+            <div id="modal-documents-container">
+                <!-- Document bodies will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FINDER MODAL ==================== -->
+    <div id="finder-modal" class="finder-modal" style="display: none;">
+        <div class="finder-modal-overlay"></div>
+        <div id="finder-modal-content" class="finder-modal-content">
+            <div class="finder-titlebar">
+                <div class="finder-traffic-lights">
+                    <span class="traffic-light traffic-light-red" id="finder-close"></span>
+                    <span class="traffic-light traffic-light-yellow"></span>
+                    <span class="traffic-light traffic-light-green"></span>
+                </div>
+                <div class="finder-nav-section">
+                    <div class="finder-nav-buttons">
+                        <button class="finder-nav-btn" aria-label="Back">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button class="finder-nav-btn" aria-label="Forward">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="finder-title" id="finder-title">website</h3>
+                </div>
+                <div class="finder-view-modes">
+                    <button class="finder-view-btn active" aria-label="Grid view">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                    <button class="finder-view-btn" aria-label="List view">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <button class="finder-view-btn" aria-label="Columns view">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                        </svg>
+                    </button>
+                    <button class="finder-view-btn" aria-label="Gallery view">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="finder-body">
+                <div class="finder-carousel-container">
+                    <div class="finder-carousel-main">
+                        <button class="finder-carousel-nav finder-carousel-prev" aria-label="Previous image">‹</button>
+                        <div class="finder-carousel-images" id="finder-carousel-images">
+                            <!-- Images will be inserted here -->
+                        </div>
+                        <button class="finder-carousel-nav finder-carousel-next" aria-label="Next image">›</button>
+                    </div>
+                    <div class="finder-carousel-thumbnails" id="finder-carousel-thumbnails">
+                        <!-- Thumbnails will be inserted here -->
+                    </div>
+                </div>
+                <div class="finder-sidebar" id="finder-sidebar">
+                    <div class="finder-sidebar-content">
+                        <div class="finder-sidebar-thumbnail" id="finder-sidebar-thumbnail">
+                            <!-- Current image thumbnail -->
+                        </div>
+                        <div class="finder-sidebar-info">
+                            <div class="finder-info-section">
+                                <div class="finder-info-label">Name</div>
+                                <div class="finder-info-value" id="finder-info-name">-</div>
+                            </div>
+                            <div class="finder-info-section">
+                                <div class="finder-info-label">Kind</div>
+                                <div class="finder-info-value">PNG image</div>
+                            </div>
+                            <div class="finder-info-section">
+                                <div class="finder-info-label">Size</div>
+                                <div class="finder-info-value" id="finder-info-size">-</div>
+                            </div>
+                            <div class="finder-info-section">
+                                <div class="finder-info-label">Created</div>
+                                <div class="finder-info-value" id="finder-info-created">-</div>
+                            </div>
+                            <div class="finder-info-section">
+                                <div class="finder-info-label">Modified</div>
+                                <div class="finder-info-value" id="finder-info-modified">-</div>
+                            </div>
+                            <div class="finder-info-section">
+                                <div class="finder-info-label">Dimensions</div>
+                                <div class="finder-info-value" id="finder-info-dimensions">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== SCRIPTS ==================== -->
     <script src="opening-animation.js"></script>
+    <script src="file-content.js"></script> <!-- Content data must load before sections-nav.js -->
     <script src="sections-nav.js"></script>
     <script src="app.js"></script>
 </body>

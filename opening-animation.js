@@ -30,44 +30,57 @@
     mainContent.style.pointerEvents = 'auto';
 
     // ==================== TYPING ANIMATION ====================
-    const text = "Howdy";
     const textElement = textWrapper.querySelector('.opening-large-text');
+    const subtitleElement = document.createElement('div');
+    subtitleElement.className = 'opening-subtitle-text';
+    textWrapper.appendChild(subtitleElement);
 
     if (textElement) {
+        // Type "Howdy,"
+        const text = "Howdy,";
         textElement.textContent = ''; // Clear existing text
 
-        // Type out each character
         text.split('').forEach((char, index) => {
             setTimeout(() => {
                 textElement.textContent += char;
 
-                // After typing completes, wait then show physics
+                // After "Howdy" completes, type "I'm Nazarena"
                 if (index === text.length - 1) {
                     setTimeout(() => {
-                        startPhysicsAnimation();
-                    }, 800); // Wait 800ms after typing finishes
+                        typeSubtitle();
+                    }, 500);
                 }
             }, index * 150); // 150ms between each character
         });
     }
 
+    function typeSubtitle() {
+        const subtitle = "I'm Nazarena";
+        let index = 0;
+
+        const typeInterval = setInterval(() => {
+            if (index < subtitle.length) {
+                subtitleElement.textContent += subtitle[index];
+                index++;
+            } else {
+                clearInterval(typeInterval);
+                // After both texts are done, wait then start physics (capsules overlay the text)
+                setTimeout(() => {
+                    startPhysicsAnimation();
+                }, 800);
+            }
+        }, 100);
+    }
+
     // ==================== PHYSICS ANIMATION ====================
     function startPhysicsAnimation() {
-        // Fade out "Howdy" text
-        gsap.to(textWrapper, {
-            opacity: 0,
-            duration: 0.5,
-            onComplete: () => {
-                textWrapper.style.display = 'none';
-
-                // Show physics container
-                physicsContainer.style.display = 'block';
-                gsap.fromTo(physicsContainer,
-                    { opacity: 0 },
-                    { opacity: 1, duration: 0.5, onComplete: initPhysics }
-                );
-            }
-        });
+        // Keep text visible, just show physics container on top
+        // Show physics container
+        physicsContainer.style.display = 'block';
+        gsap.fromTo(physicsContainer,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, onComplete: initPhysics }
+        );
     }
 
     function initPhysics() {
@@ -94,27 +107,33 @@
         });
         physicsRender = render;
 
+        // Get capsule styles from CSS
+        const rootStyles = getComputedStyle(document.documentElement);
+        const capsuleFillColor = rootStyles.getPropertyValue('--capsule-fill-color').trim();
+        const capsuleStrokeColor = rootStyles.getPropertyValue('--capsule-stroke-color').trim();
+        const capsuleStrokeWidth = parseInt(rootStyles.getPropertyValue('--capsule-stroke-width').trim());
+
         // Word capsules data
         const words = ['Designer', 'Developer', 'Builder', 'Fixer'];
         const capsules = [];
 
         // Create word capsules
         words.forEach((word, index) => {
-            // Calculate capsule dimensions based on text length - MUCH BIGGER
-            const width = word.length * 40 + 100;  // Doubled from 20 + increased base
-            const height = 80;  // Increased from 50
+            // Calculate capsule dimensions based on text length
+            const width = word.length * 40 + 100;
+            const height = 80;
 
             // Random starting position (top of screen)
             const x = Math.random() * (window.innerWidth - width) + width / 2;
             const y = -100 - (index * 150); // Stagger vertical start positions
 
-            // Create capsule body (rounded rectangle)
+            // Create capsule body (rounded rectangle) - styles from CSS
             const capsule = Bodies.rectangle(x, y, width, height, {
                 chamfer: { radius: height / 2 },  // Fully rounded ends
                 render: {
-                    fillStyle: '#ffffff',
-                    strokeStyle: '#333333',
-                    lineWidth: 3
+                    fillStyle: capsuleFillColor,
+                    strokeStyle: capsuleStrokeColor,
+                    lineWidth: capsuleStrokeWidth
                 },
                 restitution: 0.6, // Bounciness
                 friction: 0.05,
@@ -242,6 +261,11 @@
         const canvas = render.canvas;
         const context = render.context;
 
+        // Get text styles from CSS
+        const rootStyles = getComputedStyle(document.documentElement);
+        const textColor = rootStyles.getPropertyValue('--capsule-text-color').trim();
+        const textFont = rootStyles.getPropertyValue('--capsule-text-font').trim();
+
         // Draw text after each render
         Matter.Events.on(render, 'afterRender', () => {
             capsules.forEach(capsule => {
@@ -252,9 +276,9 @@
                 context.translate(pos.x, pos.y);
                 context.rotate(angle);
 
-                // Draw text - bigger font to match larger capsules
-                context.fillStyle = '#333333';
-                context.font = '700 28px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif';
+                // Draw text - styles from CSS
+                context.fillStyle = textColor;
+                context.font = textFont;
                 context.textAlign = 'center';
                 context.textBaseline = 'middle';
                 context.fillText(capsule.label, 0, 0);

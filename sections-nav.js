@@ -10,72 +10,16 @@
     }
 
     function init() {
+        console.log('Init called, fileData:', window.fileData);
         setupFinderNavigation();
     }
 
-    // File content data
-    const fileData = {
-        'document-a': {
-            title: 'Document_A.pdf',
-            description: 'Project document with implementation strategy and important details',
-            images: ['./img/placeholder.jpeg', './img/placeholder.jpeg', './img/placeholder.jpeg'],
-            content: `
-                <h1 class="document-main-title">Updates to the landing page layout</h1>
-                <p class="document-metadata">By Nazarena • January 2026 • Project Updates</p>
+    // File content data is loaded from file-content.js (window.fileData)
+    const fileData = window.fileData;
 
-                <h2 class="document-section-title">Overview</h2>
-                <p class="document-paragraph">This document contains important project information and details about the implementation strategy. We've made significant improvements to enhance user experience and visual consistency across the platform.</p>
-
-                <h2 class="document-section-title">Key Changes</h2>
-                <p class="document-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            `
-        },
-        'notes': {
-            title: 'Notes.pdf',
-            description: 'Meeting notes and action items from recent discussions',
-            images: ['./img/placeholder.jpeg', './img/placeholder.jpeg'],
-            content: `
-                <h1 class="document-main-title">Meeting notes and action items</h1>
-                <p class="document-metadata">By Nazarena • January 2026 • Meeting Notes</p>
-
-                <h2 class="document-section-title">Discussion Points</h2>
-                <p class="document-paragraph">These notes provide an overview of key discussion points and action items from recent meetings. The team reviewed progress on current initiatives and identified next steps for upcoming quarters.</p>
-
-                <h2 class="document-section-title">Action Items</h2>
-                <p class="document-paragraph">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-            `
-        },
-        'report': {
-            title: 'Report_Final.pdf',
-            description: 'Final report with findings, conclusions, and recommendations',
-            images: ['./img/placeholder.jpeg', './img/placeholder.jpeg', './img/placeholder.jpeg', './img/placeholder.jpeg'],
-            content: `
-                <h1 class="document-main-title">Final project report</h1>
-                <p class="document-metadata">By Nazarena • January 2026 • Final Report</p>
-
-                <h2 class="document-section-title">Executive Summary</h2>
-                <p class="document-paragraph">Final report outlining objectives, findings, conclusions, and recommendations. This comprehensive analysis provides strategic insights and actionable recommendations for future development.</p>
-
-                <h2 class="document-section-title">Recommendations</h2>
-                <p class="document-paragraph">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            `
-        },
-        'presentation': {
-            title: 'Presentation.pdf',
-            description: 'Client presentation deck with insights and visualizations',
-            images: ['./img/placeholder.jpeg'],
-            content: `
-                <h1 class="document-main-title">Client presentation deck</h1>
-                <p class="document-metadata">By Nazarena • January 2026 • Presentation</p>
-
-                <h2 class="document-section-title">Key Insights</h2>
-                <p class="document-paragraph">Presentation materials including key insights, data visualizations, and strategic recommendations. This deck summarizes our findings and proposed solutions for the client's consideration.</p>
-
-                <h2 class="document-section-title">Next Steps</h2>
-                <p class="document-paragraph">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            `
-        }
-    };
+    if (!fileData) {
+        console.error('fileData not loaded! Make sure file-content.js is loaded before sections-nav.js');
+    }
 
     // Drag functionality
     let isDragging = false;
@@ -85,6 +29,13 @@
     let initialY;
     let xOffset = 0;
     let yOffset = 0;
+
+    // Resize functionality
+    let isResizing = false;
+    let startWidth;
+    let startHeight;
+    let startMouseX;
+    let startMouseY;
 
     // Track open documents
     let openDocuments = [];
@@ -105,9 +56,17 @@
         const modalTabs = document.getElementById('modal-tabs');
         const modalDocumentsContainer = document.getElementById('modal-documents-container');
 
+        console.log('Found elements:', {
+            fileButtons: fileButtons.length,
+            modal: !!modal,
+            modalContent: !!modalContent,
+            fileData: !!fileData
+        });
+
         // Popover element
         const popover = document.getElementById('file-popover');
         const popoverTitle = popover?.querySelector('.popover-title');
+        const popoverRole = popover?.querySelector('.popover-role');
         const popoverDescription = popover?.querySelector('.popover-description');
 
         // Handle file clicks
@@ -117,8 +76,15 @@
                 const fileId = button.getAttribute('data-file');
                 const file = fileData[fileId];
 
-                if (file && modal && modalContent) {
+                console.log('File clicked:', fileId, 'file:', file, 'modal:', modal, 'modalContent:', modalContent);
+
+                // Special handling for website folder - open finder modal
+                if (fileId === 'website') {
+                    openFinderModal(file);
+                } else if (file && modal && modalContent) {
                     openDocument(fileId, file);
+                } else {
+                    console.error('Missing required elements:', { file: !!file, modal: !!modal, modalContent: !!modalContent });
                 }
             });
 
@@ -128,19 +94,46 @@
                 const file = fileData[fileId];
 
                 if (file && popover && popoverTitle && popoverDescription) {
+                    // Set content
                     popoverTitle.textContent = file.title;
+                    if (popoverRole) {
+                        if (file.role) {
+                            popoverRole.textContent = file.role;
+                            popoverRole.style.display = 'inline-block';
+                        } else {
+                            popoverRole.style.display = 'none';
+                        }
+                    }
                     popoverDescription.textContent = file.description;
 
-                    // Get button position
-                    const rect = button.getBoundingClientRect();
-                    const x = rect.left + rect.width / 2;
-                    const y = rect.top - 8; // Small offset above the file
+                    // Reset any previous positioning
+                    popover.style.left = '0px';
+                    popover.style.top = '0px';
+                    popover.style.transform = 'none';
 
-                    // Position popover centered above the file
-                    popover.style.left = x + 'px';
-                    popover.style.top = y + 'px';
-                    popover.style.transform = 'translate(-50%, calc(-100% - 8px))';
+                    // Show popover invisibly to measure
                     popover.style.display = 'block';
+                    popover.style.visibility = 'hidden';
+                    popover.style.opacity = '1';
+
+                    // Force reflow to get accurate dimensions
+                    void popover.offsetHeight;
+
+                    // Get button position relative to viewport
+                    const buttonRect = button.getBoundingClientRect();
+                    const thumbnailRect = button.querySelector('.page-file-thumbnail')?.getBoundingClientRect() || buttonRect;
+                    const popoverRect = popover.getBoundingClientRect();
+
+                    // Position halfway on top of thumbnail and to the right side
+                    // Calculate position: thumbnail top + (thumbnail height / 2) - (popover height / 2)
+                    const top = thumbnailRect.top + (thumbnailRect.height / 2) - (popoverRect.height / 2);
+                    // Position to the right of the thumbnail with some gap
+                    const left = thumbnailRect.right + 16; // 16px gap to the right
+
+                    // Apply position and make visible
+                    popover.style.left = `${left}px`;
+                    popover.style.top = `${top}px`;
+                    popover.style.visibility = 'visible';
                 }
             });
 
@@ -180,17 +173,6 @@
                             </div>
                             <button class="slider-nav slider-next" aria-label="Next image">›</button>
                         </div>
-                        ${file.images.length > 1 ? `
-                            <div class="slider-thumbnails">
-                                ${file.images.map((img, index) => `
-                                    <button class="slider-thumbnail ${index === 0 ? 'active' : ''}"
-                                            data-index="${index}"
-                                            aria-label="View image ${index + 1}">
-                                        <img src="${img}" alt="Thumbnail ${index + 1}">
-                                    </button>
-                                `).join('')}
-                            </div>
-                        ` : ''}
                     </div>
                 ` : '';
 
@@ -214,14 +196,18 @@
             if (modal.style.display !== 'flex') {
                 centerModal();
                 modal.style.display = 'flex';
+                // Lock body scroll when modal opens
+                document.body.style.overflow = 'hidden';
             }
         }
 
         function centerModal() {
-            // Reset any previous transforms
+            // Reset any previous transforms and dimensions
             modalContent.style.transform = 'translate(-50%, -50%)';
             modalContent.style.left = '50%';
             modalContent.style.top = '50%';
+            modalContent.style.width = '75vw'; // Reset to initial width
+            modalContent.style.height = '90vh'; // Reset to initial height
             xOffset = 0;
             yOffset = 0;
         }
@@ -372,11 +358,25 @@
             switchToDocument(activeDocumentId);
         }
 
+        // Create resize handle
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'modal-resize-handle';
+        if (modalContent) {
+            modalContent.appendChild(resizeHandle);
+        }
+
         // Drag functionality
         if (modalTitlebar && modalContent) {
             modalTitlebar.addEventListener('mousedown', dragStart);
             document.addEventListener('mousemove', drag);
             document.addEventListener('mouseup', dragEnd);
+        }
+
+        // Resize functionality
+        if (resizeHandle && modalContent) {
+            resizeHandle.addEventListener('mousedown', resizeStart);
+            document.addEventListener('mousemove', resize);
+            document.addEventListener('mouseup', resizeEnd);
         }
 
         function dragStart(e) {
@@ -391,7 +391,7 @@
         }
 
         function drag(e) {
-            if (isDragging) {
+            if (isDragging && !isResizing) {
                 e.preventDefault();
 
                 currentX = e.clientX - initialX;
@@ -416,12 +416,53 @@
             el.style.top = `${yPos}px`;
         }
 
+        function resizeStart(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            isResizing = true;
+            startMouseX = e.clientX;
+            startMouseY = e.clientY;
+            startWidth = modalContent.offsetWidth;
+            startHeight = modalContent.offsetHeight;
+        }
+
+        function resize(e) {
+            if (isResizing) {
+                e.preventDefault();
+
+                const deltaX = e.clientX - startMouseX;
+                const deltaY = e.clientY - startMouseY;
+
+                let newWidth = startWidth + deltaX;
+                let newHeight = startHeight + deltaY;
+
+                // Apply constraints
+                const minWidth = 400;
+                const minHeight = 300;
+                const maxWidth = window.innerWidth * 0.9;
+                const maxHeight = window.innerHeight * 0.9;
+
+                newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
+                newHeight = Math.max(minHeight, Math.min(newHeight, maxHeight));
+
+                modalContent.style.width = `${newWidth}px`;
+                modalContent.style.height = `${newHeight}px`;
+            }
+        }
+
+        function resizeEnd(e) {
+            isResizing = false;
+        }
+
         // Close modal handlers
         const closeModal = () => {
             if (modal) {
                 modal.style.display = 'none';
                 xOffset = 0;
                 yOffset = 0;
+                // Unlock body scroll when modal closes
+                document.body.style.overflow = '';
             }
         };
 
@@ -443,7 +484,6 @@
         // Image slider functionality
         function initializeImageSlider() {
             const sliderImages = document.querySelectorAll('.document-header-image');
-            const thumbnails = document.querySelectorAll('.slider-thumbnail');
             const prevBtn = document.querySelector('.slider-prev');
             const nextBtn = document.querySelector('.slider-next');
             let currentIndex = 0;
@@ -453,25 +493,14 @@
             function showImage(index) {
                 // Hide all images
                 sliderImages.forEach(img => img.classList.remove('active'));
-                thumbnails.forEach(thumb => thumb.classList.remove('active'));
 
                 // Show selected image
                 if (sliderImages[index]) {
                     sliderImages[index].classList.add('active');
                 }
-                if (thumbnails[index]) {
-                    thumbnails[index].classList.add('active');
-                }
 
                 currentIndex = index;
             }
-
-            // Thumbnail click handlers
-            thumbnails.forEach((thumbnail, index) => {
-                thumbnail.addEventListener('click', () => {
-                    showImage(index);
-                });
-            });
 
             // Navigation button handlers
             if (prevBtn) {
@@ -501,5 +530,205 @@
                 }
             });
         }
+
+        // Finder modal functionality
+        const finderModal = document.getElementById('finder-modal');
+        const finderModalContent = document.getElementById('finder-modal-content');
+        const finderClose = document.getElementById('finder-close');
+        const finderOverlay = finderModal?.querySelector('.finder-modal-overlay');
+        const finderCarouselImages = document.getElementById('finder-carousel-images');
+        const finderCarouselThumbnails = document.getElementById('finder-carousel-thumbnails');
+        const finderSidebarThumbnail = document.getElementById('finder-sidebar-thumbnail');
+        const finderInfoName = document.getElementById('finder-info-name');
+        const finderInfoSize = document.getElementById('finder-info-size');
+        const finderInfoCreated = document.getElementById('finder-info-created');
+        const finderInfoModified = document.getElementById('finder-info-modified');
+        const finderInfoDimensions = document.getElementById('finder-info-dimensions');
+
+        let currentImageIndex = 0;
+        let finderImages = [];
+
+        function renderFinderCarousel() {
+            if (!finderCarouselImages || !finderCarouselThumbnails) return;
+
+            // Clear existing content
+            finderCarouselImages.innerHTML = '';
+            finderCarouselThumbnails.innerHTML = '';
+
+            // Create main images
+            finderImages.forEach((imgSrc, index) => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `Image ${index + 1}`;
+                img.className = `finder-carousel-image ${index === 0 ? 'active' : ''}`;
+                img.dataset.index = index;
+                finderCarouselImages.appendChild(img);
+            });
+
+            // Create thumbnails
+            finderImages.forEach((imgSrc, index) => {
+                const thumb = document.createElement('button');
+                thumb.className = `finder-carousel-thumbnail ${index === 0 ? 'active' : ''}`;
+                thumb.dataset.index = index;
+                thumb.innerHTML = `<img src="${imgSrc}" alt="Thumbnail ${index + 1}">`;
+                thumb.addEventListener('click', () => showImage(index));
+                finderCarouselThumbnails.appendChild(thumb);
+            });
+
+            // Update sidebar for first image
+            updateSidebar(0);
+        }
+
+        function showImage(index) {
+            if (index < 0 || index >= finderImages.length) return;
+
+            currentImageIndex = index;
+
+            // Update main images
+            const images = finderCarouselImages?.querySelectorAll('.finder-carousel-image');
+            images?.forEach((img, i) => {
+                if (i === index) {
+                    img.classList.add('active');
+                } else {
+                    img.classList.remove('active');
+                }
+            });
+
+            // Update thumbnails
+            const thumbs = finderCarouselThumbnails?.querySelectorAll('.finder-carousel-thumbnail');
+            thumbs?.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+
+            // Update sidebar
+            updateSidebar(index);
+        }
+
+        function updateSidebar(index) {
+            if (index < 0 || index >= finderImages.length) return;
+
+            const imgSrc = finderImages[index];
+            const imgName = imgSrc.split('/').pop().split('.')[0];
+
+            // Update thumbnail
+            if (finderSidebarThumbnail) {
+                finderSidebarThumbnail.innerHTML = `<img src="${imgSrc}" alt="${imgName}">`;
+            }
+
+            // Update info
+            if (finderInfoName) {
+                finderInfoName.textContent = imgName;
+            }
+
+            // Load image to get dimensions
+            const img = new Image();
+            img.onload = function() {
+                if (finderInfoDimensions) {
+                    finderInfoDimensions.textContent = `${this.width} × ${this.height}`;
+                }
+            };
+            img.src = imgSrc;
+
+            // Set placeholder values
+            if (finderInfoSize) {
+                finderInfoSize.textContent = '1.8 MB';
+            }
+            if (finderInfoCreated) {
+                finderInfoCreated.textContent = 'November 18, 2025 at 11:06 PM';
+            }
+            if (finderInfoModified) {
+                finderInfoModified.textContent = 'November 18, 2025 at 11:06 PM';
+            }
+        }
+
+        // Carousel navigation - set up event listeners
+        function setupFinderCarouselNavigation() {
+            const finderPrevBtn = document.querySelector('.finder-carousel-prev');
+            const finderNextBtn = document.querySelector('.finder-carousel-next');
+
+            if (finderPrevBtn) {
+                finderPrevBtn.onclick = () => {
+                    const newIndex = (currentImageIndex - 1 + finderImages.length) % finderImages.length;
+                    showImage(newIndex);
+                };
+            }
+
+            if (finderNextBtn) {
+                finderNextBtn.onclick = () => {
+                    const newIndex = (currentImageIndex + 1) % finderImages.length;
+                    showImage(newIndex);
+                };
+            }
+        }
+
+        // Set up navigation when modal opens
+        function openFinderModal(file) {
+            console.log('Opening finder modal for:', file);
+            
+            if (!file || !file.images || file.images.length === 0) {
+                console.error('No images found for website folder');
+                return;
+            }
+
+            finderImages = file.images;
+            currentImageIndex = 0;
+
+            // Hide popover
+            if (popover) {
+                popover.style.display = 'none';
+            }
+
+            // Render carousel images
+            renderFinderCarousel();
+
+            // Set up navigation buttons
+            setupFinderCarouselNavigation();
+
+            // Show finder modal
+            if (finderModal) {
+                finderModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Keyboard navigation for finder
+        document.addEventListener('keydown', (e) => {
+            if (finderModal && finderModal.style.display === 'flex') {
+                if (e.key === 'ArrowLeft') {
+                    const newIndex = (currentImageIndex - 1 + finderImages.length) % finderImages.length;
+                    showImage(newIndex);
+                } else if (e.key === 'ArrowRight') {
+                    const newIndex = (currentImageIndex + 1) % finderImages.length;
+                    showImage(newIndex);
+                }
+            }
+        });
+
+        // Close finder modal
+        function closeFinderModal() {
+            if (finderModal) {
+                finderModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        if (finderClose) {
+            finderClose.addEventListener('click', closeFinderModal);
+        }
+
+        if (finderOverlay) {
+            finderOverlay.addEventListener('click', closeFinderModal);
+        }
+
+        // Close finder on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && finderModal && finderModal.style.display === 'flex') {
+                closeFinderModal();
+            }
+        });
     }
 })();
