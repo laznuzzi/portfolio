@@ -107,35 +107,4 @@ In 2022, the only way for sellers to monitor, manage and troubleshoot devices wa
             <p class="document-paragraph">This folder contains files and resources related to the website project.</p>
         `
     }
-
-    // ==================== EXAMPLE: INLINE IMAGES ====================
-    // Uncomment to see example with images mixed into content
-    /*
-    ,'example-inline': {
-        title: 'Example_Inline.pdf',
-        description: 'Example showing inline images within text',
-        images: [], // No slider - using inline images instead
-        content: `
-            <h1 class="document-main-title">Example with inline images</h1>
-            <p class="document-metadata">By Nazarena • January 2026 • Example</p>
-
-            <h2 class="document-section-title">First Section</h2>
-            <p class="document-paragraph">Here's some text before the image.</p>
-
-            <img src="./img/placeholder.jpeg" alt="Example image" style="width: 100%; max-width: 600px; margin: 20px 0; border-radius: 8px;">
-
-            <p class="document-paragraph">Here's text after the image. You can place images anywhere!</p>
-
-            <h2 class="document-section-title">Multiple Images</h2>
-            <p class="document-paragraph">You can even put multiple images side by side:</p>
-
-            <div style="display: flex; gap: 16px; margin: 20px 0;">
-                <img src="./img/placeholder.jpeg" alt="Image 1" style="width: 50%; border-radius: 8px;">
-                <img src="./img/placeholder.jpeg" alt="Image 2" style="width: 50%; border-radius: 8px;">
-            </div>
-
-            <p class="document-paragraph">Completely flexible layout!</p>
-        `
-    }
-    */
 };

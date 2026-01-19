@@ -63,17 +63,10 @@
             <section id="intro-section" class="intro-section">
                 <div class="intro-content">
                     <h1 id="intro-heading" class="intro-heading">
-                        <!-- Hidden for now: typewriter animation, avatar, code styling -->
-                        <span class="greeting-text typewriter-text" data-text="Lorem ipsum," style="display: none;"></span>
-                        <div class="intro-content-rest">
+                        <div class="intro-content-rest fade-in">
                             <div class="intro-placeholder-text">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                             </div>
-                            <!-- Hidden elements -->
-                            <span style="display: none;">
-                                dolor sit <span class="name-hover" data-name="amet">amet</span> <img class="intro-avatar" src="./img/avatar.jpeg" alt="Avatar">, consectetur <span class="coding-text">&lt;adipiscing elit/&gt;</span> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </span>
-                            <span class="learn-more-text" style="display: none;">Ut enim ad minim veniam quis nostrud ↓</span>
                         </div>
                     </h1>
                 </div>
@@ -125,111 +118,10 @@
                     </button>
                 </div>
 
-                <!-- ==================== CHAT SECTION (HIDDEN) ==================== -->
-                <div class="chat-section" style="display: none;">
-                    <!-- ==================== CHAT AREA ==================== -->
-                    <div id="chat-area" class="chat-area">
-                        <!-- Mobile menu button -->
-                        <div id="mobile-menu-trigger" class="mobile-menu-trigger">
-                            <button id="mobile-menu-button" class="mobile-menu-button">
-                                <svg class="icon-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        
-                        <!-- Chat messages container -->
-                        <div id="chat-messages-container" class="chat-container">
-                            
-                            <!-- ==================== CHAT HEADER ==================== -->
-                            <div id="chat-header" class="chat-header">
-                                <div id="chat-status" class="chat-status">
-                                    <div class="status-indicator">
-                                        <span class="status-dot"></span>
-                                        <span class="status-message">Busy workin'</span>
-                                    </div>
-                                </div>
-                                <button id="clear-chat-button" class="clear-chat-button">
-                                    <svg class="icon-sm clear-chat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <!-- ==================== CHAT DIVIDER ==================== -->
-                            <hr id="chat-divider" class="chat-divider">
-                            
-                            <!-- ==================== MESSAGES LIST ==================== -->
-                            <div id="messages-scroll-container" class="messages-container">
-                                <div id="messages-list" class="messages-list">
-                                    <!-- Messages will be inserted here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- ==================== SIDEBAR (DESKTOP) ==================== -->
-                    <aside id="desktop-sidebar" class="desktop-sidebar">
-                        <div class="sidebar-content">
-                            <div id="sidebar-header">
-                                <h3 id="sidebar-title" class="sidebar-title">Available prompts</h3>
-                            </div>
-                            
-                            <div id="desktop-prompt-buttons" class="prompt-buttons-container">
-                                <!-- Prompt buttons will be inserted here -->
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-                
-                <!-- ==================== MESSAGE INPUT SECTION (HIDDEN) ==================== -->
-                <section id="message-input-section" class="message-input-section" style="display: none;">
-                    <div class="message-input-wrapper">
-                        <form id="message-input-form" class="message-form">
-                            <input
-                                id="message-input-field"
-                                type="text"
-                                placeholder="Type your message..."
-                                class="message-input-field"
-                            />
-                            <button type="submit" id="message-send-button" class="message-send-button">
-                                <svg class="icon-sm message-send-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                    
-                    <!-- ==================== HORIZONTAL PROMPTS ==================== -->
-                    <div id="horizontal-prompts-section" class="horizontal-prompts-section">
-                        <div id="horizontal-prompt-buttons" class="horizontal-prompt-buttons">
-                            <!-- Prompt buttons will be inserted here -->
-                        </div>
-                    </div>
-                </section>
+            </section>
             </section>
         </div>
     </main>
-
-    <!-- ==================== MOBILE SIDEBAR SHEET ==================== -->
-    <div id="mobile-sidebar-sheet" class="mobile-sidebar-sheet">
-        <div id="mobile-sheet-overlay" class="mobile-sheet-overlay"></div>
-        <div id="mobile-sheet-content" class="mobile-sheet-content">
-            <div id="mobile-sheet-inner" class="mobile-sheet-inner">
-                <div id="mobile-sheet-header" class="mobile-sheet-header">
-                    <h3 id="mobile-sheet-title" class="sidebar-title">Available prompts</h3>
-                    <button id="mobile-sheet-close-button" class="mobile-sheet-close-button">
-                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div id="mobile-prompt-buttons" class="prompt-buttons-container">
-                    <!-- Mobile prompt buttons will be inserted here -->
-                </div>
-            </div>
-        </div>
-    </div>
 
     </div> <!-- End main-content -->
 

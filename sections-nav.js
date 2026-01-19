@@ -69,9 +69,52 @@
         const popoverRole = popover?.querySelector('.popover-role');
         const popoverDescription = popover?.querySelector('.popover-description');
 
-        // Handle file clicks
+        // Drag functionality for files
+        let isDraggingFile = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let dragStartLeft = 0;
+        let dragStartTop = 0;
+        let draggedFile = null;
+        let hasDragged = false;
+
+        // Handle file clicks and drags
         fileButtons.forEach(button => {
+            // Make files draggable
+            button.addEventListener('mousedown', (e) => {
+                // Only start drag on left mouse button
+                if (e.button !== 0) return;
+                
+                isDraggingFile = true;
+                hasDragged = false;
+                draggedFile = button;
+                
+                // Get initial mouse position
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                
+                // Get current position of the file
+                const rect = button.getBoundingClientRect();
+                const containerRect = button.parentElement.getBoundingClientRect();
+                
+                // Convert current position to pixels relative to container
+                dragStartLeft = rect.left - containerRect.left;
+                dragStartTop = rect.top - containerRect.top;
+                
+                // Add dragging class for visual feedback
+                button.style.cursor = 'grabbing';
+                button.style.userSelect = 'none';
+                
+                e.preventDefault();
+            });
+
             button.addEventListener('click', (e) => {
+                // Only trigger click if it wasn't a drag
+                if (hasDragged) {
+                    e.preventDefault();
+                    return;
+                }
+                
                 e.preventDefault();
                 const fileId = button.getAttribute('data-file');
                 const file = fileData[fileId];
@@ -142,6 +185,48 @@
                     popover.style.display = 'none';
                 }
             });
+        });
+
+        // Handle mouse move for dragging files
+        document.addEventListener('mousemove', (e) => {
+            if (!isDraggingFile || !draggedFile) return;
+            
+            hasDragged = true;
+            
+            // Calculate new position
+            const deltaX = e.clientX - dragStartX;
+            const deltaY = e.clientY - dragStartY;
+            
+            const newLeft = dragStartLeft + deltaX;
+            const newTop = dragStartTop + deltaY;
+            
+            // Get container dimensions
+            const container = draggedFile.parentElement;
+            const containerRect = container.getBoundingClientRect();
+            
+            // Convert to percentages
+            const leftPercent = (newLeft / containerRect.width) * 100;
+            const topPercent = (newTop / containerRect.height) * 100;
+            
+            // Constrain to container bounds
+            const constrainedLeft = Math.max(0, Math.min(100, leftPercent));
+            const constrainedTop = Math.max(0, Math.min(100, topPercent));
+            
+            // Update position
+            draggedFile.style.left = `${constrainedLeft}%`;
+            draggedFile.style.top = `${constrainedTop}%`;
+        });
+
+        // Handle mouse up to stop dragging
+        document.addEventListener('mouseup', () => {
+            if (isDraggingFile && draggedFile) {
+                draggedFile.style.cursor = 'grab';
+                draggedFile.style.userSelect = '';
+            }
+            
+            isDraggingFile = false;
+            draggedFile = null;
+            hasDragged = false;
         });
 
         function openDocument(fileId, file) {

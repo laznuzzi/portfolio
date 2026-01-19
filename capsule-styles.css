@@ -3,28 +3,28 @@
    ========================================================== */
 
 :root {
-  /* Capsule fill color */
-  --capsule-fill-color: #ffffff;
+  /* Capsule fill color - references main theme */
+  --capsule-fill-color: var(--color-white);
 
-  /* Capsule border/stroke color */
-  --capsule-stroke-color: #333333;
+  /* Capsule border/stroke color - references main theme */
+  --capsule-stroke-color: var(--text-primary);
 
   /* Capsule border width (number only, no 'px') */
   --capsule-stroke-width: 3;
 
-  /* Text color inside capsules */
-  --capsule-text-color: #333333;
+  /* Text color inside capsules - references main theme */
+  --capsule-text-color: var(--text-primary);
 
   /* Font styling for text inside capsules
      Format: weight size font-family */
-  --capsule-text-font: 700 28px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --capsule-text-font: 700 72px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
 }
 
 /* Dark mode capsule styles */
 :root.dark {
   --capsule-fill-color: #1a1a1a;
-  --capsule-stroke-color: #ffffff;
-  --capsule-text-color: #ffffff;
+  --capsule-stroke-color: var(--color-white);
+  --capsule-text-color: var(--color-white);
 }
 
 /* ==================== EXAMPLES ====================

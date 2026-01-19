@@ -109,9 +109,16 @@
 
         // Get capsule styles from CSS
         const rootStyles = getComputedStyle(document.documentElement);
-        const capsuleFillColor = rootStyles.getPropertyValue('--capsule-fill-color').trim();
         const capsuleStrokeColor = rootStyles.getPropertyValue('--capsule-stroke-color').trim();
         const capsuleStrokeWidth = parseInt(rootStyles.getPropertyValue('--capsule-stroke-width').trim());
+
+        // Different colors for each capsule
+        const capsuleColors = [
+            '#FFE5B4', // Designer - Peach
+            '#B4E5FF', // Developer - Light Blue
+            '#E5B4FF', // Builder - Lavender
+            '#B4FFE5'  // Fixer - Mint
+        ];
 
         // Word capsules data
         const words = ['Designer', 'Developer', 'Builder', 'Fixer'];
@@ -119,13 +126,17 @@
 
         // Create word capsules
         words.forEach((word, index) => {
-            // Calculate capsule dimensions based on text length
-            const width = word.length * 40 + 100;
-            const height = 80;
+            // Calculate capsule dimensions based on text length - adjusted for 72px font
+            // Larger font needs more horizontal space per character and more vertical space
+            const width = word.length * 42 + 80; // Increased for 72px font (was 24 + 40)
+            const height = 150; // Increased for 72px font (was 100)
 
             // Random starting position (top of screen)
             const x = Math.random() * (window.innerWidth - width) + width / 2;
             const y = -100 - (index * 150); // Stagger vertical start positions
+
+            // Get color for this capsule
+            const capsuleFillColor = capsuleColors[index] || capsuleColors[0];
 
             // Create capsule body (rounded rectangle) - styles from CSS
             const capsule = Bodies.rectangle(x, y, width, height, {
@@ -141,8 +152,9 @@
                 density: 0.001  // Lower density for better mouse interaction
             });
 
-            // Store word data
+            // Store word data and color
             capsule.label = word;
+            capsule.color = capsuleFillColor;
             capsules.push(capsule);
         });
 

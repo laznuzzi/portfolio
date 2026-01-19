@@ -83,30 +83,6 @@ class ChatApp {
         document.getElementById('theme-toggle-button').addEventListener('click', () => {
             this.toggleTheme();
         });
-
-        // Message form
-        document.getElementById('message-input-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleSendMessage();
-        });
-
-        // Clear chat
-        document.getElementById('clear-chat-button').addEventListener('click', () => {
-            this.clearChat();
-        });
-
-        // Mobile menu
-        document.getElementById('mobile-menu-button').addEventListener('click', () => {
-            this.openMobileSheet();
-        });
-
-        document.getElementById('mobile-sheet-close-button').addEventListener('click', () => {
-            this.closeMobileSheet();
-        });
-
-        document.getElementById('mobile-sheet-overlay').addEventListener('click', () => {
-            this.closeMobileSheet();
-        });
     }
 
     // ==================== THEME MANAGEMENT ====================
@@ -136,12 +112,6 @@ class ChatApp {
     }
 
     // ==================== TIME AND STATUS MANAGEMENT ====================
-    updateCurrentTime() {
-        // Time display has been removed from the header
-        // This function is kept for backwards compatibility but does nothing
-        return;
-    }
-
     updateIntroGreeting() {
         const introHeading = document.getElementById('intro-heading');
         if (!introHeading) {
@@ -925,65 +895,6 @@ class ChatApp {
         });
     }
 
-    // ==================== PROMPTS MANAGEMENT ====================
-    renderPrompts() {
-        const horizontalContainer = document.getElementById('horizontal-prompt-buttons');
-        
-        const promptsHtml = this.data.prompts.map((prompt, index) => `
-            <button
-                class="prompt-button"
-                data-prompt="${prompt.replace(/"/g, '&quot;')}"
-                data-prompt-index="${index}"
-            >
-                <span class="prompt-text">${prompt}</span>
-            </button>
-        `).join('');
-
-        if (horizontalContainer) {
-            horizontalContainer.innerHTML = promptsHtml;
-            // Add event listeners to horizontal buttons
-            horizontalContainer.querySelectorAll('.prompt-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    const prompt = button.getAttribute('data-prompt');
-                    this.handlePromptSelect(prompt);
-                });
-            });
-        }
-    }
-
-    handlePromptSelect(prompt) {
-        const input = document.getElementById('message-input-field');
-        input.value = prompt;
-        this.handleSendMessage();
-    }
-
-    // ==================== CHAT UTILITIES ====================
-    clearChat() {
-        this.messages = [];
-        // Re-add the initial messages
-        this.addInitialMessages();
-    }
-
-    // ==================== MOBILE SHEET MANAGEMENT ====================
-    openMobileSheet() {
-        const sheet = document.getElementById('mobile-sidebar-sheet');
-        const content = document.getElementById('mobile-sheet-content');
-        
-        sheet.classList.remove('hidden');
-        setTimeout(() => {
-            content.classList.remove('translate-x-full');
-        }, 10);
-    }
-
-    closeMobileSheet() {
-        const sheet = document.getElementById('mobile-sidebar-sheet');
-        const content = document.getElementById('mobile-sheet-content');
-        
-        content.classList.add('translate-x-full');
-        setTimeout(() => {
-            sheet.classList.add('hidden');
-        }, 300);
-    }
 
     // ==================== TYPEWRITER ANIMATION ====================
     initTypewriter() {
