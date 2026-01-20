@@ -14,7 +14,6 @@
 //    I: techStack (optional - e.g., "React, TypeScript, Node.js")
 //    J: githubLink (optional - e.g., "https://github.com/username/project")
 //    K: images (comma-separated URLs, e.g., "./img/1.jpg,./img/2.jpg,./img/3.jpg")
-//    L: icons (emojis shown in table, e.g., "🍊 🏵️")
 //
 // 2. Fill in your projects (one row per project)
 //
@@ -29,7 +28,7 @@
 //
 // 5. Paste your Sheet ID below:
 
-const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE'; // Replace with your Sheet ID
+const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your Portfolio Content Sheet
 
 // ==================== CODE (Don't modify below) ====================
 
@@ -134,26 +133,54 @@ const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE'; // Replace with your Sheet ID
             console.log('Falling back to file-content.js');
         });
 
-    // Simple CSV parser
+    // Better CSV parser that handles quoted fields with commas
     function parseCSV(csvText) {
         const lines = csvText.split('\n');
-        const headers = lines[0].split(',').map(h => h.trim());
         const data = [];
 
+        // Parse header row
+        const headers = parseCSVLine(lines[0]);
+
+        // Parse data rows
         for (let i = 1; i < lines.length; i++) {
             if (!lines[i].trim()) continue; // Skip empty lines
 
-            const values = lines[i].split(',');
+            const values = parseCSVLine(lines[i]);
             const row = {};
 
             headers.forEach((header, index) => {
-                row[header] = values[index] ? values[index].trim() : '';
+                // Remove "(table)" or "(modal)" or "(modal, optional)" from header names
+                const cleanHeader = header.replace(/\s*\(.*?\)\s*/g, '').trim();
+                row[cleanHeader] = values[index] ? values[index].trim() : '';
             });
 
             data.push(row);
         }
 
         return data;
+    }
+
+    // Parse a single CSV line handling quoted fields
+    function parseCSVLine(line) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                result.push(current);
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+
+        result.push(current); // Add last field
+        return result;
     }
 
     // Update vintage table with Google Sheets data
@@ -181,11 +208,6 @@ const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE'; // Replace with your Sheet ID
             tr.innerHTML = `
                 <td class="col-title">${row.title}</td>
                 <td class="col-description">${row.shortDescription || ''}</td>
-                <td class="col-icons">
-                    ${row.icons ? row.icons.split(' ').map(icon =>
-                        `<span class="table-icon">${icon}</span>`
-                    ).join('') : ''}
-                </td>
                 <td class="vintage-table-thumbnail">
                     <img src="${firstImage}" alt="${row.title}">
                     <div class="vintage-table-hover-image">

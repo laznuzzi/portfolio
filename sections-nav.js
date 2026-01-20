@@ -32,18 +32,169 @@
 
     // Simplified modal - no tabs or multi-document tracking
 
-    // Finder navigation functionality
-    function setupFinderNavigation() {
-        console.log('setupFinderNavigation called');
-        // Support both old .page-file buttons and new .project-card elements, and vintage table rows
-        const fileButtons = document.querySelectorAll('.page-file, .project-card');
+    // Shared variables for vintage table
+    let currentHoverImage = null;
+    let currentRowIndex = -1;
+    let hoverImageContainer = null;
+
+    // Open modal for vintage table entries - defined at module scope
+    function openVintageTableModal(entryId, row, hoverImageRect) {
+        console.log('openVintageTableModal called with:', entryId);
+        // Get entry data from fileData
+        const entry = window.fileData[entryId];
+
+        if (!entry) {
+            console.error('Entry not found:', entryId);
+            console.log('Available entries:', Object.keys(window.fileData || {}));
+            return;
+        }
+
+        console.log('Entry found:', entry);
+
+        const modal = document.getElementById('project-modal');
+        const modalContent = document.getElementById('project-modal-content');
+        const imageContainer = document.getElementById('modal-image-container');
+        const textContainer = document.getElementById('modal-text-container');
+
+        console.log('Modal elements found:', {
+            modal: !!modal,
+            modalContent: !!modalContent,
+            imageContainer: !!imageContainer,
+            textContainer: !!textContainer
+        });
+
+        if (!modal || !modalContent || !imageContainer || !textContainer) {
+            console.error('Modal elements not found - one or more elements missing');
+            return;
+        }
+
+        // Hide hover image immediately
+        if (hoverImageContainer) {
+            hoverImageContainer.classList.remove('visible');
+        }
+
+        // Create image grid HTML from entry data
+        const images = entry.images && entry.images.length > 0 ? entry.images : ['./img/placeholder.jpeg'];
+        imageContainer.innerHTML = `
+            <div class="modal-image-grid">
+                ${images.map((img, index) => `
+                    <img src="${img}"
+                         alt="${entry.title} - Image ${index + 1}"
+                         class="modal-grid-image">
+                `).join('')}
+            </div>
+        `;
+
+        // Set text content from entry data
+        textContainer.innerHTML = entry.content;
+
+        // Show modal with animation
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        console.log('Modal display set to:', modal.style.display);
+        console.log('Modal computed display:', window.getComputedStyle(modal).display);
+        console.log('Modal visibility:', window.getComputedStyle(modal).visibility);
+        console.log('Modal opacity:', window.getComputedStyle(modal).opacity);
+        console.log('Modal z-index:', window.getComputedStyle(modal).zIndex);
+        console.log('Modal position:', window.getComputedStyle(modal).position);
+        console.log('Modal bounding rect:', modal.getBoundingClientRect());
+
+        // Get close button for animation
+        const closeButton = modal.querySelector('.modal-close-button');
+
+        // "Building" animation - expand from center vertically
+        console.log('Animation check:', {
+            hoverImageRect: !!hoverImageRect,
+            gsapAvailable: typeof gsap !== 'undefined'
+        });
+
+        if (hoverImageRect && typeof gsap !== 'undefined') {
+            console.log('Running building animation...');
+            console.log('ModalContent initial position:', window.getComputedStyle(modalContent).position);
+            console.log('ModalContent initial left:', window.getComputedStyle(modalContent).left);
+            console.log('ModalContent initial top:', window.getComputedStyle(modalContent).top);
+            // Hide panels and close button initially
+            gsap.set(textContainer, { opacity: 0, y: -20 });
+            gsap.set(imageContainer, { opacity: 0, y: 20 });
+            gsap.set(closeButton, { opacity: 0, scale: 0.5 });
+
+            // Calculate hover image center in viewport
+            const hoverCenterX = hoverImageRect.left + hoverImageRect.width / 2;
+            const hoverCenterY = hoverImageRect.top + hoverImageRect.height / 2;
+
+            // Set initial state - small height at hover position, full width
+            modalContent.style.transform = 'translate(-50%, -50%)';
+            gsap.set(modalContent, {
+                left: hoverCenterX,
+                top: hoverCenterY,
+                width: hoverImageRect.width,
+                height: hoverImageRect.height,
+                opacity: 1
+            });
+
+            // Timeline for coordinated animation
+            const tl = gsap.timeline();
+
+            // First: Move to center and expand width
+            tl.to(modalContent, {
+                left: '50%',
+                top: '50%',
+                width: '95vw',
+                duration: 0.4,
+                ease: 'power3.out'
+            });
+
+            // Second: Expand height (builds vertically from center)
+            tl.to(modalContent, {
+                height: '95vh',
+                duration: 0.5,
+                ease: 'power3.out'
+            }, '-=0.1');
+
+            // Third: Reveal content as it builds
+            tl.to(textContainer, {
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: 'power2.out'
+            }, '-=0.3');
+
+            tl.to(imageContainer, {
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: 'power2.out'
+            }, '-=0.35');
+
+            // Finally: Fade in close button
+            tl.to(closeButton, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.3,
+                ease: 'back.out(2)'
+            }, '-=0.2');
+        } else {
+            console.log('Using fallback animation (no hover rect or no GSAP)');
+            // Fallback: simple fade in
+            if (typeof gsap !== 'undefined') {
+                console.log('Running fallback GSAP animation');
+                gsap.fromTo(modalContent,
+                    { opacity: 0, scale: 0.95 },
+                    { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }
+                );
+            } else {
+                console.log('No GSAP available, modal should still be visible');
+            }
+        }
+    }
+
+    // Setup vintage table rows (can be called multiple times)
+    function setupVintageTableRows() {
         const vintageTableRows = document.querySelectorAll('.vintage-table-row');
-        const modal = document.getElementById('file-modal');
-        
-        // Setup vintage table row clicks and hover image tracking with slide animation
-        let currentHoverImage = null;
-        let currentRowIndex = -1;
-        let hoverImageContainer = null;
+        const modal = document.getElementById('project-modal');
+
+        console.log('Setting up vintage table rows:', vintageTableRows.length);
         
         // Create a single shared hover image container (based on original repo)
         function createSharedHoverContainer() {
@@ -137,6 +288,9 @@
             // Click handler
             row.addEventListener('click', (e) => {
                 const entryId = row.getAttribute('data-entry');
+                console.log('Row clicked, entryId:', entryId);
+                console.log('fileData:', window.fileData);
+                console.log('Entry exists:', !!window.fileData[entryId]);
                 // Get hover image position before it disappears
                 const hoverImageRect = hoverImageContainer ? hoverImageContainer.getBoundingClientRect() : null;
                 openVintageTableModal(entryId, row, hoverImageRect);
@@ -150,8 +304,32 @@
                 currentRowIndex = -1;
             }
         }
-        const modalContent = document.getElementById('file-modal-content');
-        const modalOverlay = modal?.querySelector('.file-modal-overlay');
+    }
+
+    // Finder navigation functionality
+    function setupFinderNavigation() {
+        console.log('setupFinderNavigation called');
+        // Support both old .page-file buttons and new .project-card elements
+        const fileButtons = document.querySelectorAll('.page-file, .project-card');
+        const modal = document.getElementById('project-modal');
+
+        // Setup vintage table rows initially
+        setupVintageTableRows();
+
+        // Listen for table updates from Google Sheets
+        window.addEventListener('vintageTableUpdated', () => {
+            console.log('Vintage table updated event received, re-initializing...');
+            // Remove old hover container if it exists
+            if (hoverImageContainer) {
+                hoverImageContainer.remove();
+                hoverImageContainer = null;
+            }
+            // Re-setup table rows
+            setupVintageTableRows();
+        });
+
+        const modalContent = document.getElementById('project-modal-content');
+        const modalOverlay = modal?.querySelector('.project-modal-overlay');
         const modalTitlebar = document.getElementById('modal-titlebar');
         const modalClose = document.getElementById('modal-close');
         const modalTitle = document.getElementById('modal-file-title');
@@ -675,130 +853,6 @@
                 closeFinderModal();
             }
         });
-
-        // Open modal for vintage table entries
-        function openVintageTableModal(entryId, row, hoverImageRect) {
-            // Get entry data from file-content.js
-            const entry = fileData[entryId];
-
-            if (!entry) {
-                console.error('Entry not found:', entryId);
-                return;
-            }
-
-            const modal = document.getElementById('file-modal');
-            const modalContent = document.getElementById('file-modal-content');
-            const imageContainer = document.getElementById('modal-image-container');
-            const textContainer = document.getElementById('modal-text-container');
-
-            if (!modal || !modalContent || !imageContainer || !textContainer) {
-                console.error('Modal elements not found');
-                return;
-            }
-
-            // Hide hover image immediately
-            if (hoverImageContainer) {
-                hoverImageContainer.classList.remove('visible');
-            }
-
-            // Create image grid HTML from entry data
-            const images = entry.images && entry.images.length > 0 ? entry.images : ['./img/placeholder.jpeg'];
-            imageContainer.innerHTML = `
-                <div class="modal-image-grid">
-                    ${images.map((img, index) => `
-                        <img src="${img}"
-                             alt="${entry.title} - Image ${index + 1}"
-                             class="modal-grid-image">
-                    `).join('')}
-                </div>
-            `;
-
-            // Set text content from entry data
-            textContainer.innerHTML = entry.content;
-
-            // No slider functionality needed - using scrollable grid
-
-            // Show modal with animation
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-
-            // Get close button for animation
-            const closeButton = modal.querySelector('.modal-close-button');
-
-            // "Building" animation - expand from center vertically
-            if (hoverImageRect && typeof gsap !== 'undefined') {
-                // Hide panels and close button initially
-                gsap.set(textContainer, { opacity: 0, y: -20 });
-                gsap.set(imageContainer, { opacity: 0, y: 20 });
-                gsap.set(closeButton, { opacity: 0, scale: 0.5 });
-
-                // Calculate hover image center in viewport
-                const hoverCenterX = hoverImageRect.left + hoverImageRect.width / 2;
-                const hoverCenterY = hoverImageRect.top + hoverImageRect.height / 2;
-
-                // Set initial state - small height at hover position, full width
-                modalContent.style.transform = 'translate(-50%, -50%)';
-                gsap.set(modalContent, {
-                    left: hoverCenterX,
-                    top: hoverCenterY,
-                    width: hoverImageRect.width,
-                    height: hoverImageRect.height,
-                    opacity: 1
-                });
-
-                // Timeline for coordinated animation
-                const tl = gsap.timeline();
-
-                // First: Move to center and expand width
-                tl.to(modalContent, {
-                    left: '50%',
-                    top: '50%',
-                    width: '95vw',
-                    duration: 0.4,
-                    ease: 'power3.out'
-                });
-
-                // Second: Expand height (builds vertically from center)
-                tl.to(modalContent, {
-                    height: '95vh',
-                    duration: 0.5,
-                    ease: 'power3.out'
-                }, '-=0.1');
-
-                // Third: Reveal content as it builds
-                tl.to(textContainer, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.4,
-                    ease: 'power2.out'
-                }, '-=0.3');
-
-                tl.to(imageContainer, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.4,
-                    ease: 'power2.out'
-                }, '-=0.35');
-
-                // Finally: Fade in close button
-                tl.to(closeButton, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.3,
-                    ease: 'back.out(2)'
-                }, '-=0.2');
-            } else {
-                // Fallback: simple fade in
-                if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(modalContent,
-                        { opacity: 0, scale: 0.95 },
-                        { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }
-                    );
-                }
-            }
-        }
-
-        // Modal slider functionality
     }
 
 })();

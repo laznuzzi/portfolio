@@ -12,9 +12,9 @@ This guide shows you how to manage your portfolio content using Google Sheets in
 
 In the **first row**, add these column headers (exact names, in this order):
 
-| A | B | C | D | E | F | G | H | I | J | K | L |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| **id** | **title** | **shortDescription** | **subtitle** | **role** | **timeline** | **context** | **description** | **techStack** | **githubLink** | **images** | **icons** |
+| A | B | C | D | E | F | G | H | I | J | K |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **id** | **title** | **shortDescription** | **subtitle** | **role** | **timeline** | **context** | **description** | **techStack** | **githubLink** | **images** |
 
 **Column descriptions:**
 - **id**: Unique identifier (lowercase, no spaces) - e.g., `sandbox`, `alpha`, `my-project`
@@ -28,7 +28,6 @@ In the **first row**, add these column headers (exact names, in this order):
 - **techStack**: (OPTIONAL) Technologies used - e.g., `React, TypeScript, Node.js`
 - **githubLink**: (OPTIONAL) GitHub URL - e.g., `https://github.com/username/project`
 - **images**: Image paths separated by commas - e.g., `./img/img1.jpg,./img/img2.jpg,./img/img3.jpg`
-- **icons**: Emojis separated by spaces - e.g., `🍊 🏵️`
 
 ## Step 3: Add Your Projects
 
@@ -36,15 +35,14 @@ Starting in **row 2**, add one project per row.
 
 **Example:**
 
-| id | title | shortDescription | subtitle | role | timeline | context | description | techStack | githubLink | images | icons |
-|----|-------|------------------|----------|------|----------|---------|-------------|-----------|------------|--------|-------|
-| sandbox | sandbox | An AI-native prototyping tool and code kit | AI-Powered Design Tool | Designer & Developer | 2024 | Square needed a way to rapidly prototype new features while maintaining design consistency. | An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns. Built to enable rapid experimentation while maintaining design consistency across products. | React, TypeScript, GSAP | https://github.com/username/sandbox | ./img/sandbox1.jpg,./img/sandbox2.jpg,./img/sandbox3.jpg | 🍊 🏵️ |
-| alpha | Project Alpha | Innovative user experience design | Redefining Mobile Experiences | UX/UI Designer | Jan - Mar 2024 | Users were struggling with complex workflows on mobile devices. | Project Alpha focuses on creating intuitive and delightful user experiences. This project involved extensive user research, prototyping, and iterative design to deliver a seamless product. | | | ./img/alpha1.jpg,./img/alpha2.jpg | 🎨 ✨ |
+| id | title | shortDescription | subtitle | role | timeline | context | description | techStack | githubLink | images |
+|----|-------|------------------|----------|------|----------|---------|-------------|-----------|------------|--------|
+| sandbox | sandbox | An AI-native prototyping tool and code kit | AI-Powered Design Tool | Designer & Developer | 2024 | Square needed a way to rapidly prototype new features while maintaining design consistency. | An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns. Built to enable rapid experimentation while maintaining design consistency across products. | React, TypeScript, GSAP | https://github.com/username/sandbox | ./img/sandbox1.jpg,./img/sandbox2.jpg,./img/sandbox3.jpg |
+| alpha | Project Alpha | Innovative user experience design | Redefining Mobile Experiences | UX/UI Designer | Jan - Mar 2024 | Users were struggling with complex workflows on mobile devices. | Project Alpha focuses on creating intuitive and delightful user experiences. This project involved extensive user research, prototyping, and iterative design to deliver a seamless product. | | | ./img/alpha1.jpg,./img/alpha2.jpg |
 
 **Tips:**
 - You can add as many images as you want (comma-separated)
 - If you don't have images yet, use: `./img/placeholder.jpeg`
-- Icons are optional - leave blank if you don't want any
 - subtitle, context, techStack and githubLink are optional - leave blank if not applicable
 - context and description can be as long as you want (multiple paragraphs work)
 
