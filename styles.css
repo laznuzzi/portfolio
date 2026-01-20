@@ -164,6 +164,8 @@
 html {
   font-size: var(--font-size-base);
   scroll-behavior: smooth;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Allow vertical scroll */
 }
 
 body {
@@ -172,24 +174,83 @@ body {
   font-weight: 100;
   line-height: var(--line-height-normal);
   color: var(--text-primary);
-  background: var(--bg-body-gradient); /* Light blue to light purple gradient */
+  background: transparent; /* No background - let .app-body handle it */
   transition: background-color var(--transition-normal), color var(--transition-normal);
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Allow vertical scroll */
 }
 
 /* ==================== LAYOUT COMPONENTS ==================== */
 .app-body {
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary); /* Match main-content background */
   transition: background-color var(--transition-normal);
   box-sizing: border-box;
 }
 
 .app-header {
   position: fixed;
-  top: var(--space-6);
-  right: var(--space-6);
-  z-index: var(--z-fixed);
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000; /* High z-index to ensure it's above everything */
+  padding: var(--space-3) var(--space-6);
+  background-color: transparent;
+  opacity: 0; /* Hidden initially */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.app-header.visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.nav-left {
+  flex: 0 0 auto;
+}
+
+.nav-name {
+  font-size: var(--font-size-sm);
+  font-weight: bold;
+  color: var(--text-primary);
+  font-family: 'Buffon-Bold', serif;
+  letter-spacing: 0.02em;
+}
+
+.nav-right {
+  display: flex;
+  gap: var(--space-4);
+  flex: 0 0 auto;
+}
+
+.nav-link {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: 'Buffon-Bold', serif;
+  font-weight: bold;
+  transition: opacity var(--transition-fast);
+  
+  &:hover {
+    opacity: 0.7;
+  }
+  
+  &:visited {
+    color: var(--text-primary);
+  }
 }
 
 .main-container {
@@ -1127,61 +1188,6 @@ body {
   }
 }
 
-/* ==================== MORE PROJECTS LAYER ==================== */
-.more-projects-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  min-height: 100vh;
-  background: var(--bg-body-gradient); /* Light blue to light purple gradient */
-  z-index: 4; /* Above files section - slides up over it with GSAP */
-  padding: 4rem 2rem;
-  display: none !important; /* Hidden for now - section is broken */
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between; /* Space out content to fill height */
-  transform: translateY(100%); /* Start off-screen below */
-
-  :root.dark & {
-    background: linear-gradient(135deg, #1f2a35 0%, #2a1f35 100%);
-  }
-}
-
-.more-projects-content {
-  max-width: 800px;
-  width: 100%;
-  text-align: center;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.more-projects-content {
-  max-width: 800px;
-  width: 100%;
-  text-align: center;
-}
-
-.more-projects-title {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: var(--text-primary);
-  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
-}
-
-.more-projects-text {
-  font-size: 1.125rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .additional-content-wrapper {
   max-width: 800px;
@@ -1230,9 +1236,7 @@ body {
 }
 
 @media print {
-  .app-header {
-    display: none !important;
-  }
+  /* Removed - header should be visible */
 
   .intro-heading {
     color: black !important;
@@ -1263,12 +1267,13 @@ body {
 
 /* ==================== OPENING ANIMATION STYLES ==================== */
 .opening-animation {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
-  background-color: var(--bg-intro-solid); /* Solid color covers body gradient */
-  z-index: 2; /* Above More Projects layer */
+  background-color: var(--bg-primary); /* Same color as main-content */
+  z-index: 2; /* Below main-content so it can slide over */
   overflow: visible !important; /* CRITICAL: Allow banners to be visible */
 }
 
@@ -1381,7 +1386,7 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
-  z-index: 15 !important; /* MUST be above text container (z-index: 10) for banners to be visible */
+  z-index: 20 !important; /* Above text container so capsules overlay text */
   pointer-events: none; /* Don't block scroll */
   overflow: visible !important; /* Allow banners to be visible */
 
@@ -1411,7 +1416,7 @@ body {
   align-items: stretch;
   pointer-events: auto;
   cursor: grab;
-  z-index: 15 !important; /* Above text container (z-index: 10) */
+  z-index: 21 !important; /* Above text container so capsules overlay "Howdy" text */
   visibility: visible !important;
   opacity: 1 !important;
   
@@ -1512,18 +1517,18 @@ body {
   pointer-events: auto;
 }
 
-/* Main content slides up over opening animation */
+/* Main content - normal flow, starts below opening animation */
 #main-content {
   position: relative;
-  z-index: 3; /* Above capsules, below More Projects */
-  background-color: var(--bg-primary); /* Solid to cover capsules */
-  min-height: 100vh; /* Normal height - More Projects section hidden */
-  margin-top: 100vh;
-  border-radius: 20px 20px 0 0;
+  z-index: 3; /* Above opening animation so it can slide over */
+  background-color: transparent; /* Transparent so it doesn't look like a layer */
+  min-height: 100vh;
+  margin-top: 100vh; /* Start below opening animation */
+  /* No border-radius - unified section */
 }
 
 .main-container {
-  background-color: var(--bg-primary);
+  background-color: transparent; /* Remove duplicate background */
   padding-top: 2rem;
   min-height: 100vh;
 }
@@ -1964,7 +1969,7 @@ body {
 .vintage-table-section {
   width: 100%;
   padding: var(--space-12) 0; /* Remove horizontal padding to allow full width */
-  background: var(--bg-primary);
+  background: transparent; /* Use parent background, no separate layer */
 }
 
 .archives-title {
@@ -2046,6 +2051,19 @@ body {
   font-size: clamp(1.1rem, 1.4vw, 1.2rem); /* 17.6-19.2px equivalent, smaller */
   font-weight: bold;
   line-height: 1.2;
+}
+
+.lock-icon {
+  font-size: 0.7em;
+  opacity: 0.4;
+  margin-right: 0.5em;
+  display: inline-block;
+  vertical-align: middle;
+  transition: opacity 0.2s ease;
+}
+
+.vintage-table-row:hover .lock-icon {
+  opacity: 0.6;
 }
 
 .vintage-table .col-description {
