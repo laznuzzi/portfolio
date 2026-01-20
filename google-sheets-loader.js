@@ -192,7 +192,7 @@ const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your 
         tbody.innerHTML = '';
 
         // Create rows from Google Sheets data
-        data.forEach(row => {
+        data.forEach((row, index) => {
             if (!row.id || !row.title) return;
 
             const images = row.images
@@ -205,8 +205,16 @@ const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your 
             tr.className = 'vintage-table-row';
             tr.setAttribute('data-entry', row.id);
 
+            // Mark first 3 as locked
+            if (index < 3) {
+                tr.setAttribute('data-locked', 'true');
+            }
+
+            // Add lock icon to first 3 projects
+            const lockIcon = index < 3 ? '<span class="lock-icon">🔒</span>' : '';
+
             tr.innerHTML = `
-                <td class="col-title">${row.title}</td>
+                <td class="col-title">${lockIcon}${row.title}</td>
                 <td class="col-description">${row.shortDescription || ''}</td>
                 <td class="vintage-table-thumbnail">
                     <img src="${firstImage}" alt="${row.title}">
