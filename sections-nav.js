@@ -21,14 +21,7 @@
         console.error('fileData not loaded! Make sure file-content.js is loaded before sections-nav.js');
     }
 
-    // Drag functionality
-    let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
-    let xOffset = 0;
-    let yOffset = 0;
+    // Drag functionality removed
 
     // Resize functionality
     let isResizing = false;
@@ -37,23 +30,131 @@
     let startMouseX;
     let startMouseY;
 
-    // Track open documents
-    let openDocuments = [];
-    let activeDocumentId = null;
-    console.log('Script initialized, openDocuments array created');
+    // Simplified modal - no tabs or multi-document tracking
 
     // Finder navigation functionality
     function setupFinderNavigation() {
         console.log('setupFinderNavigation called');
-        const fileButtons = document.querySelectorAll('.page-file');
+        // Support both old .page-file buttons and new .project-card elements, and vintage table rows
+        const fileButtons = document.querySelectorAll('.page-file, .project-card');
+        const vintageTableRows = document.querySelectorAll('.vintage-table-row');
         const modal = document.getElementById('file-modal');
+        
+        // Setup vintage table row clicks and hover image tracking with slide animation
+        let currentHoverImage = null;
+        let currentRowIndex = -1;
+        let hoverImageContainer = null;
+        
+        // Create a single shared hover image container (based on original repo)
+        function createSharedHoverContainer() {
+            if (!hoverImageContainer) {
+                hoverImageContainer = document.createElement('div');
+                hoverImageContainer.className = 'vintage-table-hover-image';
+                
+                // Create slider container (like modalSlider in original)
+                const slider = document.createElement('div');
+                slider.className = 'hover-image-slider';
+                
+                // Create individual image containers for each row
+                vintageTableRows.forEach((row, index) => {
+                    const hoverImage = row.querySelector('.vintage-table-hover-image');
+                    const imageSrc = hoverImage?.querySelector('img')?.src;
+                    if (imageSrc) {
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'hover-image-item';
+                        const img = document.createElement('img');
+                        img.src = imageSrc;
+                        img.alt = hoverImage.querySelector('img').alt;
+                        imageContainer.appendChild(img);
+                        slider.appendChild(imageContainer);
+                    }
+                });
+                
+                hoverImageContainer.appendChild(slider);
+                document.body.appendChild(hoverImageContainer);
+            }
+            return hoverImageContainer;
+        }
+        
+        vintageTableRows.forEach((row, index) => {
+            const hoverImage = row.querySelector('.vintage-table-hover-image');
+            const imageWrapper = hoverImage?.querySelector('.hover-image-wrapper');
+            const imageSrc = hoverImage?.querySelector('img')?.src;
+            
+            if (hoverImage && imageWrapper && imageSrc) {
+                // Track mouse movement anywhere on the row
+                row.addEventListener('mouseenter', (e) => {
+                    const container = createSharedHoverContainer();
+                    const slider = container.querySelector('.hover-image-slider');
+                    
+                    if (!slider) {
+                        console.error('Slider not found');
+                        return;
+                    }
+                    
+                    // Show container and position it
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+                    container.style.left = `${mouseX}px`;
+                    container.style.top = `${mouseY}px`;
+                    container.classList.add('visible');
+                    
+                    // Update slider position based on row index (like original: top: index * -100 + "%")
+                    slider.style.top = `${index * -100}%`;
+                    
+                    currentHoverImage = hoverImage;
+                    currentRowIndex = index;
+                });
+                
+                row.addEventListener('mousemove', (e) => {
+                    if (hoverImageContainer && currentRowIndex === index) {
+                        const mouseX = e.clientX;
+                        const mouseY = e.clientY;
+                        
+                    // Use GSAP for smooth following (like original repo)
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(hoverImageContainer, {
+                            left: mouseX,
+                            top: mouseY,
+                            duration: 0.8,
+                            ease: "power3"
+                        });
+                    } else {
+                        // Fallback to direct positioning
+                        hoverImageContainer.style.left = `${mouseX}px`;
+                        hoverImageContainer.style.top = `${mouseY}px`;
+                    }
+                    }
+                });
+                
+                row.addEventListener('mouseleave', () => {
+                    if (hoverImageContainer && currentRowIndex === index) {
+                        hideHoverImage();
+                    }
+                });
+            }
+            
+            // Click handler
+            row.addEventListener('click', (e) => {
+                const entryId = row.getAttribute('data-entry');
+                // Get hover image position before it disappears
+                const hoverImageRect = hoverImageContainer ? hoverImageContainer.getBoundingClientRect() : null;
+                openVintageTableModal(entryId, row, hoverImageRect);
+            });
+        });
+        
+        // Helper function for hiding hover image
+        function hideHoverImage() {
+            if (hoverImageContainer) {
+                hoverImageContainer.classList.remove('visible');
+                currentRowIndex = -1;
+            }
+        }
         const modalContent = document.getElementById('file-modal-content');
         const modalOverlay = modal?.querySelector('.file-modal-overlay');
         const modalTitlebar = document.getElementById('modal-titlebar');
         const modalClose = document.getElementById('modal-close');
         const modalTitle = document.getElementById('modal-file-title');
-        const modalTabsContainer = document.getElementById('modal-tabs-container');
-        const modalTabs = document.getElementById('modal-tabs');
         const modalDocumentsContainer = document.getElementById('modal-documents-container');
 
         console.log('Found elements:', {
@@ -131,8 +232,13 @@
                 }
             });
 
-            // Handle hover for popover
+            // Handle hover for popover (only for old .page-file elements, not new .project-card)
             button.addEventListener('mouseenter', (e) => {
+                // Skip popover for project cards
+                if (button.classList.contains('project-card')) {
+                    return;
+                }
+
                 const fileId = button.getAttribute('data-file');
                 const file = fileData[fileId];
 
@@ -230,218 +336,49 @@
         });
 
         function openDocument(fileId, file) {
-            console.log('Opening document:', fileId);
-
             // Hide popover when opening modal
             if (popover) {
                 popover.style.display = 'none';
             }
 
-            // Update modal content
-            if (modalTitle) {
-                modalTitle.textContent = file.title;
+            const imageContainer = document.getElementById('modal-image-container');
+            const textContainer = document.getElementById('modal-text-container');
+
+            if (!imageContainer || !textContainer) {
+                console.error('Modal containers not found');
+                return;
             }
 
-            if (modalDocumentsContainer) {
-                // Create image slider HTML
-                const imageSliderHTML = file.images && file.images.length > 0 ? `
-                    <div class="document-image-slider">
-                        <div class="slider-main">
-                            <button class="slider-nav slider-prev" aria-label="Previous image">‹</button>
-                            <div class="slider-images">
-                                ${file.images.map((img, index) => `
-                                    <img src="${img}"
-                                         alt="${file.title} - Image ${index + 1}"
-                                         class="document-header-image ${index === 0 ? 'active' : ''}"
-                                         data-index="${index}">
-                                `).join('')}
-                            </div>
-                            <button class="slider-nav slider-next" aria-label="Next image">›</button>
-                        </div>
-                    </div>
-                ` : '';
+            console.log('Setting modal content for:', fileId);
+            console.log('File data:', file);
 
-                modalDocumentsContainer.innerHTML = `
-                    <div class="modal-document-body">
-                        ${imageSliderHTML}
-                        ${file.content}
-                    </div>
-                `;
+            // Create image grid HTML (vertical scrollable grid)
+            const images = file.images && file.images.length > 0 ? file.images : ['./img/placeholder.jpeg'];
+            imageContainer.innerHTML = `
+                <div class="modal-image-grid">
+                    ${images.map((img, index) => `
+                        <img src="${img}"
+                             alt="${file.title} - Image ${index + 1}"
+                             class="modal-grid-image">
+                    `).join('')}
+                </div>
+            `;
 
-                // Initialize slider functionality
-                initializeImageSlider();
-            }
+            // Set text content
+            const contentHTML = file.content || '<p>No content available.</p>';
+            textContainer.innerHTML = contentHTML;
 
-            // Hide tabs container
-            if (modalTabsContainer) {
-                modalTabsContainer.style.display = 'none';
-            }
+            // No slider functionality needed - using scrollable grid
 
             // Show modal
-            if (modal.style.display !== 'flex') {
-                centerModal();
+            if (modal) {
                 modal.style.display = 'flex';
-                // Lock body scroll when modal opens
                 document.body.style.overflow = 'hidden';
             }
         }
 
-        function centerModal() {
-            // Reset any previous transforms and dimensions
-            modalContent.style.transform = 'translate(-50%, -50%)';
-            modalContent.style.left = '50%';
-            modalContent.style.top = '50%';
-            modalContent.style.width = '75vw'; // Reset to initial width
-            modalContent.style.height = '90vh'; // Reset to initial height
-            xOffset = 0;
-            yOffset = 0;
-        }
 
-        function renderTabs() {
-            console.log('renderTabs called, docs:', openDocuments.length);
-            console.log('modalTabs:', modalTabs, 'modalTabsContainer:', modalTabsContainer);
-
-            if (!modalTabs || !modalTabsContainer) {
-                console.log('Missing tabs elements!');
-                return;
-            }
-
-            // Clear existing tabs
-            modalTabs.innerHTML = '';
-
-            // Show/hide tabs container based on number of documents
-            // Always show tabs if any documents are open (for now, to debug)
-            if (openDocuments.length >= 1) {
-                console.log('Showing tabs -', openDocuments.length, 'doc(s)');
-                modalTabsContainer.classList.add('has-tabs');
-                modalTabsContainer.style.display = 'flex';
-            } else {
-                console.log('Hiding tabs - no docs');
-                modalTabsContainer.classList.remove('has-tabs');
-                modalTabsContainer.style.display = 'none';
-            }
-
-            // Create tabs - always create them for debugging
-            console.log('Creating', openDocuments.length, 'tabs');
-            openDocuments.forEach(doc => {
-                const tab = document.createElement('button');
-                tab.className = 'modal-tab';
-                tab.dataset.docId = doc.id;
-                if (doc.id === activeDocumentId) {
-                    tab.classList.add('active');
-                }
-
-                const tabName = document.createElement('span');
-                tabName.className = 'modal-tab-name';
-                tabName.textContent = doc.title;
-
-                const tabClose = document.createElement('button');
-                tabClose.className = 'modal-tab-close';
-                tabClose.textContent = '×';
-                tabClose.onclick = (e) => {
-                    e.stopPropagation();
-                    closeDocument(doc.id);
-                };
-
-                tab.appendChild(tabName);
-                tab.appendChild(tabClose);
-
-                tab.onclick = () => switchToDocument(doc.id);
-
-                modalTabs.appendChild(tab);
-                console.log('Tab created for:', doc.title);
-            });
-
-            console.log('Tabs rendered, total in DOM:', modalTabs.children.length);
-        }
-
-        function renderDocuments() {
-            if (!modalDocumentsContainer) return;
-
-            // Clear existing documents
-            modalDocumentsContainer.innerHTML = '';
-
-            // Create document containers
-            openDocuments.forEach(doc => {
-                const docDiv = document.createElement('div');
-                docDiv.className = 'modal-document';
-                docDiv.dataset.docId = doc.id;
-                if (doc.id === activeDocumentId) {
-                    docDiv.classList.add('active');
-                }
-
-                const docBody = document.createElement('div');
-                docBody.className = 'modal-document-body';
-                docBody.innerHTML = doc.content;
-
-                docDiv.appendChild(docBody);
-                modalDocumentsContainer.appendChild(docDiv);
-            });
-        }
-
-        function switchToDocument(docId) {
-            console.log('Switching to document:', docId);
-            activeDocumentId = docId;
-            const doc = openDocuments.find(d => d.id === docId);
-
-            if (!doc) {
-                console.log('Document not found!');
-                return;
-            }
-
-            console.log('Found document:', doc.title);
-
-            // Update title bar
-            if (modalTitle) {
-                modalTitle.textContent = doc.title;
-            }
-
-            // Update active tab
-            const tabs = modalTabs?.querySelectorAll('.modal-tab');
-            tabs?.forEach(tab => {
-                if (tab.dataset.docId === docId) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
-            });
-
-            // Update active document
-            const docs = modalDocumentsContainer?.querySelectorAll('.modal-document');
-            docs?.forEach(docEl => {
-                if (docEl.dataset.docId === docId) {
-                    docEl.classList.add('active');
-                } else {
-                    docEl.classList.remove('active');
-                }
-            });
-        }
-
-        function closeDocument(docId) {
-            const index = openDocuments.findIndex(doc => doc.id === docId);
-            if (index === -1) return;
-
-            // Remove document
-            openDocuments.splice(index, 1);
-
-            // If closing the active document, switch to another
-            if (docId === activeDocumentId) {
-                if (openDocuments.length > 0) {
-                    // Switch to the previous document or first document
-                    const newIndex = Math.max(0, index - 1);
-                    activeDocumentId = openDocuments[newIndex].id;
-                } else {
-                    // No more documents, close modal
-                    closeModal();
-                    return;
-                }
-            }
-
-            // Re-render
-            renderTabs();
-            renderDocuments();
-            switchToDocument(activeDocumentId);
-        }
+        // Removed tabs and multi-document functionality - simplified to single document display
 
         // Create resize handle
         const resizeHandle = document.createElement('div');
@@ -450,12 +387,7 @@
             modalContent.appendChild(resizeHandle);
         }
 
-        // Drag functionality
-        if (modalTitlebar && modalContent) {
-            modalTitlebar.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-        }
+        // Drag functionality removed
 
         // Resize functionality
         if (resizeHandle && modalContent) {
@@ -464,42 +396,7 @@
             document.addEventListener('mouseup', resizeEnd);
         }
 
-        function dragStart(e) {
-            if (e.target.closest('.modal-traffic-lights')) {
-                return;
-            }
-
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-
-            isDragging = true;
-        }
-
-        function drag(e) {
-            if (isDragging && !isResizing) {
-                e.preventDefault();
-
-                currentX = e.clientX - initialX;
-                currentY = e.clientY - initialY;
-
-                xOffset = currentX;
-                yOffset = currentY;
-
-                setTranslate(currentX, currentY, modalContent);
-            }
-        }
-
-        function dragEnd(e) {
-            initialX = currentX;
-            initialY = currentY;
-
-            isDragging = false;
-        }
-
-        function setTranslate(xPos, yPos, el) {
-            el.style.left = `${xPos}px`;
-            el.style.top = `${yPos}px`;
-        }
+        // Drag functions removed
 
         function resizeStart(e) {
             e.preventDefault();
@@ -540,14 +437,25 @@
             isResizing = false;
         }
 
-        // Close modal handlers
+        // Close modal with animation
         const closeModal = () => {
-            if (modal) {
-                modal.style.display = 'none';
-                xOffset = 0;
-                yOffset = 0;
-                // Unlock body scroll when modal closes
-                document.body.style.overflow = '';
+            if (modal && modalContent) {
+                // Animate out
+                if (typeof gsap !== 'undefined') {
+                    gsap.to(modalContent, {
+                        opacity: 0,
+                        scale: 0.95,
+                        duration: 0.25,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            modal.style.display = 'none';
+                            document.body.style.overflow = '';
+                        }
+                    });
+                } else {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
             }
         };
 
@@ -567,54 +475,6 @@
         });
 
         // Image slider functionality
-        function initializeImageSlider() {
-            const sliderImages = document.querySelectorAll('.document-header-image');
-            const prevBtn = document.querySelector('.slider-prev');
-            const nextBtn = document.querySelector('.slider-next');
-            let currentIndex = 0;
-
-            if (sliderImages.length <= 1) return; // No slider needed for single image
-
-            function showImage(index) {
-                // Hide all images
-                sliderImages.forEach(img => img.classList.remove('active'));
-
-                // Show selected image
-                if (sliderImages[index]) {
-                    sliderImages[index].classList.add('active');
-                }
-
-                currentIndex = index;
-            }
-
-            // Navigation button handlers
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    const newIndex = (currentIndex - 1 + sliderImages.length) % sliderImages.length;
-                    showImage(newIndex);
-                });
-            }
-
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    const newIndex = (currentIndex + 1) % sliderImages.length;
-                    showImage(newIndex);
-                });
-            }
-
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (modal && modal.style.display === 'flex') {
-                    if (e.key === 'ArrowLeft') {
-                        const newIndex = (currentIndex - 1 + sliderImages.length) % sliderImages.length;
-                        showImage(newIndex);
-                    } else if (e.key === 'ArrowRight') {
-                        const newIndex = (currentIndex + 1) % sliderImages.length;
-                        showImage(newIndex);
-                    }
-                }
-            });
-        }
 
         // Finder modal functionality
         const finderModal = document.getElementById('finder-modal');
@@ -815,5 +675,130 @@
                 closeFinderModal();
             }
         });
+
+        // Open modal for vintage table entries
+        function openVintageTableModal(entryId, row, hoverImageRect) {
+            // Get entry data from file-content.js
+            const entry = fileData[entryId];
+
+            if (!entry) {
+                console.error('Entry not found:', entryId);
+                return;
+            }
+
+            const modal = document.getElementById('file-modal');
+            const modalContent = document.getElementById('file-modal-content');
+            const imageContainer = document.getElementById('modal-image-container');
+            const textContainer = document.getElementById('modal-text-container');
+
+            if (!modal || !modalContent || !imageContainer || !textContainer) {
+                console.error('Modal elements not found');
+                return;
+            }
+
+            // Hide hover image immediately
+            if (hoverImageContainer) {
+                hoverImageContainer.classList.remove('visible');
+            }
+
+            // Create image grid HTML from entry data
+            const images = entry.images && entry.images.length > 0 ? entry.images : ['./img/placeholder.jpeg'];
+            imageContainer.innerHTML = `
+                <div class="modal-image-grid">
+                    ${images.map((img, index) => `
+                        <img src="${img}"
+                             alt="${entry.title} - Image ${index + 1}"
+                             class="modal-grid-image">
+                    `).join('')}
+                </div>
+            `;
+
+            // Set text content from entry data
+            textContainer.innerHTML = entry.content;
+
+            // No slider functionality needed - using scrollable grid
+
+            // Show modal with animation
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // Get close button for animation
+            const closeButton = modal.querySelector('.modal-close-button');
+
+            // "Building" animation - expand from center vertically
+            if (hoverImageRect && typeof gsap !== 'undefined') {
+                // Hide panels and close button initially
+                gsap.set(textContainer, { opacity: 0, y: -20 });
+                gsap.set(imageContainer, { opacity: 0, y: 20 });
+                gsap.set(closeButton, { opacity: 0, scale: 0.5 });
+
+                // Calculate hover image center in viewport
+                const hoverCenterX = hoverImageRect.left + hoverImageRect.width / 2;
+                const hoverCenterY = hoverImageRect.top + hoverImageRect.height / 2;
+
+                // Set initial state - small height at hover position, full width
+                modalContent.style.transform = 'translate(-50%, -50%)';
+                gsap.set(modalContent, {
+                    left: hoverCenterX,
+                    top: hoverCenterY,
+                    width: hoverImageRect.width,
+                    height: hoverImageRect.height,
+                    opacity: 1
+                });
+
+                // Timeline for coordinated animation
+                const tl = gsap.timeline();
+
+                // First: Move to center and expand width
+                tl.to(modalContent, {
+                    left: '50%',
+                    top: '50%',
+                    width: '95vw',
+                    duration: 0.4,
+                    ease: 'power3.out'
+                });
+
+                // Second: Expand height (builds vertically from center)
+                tl.to(modalContent, {
+                    height: '95vh',
+                    duration: 0.5,
+                    ease: 'power3.out'
+                }, '-=0.1');
+
+                // Third: Reveal content as it builds
+                tl.to(textContainer, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                }, '-=0.3');
+
+                tl.to(imageContainer, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                }, '-=0.35');
+
+                // Finally: Fade in close button
+                tl.to(closeButton, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'back.out(2)'
+                }, '-=0.2');
+            } else {
+                // Fallback: simple fade in
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(modalContent,
+                        { opacity: 0, scale: 0.95 },
+                        { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }
+                    );
+                }
+            }
+        }
+
+        // Modal slider functionality
     }
+
 })();

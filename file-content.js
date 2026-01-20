@@ -18,59 +18,95 @@
 
 // Define as global variable so sections-nav.js can access it
 window.fileData = {
-    // ==================== DOCUMENT A ====================
-    'device-hub': {
-        title: 'device-hub',
-        role: 'Role: Designer & Developer',
-        description: 'Project document with implementation strategy and important details',
+
+    // sandbox
+    'sandbox': {
+        title: 'sandbox',
+        role: '',
+        description: 'An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns.',
         images: ['./img/placeholder.jpeg', './img/placeholder.jpeg', './img/placeholder.jpeg'],
         content: `
-            <h1 class="document-main-title">Enabling sellers to monitor and manage devices remotely</h1>
-            <p class="document-metadata">By Nazarena • January 2026 • Project Updates</p>
-
-            <h2 class="document-section-title">Overview</h2>
-            <p class="document-paragraph">Square sellers need devices like POS systems, printers, and scanners to run their businesses. 
-
-In 2022, the only way for sellers to monitor, manage and troubleshoot devices was in-person, by going through each individual POS.</p>
-
-            <h2 class="document-section-title">Key Changes</h2>
-            <p class="document-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <h1>sandbox</h1>
+            <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">🍊 🏵️</p>
+            <h2>About</h2>
+            <p>An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns.</p>
+            <h2>Details</h2>
+            <p>This project showcases innovative design and development work. Add your detailed project description here.</p>
         `
     },
 
-    // ==================== NOTES ====================
-    'notes': {
-        title: 'Notes.pdf',
-        role: 'Role: Designer',
-        description: 'Meeting notes and action items from recent discussions',
+    'alpha': {
+        title: 'Alpha',
+        role: '',
+        description: 'Project Alpha - Innovative user experience design',
         images: ['./img/placeholder.jpeg', './img/placeholder.jpeg'],
         content: `
-            <h1 class="document-main-title">Meeting notes and action items</h1>
-            <p class="document-metadata">By Nazarena • January 2026 • Meeting Notes</p>
-
-            <h2 class="document-section-title">Discussion Points</h2>
-            <p class="document-paragraph">These notes provide an overview of key discussion points and action items from recent meetings. The team reviewed progress on current initiatives and identified next steps for upcoming quarters.</p>
-
-            <h2 class="document-section-title">Action Items</h2>
-            <p class="document-paragraph">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <h1>Alpha</h1>
+            <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">. 🔴</p>
+            <h2>About</h2>
+            <p>Project Alpha - Innovative user experience design</p>
+            <h2>Details</h2>
+            <p>Add your project details here.</p>
         `
     },
 
-    // ==================== REPORT ====================
-    'report': {
-        title: 'Report_Final.pdf',
-        role: 'Role: Designer & Developer',
-        description: 'Final report with findings, conclusions, and recommendations',
+    'beta': {
+        title: 'Beta',
+        role: '',
+        description: 'Design System Beta - Comprehensive component library',
+        images: ['./img/placeholder.jpeg'],
+        content: `
+            <h1>Beta</h1>
+            <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">🌍 📱</p>
+            <h2>About</h2>
+            <p>Design System Beta - Comprehensive component library</p>
+            <h2>Details</h2>
+            <p>Add your project details here.</p>
+        `
+    },
+
+    'brand': {
+        title: 'Brand',
+        role: '',
+        description: 'Brand Guidelines - Complete visual identity system',
         images: ['./img/placeholder.jpeg', './img/placeholder.jpeg', './img/placeholder.jpeg', './img/placeholder.jpeg'],
         content: `
-            <h1 class="document-main-title">Final project report</h1>
-            <p class="document-metadata">By Nazarena • January 2026 • Final Report</p>
+            <h1>Brand</h1>
+            <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">🍊 🌷</p>
+            <h2>About</h2>
+            <p>Brand Guidelines - Complete visual identity system</p>
+            <h2>Details</h2>
+            <p>Add your project details here.</p>
+        `
+    },
 
-            <h2 class="document-section-title">Executive Summary</h2>
-            <p class="document-paragraph">Final report outlining objectives, findings, conclusions, and recommendations. This comprehensive analysis provides strategic insights and actionable recommendations for future development.</p>
+    'mobile': {
+        title: 'Mobile',
+        role: '',
+        description: 'Mobile App UI - Cross-platform mobile experience',
+        images: ['./img/placeholder.jpeg', './img/placeholder.jpeg'],
+        content: `
+            <h1>Mobile</h1>
+            <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">🏵️ 🍊</p>
+            <h2>About</h2>
+            <p>Mobile App UI - Cross-platform mobile experience</p>
+            <h2>Details</h2>
+            <p>Add your project details here.</p>
+        `
+    },
 
-            <h2 class="document-section-title">Recommendations</h2>
-            <p class="document-paragraph">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    'platform': {
+        title: 'Platform',
+        role: '',
+        description: 'Web Platform - Responsive web application design',
+        images: ['./img/placeholder.jpeg'],
+        content: `
+            <h1>Platform</h1>
+            <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">🌍 🏵️</p>
+            <h2>About</h2>
+            <p>Web Platform - Responsive web application design</p>
+            <h2>Details</h2>
+            <p>Add your project details here.</p>
         `
     },
 
