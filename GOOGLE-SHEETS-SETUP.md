@@ -12,22 +12,22 @@ This guide shows you how to manage your portfolio content using Google Sheets in
 
 In the **first row**, add these column headers (exact names, in this order):
 
-| A | B | C | D | E | F | G | H | I | J | K |
-|---|---|---|---|---|---|---|---|---|---|---|
-| **id** | **title** | **shortDescription** | **subtitle** | **role** | **timeline** | **context** | **description** | **techStack** | **githubLink** | **images** |
+| A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|
+| **id** | **title** | **shortDescription** | **role** | **timeline** | **context** | **description** | **techStack** | **githubLink** |
 
 **Column descriptions:**
 - **id**: Unique identifier (lowercase, no spaces) - e.g., `sandbox`, `alpha`, `my-project`
 - **title**: Project name shown in modal - e.g., `sandbox`, `Project Alpha`
 - **shortDescription**: Brief description shown in table row
-- **subtitle**: Tagline/subtitle shown under title in modal - e.g., `AI-Powered Design Tool`
 - **role**: Your role in the project - e.g., `Designer & Developer`, `UX/UI Designer`
 - **timeline**: When the project was done - e.g., `2024`, `Jan - Mar 2024`, `6 months`
 - **context**: Background/context about the project - shown before description
 - **description**: Main detailed description shown in modal
 - **techStack**: (OPTIONAL) Technologies used - e.g., `React, TypeScript, Node.js`
 - **githubLink**: (OPTIONAL) GitHub URL - e.g., `https://github.com/username/project`
-- **images**: Image paths separated by commas - e.g., `./img/img1.jpg,./img/img2.jpg,./img/img3.jpg`
+
+**Note**: Images are now managed in code (see `google-sheets-loader.js` IMAGE_MAPPING), not in Google Sheets.
 
 ## Step 3: Add Your Projects
 
@@ -35,16 +35,15 @@ Starting in **row 2**, add one project per row.
 
 **Example:**
 
-| id | title | shortDescription | subtitle | role | timeline | context | description | techStack | githubLink | images |
-|----|-------|------------------|----------|------|----------|---------|-------------|-----------|------------|--------|
-| sandbox | sandbox | An AI-native prototyping tool and code kit | AI-Powered Design Tool | Designer & Developer | 2024 | Square needed a way to rapidly prototype new features while maintaining design consistency. | An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns. Built to enable rapid experimentation while maintaining design consistency across products. | React, TypeScript, GSAP | https://github.com/username/sandbox | ./img/sandbox1.jpg,./img/sandbox2.jpg,./img/sandbox3.jpg |
-| alpha | Project Alpha | Innovative user experience design | Redefining Mobile Experiences | UX/UI Designer | Jan - Mar 2024 | Users were struggling with complex workflows on mobile devices. | Project Alpha focuses on creating intuitive and delightful user experiences. This project involved extensive user research, prototyping, and iterative design to deliver a seamless product. | | | ./img/alpha1.jpg,./img/alpha2.jpg |
+| id | title | shortDescription | role | timeline | context | description | techStack | githubLink |
+|----|-------|------------------|------|----------|---------|-------------|-----------|------------|
+| sandbox | sandbox | An AI-native prototyping tool and code kit | Designer & Developer | 2024 | Square needed a way to rapidly prototype new features while maintaining design consistency. | An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns. Built to enable rapid experimentation while maintaining design consistency across products. | React, TypeScript, GSAP | https://github.com/username/sandbox |
+| alpha | Project Alpha | Innovative user experience design | UX/UI Designer | Jan - Mar 2024 | Users were struggling with complex workflows on mobile devices. | Project Alpha focuses on creating intuitive and delightful user experiences. This project involved extensive user research, prototyping, and iterative design to deliver a seamless product. | | |
 
 **Tips:**
-- You can add as many images as you want (comma-separated)
-- If you don't have images yet, use: `./img/placeholder.jpeg`
-- subtitle, context, techStack and githubLink are optional - leave blank if not applicable
+- context, techStack and githubLink are optional - leave blank if not applicable
 - context and description can be as long as you want (multiple paragraphs work)
+- Images are managed in `google-sheets-loader.js` (IMAGE_MAPPING object)
 
 ## Step 4: Share Your Sheet (Make it Public)
 
@@ -78,7 +77,51 @@ Copy just the middle part: `1a2b3c4d5e6f7g8h9i0j`
    ```
 4. Save the file
 
-## Step 7: Test It
+## Step 7: Configure Images
+
+Images are now managed in code for better control over file paths. Each project can have:
+- **thumbnail**: Static image shown in the table
+- **hover**: Animated GIF shown on hover
+- **modal**: Array of images shown when project is opened
+
+1. Open the file: `google-sheets-loader.js`
+2. Find the `IMAGE_MAPPING` object near the top:
+   ```javascript
+   const IMAGE_MAPPING = {
+       'sandbox': {
+           thumbnail: './img/sandbox-thumb.jpg',
+           hover: './img/sandbox-hover.gif',
+           modal: ['./img/sandbox1.jpg', './img/sandbox2.jpg']
+       },
+       'alpha': {
+           thumbnail: './img/alpha-thumb.jpg',
+           hover: './img/alpha-hover.gif',
+           modal: ['./img/alpha1.jpg']
+       },
+       // Add more projects here
+   };
+   ```
+3. Add your project images using the project `id` as the key:
+   ```javascript
+   'my-project': {
+       thumbnail: './img/my-project-thumb.jpg',
+       hover: './img/my-project-hover.gif',
+       modal: ['./img/my-project-1.jpg', './img/my-project-2.jpg']
+   },
+   ```
+4. Save the file
+
+**Tips:**
+- The key must match the `id` column in your Google Sheet
+- **thumbnail**: Shows in the table by default (use .jpg, .png, .webp)
+- **hover**: Shows when user hovers - can be:
+  - Video file (**.mp4, .mov, .webm**) - recommended for better quality and smaller size
+  - GIF file (**.gif**) - also supported but larger and lower quality
+- **modal**: Array of images shown in the modal (can be as many as you want)
+- If no images are defined for a project, it will use placeholder images
+- Videos auto-play and loop on hover with no audio
+
+## Step 8: Test It
 
 1. Refresh your website
 2. Open the browser console (F12 → Console tab)
@@ -88,14 +131,25 @@ Copy just the middle part: `1a2b3c4d5e6f7g8h9i0j`
 ## How to Update Content
 
 **To add a new project:**
-1. Open your Google Sheet
-2. Add a new row with the project details
+1. Open your Google Sheet and add a new row with the project details
+2. Open `google-sheets-loader.js` and add images to the `IMAGE_MAPPING`:
+   ```javascript
+   'new-project-id': ['./img/new1.jpg', './img/new2.jpg'],
+   ```
 3. Refresh your website - done!
 
-**To edit existing projects:**
+**To edit existing project text:**
 1. Open your Google Sheet
-2. Edit the cells
+2. Edit the cells (title, description, role, etc.)
 3. Refresh your website - changes appear immediately!
+
+**To change project images:**
+1. Open `google-sheets-loader.js`
+2. Update the image paths in `IMAGE_MAPPING` for the project:
+   - `thumbnail`: Change the static table image
+   - `hover`: Change the hover GIF
+   - `modal`: Update the array of modal images
+3. Refresh your website - done!
 
 **To reorder projects:**
 1. Just drag rows up/down in your Google Sheet
@@ -129,7 +183,12 @@ To stop using Google Sheets and go back to the JavaScript file:
 
 ## Google Sheet Template
 
-You can make a copy of this template to get started:
-[Copy the exact column structure from the example above]
+Your sheet should have **9 columns** (A through I):
 
-Once you've set this up, you'll never need to edit code files to update your portfolio content!
+```
+id | title | shortDescription | role | timeline | context | description | techStack | githubLink
+```
+
+Once you've set this up, updating content is easy:
+- **Text content**: Edit directly in Google Sheets (no code changes needed!)
+- **Images**: Edit the IMAGE_MAPPING object in `google-sheets-loader.js`

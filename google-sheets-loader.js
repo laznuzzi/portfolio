@@ -6,14 +6,12 @@
 //    A: id (e.g., "sandbox", "alpha") - must match data-entry in HTML
 //    B: title (e.g., "sandbox")
 //    C: shortDescription (shown in table row)
-//    D: subtitle (shown under title in modal - e.g., "AI-Powered Design Tool")
-//    E: role (e.g., "Designer & Developer", "UX/UI Designer")
-//    F: timeline (e.g., "2024", "Jan - Mar 2024", "6 months")
-//    G: context (background/context shown before description)
-//    H: description (main content shown in modal)
-//    I: techStack (optional - e.g., "React, TypeScript, Node.js")
-//    J: githubLink (optional - e.g., "https://github.com/username/project")
-//    K: images (comma-separated URLs, e.g., "./img/1.jpg,./img/2.jpg,./img/3.jpg")
+//    D: role (e.g., "Designer & Developer", "UX/UI Designer")
+//    E: timeline (e.g., "2024", "Jan - Mar 2024", "6 months")
+//    F: context (background/context shown before description)
+//    G: description (main content shown in modal)
+//    H: techStack (optional - e.g., "React, TypeScript, Node.js")
+//    I: githubLink (optional - e.g., "https://github.com/username/project")
 //
 // 2. Fill in your projects (one row per project)
 //
@@ -29,6 +27,46 @@
 // 5. Paste your Sheet ID below:
 
 const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your Portfolio Content Sheet
+
+// ==================== IMAGE MAPPING ====================
+// Define images for each project by ID
+// Images are no longer managed in Google Sheets - edit them here instead
+//
+// For 'hover', you can use:
+//   - Video files (.mp4, .mov, .webm) - RECOMMENDED for better quality & smaller size
+//   - GIF files (.gif) - also supported but larger & lower quality
+const IMAGE_MAPPING = {
+    'sandbox': {
+        thumbnail: './img/sandbox-thumb.jpg',
+        hover: './img/sandbox-hover.gif',
+        modal: ['./img/sandbox1.jpg', './img/sandbox2.jpg', './img/sandbox3.jpg']
+    },
+    'vibe-code kit': {
+        thumbnail: './img/vibe-thumb.jpg',
+        hover: './img/vibe-hover.gif',
+        modal: ['./img/vibe1.jpg', './img/vibe2.jpg']
+    },
+    'g2': {
+        thumbnail: './img/g2-thumb.png',
+        hover: './img/g2-hover.mp4',
+        modal: ['./img/g2-1.mp4', './img/g2-2.png', './img/g2-3.png', './img/g2-4.mp4']
+    },
+    'rdm': {
+        thumbnail: './img/rdm-thumb.png',
+        hover: './img/rdm-hover.mp4',
+        modal: ['./img/rdm-preview.png']
+    },
+    'design-system': {
+        thumbnail: './img/design-system-thumb.jpg',
+        hover: './img/design-system-hover.gif',
+        modal: ['./img/design-system1.jpg', './img/design-system2.jpg']
+    },
+    'automation-portal': {
+        thumbnail: './img/automation-thumb.jpg',
+        hover: './img/automation-hover.gif',
+        modal: ['./img/placeholder.jpeg']
+    }
+};
 
 // ==================== CODE (Don't modify below) ====================
 
@@ -65,20 +103,17 @@ const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your 
             data.forEach(row => {
                 if (!row.id || !row.title) return; // Skip empty rows
 
-                // Parse images (comma-separated)
-                const images = row.images
-                    ? row.images.split(',').map(img => img.trim())
-                    : ['./img/placeholder.jpeg'];
+                // Get images from mapping (defined in code above)
+                const imageData = IMAGE_MAPPING[row.id] || {
+                    thumbnail: './img/placeholder.jpeg',
+                    hover: './img/placeholder.jpeg',
+                    modal: ['./img/placeholder.jpeg']
+                };
+                const images = imageData.modal || ['./img/placeholder.jpeg'];
 
                 // Create content HTML with new structure
                 const content = `
                     <h1>${row.title}</h1>
-
-                    ${row.subtitle ? `
-                        <p style="font-size: var(--font-size-lg); color: var(--text-secondary); margin-bottom: var(--space-4);">
-                            ${row.subtitle}
-                        </p>
-                    ` : ''}
 
                     ${row.role ? `
                         <p style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--text-primary); margin-bottom: var(--space-2);">
@@ -94,20 +129,20 @@ const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your 
 
                     ${row.context ? `
                         <h2>Context</h2>
-                        <p>${row.context}</p>
+                        <p style="color: var(--text-primary);">${row.context}</p>
                     ` : ''}
 
                     <h2>Description</h2>
-                    <p>${row.description || 'Project description coming soon.'}</p>
+                    <p style="color: var(--text-primary);">${row.description || 'Project description coming soon.'}</p>
 
                     ${row.techStack ? `
                         <h2>Tech Stack</h2>
-                        <p>${row.techStack}</p>
+                        <p style="color: var(--text-primary);">${row.techStack}</p>
                     ` : ''}
 
                     ${row.githubLink ? `
                         <h2>Links</h2>
-                        <p><a href="${row.githubLink}" target="_blank" rel="noopener noreferrer" style="color: var(--text-primary); text-decoration: underline;">View on GitHub →</a></p>
+                        <p style="color: var(--text-primary);"><a href="${row.githubLink}" target="_blank" rel="noopener noreferrer" style="color: var(--text-primary); text-decoration: underline;">View on GitHub →</a></p>
                     ` : ''}
                 `;
 
@@ -195,32 +230,41 @@ const GOOGLE_SHEET_ID = '1L9NDhmwXF08koR6md64g0WRfEuMyPhLiZhZBmJCamN4'; // Your 
         data.forEach((row, index) => {
             if (!row.id || !row.title) return;
 
-            const images = row.images
-                ? row.images.split(',').map(img => img.trim())
-                : ['./img/placeholder.jpeg'];
-
-            const firstImage = images[0];
+            // Get images from mapping (defined in code above)
+            const imageData = IMAGE_MAPPING[row.id] || {
+                thumbnail: './img/placeholder.jpeg',
+                hover: './img/placeholder.jpeg',
+                modal: ['./img/placeholder.jpeg']
+            };
+            const thumbnailImage = imageData.thumbnail;
+            const hoverImage = imageData.hover;
 
             const tr = document.createElement('tr');
             tr.className = 'vintage-table-row';
             tr.setAttribute('data-entry', row.id);
+
+            // Add lock icon to first 3 projects
+            const lockIcon = index < 3 ? '<span class="lock-icon">🔒</span>' : '';
 
             // Mark first 3 as locked
             if (index < 3) {
                 tr.setAttribute('data-locked', 'true');
             }
 
-            // Add lock icon to first 3 projects
-            const lockIcon = index < 3 ? '<span class="lock-icon">🔒</span>' : '';
+            // Check if hover is a video file
+            const isVideo = /\.(mp4|mov|webm)$/i.test(hoverImage);
+            const hoverMediaTag = isVideo
+                ? `<video src="${hoverImage}" autoplay loop muted playsinline></video>`
+                : `<img src="${hoverImage}" alt="${row.title}">`;
 
             tr.innerHTML = `
-                <td class="col-title">${lockIcon}${row.title}</td>
+                <td class="col-title">${lockIcon}<span>${row.title}</span></td>
                 <td class="col-description">${row.shortDescription || ''}</td>
                 <td class="vintage-table-thumbnail">
-                    <img src="${firstImage}" alt="${row.title}">
+                    <img src="${thumbnailImage}" alt="${row.title}">
                     <div class="vintage-table-hover-image">
                         <div class="hover-image-wrapper">
-                            <img src="${firstImage}" alt="${row.title}">
+                            ${hoverMediaTag}
                         </div>
                     </div>
                 </td>

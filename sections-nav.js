@@ -37,6 +37,150 @@
     let currentRowIndex = -1;
     let hoverImageContainer = null;
 
+    // ==================== PASSWORD PROTECTION ====================
+    // TO CHANGE PASSWORD:
+    // 1. Open browser console
+    // 2. Run: await crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword')).then(h => console.log(Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('')))
+    // 3. Copy the hash and replace CORRECT_PASSWORD_HASH below
+    // Current password: 'password'
+    const CORRECT_PASSWORD_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; // SHA-256 hash of 'password'
+    const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    let pendingEntryId = null;
+    let pendingRow = null;
+    let pendingHoverImageRect = null;
+
+    // Hash password using SHA-256
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hash = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hash));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
+    // Check if projects are currently unlocked
+    function areProjectsUnlocked() {
+        const unlockExpiry = localStorage.getItem('projectsUnlockedUntil');
+        if (unlockExpiry && Date.now() < parseInt(unlockExpiry)) {
+            return true;
+        }
+        // Clean up expired unlock
+        localStorage.removeItem('projectsUnlockedUntil');
+        return false;
+    }
+
+    // Show password modal
+    function showPasswordModal(entryId, row, hoverImageRect) {
+        pendingEntryId = entryId;
+        pendingRow = row;
+        pendingHoverImageRect = hoverImageRect;
+
+        const modal = document.getElementById('password-modal');
+        const input = document.getElementById('password-input');
+        const error = document.getElementById('password-error');
+
+        if (modal && input) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            error.style.display = 'none';
+            input.value = '';
+
+            // Focus input after a brief delay
+            setTimeout(() => input.focus(), 100);
+        }
+    }
+
+    // Hide password modal
+    function hidePasswordModal() {
+        const modal = document.getElementById('password-modal');
+        const input = document.getElementById('password-input');
+        const error = document.getElementById('password-error');
+
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            error.style.display = 'none';
+            input.value = '';
+        }
+
+        pendingEntryId = null;
+        pendingRow = null;
+        pendingHoverImageRect = null;
+    }
+
+    // Verify password and unlock
+    async function verifyAndUnlock() {
+        const input = document.getElementById('password-input');
+        const error = document.getElementById('password-error');
+        const password = input.value;
+
+        if (!password) {
+            error.textContent = 'Please enter a password';
+            error.style.display = 'block';
+            return;
+        }
+
+        const hash = await hashPassword(password);
+
+        if (hash === CORRECT_PASSWORD_HASH) {
+            // Store unlock state with expiry
+            const expiry = Date.now() + UNLOCK_DURATION;
+            localStorage.setItem('projectsUnlockedUntil', expiry);
+
+            // Hide modal and open pending project
+            hidePasswordModal();
+
+            if (pendingEntryId) {
+                openVintageTableModal(pendingEntryId, pendingRow, pendingHoverImageRect);
+            }
+        } else {
+            error.textContent = 'Incorrect password';
+            error.style.display = 'block';
+            input.value = '';
+            input.focus();
+        }
+    }
+
+    // Setup password modal event listeners
+    function setupPasswordModal() {
+        const unlockButton = document.getElementById('unlock-button');
+        const cancelButton = document.getElementById('cancel-password-button');
+        const input = document.getElementById('password-input');
+        const overlay = document.querySelector('.password-modal-overlay');
+
+        if (unlockButton) {
+            unlockButton.addEventListener('click', verifyAndUnlock);
+        }
+
+        if (cancelButton) {
+            cancelButton.addEventListener('click', hidePasswordModal);
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', hidePasswordModal);
+        }
+
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    verifyAndUnlock();
+                }
+            });
+        }
+
+        // Expose helper function to console for easy password hash generation
+        window.generatePasswordHash = async function(password) {
+            const hash = await hashPassword(password);
+            console.log('Password Hash for "' + password + '":');
+            console.log(hash);
+            console.log('\nReplace CORRECT_PASSWORD_HASH in sections-nav.js with this hash.');
+            return hash;
+        };
+
+        console.log('💡 To generate a new password hash, run: generatePasswordHash("yourpassword")');
+    }
+
     // Open modal for vintage table entries - defined at module scope
     function openVintageTableModal(entryId, row, hoverImageRect) {
         console.log('openVintageTableModal called with:', entryId);
@@ -209,14 +353,35 @@
                 // Create individual image containers for each row
                 vintageTableRows.forEach((row, index) => {
                     const hoverImage = row.querySelector('.vintage-table-hover-image');
-                    const imageSrc = hoverImage?.querySelector('img')?.src;
-                    if (imageSrc) {
+                    const imgElement = hoverImage?.querySelector('img');
+                    const videoElement = hoverImage?.querySelector('video');
+
+                    if (imgElement || videoElement) {
                         const imageContainer = document.createElement('div');
                         imageContainer.className = 'hover-image-item';
-                        const img = document.createElement('img');
-                        img.src = imageSrc;
-                        img.alt = hoverImage.querySelector('img').alt;
-                        imageContainer.appendChild(img);
+
+                        if (videoElement) {
+                            // Clone video element for hover
+                            const video = document.createElement('video');
+                            video.src = videoElement.src;
+                            video.autoplay = true;
+                            video.loop = true;
+                            video.muted = true;
+                            video.playsInline = true;
+                            video.style.width = '100%';
+                            video.style.height = 'auto';
+                            imageContainer.appendChild(video);
+
+                            // Explicitly play video after appending
+                            video.play().catch(err => console.log('Video autoplay prevented:', err));
+                        } else if (imgElement) {
+                            // Clone image element for hover
+                            const img = document.createElement('img');
+                            img.src = imgElement.src;
+                            img.alt = imgElement.alt;
+                            imageContainer.appendChild(img);
+                        }
+
                         slider.appendChild(imageContainer);
                     }
                 });
@@ -230,9 +395,11 @@
         vintageTableRows.forEach((row, index) => {
             const hoverImage = row.querySelector('.vintage-table-hover-image');
             const imageWrapper = hoverImage?.querySelector('.hover-image-wrapper');
-            const imageSrc = hoverImage?.querySelector('img')?.src;
-            
-            if (hoverImage && imageWrapper && imageSrc) {
+            const imgElement = hoverImage?.querySelector('img');
+            const videoElement = hoverImage?.querySelector('video');
+            const hasMedia = imgElement || videoElement;
+
+            if (hoverImage && imageWrapper && hasMedia) {
                 // Track mouse movement anywhere on the row
                 row.addEventListener('mouseenter', (e) => {
                     const container = createSharedHoverContainer();
@@ -288,12 +455,23 @@
             // Click handler
             row.addEventListener('click', (e) => {
                 const entryId = row.getAttribute('data-entry');
-                console.log('Row clicked, entryId:', entryId);
+                const isLocked = row.getAttribute('data-locked') === 'true';
+
+                console.log('Row clicked, entryId:', entryId, 'isLocked:', isLocked);
                 console.log('fileData:', window.fileData);
                 console.log('Entry exists:', !!window.fileData[entryId]);
+
                 // Get hover image position before it disappears
                 const hoverImageRect = hoverImageContainer ? hoverImageContainer.getBoundingClientRect() : null;
-                openVintageTableModal(entryId, row, hoverImageRect);
+
+                // Check if locked and not unlocked
+                if (isLocked && !areProjectsUnlocked()) {
+                    console.log('Project is locked, showing password modal');
+                    showPasswordModal(entryId, row, hoverImageRect);
+                } else {
+                    console.log('Opening project modal');
+                    openVintageTableModal(entryId, row, hoverImageRect);
+                }
             });
         });
         
@@ -315,6 +493,9 @@
 
         // Setup vintage table rows initially
         setupVintageTableRows();
+
+        // Setup password modal
+        setupPasswordModal();
 
         // Listen for table updates from Google Sheets
         window.addEventListener('vintageTableUpdated', () => {
@@ -530,15 +711,38 @@
             console.log('Setting modal content for:', fileId);
             console.log('File data:', file);
 
-            // Create image grid HTML (vertical scrollable grid)
+            // Create image/video grid HTML (vertical scrollable grid)
             const images = file.images && file.images.length > 0 ? file.images : ['./img/placeholder.jpeg'];
-            imageContainer.innerHTML = `
-                <div class="modal-image-grid">
-                    ${images.map((img, index) => `
-                        <img src="${img}"
+            console.log('Modal images/videos:', images);
+
+            const mediaHTML = images.map((mediaPath, index) => {
+                const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
+                console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}`);
+
+                if (isVideo) {
+                    return `
+                        <video src="${mediaPath}"
+                               controls
+                               loop
+                               playsinline
+                               preload="metadata"
+                               class="modal-grid-image modal-grid-video"
+                               style="width: 100%; height: auto; display: block; background: #000;">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                } else {
+                    return `
+                        <img src="${mediaPath}"
                              alt="${file.title} - Image ${index + 1}"
                              class="modal-grid-image">
-                    `).join('')}
+                    `;
+                }
+            }).join('');
+
+            imageContainer.innerHTML = `
+                <div class="modal-image-grid">
+                    ${mediaHTML}
                 </div>
             `;
 
@@ -618,18 +822,55 @@
         // Close modal with animation
         const closeModal = () => {
             if (modal && modalContent) {
-                // Animate out
+                const imageContainer = document.getElementById('modal-image-container');
+                const textContainer = document.getElementById('modal-text-container');
+                const closeButton = modal.querySelector('.modal-close-button');
+
+                // Reverse "building" animation - collapse inwards
                 if (typeof gsap !== 'undefined') {
-                    gsap.to(modalContent, {
-                        opacity: 0,
-                        scale: 0.95,
-                        duration: 0.25,
-                        ease: 'power2.in',
+                    const tl = gsap.timeline({
                         onComplete: () => {
                             modal.style.display = 'none';
                             document.body.style.overflow = '';
                         }
                     });
+
+                    // First: Fade out close button
+                    tl.to(closeButton, {
+                        opacity: 0,
+                        scale: 0.5,
+                        duration: 0.2,
+                        ease: 'power2.in'
+                    });
+
+                    // Second: Fade out content
+                    tl.to([textContainer, imageContainer], {
+                        opacity: 0,
+                        y: 10,
+                        duration: 0.3,
+                        ease: 'power2.in'
+                    }, '-=0.1');
+
+                    // Third: Collapse height (reverse of expand)
+                    tl.to(modalContent, {
+                        height: 200,
+                        duration: 0.4,
+                        ease: 'power3.in'
+                    }, '-=0.2');
+
+                    // Fourth: Collapse width to center
+                    tl.to(modalContent, {
+                        width: 200,
+                        duration: 0.3,
+                        ease: 'power3.in'
+                    }, '-=0.1');
+
+                    // Finally: Fade out completely
+                    tl.to(modalContent, {
+                        opacity: 0,
+                        duration: 0.2,
+                        ease: 'power2.in'
+                    }, '-=0.1');
                 } else {
                     modal.style.display = 'none';
                     document.body.style.overflow = '';

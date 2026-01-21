@@ -1,4 +1,5 @@
 /* ==================== CAPSULE STYLING ====================
+   HIDDEN FOR TESTING - Using banner shapes instead
    Edit these values to customize the physics capsules in the opening animation
    ========================================================== */
 
@@ -17,7 +18,7 @@
 
   /* Font styling for text inside capsules
      Format: weight size font-family */
-  --capsule-text-font: 700 72px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --capsule-text-font: 700 57.6px Chalet, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
 }
 
 /* Dark mode capsule styles */
@@ -38,9 +39,16 @@ No border capsules:
 --capsule-stroke-width: 0;
 
 Larger text:
---capsule-text-font: 700 36px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+--capsule-text-font: 400 36px Milagros, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
 
 Transparent capsules:
 --capsule-fill-color: rgba(255, 255, 255, 0.3);
 
 */
+
+/* Canvas must be visible for mouse tracking, but we make it transparent */
+.physics-container canvas {
+  display: block !important; /* CRITICAL: Must be visible for mouse events */
+  opacity: 0 !important; /* Invisible but still captures mouse */
+  pointer-events: auto !important; /* Must capture mouse events */
+}

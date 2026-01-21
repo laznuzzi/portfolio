@@ -35,7 +35,8 @@
         <!-- Physics Canvas Container -->
         <div id="physics-container" class="physics-container" style="display: none;"></div>
 
-        <div class="opening-scroll-indicator">Scroll to continue</div>
+        <!-- End of Selection -->
+```
     </div>
 
     <!-- Main content wrapper that will be hidden initially -->
@@ -43,6 +44,15 @@
 
     <!-- ==================== HEADER SECTION ==================== -->
     <header id="app-header" class="app-header">
+        <nav class="main-nav">
+            <div class="nav-left">
+                <span class="nav-name">Nazarena</span>
+            </div>
+            <div class="nav-right">
+                <a href="https://www.linkedin.com/in/nazarena" target="_blank" rel="noopener noreferrer" class="nav-link">LinkedIn</a>
+                <a href="https://github.com/nazarena" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
+            </div>
+        </nav>
     </header>
 
     <!-- ==================== MAIN APPLICATION CONTAINER ==================== -->
@@ -65,191 +75,25 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
             <!-- ==================== MAIN CONTENT AREA ==================== -->
             <section id="main-content-section" class="main-content-section">
 
-                <!-- ==================== FILES SCATTERED ON PAGE ==================== -->
-                <div class="page-files-container">
-                    <!-- File 1 -->
-                    <button class="page-file" data-file="device-hub" style="top: 15%; left: 20%;">
-                        <div class="page-file-thumbnail">
-                            <img src="./img/placeholder.jpeg" alt="Document A">
-                        </div>
-                        <div class="page-file-name">device-hub</div>
-                    </button>
-
-                    <!-- File 2 -->
-                    <button class="page-file" data-file="notes" style="top: 50%; left: 15%;">
-                        <div class="page-file-thumbnail">
-                            <img src="./img/placeholder.jpeg" alt="Notes">
-                        </div>
-                        <div class="page-file-name">Notes.pdf</div>
-                    </button>
-
-                    <!-- File 3 -->
-                    <button class="page-file" data-file="report" style="top: 28%; left: 60%;">
-                        <div class="page-file-thumbnail">
-                            <img src="./img/placeholder.jpeg" alt="Report">
-                        </div>
-                        <div class="page-file-name">Report_Final.pdf</div>
-                    </button>
-
-                    <!-- File 4 -->
-                    <button class="page-file" data-file="presentation" style="top: 62%; left: 65%;">
-                        <div class="page-file-thumbnail">
-                            <img src="./img/placeholder.jpeg" alt="Presentation">
-                        </div>
-                        <div class="page-file-name">Presentation.pdf</div>
-                    </button>
-
-                    <!-- File 5 - Website Folder -->
-                    <button class="page-file" data-file="website" style="top: 40%; left: 45%;">
-                        <div class="page-file-thumbnail">
-                            <img src="./img/folder.jpeg" alt="Website">
-                        </div>
-                        <div class="page-file-name">website</div>
-                    </button>
-                </div>
-
-                <!-- ==================== PROJECT CARD DECK ==================== -->
-                <div class="project-cards-container" style="display: none;">
-                    <div class="project-cards-deck">
-
-                        <!-- Card 1: Device Hub -->
-                        <div class="project-card" data-file="device-hub">
-                            <div class="project-card-inner">
-                                <!-- Front: Image with vertical text -->
-                                <div class="project-card-front">
-                                    <div class="project-card-front-left">Device Hub</div>
-                                    <div class="project-card-front-center">
-                                        <img src="./img/placeholder.jpeg" alt="Device Hub Project">
-                                    </div>
-                                    <div class="project-card-front-right">UX/UI Design</div>
-                                </div>
-                                <!-- Back: Info -->
-                                <div class="project-card-back">
-                                    <h3 class="project-card-back-title">Device Hub</h3>
-                                    <p class="project-card-back-role">UX/UI Design</p>
-                                    <p class="project-card-back-description">
-                                        IoT device management platform with real-time monitoring
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2: Notes -->
-                        <div class="project-card" data-file="notes">
-                            <div class="project-card-inner">
-                                <div class="project-card-front">
-                                    <div class="project-card-front-left">Notes App</div>
-                                    <div class="project-card-front-center">
-                                        <img src="./img/placeholder.jpeg" alt="Notes Project">
-                                    </div>
-                                    <div class="project-card-front-right">Product Design</div>
-                                </div>
-                                <div class="project-card-back">
-                                    <h3 class="project-card-back-title">Notes App</h3>
-                                    <p class="project-card-back-role">Product Design</p>
-                                    <p class="project-card-back-description">
-                                        Minimalist note-taking app with seamless sync
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: Report -->
-                        <div class="project-card" data-file="report">
-                            <div class="project-card-inner">
-                                <div class="project-card-front">
-                                    <div class="project-card-front-left">Analytics</div>
-                                    <div class="project-card-front-center">
-                                        <img src="./img/placeholder.jpeg" alt="Report Project">
-                                    </div>
-                                    <div class="project-card-front-right">Data Viz</div>
-                                </div>
-                                <div class="project-card-back">
-                                    <h3 class="project-card-back-title">Analytics Dashboard</h3>
-                                    <p class="project-card-back-role">Data Visualization</p>
-                                    <p class="project-card-back-description">
-                                        Real-time analytics with interactive charts and insights
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 4: Presentation -->
-                        <div class="project-card" data-file="presentation">
-                            <div class="project-card-inner">
-                                <div class="project-card-front">
-                                    <div class="project-card-front-left">Brand System</div>
-                                    <div class="project-card-front-center">
-                                        <img src="./img/placeholder.jpeg" alt="Presentation Project">
-                                    </div>
-                                    <div class="project-card-front-right">Brand Design</div>
-                                </div>
-                                <div class="project-card-back">
-                                    <h3 class="project-card-back-title">Brand System</h3>
-                                    <p class="project-card-back-role">Brand Design</p>
-                                    <p class="project-card-back-description">
-                                        Complete visual identity and design system
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 5: Website -->
-                        <div class="project-card" data-file="website">
-                            <div class="project-card-inner">
-                                <div class="project-card-front">
-                                    <div class="project-card-front-left">Portfolio</div>
-                                    <div class="project-card-front-center">
-                                        <img src="./img/folder.jpeg" alt="Website Project">
-                                    </div>
-                                    <div class="project-card-front-right">Web Dev</div>
-                                </div>
-                                <div class="project-card-back">
-                                    <h3 class="project-card-back-title">Portfolio Website</h3>
-                                    <p class="project-card-back-role">Web Development</p>
-                                    <p class="project-card-back-description">
-                                        Interactive portfolio with physics animations
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 6: Mobile App -->
-                        <div class="project-card" data-file="device-hub">
-                            <div class="project-card-inner">
-                                <div class="project-card-front">
-                                    <div class="project-card-front-left">Mobile App</div>
-                                    <div class="project-card-front-center">
-                                        <img src="./img/placeholder.jpeg" alt="Mobile App Project">
-                                    </div>
-                                    <div class="project-card-front-right">App Design</div>
-                                </div>
-                                <div class="project-card-back">
-                                    <h3 class="project-card-back-title">Mobile App</h3>
-                                    <p class="project-card-back-role">App Design</p>
-                                    <p class="project-card-back-description">
-                                        Cross-platform mobile experience
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
                 <!-- ==================== VINTAGE TABLE SECTION ==================== -->
                 <section class="vintage-table-section">
-                    <h2 class="archives-title">archives</h2>
+                    <h2 class="archives-title">Archives</h2>
+                    <div class="vintage-table-filters">
+                        <button class="vintage-filter-btn filter-left">
+                            <span class="filter-icon filter-icon-filled"></span>
+                            <span class="filter-text">Recent Projects</span>
+                        </button>
+                        <button class="vintage-filter-btn filter-right">
+                            <span class="filter-icon filter-icon-outline"></span>
+                            <span class="filter-text">Select Clients</span>
+                        </button>
+                    </div>
                     <div class="vintage-table-container">
                         <table class="vintage-table">
                             <tbody>
                                 <tr class="vintage-table-row" data-entry="sandbox">
-                                    <td class="col-title">sandbox</td>
+                                    <td class="col-title"><span>sandbox</span></td>
                                     <td class="col-description">An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns.</td>
-                                    <td class="col-icons">
-                                        <span class="table-icon">🍊</span>
-                                        <span class="table-icon">🏵️</span>
-                                    </td>
                                     <td class="vintage-table-thumbnail">
                                         <img src="./img/placeholder.jpeg" alt="Badfest Volume 03">
                                         <div class="vintage-table-hover-image">
@@ -260,12 +104,8 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
                                     </td>
                                 </tr>
                                 <tr class="vintage-table-row" data-entry="alpha">
-                                    <td class="col-title">Alpha</td>
+                                    <td class="col-title"><span>Alpha</span></td>
                                     <td class="col-description">Project Alpha - Innovative user experience design</td>
-                                    <td class="col-icons">
-                                        <span class="table-icon">.</span>
-                                        <span class="table-icon">🔴</span>
-                                    </td>
                                     <td class="vintage-table-thumbnail">
                                         <img src="./img/avatar.jpeg" alt="Project Alpha">
                                         <div class="vintage-table-hover-image">
@@ -276,12 +116,8 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
                                     </td>
                                 </tr>
                                 <tr class="vintage-table-row" data-entry="beta">
-                                    <td class="col-title">Beta</td>
+                                    <td class="col-title"><span>Beta</span></td>
                                     <td class="col-description">Design System Beta - Comprehensive component library</td>
-                                    <td class="col-icons">
-                                        <span class="table-icon">⚙️</span>
-                                        <span class="table-icon">📐</span>
-                                    </td>
                                     <td class="vintage-table-thumbnail">
                                         <img src="./img/folder.jpeg" alt="Design System Beta">
                                         <div class="vintage-table-hover-image">
@@ -292,14 +128,10 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
                                     </td>
                                 </tr>
                                 <tr class="vintage-table-row" data-entry="brand">
-                                    <td class="col-title">Brand</td>
+                                    <td class="col-title"><span>Brand</span></td>
                                     <td class="col-description">Brand Guidelines - Complete visual identity system</td>
-                                    <td class="col-icons">
-                                        <span class="table-icon">🎯</span>
-                                        <span class="table-icon">✨</span>
-                                    </td>
                                     <td class="vintage-table-thumbnail">
-                                        <img src="./img/31359436288.jpg" alt="Brand Guidelines">
+                                        <img src="./img/device-hub-preview.png" alt="Brand Guidelines">
                                         <div class="vintage-table-hover-image">
                                             <div class="hover-image-wrapper">
                                                 <img src="./img/31359436288.jpg" alt="Brand Guidelines">
@@ -308,12 +140,8 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
                                     </td>
                                 </tr>
                                 <tr class="vintage-table-row" data-entry="mobile">
-                                    <td class="col-title">Mobile</td>
+                                    <td class="col-title"><span>Mobile</span></td>
                                     <td class="col-description">Mobile App UI - Cross-platform mobile experience</td>
-                                    <td class="col-icons">
-                                        <span class="table-icon">📱</span>
-                                        <span class="table-icon">🎨</span>
-                                    </td>
                                     <td class="vintage-table-thumbnail">
                                         <img src="./img/placeholder.jpeg" alt="Mobile App UI">
                                         <div class="vintage-table-hover-image">
@@ -324,12 +152,8 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
                                     </td>
                                 </tr>
                                 <tr class="vintage-table-row" data-entry="platform">
-                                    <td class="col-title">Platform</td>
+                                    <td class="col-title"><span>Platform</span></td>
                                     <td class="col-description">Web Platform - Responsive web application design</td>
-                                    <td class="col-icons">
-                                        <span class="table-icon">🌐</span>
-                                        <span class="table-icon">💻</span>
-                                    </td>
                                     <td class="vintage-table-thumbnail">
                                         <img src="./img/avatar.jpeg" alt="Web Platform">
                                         <div class="vintage-table-hover-image">
@@ -348,30 +172,40 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
             </section>
         </div>
     </main>
+    
+    <!-- Filing Folder Top - Fixed at bottom of page -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <clipPath id="folderClipPath" clipPathUnits="objectBoundingBox">
+                <!-- Smooth rounded cutout at top center -->
+                <path d="M 0 0 L 0 1 L 1 1 L 1 0 L 0.65 0 L 0.65 0.15 Q 0.625 0.3 0.575 0.35 Q 0.525 0.375 0.5 0.375 Q 0.475 0.375 0.425 0.35 Q 0.375 0.3 0.35 0.15 L 0.35 0 Z"/>
+            </clipPath>
+        </defs>
+    </svg>
+    <div class="filing-folder-top"></div>
 
     </div> <!-- End main-content -->
-
-    <!-- ==================== MORE PROJECTS LAYER (REVEALED LAST) ==================== -->
-    <div id="more-projects-layer" class="more-projects-layer">
-        <div class="more-projects-content">
-            <h2 class="more-projects-title">More Projects</h2>
-            <p class="more-projects-text">
-                This layer is revealed when you scroll on the files section.
-            </p>
-            <p class="more-projects-text">
-              dipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-        </div>
-        <footer class="app-footer">
-            <p class="footer-text">Designed and coded by me with a lil' help from Claude and Cursor too. © 2025</p>
-        </footer>
-    </div>
 
     <!-- ==================== FILE POPOVER ==================== -->
     <div id="file-popover" class="document-popover" style="display: none;">
         <div class="popover-title"></div>
         <div class="popover-role"></div>
         <div class="popover-description"></div>
+    </div>
+
+    <!-- ==================== PASSWORD MODAL ==================== -->
+    <div id="password-modal" class="password-modal" style="display: none;">
+        <div class="password-modal-overlay"></div>
+        <div class="password-modal-content">
+            <h2 class="password-modal-title">Protected Projects</h2>
+            <p class="password-modal-description">Enter password to unlock these projects</p>
+            <input type="password" id="password-input" class="password-input" placeholder="Password" />
+            <div class="password-modal-buttons">
+                <button id="unlock-button" class="password-button password-button-primary">Unlock</button>
+                <button id="cancel-password-button" class="password-button password-button-secondary">Cancel</button>
+            </div>
+            <p id="password-error" class="password-error" style="display: none;">Incorrect password</p>
+        </div>
     </div>
 
     <!-- ==================== PROJECT MODAL ==================== -->

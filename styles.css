@@ -34,6 +34,46 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Milagros';
+  src: url('./font/Milagros.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bacute';
+  src: url('./font/Bacute.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Monosk';
+  src: url('./font/Monosk.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Interphases';
+  src: url('./font/TT Interphases- Condensed Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FormaDJRBanner';
+  src: url('./font/FormaDJRBanner.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ==================== CSS CUSTOM PROPERTIES ==================== */
 :root {
   /* Typography - Base sizes */
@@ -192,9 +232,9 @@ body {
 .app-header {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+  left: 2%;
+  right: 2%;
+  width: 96%;
   z-index: 1000; /* High z-index to ensure it's above everything */
   padding: var(--space-3) var(--space-6);
   background-color: transparent;
@@ -216,6 +256,7 @@ body {
   align-items: center;
   width: 100%;
   max-width: 100%;
+  margin-top: 12px;
 }
 
 .nav-left {
@@ -228,6 +269,7 @@ body {
   color: var(--text-primary);
   font-family: 'Buffon-Bold', serif;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .nav-right {
@@ -242,6 +284,7 @@ body {
   text-decoration: none;
   font-family: 'Buffon-Bold', serif;
   font-weight: bold;
+  text-transform: uppercase;
   transition: opacity var(--transition-fast);
   
   &:hover {
@@ -1301,11 +1344,33 @@ body {
   padding-left: var(--space-8);
   padding-right: var(--space-8);
   overflow: hidden;
+  position: relative;
+}
+
+.opening-partner-text {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: clamp(6rem, 15vw, 18rem);
+  font-weight: bold;
+  letter-spacing: -0.04em;
+  color: rgba(100, 180, 255, 0.4); /* Light blue/cyan with transparency */
+  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
+  line-height: 0.85;
+  text-align: left;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  z-index: 0; /* Behind the main text */
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
 }
 
 .opening-large-text,
 .opening-subtitle-text {
-  font-size: clamp(4rem, 15vw, 18rem);
+  font-size: clamp(10rem, 16vw, 18rem);
   font-weight: bold;
   letter-spacing: -0.04em;
   color: var(--color-black);
@@ -1317,13 +1382,20 @@ body {
   margin: 0;
   padding: 0;
   max-width: 100%;
+  position: relative;
+  z-index: 1; /* Above the partner text */
 
-  /* Hyphenation for long words */
-  hyphens: auto;
+  /* Automatic word breaking and hyphenation - allows "Nazarena" to break */
+  word-break: break-word; /* Break long words */
+  overflow-wrap: break-word; /* Break words that overflow */
+  hyphens: auto; /* Automatic hyphenation */
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  -ms-hyphens: auto;
+  word-wrap: break-word; /* Legacy support */
+  
+  /* Ensure text can wrap */
+  white-space: normal;
 }
 
 @keyframes blink {
@@ -1414,6 +1486,9 @@ body {
   position: absolute;
   display: inline-flex !important;
   align-items: stretch;
+  gap: 0; /* No gap between flex items */
+  font-size: 0; /* Remove inline spacing between flex items */
+  line-height: 0; /* Remove line-height spacing */
   pointer-events: auto;
   cursor: grab;
   z-index: 21 !important; /* Above text container so capsules overlay "Howdy" text */
@@ -1435,6 +1510,8 @@ body {
   flex-shrink: 0;
   display: flex;
   align-items: stretch;
+  margin: 0;
+  padding: 0;
 }
 
 .physics-banner .wanted-poster-corner-left svg {
@@ -1450,6 +1527,8 @@ body {
   min-width: 0;
   flex-shrink: 0;
   height: 100%;
+  margin: 0; /* No margins */
+  padding: 0; /* No padding */
 }
 
 .physics-banner .wanted-poster-middle-svg {
@@ -1460,6 +1539,8 @@ body {
   height: 100%;
   display: block;
   z-index: 1;
+  margin: 0;
+  padding: 0;
 }
 
 .physics-banner .wanted-poster-content {
@@ -1486,12 +1567,16 @@ body {
   flex-shrink: 0;
   display: flex;
   align-items: stretch;
+  margin: 0;
+  padding: 0;
 }
 
 .physics-banner .wanted-poster-corner-right svg {
   width: 100%;
   height: 100%;
   display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .opening-icon {
@@ -1531,6 +1616,11 @@ body {
   background-color: transparent; /* Remove duplicate background */
   padding-top: 2rem;
   min-height: 100vh;
+}
+
+#main-app-container {
+  background: #dbd7cc;
+  margin: 28px;
 }
 
 /* ==================== SECTIONS VIEWER LAYOUT ==================== */
@@ -1964,12 +2054,36 @@ body {
   }
 }
 
+/* ==================== FILING FOLDER TOP ==================== */
+.filing-folder-top {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  height: 80px; /* Low height as requested */
+  background-color: #9CAF88; /* Sage green color - matches folder in image */
+  overflow: visible;
+  z-index: 10; /* Above table so it can overlay */
+  border-radius: 12px 12px 0 0; /* Rounded top corners */
+  opacity: 0; /* Hidden initially */
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  
+  /* Subtract the tab shape from the folder using SVG clip-path with smooth curves */
+  /* Creates a cutout at the top center for the folder tab with rounded edges */
+  clip-path: url(#folderClipPath);
+}
+
 /* ==================== VINTAGE TABLE SECTION ==================== */
 
 .vintage-table-section {
   width: 100%;
   padding: var(--space-12) 0; /* Remove horizontal padding to allow full width */
   background: transparent; /* Use parent background, no separate layer */
+  box-sizing: border-box;
 }
 
 .archives-title {
@@ -1983,10 +2097,67 @@ body {
   text-align: center;
   margin-top: 0;
   margin-bottom: var(--space-12);
+  text-transform: uppercase;
+}
+
+/* ==================== VINTAGE TABLE FILTERS ==================== */
+.vintage-table-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: var(--space-6);
+  padding: 0;
+}
+
+.vintage-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: bold;
+  font-size: var(--font-size-base);
+  color: #FF6B35;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s ease;
+}
+
+.vintage-filter-btn:hover {
+  opacity: 0.8;
+}
+
+.filter-left {
+  justify-content: flex-start;
+}
+
+.filter-right {
+  justify-content: flex-end;
+}
+
+.filter-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.filter-icon-filled {
+  background-color: #FF6B35;
+}
+
+.filter-icon-outline {
+  background-color: transparent;
+  border: 2px solid #FF6B35;
 }
 
 .vintage-table-container {
-  max-width: 100%; /* Full width of main app container */
   width: 100%;
   margin: 0;
   background: transparent;
@@ -2023,11 +2194,6 @@ body {
 .vintage-table tbody tr {
   border-bottom: 4px solid #000000;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: var(--bg-secondary);
-  }
 
   &:last-child {
     border-bottom: none;
@@ -2035,12 +2201,17 @@ body {
 }
 
 .vintage-table td {
-  padding: var(--space-6) var(--space-3); /* Increased vertical padding for taller rows */
+  padding: 3rem var(--space-3); /* Increased vertical padding for taller rows */
   border-right: 4px solid #000000;
   vertical-align: middle;
+  background: transparent;
 
   &:last-child {
     border-right: none;
+  }
+  
+  &.vintage-table-thumbnail {
+    background: var(--color-black) !important;
   }
 }
 
@@ -2048,10 +2219,13 @@ body {
 .vintage-table .col-title {
   width: 25%;
   font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: clamp(1.1rem, 1.4vw, 1.2rem); /* 17.6-19.2px equivalent, smaller */
+  font-size: var(--font-size-base); /* Same size as description */
   font-weight: bold;
   line-height: 1.2;
+  text-transform: uppercase; /* Make all text uppercase */
 }
+
+
 
 .lock-icon {
   font-size: 0.7em;
@@ -2080,17 +2254,23 @@ body {
 .vintage-table-thumbnail {
   position: relative;
   width: 100%;
-  height: 150px; /* Increased from 120px for taller rows */
+  height: 180px; /* Increased to match taller rows */
   padding: var(--space-2) !important;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black) !important;
 }
 
-.vintage-table-thumbnail img {
-  width: 100%;
+.vintage-table-thumbnail img,
+.vintage-table-thumbnail video {
+  max-width: 100%;
+  max-height: 100%;
   height: 100%;
-  object-fit: cover;
+  width: auto;
+  object-fit: contain;
   border: 2px solid #000000;
-  border-radius: var(--radius-sm);
   display: block;
 }
 
@@ -2117,7 +2297,8 @@ body {
   z-index: 1000;
   box-shadow: var(--shadow-lg);
   border: 2px solid #000000;
-  background: var(--bg-primary);
+  background: #000000;
+  padding: var(--space-4);
   transform: translate(-50%, -50%);
   overflow: hidden;
   transition: opacity 0.2s ease;
@@ -2127,9 +2308,11 @@ body {
     height: 100%;
     width: 100%;
     position: absolute;
+    top: 0;
+    left: 0;
     transition: top 0.5s cubic-bezier(0.76, 0, 0.24, 1);
   }
-  
+
   /* Individual image items stacked vertically */
   .hover-image-item {
     height: 100%;
@@ -2137,21 +2320,44 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--space-4);
+    box-sizing: border-box;
   }
-  
-  .hover-image-item img {
-    width: 100%;
+
+  .hover-image-item img,
+  .hover-image-item img,
+  .hover-image-item video {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
     object-fit: contain;
     display: block;
+    border-radius: 12px;
   }
-  
-  /* Arrow indicator */
+
+  /* Video wrapper styling */
+  .hover-image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hover-image-wrapper video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  /* Arrow indicator - centered on top of image */
   &::after {
     content: '→';
     position: absolute;
-    bottom: var(--space-4);
-    right: var(--space-4);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
     display: flex;
@@ -2160,6 +2366,7 @@ body {
     background: var(--bg-primary);
     border: 3px solid #000000;
     border-radius: 50%;
+    font-family: 'Buffon-Bold', sans-serif;
     font-size: var(--font-size-xl);
     color: var(--text-primary);
     font-weight: bold;
@@ -2176,14 +2383,30 @@ body {
   opacity: 1;
 }
 
-/* Row hover effect - everything turns one color */
+/* Row hover effect - left-to-right wipe */
 .vintage-table-row {
   cursor: pointer;
-  transition: all 0.2s ease;
+  position: relative;
 }
 
-.vintage-table-row:hover {
+.vintage-table-row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
   background-color: #FF6B35;
+  z-index: -1;
+  transition: width 0.4s ease;
+}
+
+.vintage-table-row:hover::after {
+  width: 100%;
+}
+
+.vintage-table-row td {
+  transition: color 0.4s ease, border-right-color 0.4s ease;
 }
 
 .vintage-table-row:hover td {
@@ -2191,7 +2414,17 @@ body {
   border-right-color: #FF6B35;
 }
 
-.vintage-table-row:hover .vintage-table-thumbnail img {
+.vintage-table-row:hover td.col-title span {
+  color: var(--bg-primary) !important; /* Keep beige text in black box on hover */
+}
+
+.vintage-table-row .vintage-table-thumbnail img,
+.vintage-table-row .vintage-table-thumbnail video {
+  transition: border-color 0.4s ease;
+}
+
+.vintage-table-row:hover .vintage-table-thumbnail img,
+.vintage-table-row:hover .vintage-table-thumbnail video {
   border-color: #FF6B35;
 }
 
@@ -2205,7 +2438,7 @@ body {
 /* Responsive adjustments */
 @media (max-width: 1600px) {
   .vintage-table-container {
-    max-width: 95%;
+    width: 100%;
   }
 }
 
@@ -2243,7 +2476,7 @@ body {
   }
   
   .vintage-table .col-title {
-    font-size: clamp(1.5rem, 2vw, 1.75rem); /* Responsive headline size */
+    font-size: var(--font-size-sm); /* Match description size */
   }
   
   .vintage-table .col-description {
@@ -2272,7 +2505,7 @@ body {
   }
   
   .vintage-table .col-title {
-    font-size: clamp(1.25rem, 1.8vw, 1.5rem); /* Responsive headline size */
+    font-size: var(--font-size-xs); /* Match description size */
   }
   
   .vintage-table .col-description {
@@ -2287,6 +2520,148 @@ body {
   .vintage-table-thumbnail {
     height: 60px;
   }
+}
+
+/* ==================== PASSWORD MODAL ==================== */
+.password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.password-modal-content {
+  position: relative;
+  z-index: 100001;
+  background-color: var(--color-surface-light);
+  border: 4px solid var(--color-black);
+  border-radius: 0;
+  padding: var(--space-8) var(--space-6);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+:root.dark .password-modal-content {
+  background-color: var(--color-surface-dark);
+  border-color: var(--color-white);
+}
+
+.password-modal-title {
+  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--font-size-2xl);
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-3) 0;
+  text-align: center;
+}
+
+.password-modal-description {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-6) 0;
+  text-align: center;
+}
+
+.password-input {
+  width: 100%;
+  padding: var(--space-3);
+  font-size: var(--font-size-base);
+  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border: 3px solid var(--color-black);
+  border-radius: 0;
+  background-color: var(--color-white);
+  color: var(--text-primary);
+  box-sizing: border-box;
+  margin-bottom: var(--space-4);
+  transition: border-color 0.2s ease;
+}
+
+:root.dark .password-input {
+  background-color: var(--bg-secondary);
+  border-color: var(--color-white);
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #FF6B35;
+}
+
+.password-modal-buttons {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.password-button {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-base);
+  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: bold;
+  border: 3px solid var(--color-black);
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.password-button-primary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.password-button-primary:hover {
+  background-color: #FF6B35;
+  border-color: #FF6B35;
+}
+
+:root.dark .password-button-primary {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+}
+
+:root.dark .password-button-primary:hover {
+  background-color: #FF6B35;
+  border-color: #FF6B35;
+  color: var(--color-white);
+}
+
+.password-button-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+.password-button-secondary:hover {
+  background-color: var(--bg-secondary);
+}
+
+:root.dark .password-button-secondary {
+  border-color: var(--color-white);
+}
+
+.password-error {
+  color: #ff0000;
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin: 0;
 }
 
 /* ==================== PROJECT MODAL (Vintage Table) ==================== */
@@ -2424,8 +2799,9 @@ body {
   }
 
   h1 {
+    font-family: 'Bacute', 'Milagros', 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
+    font-weight: normal;
     margin-bottom: var(--space-4);
     color: var(--text-primary);
   }
@@ -2460,6 +2836,15 @@ body {
   object-fit: cover;
   border-radius: var(--radius-md);
   display: block;
+}
+
+.modal-grid-video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  background: #000;
+  border-radius: var(--radius-md);
 }
 
 /* Resize handle */

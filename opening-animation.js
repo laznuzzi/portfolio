@@ -3,7 +3,7 @@
 
 (function() {
     // ==================== EDIT TEXT HERE ====================
-    const FIRST_LINE = "Howdy,";
+    const FIRST_LINE = "Howdy partner,";
     const SECOND_LINE = "I'm Nazarena";
     // ========================================================
 
@@ -114,16 +114,19 @@
         });
         physicsRender = render;
 
-        // Different colors for each banner
+        // All banners use coral/bright red color
         const bannerColors = [
-            '#FFE5B4', // Designer - Peach
-            '#B4E5FF', // Developer - Light Blue
-            '#E5B4FF', // Builder - Lavender
-            '#B4FFE5'  // Fixer - Mint
+            '#FF6B6B', // Designer - Coral/Bright Red
+            '#FF6B6B', // Developer - Coral/Bright Red
+            '#FF6B6B', // Builder - Coral/Bright Red
+            '#FF6B6B', // Fixer - Coral/Bright Red
+            '#FF6B6B', // Thinker - Coral/Bright Red
+            '#FF6B6B', // Gardener - Coral/Bright Red
+            '#FF6B6B'  // DIY-er - Coral/Bright Red
         ];
 
         // Word banners data
-        const words = ['Designer', 'Developer', 'Builder', 'Fixer'];
+        const words = ['Designer', 'Developer', 'Builder', 'Fixer', 'Thinker', 'Gardener', 'DIY-er'];
         const banners = [];
         const bannerBodies = []; // Matter.js bodies for physics
 
@@ -136,16 +139,16 @@
         const measureContext = measureCanvas.getContext('2d');
         measureContext.font = textFont;
 
-        // Create word banners
+        // Create word banners with staggered appearance
         words.forEach((word, index) => {
             // Measure text width
             const textMetrics = measureContext.measureText(word);
             const textWidth = textMetrics.width;
             
             // Calculate banner width: text width + padding on both sides
-            const padding = 80; // Padding on left and right
+            const padding = 64; // Padding on left and right (reduced by 20%)
             const bannerWidth = textWidth + (padding * 2);
-            const bannerHeight = 198; // Fixed height from SVG
+            const bannerHeight = 158.4; // Fixed height from SVG (reduced by 20%)
 
             // Start positions - visible on screen, distributed across viewport
             // Add scatter/spread to initial positions for organic, varied layout
@@ -188,14 +191,15 @@
             
             // Create banner HTML structure (three-part SVG banner)
             // CRITICAL: Use inline fill color instead of CSS variable for better browser support
+            // No borders - just fill color
             bannerElement.innerHTML = `
                 <div class="wanted-poster-corner wanted-poster-corner-left">
-                    <svg viewBox="0 0 40.2 198.2" preserveAspectRatio="xMinYMid meet">
+                    <svg viewBox="0 0 40.2 198.2" preserveAspectRatio="xMinYMid meet" style="display: block; margin: 0; padding: 0;">
                         <path fill="${bannerFillColor}" d="M40.2,198.2V0h-.8v.3C39.3,22.1,21.7,39.8,0,40v115.4c21.9,0,39.7,17.8,39.7,39.7s0,2.1-.1,3.2h.7Z"/>
                     </svg>
                 </div>
                 <div class="wanted-poster-middle">
-                    <svg class="wanted-poster-middle-svg" viewBox="0 0 355.5 198.2" preserveAspectRatio="none">
+                    <svg class="wanted-poster-middle-svg" viewBox="0 0 355.5 198.2" preserveAspectRatio="none" style="display: block; margin: 0; padding: 0;">
                         <rect fill="${bannerFillColor}" x="0" y="0" width="355.5" height="198.2"/>
                     </svg>
                     <div class="wanted-poster-content">
@@ -203,7 +207,7 @@
                     </div>
                 </div>
                 <div class="wanted-poster-corner wanted-poster-corner-right">
-                    <svg viewBox="394.8 0 40.2 198.2" preserveAspectRatio="xMaxYMid meet">
+                    <svg viewBox="394.8 0 40.2 198.2" preserveAspectRatio="xMaxYMid meet" style="display: block; margin: 0; padding: 0;">
                         <path fill="${bannerFillColor}" d="M394.8,0v198.2h.8v-.3c0-21.8,17.6-39.5,39.3-39.6V42.8c-21.9,0-39.7-17.8-39.7-39.7s0-2.1.1-3.2h-.7Z"/>
                     </svg>
                 </div>
@@ -214,8 +218,9 @@
             // Set display style to ensure flex layout works
             bannerElement.style.display = 'inline-flex';
             bannerElement.style.alignItems = 'stretch';
-            bannerElement.style.visibility = 'visible';
-            bannerElement.style.opacity = '1';
+            // Initially hide banner - will appear one by one
+            bannerElement.style.visibility = 'hidden';
+            bannerElement.style.opacity = '0';
             
             // Add to physics container
             physicsContainer.appendChild(bannerElement);
@@ -294,8 +299,27 @@
             )
         ];
 
-        // Add all bodies to the world
-        Composite.add(engine.world, [...bannerBodies, ...walls]);
+        // Add walls first
+        Composite.add(engine.world, walls);
+        
+        // Add banners one by one with staggered delay
+        bannerBodies.forEach((bannerBody, index) => {
+            setTimeout(() => {
+                // Add to physics world
+                Composite.add(engine.world, [bannerBody]);
+                
+                // Fade in the banner element
+                const bannerElement = bannerBody.element;
+                if (bannerElement) {
+                    bannerElement.style.visibility = 'visible';
+                    gsap.to(bannerElement, {
+                        opacity: 1,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                }
+            }, index * 200); // 200ms delay between each banner
+        });
         
         console.log(`Created ${bannerBodies.length} banner bodies and ${walls.length} walls`);
         console.log('Physics container element:', physicsContainer);
@@ -533,21 +557,96 @@
         });
     }
 
-    // ==================== GSAP SCROLL TRIGGER - MORE PROJECTS SLIDE UP ====================
-    // Animate More Projects layer sliding up over files section
-    gsap.to('.more-projects-layer', {
-        y: '0%',
+    // ==================== GSAP SCROLL TRIGGER - PUSH OPENING ANIMATION UP ====================
+    // Simple: As user scrolls, push opening animation up and out of view
+    // Start animation immediately and respond quickly to initial scroll
+    const scrollTriggerConfig = {
+        trigger: 'body',
+        start: 'top top', // Start immediately when page loads
+        end: () => `+=${window.innerHeight}`, // Scroll for one viewport height
+        scrub: 0.5, // Faster response (0.5s delay instead of 1s) - more responsive
+        markers: false
+    };
+
+    // Push entire opening animation up and out of view
+    // Respond immediately to scroll to prevent overlap
+    const openingAnimationTween = gsap.to('#opening-animation', {
+        y: '-100vh', // Move up and out of view
         ease: "power2.inOut",
-        scrollTrigger: {
-            trigger: '#main-content',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-            markers: false
-        }
+        scrollTrigger: scrollTriggerConfig
     });
 
+    // ==================== SHOW NAVIGATION AFTER OPENING ANIMATION IS OUT ====================
+    // Show navigation header when opening animation is fully scrolled out
+    const appHeader = document.getElementById('app-header');
+    if (appHeader) {
+        // Ensure it starts hidden
+        appHeader.style.opacity = '0';
+        appHeader.style.visibility = 'hidden';
+        appHeader.style.pointerEvents = 'none';
+        
+        // Simple scroll listener approach
+        let navShown = false;
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const viewportHeight = window.innerHeight;
+            
+            // Show nav when scrolled past 90% of viewport height
+            if (scrollY >= viewportHeight * 0.9 && !navShown) {
+                console.log('Showing navigation - scrollY:', scrollY);
+                navShown = true;
+                // Use inline styles to override CSS
+                appHeader.style.opacity = '1';
+                appHeader.style.visibility = 'visible';
+                appHeader.style.pointerEvents = 'auto';
+                appHeader.classList.add('visible');
+            } else if (scrollY < viewportHeight * 0.9 && navShown) {
+                console.log('Hiding navigation - scrollY:', scrollY);
+                navShown = false;
+                appHeader.style.opacity = '0';
+                appHeader.style.visibility = 'hidden';
+                appHeader.style.pointerEvents = 'none';
+                appHeader.classList.remove('visible');
+            }
+        }, { passive: true });
+    }
+
     console.log('Opening animation ready - GSAP ScrollTrigger animations initialized');
+
+    // Show filing folder when archives section is visible
+    const filingFolder = document.querySelector('.filing-folder-top');
+    const archivesSection = document.querySelector('.vintage-table-section');
+    
+    if (filingFolder && archivesSection) {
+        // Ensure it starts hidden
+        filingFolder.style.opacity = '0';
+        filingFolder.style.visibility = 'hidden';
+        filingFolder.style.pointerEvents = 'none';
+        
+        // Scroll listener to show/hide folder based on archives section visibility
+        let folderShown = false;
+        window.addEventListener('scroll', () => {
+            const archivesRect = archivesSection.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            
+            // Show folder when archives section is in view (when top of section is above bottom of viewport)
+            const isArchivesVisible = archivesRect.top < viewportHeight && archivesRect.bottom > 0;
+            
+            if (isArchivesVisible && !folderShown) {
+                console.log('Showing filing folder - archives section visible');
+                folderShown = true;
+                filingFolder.style.opacity = '1';
+                filingFolder.style.visibility = 'visible';
+                filingFolder.style.pointerEvents = 'auto';
+            } else if (!isArchivesVisible && folderShown) {
+                console.log('Hiding filing folder - archives section not visible');
+                folderShown = false;
+                filingFolder.style.opacity = '0';
+                filingFolder.style.visibility = 'hidden';
+                filingFolder.style.pointerEvents = 'none';
+            }
+        }, { passive: true });
+    }
 
     // Optional: Skip animation on double-click
     let skipTimeout;
