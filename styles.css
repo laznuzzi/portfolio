@@ -12,6 +12,14 @@
 
 @font-face {
   font-family: 'Chalet';
+  src: url('./font/Chalet-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Chalet';
   src: url('./font/Chalet-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
@@ -975,96 +983,6 @@ body {
   }
 }
 
-/* ==================== BACKGROUND GRADIENT CIRCLES ==================== */
-.background-circles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
-}
-
-.gradient-circle {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.7;
-  animation-duration: 20s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-
-  &.gradient-circle-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.6) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 100%);
-    top: 10%;
-    left: 10%;
-    animation-name: float-1;
-
-    :root.dark & {
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.4) 0%, rgba(0, 255, 0, 0.15) 50%, transparent 100%);
-    }
-  }
-
-  &.gradient-circle-2 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.6) 0%, rgba(236, 72, 153, 0.2) 50%, transparent 100%);
-    top: 60%;
-    right: 10%;
-    animation-name: float-2;
-    animation-delay: -5s;
-
-    :root.dark & {
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.35) 0%, rgba(0, 255, 0, 0.12) 50%, transparent 100%);
-    }
-  }
-
-  &.gradient-circle-3 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0.2) 50%, transparent 100%);
-    bottom: 20%;
-    left: 20%;
-    animation-name: float-3;
-    animation-delay: -10s;
-
-    :root.dark & {
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.45) 0%, rgba(0, 255, 0, 0.18) 50%, transparent 100%);
-    }
-  }
-
-  &.gradient-circle-4 {
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.6) 0%, rgba(16, 185, 129, 0.2) 50%, transparent 100%);
-    top: 30%;
-    right: 30%;
-    animation-name: float-4;
-    animation-delay: -15s;
-
-    :root.dark & {
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.3) 0%, rgba(0, 255, 0, 0.1) 50%, transparent 100%);
-    }
-  }
-
-  &.gradient-circle-5 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(245, 158, 11, 0.6) 0%, rgba(245, 158, 11, 0.2) 50%, transparent 100%);
-    bottom: 40%;
-    left: 50%;
-    animation-name: float-5;
-    animation-delay: -8s;
-
-    :root.dark & {
-      background: radial-gradient(circle, rgba(0, 255, 0, 0.5) 0%, rgba(0, 255, 0, 0.2) 50%, transparent 100%);
-    }
-  }
-}
 
 /* ==================== UTILITY CLASSES ==================== */
 .icon-sm {
@@ -2084,7 +2002,7 @@ body {
 }
 
 .archive-table tbody tr {
-  border-bottom: 4px solid #000000;
+  border-bottom: 2px solid #000000;
   cursor: pointer;
 }
 
@@ -2144,6 +2062,43 @@ body {
   filter: invert(1);
 }
 
+/* Rounded corners for first and last rows */
+.table-row:first-child td:first-child {
+  border-top-left-radius: 4px;
+}
+
+.table-row:first-child td:last-child {
+  border-top-right-radius: 4px;
+}
+
+.table-row:last-child td:first-child {
+  border-bottom-left-radius: 4px;
+}
+
+.table-row:last-child td:last-child {
+  border-bottom-right-radius: 4px;
+}
+
+/* Rounded corners for thumbnail wrapper in first and last rows */
+.table-row:first-child .thumbnail-wrapper {
+  border-top-right-radius: 4px;
+}
+
+.table-row:last-child .thumbnail-wrapper {
+  border-bottom-right-radius: 4px;
+}
+
+/* Also round the hover effect backgrounds */
+.table-row:first-child::after {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.table-row:last-child::after {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 /* ==================== TABLE COLUMNS ==================== */
 
 .lock-column {
@@ -2152,11 +2107,10 @@ body {
 }
 
 .title {
-  width: 20%;
-  font-size: 1.2rem;
-  font-weight: bold;
+  width: 15%;
+  font-size: var(--font-size-base);
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.03em;
   text-align: center;
 }
 
@@ -2173,8 +2127,9 @@ body {
 
 .subtitle {
   width: 15%;
-  font-size: var(--font-size-md);
-  font-weight: normal;
+  font-size: var(--font-size-base);
+  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
   text-align: center;
   color: var(--text-secondary);
   opacity: 0.6;
@@ -2190,9 +2145,10 @@ body {
 }
 
 .description {
-  width: 30%;
+  width: 35%;
   font-size: var(--font-size-base);
   text-align: center;
+  padding-right: var(--space-6);
 }
 
 .thumbnail {

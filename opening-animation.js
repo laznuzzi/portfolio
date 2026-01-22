@@ -41,6 +41,8 @@
     const textElement = textWrapper.querySelector('.opening-large-text');
 
     // Clear existing content and create structure with random letter reveals
+    let oLetterElement = null; // Store reference to "o" in "Howdy"
+
     if (textElement) {
         textElement.innerHTML = ''; // Clear existing text
 
@@ -61,6 +63,12 @@
                 charSpan.style.opacity = '0';
                 charSpan.style.display = 'inline-block';
 
+                // Store reference to "o" in "Howdy" (line 0, position 1)
+                if (lineIndex === 0 && i === 1 && char.toLowerCase() === 'o') {
+                    oLetterElement = charSpan;
+                    charSpan.style.position = 'relative';
+                }
+
                 // Store reference for animation (skip spaces from random reveal)
                 if (char !== ' ') {
                     letterElements.push(charSpan);
@@ -76,10 +84,10 @@
         });
 
         // Animate letters in random order
-        animateRandomLetters(letterElements);
+        animateRandomLetters(letterElements, oLetterElement);
     }
 
-    function animateRandomLetters(letters) {
+    function animateRandomLetters(letters, oLetter) {
         // Create array of indices and shuffle them
         const indices = letters.map((_, i) => i);
         shuffleArray(indices);
@@ -98,10 +106,49 @@
             }, animationOrder * delayBetweenLetters);
         });
 
-        // Start physics after all letters are revealed
+        // After letters are revealed, replace "o" with avatar
+        setTimeout(() => {
+            if (oLetter) {
+                replaceOWithAvatar(oLetter);
+            }
+        }, totalDuration + 300);
+
+        // Start physics after avatar replacement
         setTimeout(() => {
             startPhysicsAnimation();
-        }, totalDuration + 500);
+        }, totalDuration + 800);
+    }
+
+    function replaceOWithAvatar(oElement) {
+        // Create avatar image element
+        const avatar = document.createElement('img');
+        avatar.src = './img/avatar.jpeg';
+        avatar.className = 'opening-avatar';
+        avatar.style.position = 'absolute';
+        avatar.style.top = '40%';
+        avatar.style.left = '44%';
+        avatar.style.transform = 'translate(-50%, -50%)';
+        avatar.style.width = '.75em';
+        avatar.style.height = '.75em';
+        avatar.style.borderRadius = '50%';
+        avatar.style.objectFit = 'cover';
+        avatar.style.opacity = '0';
+
+        // Add avatar to the o element
+        oElement.appendChild(avatar);
+
+        // Animate: fade out "o" text and fade in avatar
+        gsap.timeline()
+            .to(oElement, {
+                color: 'transparent',
+                duration: 0.3,
+                ease: "power2.inOut"
+            })
+            .to(avatar, {
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out"
+            }, "-=0.1");
     }
 
     function shuffleArray(array) {
