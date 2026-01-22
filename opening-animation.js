@@ -37,56 +37,80 @@
     mainContent.style.visibility = 'visible';
     mainContent.style.pointerEvents = 'auto';
 
-    // ==================== TYPING ANIMATION ====================
+    // ==================== RANDOM LETTER REVEAL ANIMATION ====================
     const textElement = textWrapper.querySelector('.opening-large-text');
-    
-    // Clear existing content and create separate line elements
+
+    // Clear existing content and create structure with random letter reveals
     if (textElement) {
         textElement.innerHTML = ''; // Clear existing text
-        
+
         // Create 4 separate line elements, each will contain one word
-        const line1 = document.createElement('div');
-        line1.className = 'opening-line';
-        const line2 = document.createElement('div');
-        line2.className = 'opening-line';
-        const line3 = document.createElement('div');
-        line3.className = 'opening-line';
-        const line4 = document.createElement('div');
-        line4.className = 'opening-line';
-        
-        textElement.appendChild(line1);
-        textElement.appendChild(line2);
-        textElement.appendChild(line3);
-        textElement.appendChild(line4);
-        
-        // Type each line sequentially
-        typeLine(line1, LINE_1, 150, () => {
-            typeLine(line2, LINE_2, 150, () => {
-                typeLine(line3, LINE_3, 150, () => {
-                    typeLine(line4, LINE_4, 150, () => {
-                        // After all lines are done, wait then start physics
-                        setTimeout(() => {
-                            startPhysicsAnimation();
-                        }, 800);
-                    });
-                });
-            });
-        });
-    }
-    
-    function typeLine(element, text, delay, onComplete) {
-        let index = 0;
-        const typeInterval = setInterval(() => {
-            if (index < text.length) {
-                element.textContent += text[index];
-                index++;
-            } else {
-                clearInterval(typeInterval);
-                if (onComplete) {
-                    setTimeout(onComplete, 500); // Small pause between lines
+        const lines = [LINE_1, LINE_2, LINE_3, LINE_4];
+        const letterElements = []; // Store all letter elements for random animation
+
+        lines.forEach((lineText, lineIndex) => {
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'opening-line';
+
+            // Create a span for each character (including spaces)
+            for (let i = 0; i < lineText.length; i++) {
+                const char = lineText[i];
+                const charSpan = document.createElement('span');
+                charSpan.className = 'opening-letter';
+                charSpan.textContent = char;
+                charSpan.style.opacity = '0';
+                charSpan.style.display = 'inline-block';
+
+                // Store reference for animation (skip spaces from random reveal)
+                if (char !== ' ') {
+                    letterElements.push(charSpan);
+                } else {
+                    // Spaces should be immediately visible to maintain spacing
+                    charSpan.style.opacity = '1';
                 }
+
+                lineDiv.appendChild(charSpan);
             }
-        }, delay);
+
+            textElement.appendChild(lineDiv);
+        });
+
+        // Animate letters in random order
+        animateRandomLetters(letterElements);
+    }
+
+    function animateRandomLetters(letters) {
+        // Create array of indices and shuffle them
+        const indices = letters.map((_, i) => i);
+        shuffleArray(indices);
+
+        // Reveal letters one by one in random order
+        const totalDuration = 2500; // Total time for all letters to appear (ms)
+        const delayBetweenLetters = totalDuration / letters.length;
+
+        indices.forEach((index, animationOrder) => {
+            setTimeout(() => {
+                gsap.to(letters[index], {
+                    opacity: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            }, animationOrder * delayBetweenLetters);
+        });
+
+        // Start physics after all letters are revealed
+        setTimeout(() => {
+            startPhysicsAnimation();
+        }, totalDuration + 500);
+    }
+
+    function shuffleArray(array) {
+        // Fisher-Yates shuffle algorithm
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     // ==================== PHYSICS ANIMATION ====================
@@ -165,7 +189,7 @@
             const internalPadding = 40; // Internal padding for text (reduced since border provides visual space)
             const borderWidth = 30; // Border width on each side
             const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
-            const bannerHeight = 100; // Reduced height for more compact capsule look
+            const bannerHeight = 130; // Increased height for more vertical padding
 
             // Start positions - visible on screen, distributed across viewport
             // Add scatter/spread to initial positions for organic, varied layout

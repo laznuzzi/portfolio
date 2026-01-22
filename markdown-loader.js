@@ -171,7 +171,7 @@
                 <p style="color: var(--text-primary);">${project.context}</p>
             ` : ''}
 
-            <h2>The work</h2>
+            <h2>Work</h2>
             <p style="color: var(--text-primary);">${project.description || 'Project description coming soon.'}</p>
 
             ${project.techStack ? `
