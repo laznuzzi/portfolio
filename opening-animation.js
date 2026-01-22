@@ -85,7 +85,7 @@
         shuffleArray(indices);
 
         // Reveal letters one by one in random order
-        const totalDuration = 2500; // Total time for all letters to appear (ms)
+        const totalDuration = 1800; // Total time for all letters to appear (ms) - faster
         const delayBetweenLetters = totalDuration / letters.length;
 
         indices.forEach((index, animationOrder) => {
@@ -133,8 +133,8 @@
         // Create engine
         const engine = Engine.create();
         engine.gravity.y = 1; // Standard gravity
-        engine.gravity.scale = 0.0003; // Much lower scale for slower, more elegant dropping
-        // Lower gravity creates smoother, slower animation
+        engine.gravity.scale = 0.0008; // Increased for noticeable falling effect
+        // Higher gravity creates more dramatic falling animation
         physicsEngine = engine;
 
         console.log('Physics initialized');
@@ -191,19 +191,14 @@
             const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
             const bannerHeight = 130; // Increased height for more vertical padding
 
-            // Start positions - visible on screen, distributed across viewport
-            // Add scatter/spread to initial positions for organic, varied layout
+            // Start positions - capsules begin above viewport and fall through
             const baseX = (window.innerWidth / (words.length + 1)) * (index + 1);
             const xVariation = (Math.random() - 0.5) * 150; // Random spread ±75px horizontally
             const x = baseX + xVariation;
 
-            // Start MUCH HIGHER - in upper portion of viewport, distributed vertically
-            // Use center Y position for Matter.js body (not top-left)
-            // Position above the text area (text is centered, so start banners higher)
-            // Add vertical variation for more organic scatter
-            const baseY = 100; // Start at fixed 100px from top (much higher, always visible)
-            const yVariation = (Math.random() - 0.5) * 80; // Random spread ±40px vertically
-            const y = baseY + (index * 90) + yVariation; // Space them out vertically with variation
+            // Start just above the viewport - they will fall through with physics
+            // All start at same height, appearance timing controls the stagger
+            const y = -bannerHeight - 50; // Just above viewport
             
             console.log(`Banner ${index} (${word}): x=${x.toFixed(0)}, y=${y.toFixed(0)}, viewport height=${window.innerHeight}`);
 
@@ -282,10 +277,9 @@
             bannerBody.width = bannerWidth;
             bannerBody.height = bannerHeight;
             
-            // Give banner varied initial velocities for more organic scatter
-            // Different velocities create natural separation and prevent clustering
-            const velocityX = (Math.random() - 0.5) * 0.4; // Horizontal variation ±0.2
-            const velocityY = -0.3 + (Math.random() - 0.5) * 0.2; // Upward with variation
+            // Give banner downward velocity to fall through the screen
+            const velocityX = (Math.random() - 0.5) * 0.3; // Slight horizontal variation
+            const velocityY = 2 + (Math.random() * 0.5); // Downward velocity for falling effect (2-2.5)
             Body.setVelocity(bannerBody, { x: velocityX, y: velocityY });
             
             // Add angular velocity for natural rotation
@@ -296,17 +290,10 @@
             bannerBodies.push(bannerBody);
         });
 
-        // Create boundaries (walls) - CRITICAL: Keep capsules in viewport
+        // Create boundaries (walls) - Keep capsules in viewport
+        // No top wall so capsules can fall through from above
         const wallThickness = 50;
         const walls = [
-            // Top wall (ceiling) - prevents capsules from escaping upward
-            Bodies.rectangle(
-                window.innerWidth / 2,
-                -wallThickness / 2,
-                window.innerWidth + 100,
-                wallThickness,
-                { isStatic: true, render: { fillStyle: 'transparent' } }
-            ),
             // Ground (bottom wall)
             Bodies.rectangle(
                 window.innerWidth / 2,
@@ -336,23 +323,23 @@
         // Add walls first
         Composite.add(engine.world, walls);
         
-        // Add banners one by one with staggered delay
+        // Add banners one by one with staggered delay for falling effect
         bannerBodies.forEach((bannerBody, index) => {
             setTimeout(() => {
                 // Add to physics world
                 Composite.add(engine.world, [bannerBody]);
-                
+
                 // Fade in the banner element
                 const bannerElement = bannerBody.element;
                 if (bannerElement) {
                     bannerElement.style.visibility = 'visible';
                     gsap.to(bannerElement, {
                         opacity: 1,
-                        duration: 0.5,
+                        duration: 0.4,
                         ease: "power2.out"
                     });
                 }
-            }, index * 200); // 200ms delay between each banner
+            }, index * 300); // 300ms delay between each banner for dramatic falling effect
         });
         
         console.log(`Created ${bannerBodies.length} banner bodies and ${walls.length} walls`);

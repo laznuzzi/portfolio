@@ -1358,7 +1358,7 @@ body {
 
 .opening-large-text,
 .opening-subtitle-text {
-  font-size: clamp(5rem, 16vw, 22rem);
+  font-size: clamp(4.5rem, 14.4vw, 19.8rem);
   font-weight: bold;
   letter-spacing: -0.04em;
   color: var(--color-black);
@@ -2055,7 +2055,9 @@ body {
 
 .table-container {
   width: 100%;
-  background: transparent;
+  background: #f2f0e9;
+  padding: 16px;
+  border-radius: 4px;
 }
 
 .archive-table {
@@ -2091,14 +2093,15 @@ body {
 }
 
 .archive-table td {
-  padding: 3rem var(--space-3);
-  border-right: 4px solid #000000;
+  padding: 1.5rem var(--space-3);
   vertical-align: middle;
+  height: 120px;
+  position: relative;
+  z-index: 1;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .archive-table td:last-child {
-  border-right: none;
   width: 100%;
 }
 
@@ -2107,6 +2110,7 @@ body {
 .table-row {
   cursor: pointer;
   position: relative;
+  background: transparent;
 }
 
 /* Hover background wipe effect with black */
@@ -2118,8 +2122,9 @@ body {
   width: 0;
   height: calc(100% + 4px);
   background-color: var(--color-black);
-  z-index: -1;
+  z-index: 0;
   transition: width 0.4s ease;
+  pointer-events: none;
 }
 
 .table-row:hover::after {
@@ -2141,9 +2146,14 @@ body {
 
 /* ==================== TABLE COLUMNS ==================== */
 
+.lock-column {
+  width: 5%;
+  text-align: center;
+}
+
 .title {
-  width: 25%;
-  font-size: 1.6rem;
+  width: 20%;
+  font-size: 1.2rem;
   font-weight: bold;
   line-height: 1.2;
   letter-spacing: -0.03em;
@@ -2161,66 +2171,62 @@ body {
   display: block;
 }
 
-.title-divider {
-  width: 50%;
-  height: 0;
-  border-bottom: 2px dotted var(--color-black);
-  margin: var(--space-1) 0;
-}
-
-.title-subtitle {
+.subtitle {
+  width: 15%;
   font-size: var(--font-size-md);
   font-weight: normal;
-  text-transform: none;
+  text-align: center;
   color: var(--text-secondary);
   opacity: 0.6;
 }
 
-.table-row:hover .title-subtitle {
+.subtitle-text {
+  display: block;
+}
+
+.table-row:hover .subtitle {
   color: var(--bg-primary);
   opacity: 0.7;
 }
 
-.table-row:hover .title-divider {
-  border-bottom-color: var(--bg-primary);
-}
-
 .description {
-  width: 40%;
+  width: 30%;
   font-size: var(--font-size-base);
+  text-align: center;
 }
 
 .thumbnail {
   position: relative;
-  width: 35%;
+  width: 30%;
+  text-align: center;
 }
 
-/* Set black background on the td cell itself - no padding on td */
 .archive-table td.thumbnail {
-  background-color: var(--color-black) !important;
   padding: 0 !important;
+  background-color: var(--color-black) !important;
 }
 
 /* Wrapper div inside td handles padding and layout */
 .thumbnail-wrapper {
   width: 100%;
-  height: 100%;
-  min-height: 180px;
-  padding: var(--space-2);
+  height: auto;
+  padding: var(--space-4);
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  background-color: var(--color-black);
+  position: relative;
+  z-index: 1;
 }
 
 .thumbnail-wrapper img,
 .thumbnail-wrapper video {
   max-width: 100%;
-  max-height: 100%;
-  height: auto;
+  height: 100%;
   width: auto;
   object-fit: contain;
-  border: 2px solid #000000;
+  border-radius: 4px;
   display: block;
   transition: border-color 0.4s ease;
 }
@@ -2438,99 +2444,6 @@ body {
   }
 }
 
-/* ==================== LEGACY CLASS SUPPORT (TEMPORARY) ==================== */
-/* These map old class names to new ones for backward compatibility */
-/* Remove these once HTML/JS is updated */
-
-.vintage-table-section {
-  width: 100%;
-  padding: var(--space-12) 0;
-  background: transparent;
-  box-sizing: border-box;
-}
-
-.vintage-table-container {
-  width: 100%;
-  border: 4px solid #000000;
-  background: transparent;
-}
-
-.vintage-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: 'Chalet', -apple-system, sans-serif;
-  color: var(--text-primary);
-  background: transparent;
-}
-
-.vintage-table-row {
-  cursor: pointer;
-  position: relative;
-}
-
-.vintage-table-thumbnail {
-  position: relative;
-  width: 35%;
-  height: 180px;
-  padding: var(--space-2) !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-black) !important;
-}
-
-.col-title {
-  width: 25%;
-  font-size: var(--font-size-base);
-  font-weight: bold;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.col-description {
-  width: 40%;
-  font-size: var(--font-size-base);
-}
-
-.vintage-table-hover-image {
-  position: fixed;
-  width: 500px;
-  height: 375px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1000;
-  box-shadow: var(--shadow-lg);
-  border: 2px solid #000000;
-  background: #000000;
-  padding: var(--space-4);
-  transform: translate(-50%, -50%);
-  overflow: hidden;
-  transition: opacity 0.2s ease;
-}
-
-.vintage-table-filters {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: var(--space-6);
-}
-
-.vintage-filter-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-family: 'Chalet', -apple-system, sans-serif;
-  font-weight: bold;
-  font-size: var(--font-size-base);
-  color: #FF6B35;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: opacity 0.2s ease;
-}
 /* ==================== PASSWORD MODAL ==================== */
 .password-modal {
   position: fixed;

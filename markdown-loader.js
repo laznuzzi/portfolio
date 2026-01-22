@@ -218,13 +218,16 @@
                 : `<img src="${hoverImage}" alt="${project.title}">`;
 
             tr.innerHTML = `
+                <td class="lock-column">
+                    ${lockIcon}
+                </td>
                 <td class="title">
                     <div class="title-content">
-                        ${lockIcon}
                         <span class="title-text">${project.title}</span>
-                        <div class="title-divider"></div>
-                        <span class="title-subtitle">${project.subtitle || ''}</span>
                     </div>
+                </td>
+                <td class="subtitle">
+                    <span class="subtitle-text">${project.subtitle || ''}</span>
                 </td>
                 <td class="description">${project.shortDescription || ''}</td>
                 <td class="thumbnail">

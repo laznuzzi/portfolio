@@ -81,9 +81,9 @@ Led the design of a centralized portal for managing and monitoring devices remot
 title: GSK Design System
 subtitle: GlaxoSmithKline
 shortDescription: Global enterprise design system including pre-validated components, UI kits and tutorials, built on a custom Material UI architecture.
-thumbnail: ./img/design-system-thumb.jpg
+thumbnail: ./img/dsm-thumb.jpg
 hover: ./img/design-system-hover.gif
-modal: ./img/design-system1.jpg, ./img/design-system2.jpg
+modal: ./img/dsm-1.mp4, ./img/dsm-2.jpg, ./img/dsm-3.png, ./img/dsm-4.png, ./img/dsm-5.jpg, ./img/dsm-6.jpg, ./img/dsm-7.mp4, ./img/dsm-8.mp4
 
 **Role:** Designer, Developer
 **Timeline:** 2020
