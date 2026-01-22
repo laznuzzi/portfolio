@@ -1343,34 +1343,13 @@ body {
   max-width: 100%;
   padding-left: var(--space-8);
   padding-right: var(--space-8);
-  overflow: hidden;
+  overflow: visible;
   position: relative;
-}
-
-.opening-partner-text {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  font-size: clamp(6rem, 15vw, 18rem);
-  font-weight: bold;
-  letter-spacing: -0.04em;
-  color: rgba(100, 180, 255, 0.4); /* Light blue/cyan with transparency */
-  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
-  line-height: 0.85;
-  text-align: left;
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0;
-  z-index: 0; /* Behind the main text */
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
 }
 
 .opening-large-text,
 .opening-subtitle-text {
-  font-size: clamp(10rem, 16vw, 18rem);
+  font-size: clamp(5rem, 16vw, 22rem);
   font-weight: bold;
   letter-spacing: -0.04em;
   color: var(--color-black);
@@ -1383,19 +1362,11 @@ body {
   padding: 0;
   max-width: 100%;
   position: relative;
-  z-index: 1; /* Above the partner text */
+  text-align: center;
 
-  /* Automatic word breaking and hyphenation - allows "Nazarena" to break */
-  word-break: break-word; /* Break long words */
-  overflow-wrap: break-word; /* Break words that overflow */
-  hyphens: auto; /* Automatic hyphenation */
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  word-wrap: break-word; /* Legacy support */
-  
-  /* Ensure text can wrap */
+  /* Keep text on its original lines, but allow scaling */
   white-space: normal;
+  word-break: keep-all;
 }
 
 @keyframes blink {

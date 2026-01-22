@@ -49,6 +49,7 @@
                 <span class="nav-name">Nazarena</span>
             </div>
             <div class="nav-right">
+                <a href="#" class="nav-link">CV</a>
                 <a href="https://www.linkedin.com/in/nazarena" target="_blank" rel="noopener noreferrer" class="nav-link">LinkedIn</a>
                 <a href="https://github.com/nazarena" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
             </div>
@@ -91,78 +92,7 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
                     <div class="vintage-table-container">
                         <table class="vintage-table">
                             <tbody>
-                                <tr class="vintage-table-row" data-entry="sandbox">
-                                    <td class="col-title"><span>sandbox</span></td>
-                                    <td class="col-description">An AI-native prototyping tool and code kit for building experimental interfaces grounded in Square and Cash App design patterns.</td>
-                                    <td class="vintage-table-thumbnail">
-                                        <img src="./img/placeholder.jpeg" alt="Badfest Volume 03">
-                                        <div class="vintage-table-hover-image">
-                                            <div class="hover-image-wrapper">
-                                                <img src="./img/placeholder.jpeg" alt="Badfest Volume 03">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="vintage-table-row" data-entry="alpha">
-                                    <td class="col-title"><span>Alpha</span></td>
-                                    <td class="col-description">Project Alpha - Innovative user experience design</td>
-                                    <td class="vintage-table-thumbnail">
-                                        <img src="./img/avatar.jpeg" alt="Project Alpha">
-                                        <div class="vintage-table-hover-image">
-                                            <div class="hover-image-wrapper">
-                                                <img src="./img/avatar.jpeg" alt="Project Alpha">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="vintage-table-row" data-entry="beta">
-                                    <td class="col-title"><span>Beta</span></td>
-                                    <td class="col-description">Design System Beta - Comprehensive component library</td>
-                                    <td class="vintage-table-thumbnail">
-                                        <img src="./img/folder.jpeg" alt="Design System Beta">
-                                        <div class="vintage-table-hover-image">
-                                            <div class="hover-image-wrapper">
-                                                <img src="./img/folder.jpeg" alt="Design System Beta">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="vintage-table-row" data-entry="brand">
-                                    <td class="col-title"><span>Brand</span></td>
-                                    <td class="col-description">Brand Guidelines - Complete visual identity system</td>
-                                    <td class="vintage-table-thumbnail">
-                                        <img src="./img/device-hub-preview.png" alt="Brand Guidelines">
-                                        <div class="vintage-table-hover-image">
-                                            <div class="hover-image-wrapper">
-                                                <img src="./img/31359436288.jpg" alt="Brand Guidelines">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="vintage-table-row" data-entry="mobile">
-                                    <td class="col-title"><span>Mobile</span></td>
-                                    <td class="col-description">Mobile App UI - Cross-platform mobile experience</td>
-                                    <td class="vintage-table-thumbnail">
-                                        <img src="./img/placeholder.jpeg" alt="Mobile App UI">
-                                        <div class="vintage-table-hover-image">
-                                            <div class="hover-image-wrapper">
-                                                <img src="./img/placeholder.jpeg" alt="Mobile App UI">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="vintage-table-row" data-entry="platform">
-                                    <td class="col-title"><span>Platform</span></td>
-                                    <td class="col-description">Web Platform - Responsive web application design</td>
-                                    <td class="vintage-table-thumbnail">
-                                        <img src="./img/avatar.jpeg" alt="Web Platform">
-                                        <div class="vintage-table-hover-image">
-                                            <div class="hover-image-wrapper">
-                                                <img src="./img/avatar.jpeg" alt="Web Platform">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                <!-- Table rows loaded dynamically from projects.md via markdown-loader.js -->
                             </tbody>
                         </table>
                     </div>
@@ -185,13 +115,6 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
     <div class="filing-folder-top"></div>
 
     </div> <!-- End main-content -->
-
-    <!-- ==================== FILE POPOVER ==================== -->
-    <div id="file-popover" class="document-popover" style="display: none;">
-        <div class="popover-title"></div>
-        <div class="popover-role"></div>
-        <div class="popover-description"></div>
-    </div>
 
     <!-- ==================== PASSWORD MODAL ==================== -->
     <div id="password-modal" class="password-modal" style="display: none;">
@@ -224,111 +147,10 @@ I make stuff, break stuff, and learn stuff on the AI team @ Block, focusing on p
         </div>
     </div>
 
-    <!-- ==================== FINDER MODAL ==================== -->
-    <div id="finder-modal" class="finder-modal" style="display: none;">
-        <div class="finder-modal-overlay"></div>
-        <div id="finder-modal-content" class="finder-modal-content">
-            <div class="finder-titlebar">
-                <div class="finder-traffic-lights">
-                    <span class="traffic-light traffic-light-red" id="finder-close"></span>
-                    <span class="traffic-light traffic-light-yellow"></span>
-                    <span class="traffic-light traffic-light-green"></span>
-                </div>
-                <div class="finder-nav-section">
-                    <div class="finder-nav-buttons">
-                        <button class="finder-nav-btn" aria-label="Back">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <button class="finder-nav-btn" aria-label="Forward">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <h3 class="finder-title" id="finder-title">website</h3>
-                </div>
-                <div class="finder-view-modes">
-                    <button class="finder-view-btn active" aria-label="Grid view">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="14" width="7" height="7"></rect>
-                            <rect x="3" y="14" width="7" height="7"></rect>
-                        </svg>
-                    </button>
-                    <button class="finder-view-btn" aria-label="List view">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                    <button class="finder-view-btn" aria-label="Columns view">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
-                        </svg>
-                    </button>
-                    <button class="finder-view-btn" aria-label="Gallery view">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="finder-body">
-                <div class="finder-carousel-container">
-                    <div class="finder-carousel-main">
-                        <button class="finder-carousel-nav finder-carousel-prev" aria-label="Previous image">‹</button>
-                        <div class="finder-carousel-images" id="finder-carousel-images">
-                            <!-- Images will be inserted here -->
-                        </div>
-                        <button class="finder-carousel-nav finder-carousel-next" aria-label="Next image">›</button>
-                    </div>
-                    <div class="finder-carousel-thumbnails" id="finder-carousel-thumbnails">
-                        <!-- Thumbnails will be inserted here -->
-                    </div>
-                </div>
-                <div class="finder-sidebar" id="finder-sidebar">
-                    <div class="finder-sidebar-content">
-                        <div class="finder-sidebar-thumbnail" id="finder-sidebar-thumbnail">
-                            <!-- Current image thumbnail -->
-                        </div>
-                        <div class="finder-sidebar-info">
-                            <div class="finder-info-section">
-                                <div class="finder-info-label">Name</div>
-                                <div class="finder-info-value" id="finder-info-name">-</div>
-                            </div>
-                            <div class="finder-info-section">
-                                <div class="finder-info-label">Kind</div>
-                                <div class="finder-info-value">PNG image</div>
-                            </div>
-                            <div class="finder-info-section">
-                                <div class="finder-info-label">Size</div>
-                                <div class="finder-info-value" id="finder-info-size">-</div>
-                            </div>
-                            <div class="finder-info-section">
-                                <div class="finder-info-label">Created</div>
-                                <div class="finder-info-value" id="finder-info-created">-</div>
-                            </div>
-                            <div class="finder-info-section">
-                                <div class="finder-info-label">Modified</div>
-                                <div class="finder-info-value" id="finder-info-modified">-</div>
-                            </div>
-                            <div class="finder-info-section">
-                                <div class="finder-info-label">Dimensions</div>
-                                <div class="finder-info-value" id="finder-info-dimensions">-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- ==================== SCRIPTS ==================== -->
     <script src="opening-animation.js"></script>
-    <script src="file-content.js"></script> <!-- Content data must load before sections-nav.js -->
-    <script src="google-sheets-loader.js"></script> <!-- Optional: Load content from Google Sheets -->
+    <script src="file-content.js"></script> <!-- Fallback content data -->
+    <script src="markdown-loader.js"></script> <!-- Load content from projects.md -->
     <script src="sections-nav.js"></script>
     <script src="project-cards.js"></script> <!-- Project card deck interactions -->
     <script src="app.js"></script>

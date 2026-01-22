@@ -217,17 +217,52 @@
             hoverImageContainer.classList.remove('visible');
         }
 
-        // Create image grid HTML from entry data
-        const images = entry.images && entry.images.length > 0 ? entry.images : ['./img/placeholder.jpeg'];
-        imageContainer.innerHTML = `
-            <div class="modal-image-grid">
-                ${images.map((img, index) => `
-                    <img src="${img}"
+        // Create image/video grid HTML from entry data
+        const images = (entry.images && Array.isArray(entry.images) && entry.images.length > 0) ? entry.images : ['./img/placeholder.jpeg'];
+        console.log('Modal images/videos:', images);
+        console.log('Entry object:', entry);
+
+        const mediaHTML = images.map((mediaPath, index) => {
+            const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
+            console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}`);
+
+            if (isVideo) {
+                return `
+                    <video src="${mediaPath}"
+                           autoplay
+                           muted
+                           loop
+                           playsinline
+                           preload="auto"
+                           class="modal-grid-image modal-grid-video"
+                           style="width: 100%; height: auto; display: block; background: #000;">
+                        Your browser does not support the video tag.
+                    </video>
+                `;
+            } else {
+                return `
+                    <img src="${mediaPath}"
                          alt="${entry.title} - Image ${index + 1}"
                          class="modal-grid-image">
-                `).join('')}
-            </div>
-        `;
+                `;
+            }
+        }).join('');
+
+        // Ensure we have content to display
+        if (!mediaHTML || mediaHTML.trim() === '') {
+            console.warn('No media HTML generated, using fallback');
+            imageContainer.innerHTML = `
+                <div class="modal-image-grid">
+                    <img src="./img/placeholder.jpeg" alt="Placeholder" class="modal-grid-image">
+                </div>
+            `;
+        } else {
+            imageContainer.innerHTML = `
+                <div class="modal-image-grid">
+                    ${mediaHTML}
+                </div>
+            `;
+        }
 
         // Set text content from entry data
         textContainer.innerHTML = entry.content;
@@ -722,7 +757,6 @@
                 if (isVideo) {
                     return `
                         <video src="${mediaPath}"
-                               controls
                                loop
                                playsinline
                                preload="metadata"

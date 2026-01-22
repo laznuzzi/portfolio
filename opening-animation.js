@@ -4,7 +4,7 @@
 (function() {
     // ==================== EDIT TEXT HERE ====================
     const FIRST_LINE = "Howdy partner,";
-    const SECOND_LINE = "I'm Nazarena";
+    const SECOND_LINE = "↓ I'm ↓ Nazarena";
     // ========================================================
 
     // Wait for GSAP and Matter.js to be ready
