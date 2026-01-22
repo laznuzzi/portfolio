@@ -18,7 +18,7 @@
 
   /* Font styling for text inside capsules
      Format: weight size font-family */
-  --capsule-text-font: 700 57.6px Chalet, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --capsule-text-font: 300 57.6px InputMono-Light, monospace, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
 }
 
 /* Dark mode capsule styles */
