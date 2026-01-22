@@ -1,16 +1,15 @@
 # sandbox
-thumbnail: ./img/sandbox-thumb.jpg
-hover: ./img/sandbox-hover.gif
+title: Block design sandbox
+shortDescription: An AI-assisted code-prototyping tool for building on-brand interface grounded in Square and Cash App design languages.
+thumbnail: ./img/sandbox-thumb.png
+hover: ./img/sandbox-hover.mp4
 modal: ./img/sandbox1.jpg, ./img/sandbox2.jpg, ./img/sandbox3.jpg
 locked: true
 
 **Role:** Developer, Designer
 **Timeline:** Oct 2025 – Present
 
-### Context
-xxx
 
-### Description
 Later evolved into Sandbox (as official project) —a lightweight, experimental tool for building AI-native interfaces in code using Square and Cash App design languages. Designed and developed new features, and focused on the intelligence layer of the tool, integrating ecosystem data and design system knowledge to seed LLM-driven workflows. Features include preconfigured branding and theming, reusable components and page templates, AI-assisted workflows, and context-aware generation grounded in Square's internal patterns—enabling faster, more intelligent iteration without production constraints.
 
 ### Tech Stack
@@ -19,6 +18,8 @@ add here
 ---
 
 # vibe-code kit
+title: Square Vibe Code Kit
+shortDescription: Lightweight, IDE agnostic, ui-kit of Square design language with semantic tokens, components and starter page templates.
 thumbnail: ./img/vibe-thumb.jpg
 hover: ./img/vibe-hover.gif
 modal: ./img/vibe1.jpg, ./img/vibe2.jpg
@@ -36,7 +37,7 @@ Built Square's Vibe Code Kit (passion project), a git package with built-in them
 ---
 
 # g2
-title: G2
+title: Sales & Support portal
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
 hover: ./img/g2-hover.mp4
@@ -55,6 +56,8 @@ Prototyped a live, role-adaptive console experience on top of G2's workflow and 
 ---
 
 # rdm
+title: RDM
+shortDescription: Centralized remote device hub for Square sellers to monitor and manage hardware fleets in real-time.
 thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.mp4
 modal: ./img/rdm-1.mp4, ./img/rdm-2.mp4, ./img/rdm-3.png, ./img/rdm-4.mp4, ./img/rdm-5.png
@@ -71,6 +74,8 @@ Led the design of a centralized portal for managing and monitoring devices remot
 ---
 
 # design-system
+title: Design System
+shortDescription: Global enterprise design system including pre-validated components, UI kits and tutorials, built on a custom Material UI architecture.
 thumbnail: ./img/design-system-thumb.jpg
 hover: ./img/design-system-hover.gif
 modal: ./img/design-system1.jpg, ./img/design-system2.jpg
@@ -87,6 +92,8 @@ Designed the GSK design system, serving as the primary bridge between Global Bra
 ---
 
 # automation-portal
+title: Automation Portal
+shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
 thumbnail: ./img/automation-thumb.jpg
 hover: ./img/automation-hover.gif
 modal: ./img/placeholder.jpeg

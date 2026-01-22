@@ -243,8 +243,8 @@ const IMAGE_MAPPING = {
             tr.className = 'vintage-table-row';
             tr.setAttribute('data-entry', row.id);
 
-            // Add lock icon to first 3 projects
-            const lockIcon = index < 3 ? '<span class="lock-icon">🔒</span>' : '';
+            // Add lock icon SVG for first 3 projects
+            const lockIcon = index < 3 ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>' : '';
 
             // Mark first 3 as locked
             if (index < 3) {

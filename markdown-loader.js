@@ -201,8 +201,8 @@
             tr.className = 'vintage-table-row';
             tr.setAttribute('data-entry', project.id);
 
-            // Add lock icon to first 3 projects
-            const lockIcon = project.locked ? '<span class="lock-icon">🔒</span>' : '';
+            // Add lock icon SVG for locked projects
+            const lockIcon = project.locked ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>' : '';
 
             // Mark as locked
             if (project.locked) {

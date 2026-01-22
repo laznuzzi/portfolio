@@ -274,7 +274,7 @@ body {
 
 .nav-right {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-6);
   flex: 0 0 auto;
 }
 
@@ -1336,9 +1336,9 @@ body {
 .opening-text-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  text-align: left;
+  text-align: center;
   width: 95%;
   max-width: 100%;
   padding-left: var(--space-8);
@@ -1353,20 +1353,30 @@ body {
   font-weight: bold;
   letter-spacing: -0.04em;
   color: var(--color-black);
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: 'Buffon-Bold', 'Chalet', sans-serif;
   line-height: 0.85;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
   margin: 0;
   padding: 0;
   max-width: 100%;
   position: relative;
-  text-align: center;
 
   /* Keep text on its original lines, but allow scaling */
   white-space: normal;
   word-break: keep-all;
+}
+
+/* Each line in the opening text should be a block element */
+.opening-large-text .opening-line {
+  display: block;
+  white-space: nowrap; /* Prevent wrapping within each line */
+  text-align: center; /* Center each line from the start */
+  width: auto; /* Auto width so text centers naturally */
+  margin: 0 auto; /* Center the line itself */
 }
 
 @keyframes blink {
@@ -2199,12 +2209,17 @@ body {
 
 
 .lock-icon {
-  font-size: 0.7em;
+  display: block;
+  text-align: center;
+  margin-bottom: var(--space-2);
   opacity: 0.4;
-  margin-right: 0.5em;
-  display: inline-block;
-  vertical-align: middle;
   transition: opacity 0.2s ease;
+}
+
+.lock-icon img {
+  width: 24px;
+  height: auto;
+  display: inline-block;
 }
 
 .vintage-table-row:hover .lock-icon {
@@ -2367,7 +2382,7 @@ body {
   left: 0;
   width: 0;
   height: 100%;
-  background-color: #FF6B35;
+  background-color: #FF6B6B;
   z-index: -1;
   transition: width 0.4s ease;
 }
