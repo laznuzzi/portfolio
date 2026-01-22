@@ -159,11 +159,13 @@
             // Measure text width
             const textMetrics = measureContext.measureText(word);
             const textWidth = textMetrics.width;
-            
+
             // Calculate banner width: text width + padding on both sides
-            const padding = 64; // Padding on left and right (reduced by 20%)
-            const bannerWidth = textWidth + (padding * 2);
-            const bannerHeight = 158.4; // Fixed height from SVG (reduced by 20%)
+            // With border-image (30px border on each side), we need less internal padding
+            const internalPadding = 40; // Internal padding for text (reduced since border provides visual space)
+            const borderWidth = 30; // Border width on each side
+            const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
+            const bannerHeight = 100; // Reduced height for more compact capsule look
 
             // Start positions - visible on screen, distributed across viewport
             // Add scatter/spread to initial positions for organic, varied layout
@@ -203,30 +205,19 @@
             
             // Set banner color via CSS variable
             bannerElement.style.setProperty('--banner-fill-color', bannerFillColor);
-            
-            // Create banner HTML structure (three-part SVG banner)
-            // CRITICAL: Use inline fill color instead of CSS variable for better browser support
-            // No borders - just fill color
+
+            // Create banner HTML structure using border-image with scalloped corners
+            // URL-encode the hex color for use in SVG data URI
+            const encodedColor = bannerFillColor.replace('#', '%23');
+
             bannerElement.innerHTML = `
-                <div class="wanted-poster-corner wanted-poster-corner-left">
-                    <svg viewBox="0 0 40.2 198.2" preserveAspectRatio="xMinYMid meet" style="display: block; margin: 0; padding: 0;">
-                        <path fill="${bannerFillColor}" d="M40.2,198.2V0h-.8v.3C39.3,22.1,21.7,39.8,0,40v115.4c21.9,0,39.7,17.8,39.7,39.7s0,2.1-.1,3.2h.7Z"/>
-                    </svg>
-                </div>
-                <div class="wanted-poster-middle">
-                    <svg class="wanted-poster-middle-svg" viewBox="0 0 355.5 198.2" preserveAspectRatio="none" style="display: block; margin: 0; padding: 0;">
-                        <rect fill="${bannerFillColor}" x="0" y="0" width="355.5" height="198.2"/>
-                    </svg>
-                    <div class="wanted-poster-content">
-                        <span class="wanted-poster-text">${word}</span>
-                    </div>
-                </div>
-                <div class="wanted-poster-corner wanted-poster-corner-right">
-                    <svg viewBox="394.8 0 40.2 198.2" preserveAspectRatio="xMaxYMid meet" style="display: block; margin: 0; padding: 0;">
-                        <path fill="${bannerFillColor}" d="M394.8,0v198.2h.8v-.3c0-21.8,17.6-39.5,39.3-39.6V42.8c-21.9,0-39.7-17.8-39.7-39.7s0-2.1.1-3.2h-.7Z"/>
-                    </svg>
-                </div>
+                <span class="banner-text">${word}</span>
             `;
+
+            // Apply scalloped corner styling via border-image
+            bannerElement.style.border = '30px solid';
+            bannerElement.style.borderImageSource = `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="3" height="3" fill="${encodedColor}"><path d="M2 0H1C1 .6.6 1 0 1v1c.6 0 1 .4 1 1h1c0-.6.4-1 1-1V1a1 1 0 0 1-1-1Z"/></svg>')`;
+            bannerElement.style.borderImageSlice = '1 fill';
             
             console.log(`Banner ${index} (${word}) created with color: ${bannerFillColor}`);
             
@@ -257,7 +248,7 @@
                 density: 0.001,   // Standard density for balanced physics
                 angle: initialAngle, // Set initial rotation angle
                 slop: 0.05, // Collision tolerance for smoother physics
-                chamfer: { radius: 30 }, // Rounded corners for capsule-like collisions
+                chamfer: { radius: bannerHeight / 2 }, // Rounded corners matching capsule shape
                 inertia: Infinity // Prevents rotational slowdown - capsules spin freely
             });
             

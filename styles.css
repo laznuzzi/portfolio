@@ -1470,103 +1470,37 @@ body {
 /* HIDDEN FOR TESTING - Using banner shapes instead */
 
 /* ==================== PHYSICS BANNER STYLES ==================== */
-/* Banner shapes that replace capsules in opening animation */
+/* Banner capsules with scalloped corners using border-image technique */
 
 .physics-banner {
   position: absolute;
   display: inline-flex !important;
-  align-items: stretch;
-  gap: 0; /* No gap between flex items */
-  font-size: 0; /* Remove inline spacing between flex items */
-  line-height: 0; /* Remove line-height spacing */
+  align-items: center;
+  justify-content: center;
   pointer-events: auto;
   cursor: grab;
   z-index: 21 !important; /* Above text container so capsules overlay "Howdy" text */
   visibility: visible !important;
   opacity: 1 !important;
-  
+
+  /* Scalloped corners applied via border-image (set inline) */
+  /* border-image-source and colors set dynamically in JS */
+
   /* Performance optimizations for smooth animation */
   will-change: transform;
   backface-visibility: hidden; /* Optimize rendering */
-  
+
   &:active {
     cursor: grabbing;
   }
 }
 
-.physics-banner .wanted-poster-corner-left {
-  width: 40px;
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: stretch;
-  margin: 0;
-  padding: 0;
-}
-
-.physics-banner .wanted-poster-corner-left svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.physics-banner .wanted-poster-middle {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-width: 0;
-  flex-shrink: 0;
-  height: 100%;
-  margin: 0; /* No margins */
-  padding: 0; /* No padding */
-}
-
-.physics-banner .wanted-poster-middle-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
-}
-
-.physics-banner .wanted-poster-content {
-  position: relative;
-  z-index: 2;
-  padding: 0 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  
-  /* Use capsule text styling - same size as original capsules */
+.physics-banner .banner-text {
   color: var(--capsule-text-color);
   font: var(--capsule-text-font);
-}
-
-.physics-banner .wanted-poster-text {
-  display: inline-block;
-}
-
-.physics-banner .wanted-poster-corner-right {
-  width: 40px;
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: stretch;
-  margin: 0;
-  padding: 0;
-}
-
-.physics-banner .wanted-poster-corner-right svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  margin: 0;
-  padding: 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .opening-icon {
