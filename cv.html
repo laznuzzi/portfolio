@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazarena Luzzi Castro - CV</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CV-specific styles */
+        .cv-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--space-12) var(--space-8);
+            font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .cv-header {
+            margin-bottom: var(--space-12);
+        }
+
+        .cv-columns {
+            display: flex;
+            gap: var(--space-8);
+            align-items: flex-start;
+        }
+
+        .cv-column-left {
+            width: 30%;
+            flex-shrink: 0;
+        }
+
+        .cv-column-right {
+            width: 70%;
+            flex-shrink: 0;
+        }
+
+        .cv-name {
+            font-family: 'Buffon-Bold', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-4);
+            color: var(--color-black);
+        }
+
+        .cv-greeting {
+            font-family: 'Buffon-Bold', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: var(--space-6);
+            color: var(--color-black);
+        }
+
+        .cv-intro {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-10);
+            max-width: 700px;
+        }
+
+        .cv-section {
+            margin-bottom: var(--space-10);
+        }
+
+        .cv-section-title {
+            font-family: 'Buffon-Bold', serif;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-6);
+            color: var(--color-black);
+            padding-bottom: var(--space-2);
+        }
+
+        .cv-contact {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+
+        .cv-contact-item {
+            font-size: var(--font-size-base);
+        }
+
+        .cv-contact-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .cv-contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .cv-skills {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            margin-bottom: var(--space-8);
+        }
+
+        .cv-skill {
+            font-size: var(--font-size-base);
+        }
+
+        .cv-education {
+            margin-bottom: var(--space-8);
+        }
+
+        .cv-education-item {
+            margin-bottom: var(--space-4);
+        }
+
+        .cv-education-school {
+            font-weight: bold;
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-1);
+        }
+
+        .cv-education-details {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .cv-experience {
+            margin-bottom: var(--space-8);
+        }
+
+        .cv-experience-item {
+            margin-bottom: var(--space-8);
+        }
+
+        .cv-experience-company {
+            font-family: 'Buffon-Bold', serif;
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            margin-bottom: var(--space-2);
+            color: var(--color-black);
+        }
+
+        .cv-experience-role {
+            font-weight: bold;
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-1);
+        }
+
+        .cv-experience-date {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .cv-experience-bullets {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .cv-experience-bullets li {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-2);
+            padding-left: var(--space-6);
+            position: relative;
+        }
+
+        .cv-experience-bullets li::before {
+            content: "•";
+            position: absolute;
+            left: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .cv-page {
+                padding: var(--space-8) var(--space-4);
+            }
+
+            .cv-columns {
+                flex-direction: column;
+            }
+
+            .cv-column-left,
+            .cv-column-right {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="app-body">
+    <!-- ==================== PERSISTENT BORDER FRAME ==================== -->
+    <div class="border-frame"></div>
+
+    <!-- ==================== HEADER SECTION ==================== -->
+    <header id="app-header" class="app-header">
+        <nav class="main-nav">
+            <div class="nav-left">
+                <a href="index.html" class="nav-name">Nazarena</a>
+            </div>
+            <div class="nav-right">
+                <a href="index.html" class="nav-link">Work</a>
+                <a href="cv.html" class="nav-link">CV</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==================== RESUME CONTENT ==================== -->
+    <main class="cv-page">
+        <div class="cv-header">
+            <h1 class="cv-name">Nazarena Luzzi Castro</h1>
+        </div>
+
+        <div class="cv-columns">
+            <!-- Left Column: 30% - Contact, Skills, Education -->
+            <div class="cv-column-left">
+                <section class="cv-section">
+                    <h3 class="cv-section-title">Contact Me</h3>
+                    <div class="cv-contact">
+                        <div class="cv-contact-item">
+                            <a href="https://nazarenaluzzi.com" target="_blank">nazarenaluzzi.com</a>
+                        </div>
+                        <div class="cv-contact-item">
+                            <a href="mailto:nluzzicastro@gmail.com">nluzzicastro@gmail.com</a>
+                        </div>
+                        <div class="cv-contact-item">
+                            <a href="tel:3025882926">302.588.2926</a>
+                        </div>
+                        <div class="cv-contact-item">
+                            <a href="https://linkedin.com/in/nazarena-luzzi-castro" target="_blank">/nazarena-luzzi-castro</a>
+                        </div>
+                        <div class="cv-contact-item">
+                            <a href="https://nluzzicastro.medium.com" target="_blank">/nluzzicastro.medium.com</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="cv-section">
+                    <h3 class="cv-section-title">Skills</h3>
+                    <div class="cv-skills">
+                        <div class="cv-skill">User-Centered Design</div>
+                        <div class="cv-skill">UI Design</div>
+                        <div class="cv-skill">Product Strategy</div>
+                        <div class="cv-skill">Service Design</div>
+                        <div class="cv-skill">Storytelling</div>
+                        <div class="cv-skill">Workshop Facilitation</div>
+                        <div class="cv-skill">Cross-Functional Collaboration</div>
+                        <div class="cv-skill">Design Thinking</div>
+                        <div class="cv-skill">User Research</div>
+                        <div class="cv-skill">Front-End Development</div>
+                        <div class="cv-skill">Design Leadership</div>
+                        <div class="cv-skill">Process Leadership</div>
+                        <div class="cv-skill">Analytics</div>
+                        <div class="cv-skill">Strategic Communications</div>
+                    </div>
+                </section>
+
+                <section class="cv-section">
+                    <h3 class="cv-section-title">Studied At</h3>
+                    <div class="cv-education">
+                        <div class="cv-education-item">
+                            <div class="cv-education-school">West Chester University</div>
+                            <div class="cv-education-details">2009 – 2013</div>
+                            <div class="cv-education-details">BFA, Graphic Design</div>
+                            <div class="cv-education-details">Minor, Web Development</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: 70% - Experience -->
+            <div class="cv-column-right">
+                <section class="cv-section">
+                    <h3 class="cv-section-title">Experience</h3>
+            <div class="cv-experience">
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">GlaxoSmithKline</div>
+                    <div class="cv-experience-role">Lead Product Designer | Platforms</div>
+                    <div class="cv-experience-date">June 2020 – Present</div>
+                    <ul class="cv-experience-bullets">
+                        <li>Lead small Design pod and interns to deliver Developer Portal capabilities, enabling internal-facing teams to discover catalog solutions such as APIs and CICD templates, and securely manage RPA bots. This work includes E2E RPA lifecycle and systems documentation created in collaboration with BU partners, Tech Ops and Risk teams.</li>
+                        <li>Communicate value of Developer Portal and GSK design system across multiple levels of the organization by creating data-driven presentations in an effort to secure funding, drive product adoption, and align on internal business partners' objectives.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">GlaxoSmithKline</div>
+                    <div class="cv-experience-role">Senior Product Designer | Platforms</div>
+                    <div class="cv-experience-date">September 2018 – June 2020</div>
+                    <ul class="cv-experience-bullets">
+                        <li>Led design, customer management and strategic comms for the GSK design system in collaboration with Design, Engineering and Global Brand partners, enabling Tech teams to build better digital products at speed. This included assisting dev team with web component theming, design token mapping, and implementation documentation.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">Muhlenhaupt + Company</div>
+                    <div class="cv-experience-role">UX Lead</div>
+                    <div class="cv-experience-date">December 2016 – September 2018</div>
+                    <ul class="cv-experience-bullets">
+                        <li>Elevated design practices and established agency delivery process between internal team and clients by creating templates for project briefs, UX audits, and workshops.</li>
+                        <li>Led small team of designers and freelance developers to build marketing websites, mobile apps, and digital campaigns while working closely with clients, strategists, and leadership. This included presenting final work to clients.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">Moody's Analytics</div>
+                    <div class="cv-experience-role">UX Designer | E-commerce</div>
+                    <div class="cv-experience-date">April 2015 – December 2016</div>
+                    <ul class="cv-experience-bullets">
+                        <li>Designed and improved the user experience of the Moody's Intranet platform and consumer-facing financial products such as CreditCycle.</li>
+                        <li>Accelerated development processes by partially coding the front-end UI and creating a Bootstrap-based design system that enabled the engineering team to easily theme applications and reduce duplicative work.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">SAP</div>
+                    <div class="cv-experience-role">Interactive Designer | Global Graphics</div>
+                    <div class="cv-experience-date">July 2014 – April 2015</div>
+                    <ul class="cv-experience-bullets">
+                        <li>Digitized sales print proposals into web-based experiences to improve effectiveness of customer pitches and increased US employees' engagement with Corporate Social Responsibility through the design of interactive data visualizations.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">SAP</div>
+                    <div class="cv-experience-role">Graphic Designer | Global Graphics</div>
+                    <div class="cv-experience-date">May 2013 – July 2014</div>
+                    <ul class="cv-experience-bullets">
+                        <li>Collaborated with value engineers, executives, and writers, to conceptualize and design infographics, Big Data diagrams, and keynotes for strategy meetings.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
