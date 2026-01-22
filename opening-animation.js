@@ -3,8 +3,11 @@
 
 (function() {
     // ==================== EDIT TEXT HERE ====================
-    const FIRST_LINE = "Howdy partner,";
-    const SECOND_LINE = "↓ I'm ↓ Nazarena";
+    // Each word on its own line to prevent wrapping during typing
+    const LINE_1 = "Howdy";
+    const LINE_2 = "partner,";
+    const LINE_3 = "↓ I'm ↓";
+    const LINE_4 = "Nazarena";
     // ========================================================
 
     // Wait for GSAP and Matter.js to be ready
@@ -36,43 +39,54 @@
 
     // ==================== TYPING ANIMATION ====================
     const textElement = textWrapper.querySelector('.opening-large-text');
-    const subtitleElement = document.createElement('div');
-    subtitleElement.className = 'opening-subtitle-text';
-    textWrapper.appendChild(subtitleElement);
-
+    
+    // Clear existing content and create separate line elements
     if (textElement) {
-        // Type first line
-        textElement.textContent = ''; // Clear existing text
-
-        FIRST_LINE.split('').forEach((char, index) => {
-            setTimeout(() => {
-                textElement.textContent += char;
-
-                // After first line completes, type second line
-                if (index === FIRST_LINE.length - 1) {
-                    setTimeout(() => {
-                        typeSubtitle();
-                    }, 500);
-                }
-            }, index * 150); // 150ms between each character
+        textElement.innerHTML = ''; // Clear existing text
+        
+        // Create 4 separate line elements, each will contain one word
+        const line1 = document.createElement('div');
+        line1.className = 'opening-line';
+        const line2 = document.createElement('div');
+        line2.className = 'opening-line';
+        const line3 = document.createElement('div');
+        line3.className = 'opening-line';
+        const line4 = document.createElement('div');
+        line4.className = 'opening-line';
+        
+        textElement.appendChild(line1);
+        textElement.appendChild(line2);
+        textElement.appendChild(line3);
+        textElement.appendChild(line4);
+        
+        // Type each line sequentially
+        typeLine(line1, LINE_1, 150, () => {
+            typeLine(line2, LINE_2, 150, () => {
+                typeLine(line3, LINE_3, 150, () => {
+                    typeLine(line4, LINE_4, 150, () => {
+                        // After all lines are done, wait then start physics
+                        setTimeout(() => {
+                            startPhysicsAnimation();
+                        }, 800);
+                    });
+                });
+            });
         });
     }
-
-    function typeSubtitle() {
+    
+    function typeLine(element, text, delay, onComplete) {
         let index = 0;
-
         const typeInterval = setInterval(() => {
-            if (index < SECOND_LINE.length) {
-                subtitleElement.textContent += SECOND_LINE[index];
+            if (index < text.length) {
+                element.textContent += text[index];
                 index++;
             } else {
                 clearInterval(typeInterval);
-                // After both texts are done, wait then start physics (capsules overlay the text)
-                setTimeout(() => {
-                    startPhysicsAnimation();
-                }, 800);
+                if (onComplete) {
+                    setTimeout(onComplete, 500); // Small pause between lines
+                }
             }
-        }, 100);
+        }, delay);
     }
 
     // ==================== PHYSICS ANIMATION ====================
@@ -94,7 +108,8 @@
 
         // Create engine
         const engine = Engine.create();
-        engine.gravity.y = 0.15; // Very low gravity - slower, more elegant movement
+        engine.gravity.y = 1; // Standard gravity
+        engine.gravity.scale = 0.0003; // Much lower scale for slower, more elegant dropping
         // Lower gravity creates smoother, slower animation
         physicsEngine = engine;
 
@@ -155,7 +170,7 @@
             const baseX = (window.innerWidth / (words.length + 1)) * (index + 1);
             const xVariation = (Math.random() - 0.5) * 150; // Random spread ±75px horizontally
             const x = baseX + xVariation;
-            
+
             // Start MUCH HIGHER - in upper portion of viewport, distributed vertically
             // Use center Y position for Matter.js body (not top-left)
             // Position above the text area (text is centered, so start banners higher)
@@ -232,14 +247,18 @@
             const angleVariation = (Math.random() - 0.5) * 0.6; // -0.3 to +0.3 radians (~-17° to +17°)
             const initialAngle = angleVariation;
             
-            // Create invisible Matter.js body for physics (same size as banner)
+            // Create invisible Matter.js body for physics (same size as visual element)
             const bannerBody = Bodies.rectangle(x, y, bannerWidth, bannerHeight, {
                 render: { visible: false }, // Invisible - we use DOM element instead
-                restitution: 0.05, // Very low bounciness - prevents bouncing
-                friction: 0.08,   // Slightly higher friction - slows movement
-                frictionAir: 0.02, // Higher air resistance - creates slower, smoother motion
-                density: 0.0005,   // Low density - responsive but smooth
-                angle: initialAngle // Set initial rotation angle
+                restitution: 0, // No bounce - capsules settle nicely without bouncing
+                friction: 0.001,   // Very low friction - capsules slide past each other easily
+                frictionStatic: 0.001, // Very low static friction - prevents sticking
+                frictionAir: 0.02, // Slight air resistance for smoother, more gradual movement
+                density: 0.001,   // Standard density for balanced physics
+                angle: initialAngle, // Set initial rotation angle
+                slop: 0.05, // Collision tolerance for smoother physics
+                chamfer: { radius: 30 }, // Rounded corners for capsule-like collisions
+                inertia: Infinity // Prevents rotational slowdown - capsules spin freely
             });
             
             // Store references
@@ -254,8 +273,8 @@
             const velocityY = -0.3 + (Math.random() - 0.5) * 0.2; // Upward with variation
             Body.setVelocity(bannerBody, { x: velocityX, y: velocityY });
             
-            // Add slight angular velocity for natural rotation
-            const angularVelocity = (Math.random() - 0.5) * 0.03; // Small rotation speed variation
+            // Add angular velocity for natural rotation
+            const angularVelocity = (Math.random() - 0.5) * 0.15; // Subtle rotation speed for gentle, graceful movement
             Body.setAngularVelocity(bannerBody, angularVelocity);
             
             banners.push(bannerElement);
@@ -349,9 +368,9 @@
         const mouseConstraint = MouseConstraint.create(engine, {
             mouse: mouse,
             constraint: {
-                stiffness: 0.4,  // Lower stiffness for smoother, slower dragging
-                damping: 0.2,    // Higher damping for smoother, slower motion
-                angularStiffness: 0.05, // Lower angular stiffness for smoother rotation
+                stiffness: 0.1,  // Lower stiffness for smoother dragging
+                damping: 0,      // No damping for more responsive interaction
+                angularStiffness: 1, // Full rotational response when dragging
                 render: { visible: false }
             }
         });
@@ -446,24 +465,33 @@
                     Body.applyForce(bannerBody, bannerBody.position, force);
                 }
                 
-                // SECONDARY FORCE: Direct subtle attraction to mouse position
-                // This adds the "slowly follow mouse" effect
+                // SECONDARY FORCE: Direct attraction to mouse position
+                // This adds the "follow mouse" effect
                 const mouseDx = mousePosition.x - bannerBody.position.x;
                 const mouseDy = mousePosition.y - bannerBody.position.y;
                 const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
-                
+
                 if (mouseDistance > 10) { // Only apply if not at mouse
-                    // Distance-based force - stronger when closer, but always present
-                    const maxDistance = 1500; // Larger range for more subtle following
-                    const distanceFactor = Math.max(0.05, 1 - (mouseDistance / maxDistance)); // Minimum 0.05 for very subtle force
-                    const mouseForceMagnitude = 0.001 * distanceFactor; // Reduced base force for slower, more subtle following
-                    
+                    // Distance-based force - much stronger for instant response
+                    const maxDistance = 500; // Reduced range for stronger response
+                    const distanceFactor = Math.max(0.5, 1 - (mouseDistance / maxDistance)); // Minimum 0.5 for very strong base force
+                    const mouseForceMagnitude = 0.002 * distanceFactor; // Gentle force for subtle, gradual following
+
                     const mouseForce = {
                         x: (mouseDx / mouseDistance) * mouseForceMagnitude * bannerBody.mass,
                         y: (mouseDy / mouseDistance) * mouseForceMagnitude * bannerBody.mass
                     };
 
-                    Body.applyForce(bannerBody, bannerBody.position, mouseForce);
+                    // Apply force at an offset point to create torque/rotation
+                    // This makes capsules rotate as they move, creating more dynamic motion
+                    const offsetX = (Math.random() - 0.5) * bannerBody.width * 0.4;
+                    const offsetY = (Math.random() - 0.5) * bannerBody.height * 0.4;
+                    const forcePoint = {
+                        x: bannerBody.position.x + offsetX,
+                        y: bannerBody.position.y + offsetY
+                    };
+
+                    Body.applyForce(bannerBody, forcePoint, mouseForce);
                 }
             });
         });
