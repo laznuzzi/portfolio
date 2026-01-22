@@ -85,6 +85,8 @@
                 // Parse metadata
                 if (line.startsWith('title:')) {
                     project.title = line.replace('title:', '').trim();
+                } else if (line.startsWith('subtitle:')) {
+                    project.subtitle = line.replace('subtitle:', '').trim();
                 } else if (line.startsWith('shortDescription:')) {
                     project.shortDescription = line.replace('shortDescription:', '').trim();
                 } else if (line.startsWith('thumbnail:')) {
@@ -169,7 +171,7 @@
                 <p style="color: var(--text-primary);">${project.context}</p>
             ` : ''}
 
-            <h2>Description</h2>
+            <h2>The work</h2>
             <p style="color: var(--text-primary);">${project.description || 'Project description coming soon.'}</p>
 
             ${project.techStack ? `
@@ -184,9 +186,9 @@
         `;
     }
 
-    // Update vintage table
+    // Update archive table
     function updateVintageTable(projects) {
-        const tbody = document.querySelector('.vintage-table tbody');
+        const tbody = document.querySelector('.archive-table tbody');
         if (!tbody) return;
 
         // Clear existing rows
@@ -198,7 +200,7 @@
             const hoverImage = project.hover || firstImage;
 
             const tr = document.createElement('tr');
-            tr.className = 'vintage-table-row';
+            tr.className = 'table-row';
             tr.setAttribute('data-entry', project.id);
 
             // Add lock icon SVG for locked projects
@@ -216,13 +218,22 @@
                 : `<img src="${hoverImage}" alt="${project.title}">`;
 
             tr.innerHTML = `
-                <td class="col-title">${lockIcon}<span>${project.title}</span></td>
-                <td class="col-description">${project.shortDescription || ''}</td>
-                <td class="vintage-table-thumbnail">
-                    <img src="${firstImage}" alt="${project.title}">
-                    <div class="vintage-table-hover-image">
-                        <div class="hover-image-wrapper">
-                            ${hoverMediaTag}
+                <td class="title">
+                    <div class="title-content">
+                        ${lockIcon}
+                        <span class="title-text">${project.title}</span>
+                        <div class="title-divider"></div>
+                        <span class="title-subtitle">${project.subtitle || ''}</span>
+                    </div>
+                </td>
+                <td class="description">${project.shortDescription || ''}</td>
+                <td class="thumbnail">
+                    <div class="thumbnail-wrapper">
+                        <img src="${firstImage}" alt="${project.title}">
+                        <div class="hover-preview">
+                            <div class="hover-image-wrapper">
+                                ${hoverMediaTag}
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -231,9 +242,9 @@
             tbody.appendChild(tr);
         });
 
-        console.log('Vintage table updated with', projects.length, 'projects');
+        console.log('Archive table updated with', projects.length, 'projects');
 
         // Trigger event for sections-nav.js
-        window.dispatchEvent(new CustomEvent('vintageTableUpdated'));
+        window.dispatchEvent(new CustomEvent('archiveTableUpdated'));
     }
 })();

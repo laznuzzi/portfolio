@@ -348,7 +348,7 @@ body {
     margin: 0 auto;
     font-weight: 400;
     color: var(--text-primary);
-    font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   .greeting-text {
@@ -2052,7 +2052,7 @@ body {
   transform: translateX(-50%);
   width: 90%;
   max-width: 1200px;
-  height: 80px; /* Low height as requested */
+  height: 100px;
   background-color: #9CAF88; /* Sage green color - matches folder in image */
   overflow: visible;
   z-index: 10; /* Above table so it can overlay */
@@ -2067,12 +2067,12 @@ body {
   clip-path: url(#folderClipPath);
 }
 
-/* ==================== VINTAGE TABLE SECTION ==================== */
+/* ==================== ARCHIVES TABLE SECTION ==================== */
 
-.vintage-table-section {
+.archives-section {
   width: 100%;
-  padding: var(--space-12) 0; /* Remove horizontal padding to allow full width */
-  background: transparent; /* Use parent background, no separate layer */
+  padding: var(--space-12) 0;
+  background: transparent;
   box-sizing: border-box;
 }
 
@@ -2081,27 +2081,22 @@ body {
   font-weight: bold;
   letter-spacing: -0.02em;
   color: var(--color-black);
-  display: block;
   font-family: 'Buffon-Bold', 'Chalet', sans-serif;
   line-height: 1.2;
   text-align: center;
-  margin-top: 0;
-  margin-bottom: var(--space-12);
+  margin: 0 0 var(--space-12);
   text-transform: uppercase;
 }
 
-/* ==================== VINTAGE TABLE FILTERS ==================== */
-.vintage-table-filters {
+/* Table Filters (currently commented out in HTML) */
+.table-filters {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
-  max-width: 100%;
   margin-bottom: var(--space-6);
-  padding: 0;
 }
 
-.vintage-filter-btn {
+.filter-btn {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -2109,7 +2104,7 @@ body {
   border: none;
   padding: 0;
   cursor: pointer;
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Chalet', -apple-system, sans-serif;
   font-weight: bold;
   font-size: var(--font-size-base);
   color: #FF6B35;
@@ -2118,104 +2113,185 @@ body {
   transition: opacity 0.2s ease;
 }
 
-.vintage-filter-btn:hover {
+.filter-btn:hover {
   opacity: 0.8;
 }
 
-.filter-left {
-  justify-content: flex-start;
-}
+/* ==================== TABLE STRUCTURE ==================== */
 
-.filter-right {
-  justify-content: flex-end;
-}
-
-.filter-icon {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.filter-icon-filled {
-  background-color: #FF6B35;
-}
-
-.filter-icon-outline {
-  background-color: transparent;
-  border: 2px solid #FF6B35;
-}
-
-.vintage-table-container {
+.table-container {
   width: 100%;
-  margin: 0;
   background: transparent;
-  padding: 0;
-  border: 4px solid #000000; /* All borders including sides */
 }
 
-.vintage-table {
+.archive-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Chalet', -apple-system, sans-serif;
   color: var(--text-primary);
   background: transparent;
-  margin: 0;
 }
 
-
-.vintage-table th {
+.archive-table th {
   padding: var(--space-4) var(--space-3);
   text-align: left;
-  font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: var(--font-size-xs);
   color: var(--text-secondary);
   border-right: 4px solid #000000;
-
-  &:last-child {
-    border-right: none;
-  }
 }
 
-.vintage-table tbody tr {
+.archive-table th:last-child {
+  border-right: none;
+}
+
+.archive-table tbody tr {
   border-bottom: 4px solid #000000;
   cursor: pointer;
-
-  &:last-child {
-    border-bottom: none;
-  }
 }
 
-.vintage-table td {
-  padding: 3rem var(--space-3); /* Increased vertical padding for taller rows */
+.archive-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.archive-table td {
+  padding: 3rem var(--space-3);
   border-right: 4px solid #000000;
   vertical-align: middle;
-  background: transparent;
-
-  &:last-child {
-    border-right: none;
-  }
-  
-  &.vintage-table-thumbnail {
-    background: var(--color-black) !important;
-  }
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Column widths */
-.vintage-table .col-title {
+.archive-table td:last-child {
+  border-right: none;
+  width: 100%;
+}
+
+/* ==================== TABLE ROW & HOVER EFFECTS ==================== */
+
+.table-row {
+  cursor: pointer;
+  position: relative;
+}
+
+/* Hover background wipe effect with black */
+.table-row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: calc(100% + 4px);
+  background-color: var(--color-black);
+  z-index: -1;
+  transition: width 0.4s ease;
+}
+
+.table-row:hover::after {
+  width: 100%;
+}
+
+.table-row:hover td {
+  color: var(--bg-primary);
+}
+
+.table-row:hover .title-text {
+  color: var(--bg-primary);
+}
+
+.table-row:hover .lock-icon {
+  opacity: 0.8;
+  filter: invert(1);
+}
+
+/* ==================== TABLE COLUMNS ==================== */
+
+.title {
   width: 25%;
-  font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: var(--font-size-base); /* Same size as description */
+  font-size: 1.6rem;
   font-weight: bold;
   line-height: 1.2;
-  text-transform: uppercase; /* Make all text uppercase */
+  letter-spacing: -0.03em;
+  text-align: center;
 }
 
+.title-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: center;
+}
 
+.title-text {
+  display: block;
+}
+
+.title-divider {
+  width: 50%;
+  height: 0;
+  border-bottom: 2px dotted var(--color-black);
+  margin: var(--space-1) 0;
+}
+
+.title-subtitle {
+  font-size: var(--font-size-md);
+  font-weight: normal;
+  text-transform: none;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.table-row:hover .title-subtitle {
+  color: var(--bg-primary);
+  opacity: 0.7;
+}
+
+.table-row:hover .title-divider {
+  border-bottom-color: var(--bg-primary);
+}
+
+.description {
+  width: 40%;
+  font-size: var(--font-size-base);
+}
+
+.thumbnail {
+  position: relative;
+  width: 35%;
+}
+
+/* Set black background on the td cell itself - no padding on td */
+.archive-table td.thumbnail {
+  background-color: var(--color-black) !important;
+  padding: 0 !important;
+}
+
+/* Wrapper div inside td handles padding and layout */
+.thumbnail-wrapper {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.thumbnail-wrapper img,
+.thumbnail-wrapper video {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  border: 2px solid #000000;
+  display: block;
+  transition: border-color 0.4s ease;
+}
+
+/* ==================== LOCK ICON ==================== */
 
 .lock-icon {
   display: block;
@@ -2231,58 +2307,257 @@ body {
   display: inline-block;
 }
 
-.vintage-table-row:hover .lock-icon {
-  opacity: 0.6;
+/* ==================== HOVER PREVIEW (Mouse Follow) ==================== */
+
+/* Hide inline hover images - we use a shared container */
+.table-row .hover-preview {
+  display: none;
 }
 
-.vintage-table .col-description {
-  width: 40%;
-  font-size: var(--font-size-base);
+/* Shared hover preview container (created by JS) */
+.hover-preview {
+  position: fixed;
+  width: 500px;
+  height: 375px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+  border: 2px solid #000000;
+  background: #000000;
+  padding: var(--space-4);
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  transition: opacity 0.2s ease;
 }
 
+.hover-preview.visible {
+  opacity: 1;
+}
 
+/* Arrow indicator */
+.hover-preview::after {
+  content: '→';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  border: 3px solid #000000;
+  border-radius: 50%;
+  font-family: 'Buffon-Bold', sans-serif;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  font-weight: bold;
+  z-index: 1;
+}
 
-.vintage-table .col-image {
-  width: 35%; /* Reduced from 40% to make image column less wide */
+/* Image slider */
+.hover-preview .hover-image-slider {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: top 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.hover-preview .hover-image-item {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  box-sizing: border-box;
+}
+
+.hover-preview .hover-image-item img,
+.hover-preview .hover-image-item video {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+}
+
+.hover-preview .hover-image-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hover-preview .hover-image-wrapper video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ==================== RESPONSIVE: TABLET ==================== */
+
+@media (max-width: 1024px) {
+  .archives-section {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .hover-preview {
+    width: 300px;
+    height: 225px;
+  }
+}
+
+/* ==================== RESPONSIVE: MOBILE (Cards Layout) ==================== */
+
+@media (max-width: 768px) {
+  .archives-section {
+    padding: var(--space-6) var(--space-3);
+  }
+
+  /* Hide table, show cards */
+  .table-container {
+    border: none;
+  }
+
+  .archive-table {
+    display: block;
+  }
+
+  .archive-table thead {
+    display: none;
+  }
+
+  .archive-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .table-row {
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #000000 !important;
+    background: var(--bg-primary);
+  }
+
+  .table-row::after {
+    display: none; /* Remove hover wipe on mobile */
+  }
+
+  .table-row td {
+    display: block;
+    width: 100% !important;
+    border: none !important;
+    padding: var(--space-3) !important;
+  }
+
+  /* Thumbnail on top */
+  .thumbnail {
+    height: 200px;
+    order: -1;
+    border-bottom: 4px solid #000000 !important;
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+    padding-top: var(--space-4) !important;
+  }
+
+  .description {
+    font-size: var(--font-size-sm);
+    padding-bottom: var(--space-4) !important;
+  }
+
+  /* Disable hover preview on mobile */
+  .hover-preview {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .archives-section {
+    padding: var(--space-4) var(--space-2);
+  }
+
+  .table-row td {
+    padding: var(--space-2) !important;
+  }
+
+  .thumbnail {
+    height: 150px;
+  }
+
+  .title {
+    font-size: var(--font-size-base);
+  }
+
+  .description {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* ==================== LEGACY CLASS SUPPORT (TEMPORARY) ==================== */
+/* These map old class names to new ones for backward compatibility */
+/* Remove these once HTML/JS is updated */
+
+.vintage-table-section {
+  width: 100%;
+  padding: var(--space-12) 0;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.vintage-table-container {
+  width: 100%;
+  border: 4px solid #000000;
+  background: transparent;
+}
+
+.vintage-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Chalet', -apple-system, sans-serif;
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.vintage-table-row {
+  cursor: pointer;
+  position: relative;
 }
 
 .vintage-table-thumbnail {
   position: relative;
-  width: 100%;
-  height: 180px; /* Increased to match taller rows */
+  width: 35%;
+  height: 180px;
   padding: var(--space-2) !important;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--color-black) !important;
 }
 
-.vintage-table-thumbnail img,
-.vintage-table-thumbnail video {
-  max-width: 100%;
-  max-height: 100%;
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  border: 2px solid #000000;
-  display: block;
+.col-title {
+  width: 25%;
+  font-size: var(--font-size-base);
+  font-weight: bold;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
-/* Icons in third column */
-.table-icon {
-  display: inline-block;
-  font-size: var(--font-size-lg);
-  margin: 0 var(--space-1);
+.col-description {
+  width: 40%;
+  font-size: var(--font-size-base);
 }
 
-/* Hover image container - stays fixed size, follows mouse */
-/* Individual hover images in rows are hidden - we use a shared container */
-.vintage-table-row .vintage-table-hover-image {
-  display: none; /* Hide individual hover images in rows */
-}
-
-/* Shared hover image container (created dynamically) */
 .vintage-table-hover-image {
   position: fixed;
   width: 500px;
@@ -2297,226 +2572,31 @@ body {
   transform: translate(-50%, -50%);
   overflow: hidden;
   transition: opacity 0.2s ease;
-  
-  /* Slider container (like modalSlider in original) */
-  .hover-image-slider {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: top 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-  }
-
-  /* Individual image items stacked vertically */
-  .hover-image-item {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
-    box-sizing: border-box;
-  }
-
-  .hover-image-item img,
-  .hover-image-item img,
-  .hover-image-item video {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    border-radius: 12px;
-  }
-
-  /* Video wrapper styling */
-  .hover-image-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hover-image-wrapper video {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-
-  /* Arrow indicator - centered on top of image */
-  &::after {
-    content: '→';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-primary);
-    border: 3px solid #000000;
-    border-radius: 50%;
-    font-family: 'Buffon-Bold', sans-serif;
-    font-size: var(--font-size-xl);
-    color: var(--text-primary);
-    font-weight: bold;
-    z-index: 1;
-  }
-  
-  /* Visible state */
-  &.visible {
-    opacity: 1;
-  }
 }
 
-.vintage-table-row:hover .vintage-table-hover-image {
-  opacity: 1;
-}
-
-/* Row hover effect - left-to-right wipe */
-.vintage-table-row {
-  cursor: pointer;
-  position: relative;
-}
-
-.vintage-table-row::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background-color: #FF6B6B;
-  z-index: -1;
-  transition: width 0.4s ease;
-}
-
-.vintage-table-row:hover::after {
+.vintage-table-filters {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
+  margin-bottom: var(--space-6);
 }
 
-.vintage-table-row td {
-  transition: color 0.4s ease, border-right-color 0.4s ease;
-}
-
-.vintage-table-row:hover td {
+.vintage-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Chalet', -apple-system, sans-serif;
+  font-weight: bold;
+  font-size: var(--font-size-base);
   color: #FF6B35;
-  border-right-color: #FF6B35;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s ease;
 }
-
-.vintage-table-row:hover td.col-title span {
-  color: var(--bg-primary) !important; /* Keep beige text in black box on hover */
-}
-
-.vintage-table-row .vintage-table-thumbnail img,
-.vintage-table-row .vintage-table-thumbnail video {
-  transition: border-color 0.4s ease;
-}
-
-.vintage-table-row:hover .vintage-table-thumbnail img,
-.vintage-table-row:hover .vintage-table-thumbnail video {
-  border-color: #FF6B35;
-}
-
-/* Adjust hover image position for last column */
-.vintage-table-thumbnail {
-  position: relative;
-}
-
-/* Dark mode adjustments - using theme variables, so minimal changes needed */
-
-/* Responsive adjustments */
-@media (max-width: 1600px) {
-  .vintage-table-container {
-    width: 100%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .vintage-table-container {
-    max-width: 100%;
-  }
-  
-  .vintage-table-section {
-    padding: var(--space-8) var(--space-4);
-  }
-  
-  .vintage-table-hover-image {
-    width: 300px;
-    height: 225px;
-  }
-}
-
-@media (max-width: 768px) {
-  .vintage-table-section {
-    padding: var(--space-6) var(--space-3);
-  }
-  
-  .vintage-table-container {
-    border-width: 4px;
-  }
-  
-  .vintage-table {
-    font-size: var(--font-size-xs);
-  }
-  
-  .vintage-table th,
-  .vintage-table td {
-    padding: var(--space-2);
-  }
-  
-  .vintage-table .col-title {
-    font-size: var(--font-size-sm); /* Match description size */
-  }
-  
-  .vintage-table .col-description {
-    font-size: var(--font-size-sm);
-  }
-  
-  .vintage-table-hover-image {
-    width: 250px;
-    height: 188px;
-  }
-  
-  .vintage-table-thumbnail {
-    height: 80px;
-  }
-}
-
-@media (max-width: 480px) {
-  .vintage-table-section {
-    padding: var(--space-4) var(--space-2);
-  }
-  
-  .vintage-table th,
-  .vintage-table td {
-    padding: var(--space-1);
-    font-size: var(--font-size-xs);
-  }
-  
-  .vintage-table .col-title {
-    font-size: var(--font-size-xs); /* Match description size */
-  }
-  
-  .vintage-table .col-description {
-    font-size: var(--font-size-xs);
-  }
-  
-  .vintage-table-hover-image {
-    width: 200px;
-    height: 150px;
-  }
-  
-  .vintage-table-thumbnail {
-    height: 60px;
-  }
-}
-
 /* ==================== PASSWORD MODAL ==================== */
 .password-modal {
   position: fixed;

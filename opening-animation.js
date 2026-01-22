@@ -643,7 +643,7 @@
 
     // Show filing folder when archives section is visible
     const filingFolder = document.querySelector('.filing-folder-top');
-    const archivesSection = document.querySelector('.vintage-table-section');
+    const archivesSection = document.querySelector('.archives-section');
     
     if (filingFolder && archivesSection) {
         // Ensure it starts hidden

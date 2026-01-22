@@ -368,26 +368,26 @@
         }
     }
 
-    // Setup vintage table rows (can be called multiple times)
-    function setupVintageTableRows() {
-        const vintageTableRows = document.querySelectorAll('.vintage-table-row');
+    // Setup archive table rows (can be called multiple times)
+    function setupTableRows() {
+        const tableRows = document.querySelectorAll('.table-row');
         const modal = document.getElementById('project-modal');
 
-        console.log('Setting up vintage table rows:', vintageTableRows.length);
+        console.log('Setting up archive table rows:', tableRows.length);
         
         // Create a single shared hover image container (based on original repo)
         function createSharedHoverContainer() {
             if (!hoverImageContainer) {
                 hoverImageContainer = document.createElement('div');
-                hoverImageContainer.className = 'vintage-table-hover-image';
+                hoverImageContainer.className = 'hover-preview';
                 
                 // Create slider container (like modalSlider in original)
                 const slider = document.createElement('div');
                 slider.className = 'hover-image-slider';
                 
                 // Create individual image containers for each row
-                vintageTableRows.forEach((row, index) => {
-                    const hoverImage = row.querySelector('.vintage-table-hover-image');
+                tableRows.forEach((row, index) => {
+                    const hoverImage = row.querySelector('.hover-preview');
                     const imgElement = hoverImage?.querySelector('img');
                     const videoElement = hoverImage?.querySelector('video');
 
@@ -427,8 +427,8 @@
             return hoverImageContainer;
         }
         
-        vintageTableRows.forEach((row, index) => {
-            const hoverImage = row.querySelector('.vintage-table-hover-image');
+        tableRows.forEach((row, index) => {
+            const hoverImage = row.querySelector('.hover-preview');
             const imageWrapper = hoverImage?.querySelector('.hover-image-wrapper');
             const imgElement = hoverImage?.querySelector('img');
             const videoElement = hoverImage?.querySelector('video');
@@ -527,13 +527,13 @@
         const modal = document.getElementById('project-modal');
 
         // Setup vintage table rows initially
-        setupVintageTableRows();
+        setupTableRows();
 
         // Setup password modal
         setupPasswordModal();
 
         // Listen for table updates from Google Sheets
-        window.addEventListener('vintageTableUpdated', () => {
+        window.addEventListener('archiveTableUpdated', () => {
             console.log('Vintage table updated event received, re-initializing...');
             // Remove old hover container if it exists
             if (hoverImageContainer) {
@@ -541,7 +541,7 @@
                 hoverImageContainer = null;
             }
             // Re-setup table rows
-            setupVintageTableRows();
+            setupTableRows();
         });
 
         const modalContent = document.getElementById('project-modal-content');

@@ -1,5 +1,6 @@
 # sandbox
-title: Block design sandbox
+title: Design Sandbox
+subtitle: Block
 shortDescription: An AI-assisted code-prototyping tool for building on-brand interface grounded in Square and Cash App design languages.
 thumbnail: ./img/sandbox-thumb.png
 hover: ./img/sandbox-hover.mp4
@@ -18,7 +19,8 @@ add here
 ---
 
 # vibe-code kit
-title: Square Vibe Code Kit
+title: Market Vibe Code Kit
+subtitle: Square
 shortDescription: Lightweight, IDE agnostic, ui-kit of Square design language with semantic tokens, components and starter page templates.
 thumbnail: ./img/vibe-thumb.jpg
 hover: ./img/vibe-hover.gif
@@ -37,7 +39,8 @@ Built Square's Vibe Code Kit (passion project), a git package with built-in them
 ---
 
 # g2
-title: Sales & Support portal
+title: Support Automation Portal
+subtitle: Block
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
 hover: ./img/g2-hover.mp4
@@ -56,7 +59,8 @@ Prototyped a live, role-adaptive console experience on top of G2's workflow and 
 ---
 
 # rdm
-title: RDM
+title: Remote Device Management
+subtitle: Square
 shortDescription: Centralized remote device hub for Square sellers to monitor and manage hardware fleets in real-time.
 thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.mp4
@@ -74,7 +78,8 @@ Led the design of a centralized portal for managing and monitoring devices remot
 ---
 
 # design-system
-title: Design System
+title: GSK Design System
+subtitle: GlaxoSmithKline
 shortDescription: Global enterprise design system including pre-validated components, UI kits and tutorials, built on a custom Material UI architecture.
 thumbnail: ./img/design-system-thumb.jpg
 hover: ./img/design-system-hover.gif
@@ -92,7 +97,8 @@ Designed the GSK design system, serving as the primary bridge between Global Bra
 ---
 
 # automation-portal
-title: Automation Portal
+title: Bot Automation Portal
+subtitle: GlaxoSmithKline
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
 thumbnail: ./img/automation-thumb.jpg
 hover: ./img/automation-hover.gif
