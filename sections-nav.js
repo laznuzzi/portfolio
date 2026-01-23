@@ -282,89 +282,25 @@
         // Get close button for animation
         const closeButton = modal.querySelector('.modal-close-button');
 
-        // "Building" animation - expand from center vertically
-        console.log('Animation check:', {
-            hoverImageRect: !!hoverImageRect,
-            gsapAvailable: typeof gsap !== 'undefined'
-        });
+        // Fade + Zoom animation
+        if (typeof gsap !== 'undefined') {
+            console.log('Running fade + zoom animation...');
 
-        if (hoverImageRect && typeof gsap !== 'undefined') {
-            console.log('Running building animation...');
-            console.log('ModalContent initial position:', window.getComputedStyle(modalContent).position);
-            console.log('ModalContent initial left:', window.getComputedStyle(modalContent).left);
-            console.log('ModalContent initial top:', window.getComputedStyle(modalContent).top);
-            // Hide panels and close button initially
-            gsap.set(textContainer, { opacity: 0, y: -20 });
-            gsap.set(imageContainer, { opacity: 0, y: 20 });
-            gsap.set(closeButton, { opacity: 0, scale: 0.5 });
-
-            // Calculate hover image center in viewport
-            const hoverCenterX = hoverImageRect.left + hoverImageRect.width / 2;
-            const hoverCenterY = hoverImageRect.top + hoverImageRect.height / 2;
-
-            // Set initial state - small height at hover position, full width
-            modalContent.style.transform = 'translate(-50%, -50%)';
+            // Set initial state - scaled down and transparent
             gsap.set(modalContent, {
-                left: hoverCenterX,
-                top: hoverCenterY,
-                width: hoverImageRect.width,
-                height: hoverImageRect.height,
-                opacity: 1
+                scale: 0.8,
+                autoAlpha: 0
             });
 
-            // Timeline for coordinated animation
-            const tl = gsap.timeline();
-
-            // First: Move to center and expand width
-            tl.to(modalContent, {
-                left: '50%',
-                top: '50%',
-                width: '95vw',
-                duration: 0.4,
-                ease: 'power3.out'
-            });
-
-            // Second: Expand height (builds vertically from center)
-            tl.to(modalContent, {
-                height: '95vh',
-                duration: 0.5,
-                ease: 'power3.out'
-            }, '-=0.1');
-
-            // Third: Reveal content as it builds
-            tl.to(textContainer, {
-                opacity: 1,
-                y: 0,
-                duration: 0.4,
-                ease: 'power2.out'
-            }, '-=0.3');
-
-            tl.to(imageContainer, {
-                opacity: 1,
-                y: 0,
-                duration: 0.4,
-                ease: 'power2.out'
-            }, '-=0.35');
-
-            // Finally: Fade in close button
-            tl.to(closeButton, {
-                opacity: 1,
+            // Animate to full size and opacity
+            gsap.to(modalContent, {
                 scale: 1,
-                duration: 0.3,
-                ease: 'back.out(2)'
-            }, '-=0.2');
+                autoAlpha: 1,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
         } else {
-            console.log('Using fallback animation (no hover rect or no GSAP)');
-            // Fallback: simple fade in
-            if (typeof gsap !== 'undefined') {
-                console.log('Running fallback GSAP animation');
-                gsap.fromTo(modalContent,
-                    { opacity: 0, scale: 0.95 },
-                    { opacity: 1, scale: 1, duration: 0.3, ease: 'power2.out' }
-                );
-            } else {
-                console.log('No GSAP available, modal should still be visible');
-            }
+            console.log('No GSAP available, modal should still be visible');
         }
     }
 
@@ -856,55 +792,18 @@
         // Close modal with animation
         const closeModal = () => {
             if (modal && modalContent) {
-                const imageContainer = document.getElementById('modal-image-container');
-                const textContainer = document.getElementById('modal-text-container');
-                const closeButton = modal.querySelector('.modal-close-button');
-
-                // Reverse "building" animation - collapse inwards
+                // Fade + Zoom out animation (reverse of open)
                 if (typeof gsap !== 'undefined') {
-                    const tl = gsap.timeline({
+                    gsap.to(modalContent, {
+                        scale: 0.8,
+                        autoAlpha: 0,
+                        duration: 0.5,
+                        ease: 'power2.in',
                         onComplete: () => {
                             modal.style.display = 'none';
                             document.body.style.overflow = '';
                         }
                     });
-
-                    // First: Fade out close button
-                    tl.to(closeButton, {
-                        opacity: 0,
-                        scale: 0.5,
-                        duration: 0.2,
-                        ease: 'power2.in'
-                    });
-
-                    // Second: Fade out content
-                    tl.to([textContainer, imageContainer], {
-                        opacity: 0,
-                        y: 10,
-                        duration: 0.3,
-                        ease: 'power2.in'
-                    }, '-=0.1');
-
-                    // Third: Collapse height (reverse of expand)
-                    tl.to(modalContent, {
-                        height: 200,
-                        duration: 0.4,
-                        ease: 'power3.in'
-                    }, '-=0.2');
-
-                    // Fourth: Collapse width to center
-                    tl.to(modalContent, {
-                        width: 200,
-                        duration: 0.3,
-                        ease: 'power3.in'
-                    }, '-=0.1');
-
-                    // Finally: Fade out completely
-                    tl.to(modalContent, {
-                        opacity: 0,
-                        duration: 0.2,
-                        ease: 'power2.in'
-                    }, '-=0.1');
                 } else {
                     modal.style.display = 'none';
                     document.body.style.overflow = '';
