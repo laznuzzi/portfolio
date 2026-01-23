@@ -363,7 +363,7 @@ body {
   }
 
   .intro-placeholder-text {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     line-height: 1.6;
     text-align: center;
     max-width: 800px;
@@ -378,24 +378,6 @@ body {
     font-weight: bold;
   }
 
-  .coding-text {
-    font-family: 'Consolas', 'Source Code Pro', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Menlo', monospace;
-    font-weight: 400;
-    background: #929cb257;
-    border-radius: 14px;
-    color: #5289eb;
-    padding: 2px 6px;
-    font-size: inherit;
-    display: inline;
-  }
-
-  .learn-more-text {
-    font-size: 1.5rem;
-    color: black;
-    font-weight: var(--font-weight-normal);
-    margin-top: 0px;
-    display: inline-block;
-  }
 
   .intro-content-rest {
     opacity: 0;
@@ -462,29 +444,7 @@ body {
   }
 }
 
-/* ==================== SQUARE LINK STYLING ==================== */
-.square-link {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  
-  &:hover {
-    color: var(--color-gray-600);
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23666' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
-    background-position: 0 100%;
-    background-size: auto 6px;
-    background-repeat: repeat-x;
-    padding-bottom: 2px;
-    text-decoration: none;
-  }
-  
-  :root.dark & {
-    &:hover {
-      color: var(--color-gray-300);
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ccc' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
-    }
-  }
-}
+
 
 /* ==================== MAIN CONTENT SECTION ==================== */
 .main-content-section {
@@ -576,193 +536,7 @@ body {
   }
 }
 
-.project-card {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  cursor: pointer;
-  transition: all var(--transition-normal);
-  position: relative;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--color-primary-500);
-  }
-  
-  &.expanded {
-    grid-column: 1 / -1;
-    
-    @media (min-width: 768px) {
-      grid-column: span 2;
-    }
-    
-    @media (min-width: 1024px) {
-      grid-column: span 3;
-    }
-    
-    .project-card-expanded-content {
-      max-height: 300px;
-      opacity: 1;
-      padding-top: var(--space-4);
-    }
-    
-    .expand-icon {
-      transform: rotate(180deg);
-    }
-  }
-}
-
-.project-card-header {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-
-.project-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-normal);
-}
-
-.project-card:hover .project-card-image {
-  transform: scale(1.05);
-}
-
-.project-card-overlay {
-  position: absolute;
-  top: var(--space-3);
-  right: var(--space-3);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  backdrop-filter: blur(4px);
-}
-
-.project-card-content {
-  padding: var(--space-4);
-}
-
-.project-card-title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  margin-bottom: var(--space-2);
-}
-
-.project-card-description {
-  color: var(--text-secondary);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
-  margin-bottom: var(--space-3);
-}
-
-.project-card-expanded-content {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all var(--transition-normal);
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
-.project-tag {
-  background: var(--color-primary-50);
-  color: var(--color-primary-700);
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  
-  :root.dark & {
-    background: var(--color-primary-600);
-    color: var(--color-white);
-  }
-}
-
-.project-card-actions {
-  display: flex;
-  gap: var(--space-3);
-  flex-wrap: wrap;
-}
-
-.project-action-btn {
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  border: 1px solid transparent;
-  
-  &.primary {
-    background: var(--color-primary-500);
-    color: white;
-    
-    &:hover {
-      background: var(--color-primary-600);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-sm);
-    }
-  }
-  
-  &.secondary {
-    background: transparent;
-    color: var(--text-primary);
-    border-color: var(--border-primary);
-    
-    &:hover {
-      background: var(--bg-secondary);
-      border-color: var(--color-primary-500);
-      color: var(--color-primary-600);
-    }
-  }
-  
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-.project-card-toggle {
-  position: absolute;
-  bottom: var(--space-3);
-  right: var(--space-3);
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-fast);
-}
-
-.expand-icon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--text-secondary);
-  transition: transform var(--transition-normal);
-}
-
-.project-card:hover .project-card-toggle {
-  background: var(--color-primary-500);
-  border-color: var(--color-primary-500);
-  
-  .expand-icon {
-    color: white;
-  }
-}
+/* Old project card styles removed - using table-style cards below */
 
 /* ==================== CASE STUDY CARDS ==================== */
 .case-study-card {
@@ -1463,7 +1237,7 @@ body {
 /* Main content - slides up to cover opening */
 #main-content {
   position: fixed;
-  top: 100vh;
+  top: 100vh; /* Start off-screen */
   left: 0;
   width: 100%;
   height: 100vh;
@@ -1471,6 +1245,32 @@ body {
   background-color: transparent;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+/* Tab/lip - positioned to be visible in viewport */
+.footer-tab {
+  position: fixed;
+  bottom: 32px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 25px;
+  background-color: #dbd7cc;
+  border-radius: 12px 12px 0 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Footer preview bar at the bottom */
+.main-content-footer-preview {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background-color: #dbd7cc;
+  z-index: 999;
+  pointer-events: none;
 }
 
 .main-container {
@@ -1706,213 +1506,6 @@ body {
   }
 }
 
-.page-file-thumbnail {
-  width: 90px;
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15),
-              0 0 0 1px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .page-file:hover & {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
-                0 0 0 1px rgba(0, 0, 0, 0.15);
-  }
-
-  .page-file:active & {
-    transform: scale(0.98);
-  }
-}
-
-.page-file-name {
-  font-size: var(--font-size-sm);
-  color: var(--text-primary);
-  text-align: center;
-  line-height: 1.3;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  word-wrap: break-word;
-  max-width: 100%;
-  font-weight: 500;
-}
-
-/* ==================== PROJECT CARD GRID ==================== */
-/* Simple grid layout with flip effect on hover */
-
-.project-cards-container {
-  width: 100%;
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-12) var(--space-6);
-  perspective: 2000px; /* Enable 3D space for flip effect */
-}
-
-.project-cards-deck {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
-  max-width: 1200px;
-  width: 100%;
-}
-
-.project-card {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3/4; /* Maintains card proportions */
-  cursor: pointer;
-}
-
-/* Card inner wrapper */
-.project-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-}
-
-/* Front and back faces */
-.project-card-front,
-.project-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius-xl);
-  transition: opacity 0.5s ease;
-}
-
-/* Front face - image with margins and vertical text */
-.project-card-front {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  background: var(--bg-secondary);
-  border: 3px solid var(--text-primary);
-  padding: var(--space-6);
-  gap: var(--space-4);
-  opacity: 1;
-  z-index: 2;
-
-  .project-card:hover & {
-    opacity: 0;
-  }
-}
-
-.project-card-front-left,
-.project-card-front-right {
-  display: flex;
-  align-items: center;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  user-select: none;
-}
-
-.project-card-front-left {
-  transform: rotate(180deg); /* Text reads bottom-to-top */
-}
-
-.project-card-front-center {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--border-primary);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: var(--bg-tertiary);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-}
-
-/* Back face - simple flat color with text */
-.project-card-back {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: var(--space-8);
-  gap: var(--space-3);
-  text-align: left;
-  opacity: 0;
-  z-index: 1;
-
-  .project-card:hover & {
-    opacity: 1;
-  }
-
-  /* Flat color variations for different cards */
-  .project-card:nth-child(1) & { background: #FFE5B4; }
-  .project-card:nth-child(2) & { background: #B4E5FF; }
-  .project-card:nth-child(3) & { background: #E5B4FF; }
-  .project-card:nth-child(4) & { background: #B4FFE5; }
-  .project-card:nth-child(5) & { background: #FFB4D4; }
-  .project-card:nth-child(6) & { background: #D4FFB4; }
-}
-
-.project-card-back-title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.project-card-back-role {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0;
-}
-
-.project-card-back-description {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  line-height: var(--line-height-normal);
-  margin: 0;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .project-cards-deck {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .project-cards-deck {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-  }
-
-  .project-cards-container {
-    padding: var(--space-8) var(--space-4);
-  }
-}
 
 /* ==================== FILING FOLDER TOP ==================== */
 .filing-folder-top {
@@ -2003,7 +1596,7 @@ body {
 
 .project-card {
   display: grid;
-  grid-template-columns: 50px 1fr 1fr 2fr 2fr;
+  grid-template-columns: 50px 1fr 1fr 2fr;
   align-items: center;
   gap: var(--space-4);
   padding: 1.5rem var(--space-3);
@@ -2012,9 +1605,11 @@ body {
   cursor: pointer;
   position: relative;
   background: transparent;
-  height: 120px;
-  max-height: 120px;
+  min-height: 150px;
   overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-sm);
+  font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .project-card + .project-card {
@@ -2055,33 +1650,30 @@ body {
 /* ==================== CARD COLUMNS ==================== */
 
 .card-lock-column {
-  text-align: center;
   position: relative;
   z-index: 1;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .card-title {
-  font-size: var(--font-size-base);
   font-weight: 500;
   line-height: 1.2;
-  text-align: center;
   position: relative;
   z-index: 1;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .title-content {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  align-items: center;
+  align-items: flex-start;
 }
 
 .title-text {
@@ -2089,10 +1681,7 @@ body {
 }
 
 .card-subtitle {
-  font-size: var(--font-size-base);
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 500;
-  text-align: center;
   color: var(--text-secondary);
   opacity: 0.6;
   position: relative;
@@ -2100,7 +1689,7 @@ body {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .subtitle-text {
@@ -2113,51 +1702,17 @@ body {
 }
 
 .card-description {
-  font-size: var(--font-size-base);
-  text-align: center;
   padding-right: var(--space-6);
   position: relative;
   z-index: 1;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .card-thumbnail {
-  position: relative;
-  text-align: center;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Wrapper div handles padding and layout */
-.thumbnail-wrapper {
-  width: 100%;
-  height: 100%;
-  max-height: 100px;
-  padding: var(--space-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 1;
-}
-
-.thumbnail-wrapper img,
-.thumbnail-wrapper video {
-  max-width: 100%;
-  max-height: 80px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 4px;
-  display: block;
-  transition: border-color 0.4s ease;
+  display: none;
 }
 
 /* ==================== LOCK ICON ==================== */
