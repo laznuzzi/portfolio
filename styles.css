@@ -245,6 +245,12 @@ body {
   box-sizing: border-box;
 }
 
+/* Scroll trigger spacer */
+.scroll-trigger-spacer {
+  height: 200vh;
+  pointer-events: none;
+}
+
 .app-header {
   position: fixed;
   top: 0;
@@ -1237,14 +1243,16 @@ body {
 
 /* ==================== OPENING ANIMATION STYLES ==================== */
 .opening-animation {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 100%;
   height: 100vh;
-  background-color: var(--bg-primary); /* Same color as main-content */
-  z-index: 2; /* Below main-content so it can slide over */
-  overflow: visible !important; /* CRITICAL: Allow banners to be visible */
+  background-color: var(--bg-primary);
+  z-index: 2;
+  overflow: visible;
+  transform: none !important;
+  will-change: auto !important;
 }
 
 .opening-text-container {
@@ -1444,25 +1452,27 @@ body {
   pointer-events: auto;
 }
 
-/* Main content - normal flow, starts below opening animation */
+/* Main content - slides up to cover opening */
 #main-content {
-  position: relative;
+  position: fixed;
+  top: 100vh;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   z-index: 3; /* Above opening animation so it can slide over */
-  background-color: transparent; /* Transparent so it doesn't look like a layer */
-  min-height: 100vh;
-  margin-top: 100vh; /* Start below opening animation */
-  /* No border-radius - unified section */
+  background-color: transparent;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .main-container {
-  background-color: transparent; /* Remove duplicate background */
+  background-color: transparent;
   padding-top: 2rem;
   min-height: 100vh;
 }
 
 #main-app-container {
   background: #dbd7cc;
-  margin: 28px;
 }
 
 /* ==================== SECTIONS VIEWER LAYOUT ==================== */
@@ -2109,7 +2119,7 @@ body {
 .title {
   width: 15%;
   font-size: var(--font-size-base);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.2;
   text-align: center;
 }
@@ -2159,7 +2169,6 @@ body {
 
 .archive-table td.thumbnail {
   padding: 0 !important;
-  background-color: var(--color-black) !important;
 }
 
 /* Wrapper div inside td handles padding and layout */
@@ -2171,7 +2180,6 @@ body {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  background-color: var(--color-black);
   position: relative;
   z-index: 1;
 }

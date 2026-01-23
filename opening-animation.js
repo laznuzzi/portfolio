@@ -32,7 +32,14 @@
     let physicsEngine = null;
     let physicsRender = null;
 
-    // Show main content immediately (it's fixed at bottom, hidden by opening animation)
+    // Force opening animation to stay completely fixed
+    openingAnimation.style.position = 'fixed';
+    openingAnimation.style.top = '0';
+    openingAnimation.style.left = '0';
+    openingAnimation.style.transform = 'none';
+    openingAnimation.style.willChange = 'auto';
+
+    // Show main content immediately
     mainContent.classList.remove('main-content-hidden');
     mainContent.style.visibility = 'visible';
     mainContent.style.pointerEvents = 'auto';
@@ -653,77 +660,63 @@
         scrollTrigger: scrollTriggerConfig
     });
 
-    // ==================== SHOW NAVIGATION AFTER OPENING ANIMATION IS OUT ====================
-    // Show navigation header when opening animation is fully scrolled out
+    console.log('Opening animation ready - GSAP ScrollTrigger animations initialized');
+
+    // ==================== SCROLL ANIMATION: Main Content Slides Over Opening ====================
     const appHeader = document.getElementById('app-header');
+    const filingFolder = document.querySelector('.filing-folder-top');
+
+    // Ensure nav and folder start hidden
     if (appHeader) {
-        // Ensure it starts hidden
         appHeader.style.opacity = '0';
         appHeader.style.visibility = 'hidden';
         appHeader.style.pointerEvents = 'none';
-        
-        // Simple scroll listener approach
-        let navShown = false;
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const viewportHeight = window.innerHeight;
-            
-            // Show nav when scrolled past 90% of viewport height
-            if (scrollY >= viewportHeight * 0.9 && !navShown) {
-                console.log('Showing navigation - scrollY:', scrollY);
-                navShown = true;
-                // Use inline styles to override CSS
-                appHeader.style.opacity = '1';
-                appHeader.style.visibility = 'visible';
-                appHeader.style.pointerEvents = 'auto';
-                appHeader.classList.add('visible');
-            } else if (scrollY < viewportHeight * 0.9 && navShown) {
-                console.log('Hiding navigation - scrollY:', scrollY);
-                navShown = false;
-                appHeader.style.opacity = '0';
-                appHeader.style.visibility = 'hidden';
-                appHeader.style.pointerEvents = 'none';
-                appHeader.classList.remove('visible');
-            }
-        }, { passive: true });
     }
-
-    console.log('Opening animation ready - GSAP ScrollTrigger animations initialized');
-
-    // Show filing folder when archives section is visible
-    const filingFolder = document.querySelector('.filing-folder-top');
-    const archivesSection = document.querySelector('.archives-section');
-    
-    if (filingFolder && archivesSection) {
-        // Ensure it starts hidden
+    if (filingFolder) {
         filingFolder.style.opacity = '0';
         filingFolder.style.visibility = 'hidden';
         filingFolder.style.pointerEvents = 'none';
-        
-        // Scroll listener to show/hide folder based on archives section visibility
-        let folderShown = false;
-        window.addEventListener('scroll', () => {
-            const archivesRect = archivesSection.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            
-            // Show folder when archives section is in view (when top of section is above bottom of viewport)
-            const isArchivesVisible = archivesRect.top < viewportHeight && archivesRect.bottom > 0;
-            
-            if (isArchivesVisible && !folderShown) {
-                console.log('Showing filing folder - archives section visible');
-                folderShown = true;
-                filingFolder.style.opacity = '1';
-                filingFolder.style.visibility = 'visible';
-                filingFolder.style.pointerEvents = 'auto';
-            } else if (!isArchivesVisible && folderShown) {
-                console.log('Hiding filing folder - archives section not visible');
-                folderShown = false;
-                filingFolder.style.opacity = '0';
-                filingFolder.style.visibility = 'hidden';
-                filingFolder.style.pointerEvents = 'none';
-            }
-        }, { passive: true });
     }
+
+    gsap.to('#main-content', {
+        top: 0,
+        ease: "none",
+        scrollTrigger: {
+            trigger: '.scroll-trigger-spacer',
+            start: 'top top',
+            end: 'top+=100vh top',
+            scrub: 1,
+            markers: false,
+            onEnter: () => {
+                // Show nav and folder as soon as animation starts
+                if (appHeader) {
+                    appHeader.style.opacity = '1';
+                    appHeader.style.visibility = 'visible';
+                    appHeader.style.pointerEvents = 'auto';
+                }
+                if (filingFolder) {
+                    filingFolder.style.opacity = '1';
+                    filingFolder.style.visibility = 'visible';
+                    filingFolder.style.pointerEvents = 'auto';
+                }
+            },
+            onLeaveBack: () => {
+                // Hide nav and folder when scrolling back up past start
+                if (appHeader) {
+                    appHeader.style.opacity = '0';
+                    appHeader.style.visibility = 'hidden';
+                    appHeader.style.pointerEvents = 'none';
+                }
+                if (filingFolder) {
+                    filingFolder.style.opacity = '0';
+                    filingFolder.style.visibility = 'hidden';
+                    filingFolder.style.pointerEvents = 'none';
+                }
+            }
+        }
+    });
+
+    console.log('Slide-over animation initialized');
 
     // Optional: Skip animation on double-click
     let skipTimeout;
