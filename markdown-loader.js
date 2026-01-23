@@ -186,29 +186,29 @@
         `;
     }
 
-    // Update archive table
+    // Update archive cards
     function updateVintageTable(projects) {
-        const tbody = document.querySelector('.archive-table tbody');
-        if (!tbody) return;
+        const container = document.querySelector('.cards-container');
+        if (!container) return;
 
-        // Clear existing rows
-        tbody.innerHTML = '';
+        // Clear existing cards
+        container.innerHTML = '';
 
-        // Create rows
+        // Create cards
         projects.forEach((project, index) => {
             const firstImage = project.thumbnail || './img/placeholder.jpeg';
             const hoverImage = project.hover || firstImage;
 
-            const tr = document.createElement('tr');
-            tr.className = 'table-row';
-            tr.setAttribute('data-entry', project.id);
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.setAttribute('data-entry', project.id);
 
             // Add lock icon SVG for locked projects
             const lockIcon = project.locked ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>' : '';
 
             // Mark as locked
             if (project.locked) {
-                tr.setAttribute('data-locked', 'true');
+                card.setAttribute('data-locked', 'true');
             }
 
             // Check if hover is a video file
@@ -217,20 +217,20 @@
                 ? `<video src="${hoverImage}" autoplay loop muted playsinline></video>`
                 : `<img src="${hoverImage}" alt="${project.title}">`;
 
-            tr.innerHTML = `
-                <td class="lock-column">
+            card.innerHTML = `
+                <div class="card-lock-column">
                     ${lockIcon}
-                </td>
-                <td class="title">
+                </div>
+                <div class="card-title">
                     <div class="title-content">
                         <span class="title-text">${project.title}</span>
                     </div>
-                </td>
-                <td class="subtitle">
+                </div>
+                <div class="card-subtitle">
                     <span class="subtitle-text">${project.subtitle || ''}</span>
-                </td>
-                <td class="description">${project.shortDescription || ''}</td>
-                <td class="thumbnail">
+                </div>
+                <div class="card-description">${project.shortDescription || ''}</div>
+                <div class="card-thumbnail">
                     <div class="thumbnail-wrapper">
                         <img src="${firstImage}" alt="${project.title}">
                         <div class="hover-preview">
@@ -239,13 +239,13 @@
                             </div>
                         </div>
                     </div>
-                </td>
+                </div>
             `;
 
-            tbody.appendChild(tr);
+            container.appendChild(card);
         });
 
-        console.log('Archive table updated with', projects.length, 'projects');
+        console.log('Archive cards updated with', projects.length, 'projects');
 
         // Trigger event for sections-nav.js
         window.dispatchEvent(new CustomEvent('archiveTableUpdated'));

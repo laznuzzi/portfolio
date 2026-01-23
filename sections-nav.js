@@ -304,26 +304,26 @@
         }
     }
 
-    // Setup archive table rows (can be called multiple times)
+    // Setup archive cards (can be called multiple times)
     function setupTableRows() {
-        const tableRows = document.querySelectorAll('.table-row');
+        const projectCards = document.querySelectorAll('.project-card');
         const modal = document.getElementById('project-modal');
 
-        console.log('Setting up archive table rows:', tableRows.length);
-        
+        console.log('Setting up archive project cards:', projectCards.length);
+
         // Create a single shared hover image container (based on original repo)
         function createSharedHoverContainer() {
             if (!hoverImageContainer) {
                 hoverImageContainer = document.createElement('div');
                 hoverImageContainer.className = 'hover-preview';
-                
+
                 // Create slider container (like modalSlider in original)
                 const slider = document.createElement('div');
                 slider.className = 'hover-image-slider';
-                
-                // Create individual image containers for each row
-                tableRows.forEach((row, index) => {
-                    const hoverImage = row.querySelector('.hover-preview');
+
+                // Create individual image containers for each card
+                projectCards.forEach((card, index) => {
+                    const hoverImage = card.querySelector('.hover-preview');
                     const imgElement = hoverImage?.querySelector('img');
                     const videoElement = hoverImage?.querySelector('video');
 
@@ -356,50 +356,50 @@
                         slider.appendChild(imageContainer);
                     }
                 });
-                
+
                 hoverImageContainer.appendChild(slider);
                 document.body.appendChild(hoverImageContainer);
             }
             return hoverImageContainer;
         }
-        
-        tableRows.forEach((row, index) => {
-            const hoverImage = row.querySelector('.hover-preview');
+
+        projectCards.forEach((card, index) => {
+            const hoverImage = card.querySelector('.hover-preview');
             const imageWrapper = hoverImage?.querySelector('.hover-image-wrapper');
             const imgElement = hoverImage?.querySelector('img');
             const videoElement = hoverImage?.querySelector('video');
             const hasMedia = imgElement || videoElement;
 
             if (hoverImage && imageWrapper && hasMedia) {
-                // Track mouse movement anywhere on the row
-                row.addEventListener('mouseenter', (e) => {
+                // Track mouse movement anywhere on the card
+                card.addEventListener('mouseenter', (e) => {
                     const container = createSharedHoverContainer();
                     const slider = container.querySelector('.hover-image-slider');
-                    
+
                     if (!slider) {
                         console.error('Slider not found');
                         return;
                     }
-                    
+
                     // Show container and position it
                     const mouseX = e.clientX;
                     const mouseY = e.clientY;
                     container.style.left = `${mouseX}px`;
                     container.style.top = `${mouseY}px`;
                     container.classList.add('visible');
-                    
-                    // Update slider position based on row index (like original: top: index * -100 + "%")
+
+                    // Update slider position based on card index (like original: top: index * -100 + "%")
                     slider.style.top = `${index * -100}%`;
-                    
+
                     currentHoverImage = hoverImage;
                     currentRowIndex = index;
                 });
-                
-                row.addEventListener('mousemove', (e) => {
+
+                card.addEventListener('mousemove', (e) => {
                     if (hoverImageContainer && currentRowIndex === index) {
                         const mouseX = e.clientX;
                         const mouseY = e.clientY;
-                        
+
                     // Use GSAP for smooth following (like original repo)
                     if (typeof gsap !== 'undefined') {
                         gsap.to(hoverImageContainer, {
@@ -415,20 +415,20 @@
                     }
                     }
                 });
-                
-                row.addEventListener('mouseleave', () => {
+
+                card.addEventListener('mouseleave', () => {
                     if (hoverImageContainer && currentRowIndex === index) {
                         hideHoverImage();
                     }
                 });
             }
-            
-            // Click handler
-            row.addEventListener('click', (e) => {
-                const entryId = row.getAttribute('data-entry');
-                const isLocked = row.getAttribute('data-locked') === 'true';
 
-                console.log('Row clicked, entryId:', entryId, 'isLocked:', isLocked);
+            // Click handler
+            card.addEventListener('click', (e) => {
+                const entryId = card.getAttribute('data-entry');
+                const isLocked = card.getAttribute('data-locked') === 'true';
+
+                console.log('Card clicked, entryId:', entryId, 'isLocked:', isLocked);
                 console.log('fileData:', window.fileData);
                 console.log('Entry exists:', !!window.fileData[entryId]);
 
@@ -438,14 +438,14 @@
                 // Check if locked and not unlocked
                 if (isLocked && !areProjectsUnlocked()) {
                     console.log('Project is locked, showing password modal');
-                    showPasswordModal(entryId, row, hoverImageRect);
+                    showPasswordModal(entryId, card, hoverImageRect);
                 } else {
                     console.log('Opening project modal');
-                    openVintageTableModal(entryId, row, hoverImageRect);
+                    openVintageTableModal(entryId, card, hoverImageRect);
                 }
             });
         });
-        
+
         // Helper function for hiding hover image
         function hideHoverImage() {
             if (hoverImageContainer) {
@@ -462,21 +462,21 @@
         const fileButtons = document.querySelectorAll('.page-file, .project-card');
         const modal = document.getElementById('project-modal');
 
-        // Setup vintage table rows initially
+        // Setup project cards initially
         setupTableRows();
 
         // Setup password modal
         setupPasswordModal();
 
-        // Listen for table updates from Google Sheets
+        // Listen for archive updates
         window.addEventListener('archiveTableUpdated', () => {
-            console.log('Vintage table updated event received, re-initializing...');
+            console.log('Archive cards updated event received, re-initializing...');
             // Remove old hover container if it exists
             if (hoverImageContainer) {
                 hoverImageContainer.remove();
                 hoverImageContainer = null;
             }
-            // Re-setup table rows
+            // Re-setup project cards
             setupTableRows();
         });
 

@@ -90,6 +90,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'ItGridbit';
+  src: url('./font/ItGridbit.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ==================== CSS CUSTOM PROPERTIES ==================== */
 :root {
   /* Typography - Base sizes */
@@ -1979,149 +1987,94 @@ body {
   opacity: 0.8;
 }
 
-/* ==================== TABLE STRUCTURE ==================== */
+/* ==================== CARDS STRUCTURE ==================== */
 
-.table-container {
+.cards-container {
   width: 100%;
   background: #f2f0e9;
   padding: 16px;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.archive-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: 'Chalet', -apple-system, sans-serif;
-  color: var(--text-primary);
-  background: transparent;
-}
+/* ==================== PROJECT CARD & HOVER EFFECTS ==================== */
 
-.archive-table th {
-  padding: var(--space-4) var(--space-3);
-  text-align: left;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: var(--font-size-xs);
-  color: var(--text-secondary);
-  border-right: 4px solid #000000;
-}
-
-.archive-table th:last-child {
-  border-right: none;
-}
-
-.archive-table tbody tr {
+.project-card {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr 2fr 2fr;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 1.5rem var(--space-3);
+  border-top: 2px solid #000000;
   border-bottom: 2px solid #000000;
   cursor: pointer;
-}
-
-.archive-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.archive-table td {
-  padding: 1.5rem var(--space-3);
-  vertical-align: middle;
-  height: 120px;
-  position: relative;
-  z-index: 1;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.archive-table td:last-child {
-  width: 100%;
-}
-
-/* ==================== TABLE ROW & HOVER EFFECTS ==================== */
-
-.table-row {
-  cursor: pointer;
   position: relative;
   background: transparent;
+  height: 120px;
+  max-height: 120px;
+  overflow: hidden;
+}
+
+.project-card + .project-card {
+  border-top: none;
 }
 
 /* Hover background wipe effect with black */
-.table-row::after {
+.project-card::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 0;
-  height: calc(100% + 4px);
+  height: 100%;
   background-color: var(--color-black);
   z-index: 0;
   transition: width 0.4s ease;
   pointer-events: none;
 }
 
-.table-row:hover::after {
+.project-card:hover::after {
   width: 100%;
 }
 
-.table-row:hover td {
+.project-card:hover > * {
   color: var(--bg-primary);
 }
 
-.table-row:hover .title-text {
+.project-card:hover .title-text {
   color: var(--bg-primary);
 }
 
-.table-row:hover .lock-icon {
+.project-card:hover .lock-icon {
   opacity: 0.8;
   filter: invert(1);
 }
 
-/* Rounded corners for first and last rows */
-.table-row:first-child td:first-child {
-  border-top-left-radius: 4px;
-}
+/* ==================== CARD COLUMNS ==================== */
 
-.table-row:first-child td:last-child {
-  border-top-right-radius: 4px;
-}
-
-.table-row:last-child td:first-child {
-  border-bottom-left-radius: 4px;
-}
-
-.table-row:last-child td:last-child {
-  border-bottom-right-radius: 4px;
-}
-
-/* Rounded corners for thumbnail wrapper in first and last rows */
-.table-row:first-child .thumbnail-wrapper {
-  border-top-right-radius: 4px;
-}
-
-.table-row:last-child .thumbnail-wrapper {
-  border-bottom-right-radius: 4px;
-}
-
-/* Also round the hover effect backgrounds */
-.table-row:first-child::after {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.table-row:last-child::after {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-/* ==================== TABLE COLUMNS ==================== */
-
-.lock-column {
-  width: 5%;
+.card-lock-column {
   text-align: center;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.title {
-  width: 15%;
+.card-title {
   font-size: var(--font-size-base);
   font-weight: 500;
   line-height: 1.2;
   text-align: center;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .title-content {
@@ -2135,47 +2088,58 @@ body {
   display: block;
 }
 
-.subtitle {
-  width: 15%;
+.card-subtitle {
   font-size: var(--font-size-base);
   font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 500;
   text-align: center;
   color: var(--text-secondary);
   opacity: 0.6;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .subtitle-text {
   display: block;
 }
 
-.table-row:hover .subtitle {
+.project-card:hover .card-subtitle {
   color: var(--bg-primary);
   opacity: 0.7;
 }
 
-.description {
-  width: 35%;
+.card-description {
   font-size: var(--font-size-base);
   text-align: center;
   padding-right: var(--space-6);
-}
-
-.thumbnail {
   position: relative;
-  width: 30%;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-thumbnail {
+  position: relative;
   text-align: center;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.archive-table td.thumbnail {
-  padding: 0 !important;
-}
-
-/* Wrapper div inside td handles padding and layout */
+/* Wrapper div handles padding and layout */
 .thumbnail-wrapper {
   width: 100%;
-  height: auto;
-  padding: var(--space-4);
+  height: 100%;
+  max-height: 100px;
+  padding: var(--space-2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2187,8 +2151,9 @@ body {
 .thumbnail-wrapper img,
 .thumbnail-wrapper video {
   max-width: 100%;
-  height: 100%;
+  max-height: 80px;
   width: auto;
+  height: auto;
   object-fit: contain;
   border-radius: 4px;
   display: block;
@@ -2214,8 +2179,13 @@ body {
 /* ==================== HOVER PREVIEW (Mouse Follow) ==================== */
 
 /* Hide inline hover images - we use a shared container */
-.table-row .hover-preview {
-  display: none;
+.project-card .hover-preview {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  visibility: hidden !important;
 }
 
 /* Shared hover preview container (created by JS) */
