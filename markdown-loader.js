@@ -191,8 +191,16 @@
         const container = document.querySelector('.cards-container');
         if (!container) return;
 
+        // Save the header element before clearing
+        const header = container.querySelector('.cards-header');
+
         // Clear existing cards
         container.innerHTML = '';
+
+        // Re-add the header if it existed
+        if (header) {
+            container.appendChild(header);
+        }
 
         // Create cards
         projects.forEach((project, index) => {

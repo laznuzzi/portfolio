@@ -183,6 +183,10 @@
         // Word banners data
         const words = ['Designer', 'Developer', 'Builder', 'Fixer', 'Thinker', 'Gardener', 'DIY-er'];
 
+        // Hidden "back pocket" words that appear on click
+        const backPocketWords = ['Maker', 'Learner', 'Nerd', 'Collaborator', 'Problem-Solver', 'Optimist', 'Questioner', 'Experimenter', 'Creator', 'Debugger', 'Hacker'];
+        let backPocketIndex = 0;
+
         // Get text font to calculate width
         const rootStyles = getComputedStyle(document.documentElement);
         const textFont = rootStyles.getPropertyValue('--capsule-text-font').trim();
@@ -203,8 +207,8 @@
             { x: '50%', y: '80%', rotation: 3 }    // DIY-er - bottom center
         ];
 
-        // Create word banners with staggered appearance
-        words.forEach((word, index) => {
+        // Function to create a capsule banner
+        function createCapsule(word, position, delay = 0) {
             // Measure text width
             const textMetrics = measureContext.measureText(word);
             const textWidth = textMetrics.width;
@@ -214,9 +218,6 @@
             const borderWidth = 30;
             const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
             const bannerHeight = 130;
-
-            // Get position for this capsule
-            const position = positions[index];
 
             // Create DOM element for banner
             const bannerElement = document.createElement('div');
@@ -260,20 +261,52 @@
                 rotation: position.rotation
             });
 
-            // Animate in with a "slap" effect - stagger each capsule
+            // Animate in with a "slap" effect
             gsap.to(bannerElement, {
                 opacity: 1,
                 scale: 1,
                 duration: 0.4,
-                delay: index * 0.15, // 150ms stagger between each
+                delay: delay,
                 ease: "back.out(2)", // Bouncy "slap" effect
                 onStart: () => {
                     console.log(`Slapping ${word} onto screen at ${position.x}, ${position.y}`);
                 }
             });
+
+            return bannerElement;
+        }
+
+        // Create initial word banners with staggered appearance
+        words.forEach((word, index) => {
+            const position = positions[index];
+            createCapsule(word, position, index * 0.15);
         });
 
-        console.log('Sticker-slap animation initialized');
+        // Add click listener for Easter egg capsules
+        openingAnimation.addEventListener('click', (e) => {
+            // Get next word from back pocket
+            const word = backPocketWords[backPocketIndex % backPocketWords.length];
+            backPocketIndex++;
+
+            // Calculate click position as percentage
+            const rect = openingAnimation.getBoundingClientRect();
+            const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+            const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+
+            // Random rotation between -15 and 15 degrees
+            const rotation = (Math.random() - 0.5) * 30;
+
+            // Create capsule at click position
+            const position = {
+                x: `${xPercent}%`,
+                y: `${yPercent}%`,
+                rotation: rotation
+            };
+
+            createCapsule(word, position, 0);
+        });
+
+        console.log('Sticker-slap animation initialized with click Easter egg');
     }
 
     // ==================== GSAP SCROLL TRIGGER - PUSH OPENING ANIMATION UP ====================

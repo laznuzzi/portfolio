@@ -39,7 +39,7 @@ Built Square's Vibe Code Kit (passion project), a git package with built-in them
 ---
 
 # g2
-title: Support Automation Portal
+title: Support Automation Portal POC
 subtitle: Block
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
@@ -82,7 +82,7 @@ title: GSK Design System
 subtitle: GlaxoSmithKline
 shortDescription: Global enterprise design system including pre-validated components, UI kits and tutorials, built on a custom Material UI architecture.
 thumbnail: ./img/dsm-thumb.jpg
-hover: ./img/design-system-hover.gif
+hover: ./img/dsm-hover.mp4
 modal: ./img/dsm-1.mp4, ./img/dsm-2.jpg, ./img/dsm-3.png, ./img/dsm-4.png, ./img/dsm-5.jpg, ./img/dsm-6.jpg, ./img/dsm-7.mp4, ./img/dsm-8.mp4
 
 **Role:** Designer, Developer
@@ -100,9 +100,9 @@ Designed the GSK design system, serving as the primary bridge between Global Bra
 title: Bot Automation Portal
 subtitle: GlaxoSmithKline
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
-thumbnail: ./img/automation-thumb.jpg
-hover: ./img/automation-hover.gif
-modal: ./img/placeholder.jpeg
+thumbnail: ./img/rpa-thumb.jpg
+hover: ./img/rpa-hover.jpg
+modal: ./img/rpa-1.jpg, ./img/rpa-2.mp4, ./img/rpa-3.mp4, ./img/rpa-4.mp4, ./img/rpa-5.mp4, ./img/rpa-6.mp4, ./img/rpa-7.jpg, ./img/rpa-8.mp4
 
 **Role:** Designer
 **Timeline:** Q1 2026 (2 Months)
