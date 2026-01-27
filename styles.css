@@ -355,9 +355,16 @@ body {
   text-transform: uppercase;
   color: var(--text-primary);
   letter-spacing: 0.02em;
-  opacity: 0.3;
+  opacity: 0;
+  visibility: hidden;
   z-index: 100;
   white-space: nowrap;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.vertical-sidebar-text.visible {
+  opacity: 0.3;
+  visibility: visible;
 }
 
 .main-container {
@@ -949,6 +956,10 @@ body {
 
   .intro-section {
     padding: var(--space-8) var(--space-4);
+  }
+
+  .intro-placeholder-text {
+    font-size: 1rem;
   }
 
   .portfolio-card {
@@ -1922,8 +1933,86 @@ body {
 /* ==================== RESPONSIVE: MOBILE (Cards Layout) ==================== */
 
 @media (max-width: 768px) {
+  /* Hide vertical sidebar text on mobile */
+  .vertical-sidebar-text {
+    display: none;
+  }
+
+  /* Opening animation - smaller text */
+  .opening-large-text,
+  .opening-subtitle-text {
+    font-size: clamp(3rem, 10vw, 8rem);
+  }
+
+  .opening-avatar {
+    width: 0.6em !important;
+    height: 0.6em !important;
+  }
+
+  /* Footer tab */
+  .footer-tab {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer-tab-arrow {
+    font-size: 24px;
+  }
+
   .archives-section {
     padding: var(--space-6) var(--space-3);
+  }
+
+  /* Project cards - stack vertically on mobile */
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    min-height: auto;
+  }
+
+  .project-card::after {
+    display: none; /* Remove hover wipe on mobile */
+  }
+
+  .card-lock-column,
+  .card-title,
+  .card-subtitle,
+  .card-description {
+    width: 100%;
+    height: auto;
+  }
+
+  .card-lock-column {
+    order: 1;
+  }
+
+  .card-title {
+    order: 2;
+    font-size: var(--font-size-base);
+  }
+
+  .card-subtitle {
+    order: 3;
+    font-size: var(--font-size-sm);
+  }
+
+  .card-description {
+    order: 4;
+    padding-right: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  /* Cards header */
+  .cards-header {
+    flex-direction: column;
+    gap: var(--space-1);
+    align-items: flex-start;
+  }
+
+  .cards-header-right {
+    text-align: left;
   }
 
   /* Hide table, show cards */
@@ -1989,6 +2078,20 @@ body {
 @media (max-width: 480px) {
   .archives-section {
     padding: var(--space-4) var(--space-2);
+  }
+
+  .project-card {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .card-title {
+    font-size: var(--font-size-sm);
+  }
+
+  .card-subtitle,
+  .card-description {
+    font-size: var(--font-size-xs);
   }
 
   .table-row td {

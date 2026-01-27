@@ -52,3 +52,11 @@ Transparent capsules:
   opacity: 0 !important; /* Invisible but still captures mouse */
   pointer-events: auto !important; /* Must capture mouse events */
 }
+
+/* ==================== MOBILE RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    /* Make capsules 50% smaller on mobile */
+    --capsule-text-font: 700 28.8px 'Buffon-Bold', serif;
+  }
+}

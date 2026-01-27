@@ -210,11 +210,14 @@
             const textMetrics = measureContext.measureText(word);
             const textWidth = textMetrics.width;
 
+            // Mobile responsive dimensions
+            const isMobile = window.innerWidth <= 768;
+            const internalPadding = isMobile ? 20 : 40;
+            const borderWidth = isMobile ? 15 : 30;
+            const bannerHeight = isMobile ? 60 : 130;
+
             // Calculate banner width
-            const internalPadding = 40;
-            const borderWidth = 30;
             const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
-            const bannerHeight = 130;
 
             // Create DOM element for banner
             const bannerElement = document.createElement('div');
@@ -239,7 +242,7 @@
             `;
 
             // Apply scalloped corner styling via border-image
-            bannerElement.style.border = '30px solid';
+            bannerElement.style.border = `${borderWidth}px solid`;
             bannerElement.style.borderImageSource = `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="3" height="3" fill="${encodedColor}"><path d="M2 0H1C1 .6.6 1 0 1v1c.6 0 1 .4 1 1h1c0-.6.4-1 1-1V1a1 1 0 0 1-1-1Z"/></svg>')`;
             bannerElement.style.borderImageSlice = '1 fill';
 
@@ -336,8 +339,9 @@
     // ==================== SCROLL ANIMATION: Main Content Slides Over Opening ====================
     const appHeader = document.getElementById('app-header');
     const filingFolder = document.querySelector('.filing-folder-top');
+    const verticalText = document.querySelector('.vertical-sidebar-text');
 
-    // Ensure nav and folder start hidden
+    // Ensure nav, folder, and sidebar text start hidden
     if (appHeader) {
         appHeader.style.opacity = '0';
         appHeader.style.visibility = 'hidden';
@@ -347,6 +351,9 @@
         filingFolder.style.opacity = '0';
         filingFolder.style.visibility = 'hidden';
         filingFolder.style.pointerEvents = 'none';
+    }
+    if (verticalText) {
+        verticalText.classList.remove('visible');
     }
 
     // Animate tab and footer bar to slide up with scroll
@@ -372,7 +379,7 @@
             scrub: 1,
             markers: false,
             onEnter: () => {
-                // Show nav and folder as soon as animation starts
+                // Show nav, folder, and sidebar text as soon as animation starts
                 if (appHeader) {
                     appHeader.style.opacity = '1';
                     appHeader.style.visibility = 'visible';
@@ -383,9 +390,12 @@
                     filingFolder.style.visibility = 'visible';
                     filingFolder.style.pointerEvents = 'auto';
                 }
+                if (verticalText) {
+                    verticalText.classList.add('visible');
+                }
             },
             onLeaveBack: () => {
-                // Hide nav and folder when scrolling back up past start
+                // Hide nav, folder, and sidebar text when scrolling back up past start
                 if (appHeader) {
                     appHeader.style.opacity = '0';
                     appHeader.style.visibility = 'hidden';
@@ -395,6 +405,9 @@
                     filingFolder.style.opacity = '0';
                     filingFolder.style.visibility = 'hidden';
                     filingFolder.style.pointerEvents = 'none';
+                }
+                if (verticalText) {
+                    verticalText.classList.remove('visible');
                 }
             }
         }
