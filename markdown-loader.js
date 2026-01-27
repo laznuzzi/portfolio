@@ -240,6 +240,7 @@
                     <span class="subtitle-text">${project.subtitle || ''}</span>
                 </div>
                 <div class="card-description">${project.shortDescription || ''}</div>
+                <div class="card-arrow">→</div>
                 <div class="card-thumbnail">
                     <div class="thumbnail-wrapper">
                         <img src="${firstImage}" alt="${project.title}">

@@ -101,10 +101,9 @@
 
         indices.forEach((index, animationOrder) => {
             setTimeout(() => {
-                gsap.to(letters[index], {
-                    opacity: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
+                // Instant typewriter-style appearance (no fade)
+                gsap.set(letters[index], {
+                    opacity: 1
                 });
             }, animationOrder * delayBetweenLetters);
         });
