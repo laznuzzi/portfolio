@@ -320,7 +320,7 @@ body {
 
 .nav-right {
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-8);
   flex: 0 0 auto;
 }
 
@@ -1938,10 +1938,10 @@ body {
     display: none;
   }
 
-  /* Opening animation - smaller text */
+  /* Opening animation - larger text for mobile (fewer lines) */
   .opening-large-text,
   .opening-subtitle-text {
-    font-size: clamp(3rem, 10vw, 8rem);
+    font-size: 4.5rem;
   }
 
   .opening-avatar {

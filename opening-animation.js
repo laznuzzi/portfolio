@@ -4,10 +4,13 @@
 (function() {
     // ==================== EDIT TEXT HERE ====================
     // Each word on its own line to prevent wrapping during typing
-    const LINE_1 = "Howdy";
-    const LINE_2 = "partner,";
-    const LINE_3 = "↓ I'm ↓";
-    const LINE_4 = "Nazarena";
+    // Different text for mobile vs desktop
+    const isMobileText = window.innerWidth <= 768;
+
+    const LINE_1 = isMobileText ? "Howdy," : "Howdy";
+    const LINE_2 = isMobileText ? "↓ I'm ↓" : "partner,";
+    const LINE_3 = isMobileText ? "Naz" : "↓ I'm ↓";
+    const LINE_4 = isMobileText ? "" : "Nazarena";
     // ========================================================
 
     // Wait for GSAP to be ready
@@ -46,8 +49,8 @@
     if (textElement) {
         textElement.innerHTML = ''; // Clear existing text
 
-        // Create 4 separate line elements, each will contain one word
-        const lines = [LINE_1, LINE_2, LINE_3, LINE_4];
+        // Create line elements, filtering out empty lines
+        const lines = [LINE_1, LINE_2, LINE_3, LINE_4].filter(line => line !== "");
         const letterElements = []; // Store all letter elements for random animation
 
         lines.forEach((lineText, lineIndex) => {
