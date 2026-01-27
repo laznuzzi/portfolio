@@ -93,7 +93,7 @@
         shuffleArray(indices);
 
         // Reveal letters one by one in random order
-        const totalDuration = 1800; // Total time for all letters to appear (ms) - faster
+        const totalDuration = 1200; // Total time for all letters to appear (ms) - faster
         const delayBetweenLetters = totalDuration / letters.length;
 
         indices.forEach((index, animationOrder) => {
@@ -197,7 +197,14 @@
         measureContext.font = textFont;
 
         // Define fixed positions for initial capsules (spread across the screen)
-        const positions = [
+        const isMobile = window.innerWidth <= 768;
+
+        const positions = isMobile ? [
+            { x: '20%', y: '15%', rotation: -8 },  // Designer - top left
+            { x: '80%', y: '15%', rotation: 12 },  // Developer - top right
+            { x: '15%', y: '70%', rotation: -15 }, // Builder - bottom left
+            { x: '85%', y: '70%', rotation: 5 }    // Fixer - bottom right
+        ] : [
             { x: '15%', y: '20%', rotation: -8 },  // Designer - top left
             { x: '75%', y: '15%', rotation: 12 },  // Developer - top right
             { x: '35%', y: '50%', rotation: -15 }, // Builder - mid left
