@@ -63,6 +63,7 @@
             const project = {
                 id: lines[0].trim(),
                 title: lines[0].trim(),
+                subtitle: '',
                 thumbnail: '',
                 hover: '',
                 modal: [],
@@ -152,38 +153,49 @@
     // Generate HTML content for modal
     function generateHTML(project) {
         return `
-            <h1>${project.title}</h1>
+            <div class="modal-row modal-row-1">
+                <div class="modal-column">
+                    <h1>${project.title}</h1>
+                </div>
+                <div class="modal-column">
+                    ${project.subtitle ? `<p class="modal-company">${project.subtitle}</p>` : ''}
+                </div>
+                <div class="modal-column">
+                    ${project.role ? `<p class="modal-role">${project.role}</p>` : ''}
+                </div>
+                <div class="modal-column modal-close-column">
+                    <button class="modal-close-button" id="modal-close" aria-label="Close modal">X</button>
+                </div>
+            </div>
 
-            ${project.role ? `
-                <p style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); color: var(--text-primary); margin-bottom: var(--space-2);">
-                    ${project.role}
-                </p>
-            ` : ''}
+            <div class="modal-row modal-row-2">
+                ${project.context ? `
+                    <div class="modal-column">
+                        <h2>Context</h2>
+                        <p>${project.context}</p>
+                    </div>
+                ` : '<div class="modal-column"></div>'}
 
-            ${/* Hidden for now - timeline/year
-            project.timeline ? `
-                <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">
-                    ${project.timeline}
-                </p>
-            ` : '' */
-            ''}
+                <div class="modal-column">
+                    <h2>Work</h2>
+                    <p>${project.description || 'Project description coming soon.'}</p>
+                </div>
 
-            ${project.context ? `
-                <h2>Context</h2>
-                <p style="color: var(--text-primary);">${project.context}</p>
-            ` : ''}
-
-            <h2>Work</h2>
-            <p style="color: var(--text-primary);">${project.description || 'Project description coming soon.'}</p>
-
-            ${project.techStack ? `
-                <h2>Tech Stack</h2>
-                <p style="color: var(--text-primary);">${project.techStack}</p>
-            ` : ''}
+                ${project.techStack ? `
+                    <div class="modal-column">
+                        <h2>Tech Stack</h2>
+                        <p>${project.techStack}</p>
+                    </div>
+                ` : '<div class="modal-column"></div>'}
+            </div>
 
             ${project.githubLink ? `
-                <h2>Links</h2>
-                <p style="color: var(--text-primary);"><a href="${project.githubLink}" target="_blank" rel="noopener noreferrer" style="color: var(--text-primary); text-decoration: underline;">View on GitHub →</a></p>
+                <div class="modal-row modal-row-links">
+                    <div class="modal-column">
+                        <h2>Links</h2>
+                        <p><a href="${project.githubLink}" target="_blank" rel="noopener noreferrer">View on GitHub →</a></p>
+                    </div>
+                </div>
             ` : ''}
         `;
     }
@@ -240,6 +252,9 @@
                     <span class="subtitle-text">${project.subtitle || ''}</span>
                 </div>
                 <div class="card-description">${project.shortDescription || ''}</div>
+                <div class="card-mobile-preview">
+                    ${hoverMediaTag}
+                </div>
                 <div class="card-arrow">→</div>
                 <div class="card-thumbnail">
                     <div class="thumbnail-wrapper">

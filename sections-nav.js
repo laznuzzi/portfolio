@@ -42,8 +42,8 @@
     // 1. Open browser console
     // 2. Run: await crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword')).then(h => console.log(Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('')))
     // 3. Copy the hash and replace CORRECT_PASSWORD_HASH below
-    // Current password: 'password'
-    const CORRECT_PASSWORD_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'; // SHA-256 hash of 'password'
+    // Current password: 'vibes'
+    const CORRECT_PASSWORD_HASH = 'f4c1e632fa17585bc98abdc2edf046012dec605ac19bc6d9871769bd779ef212'; // SHA-256 hash of 'vibes'
     const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
     let pendingEntryId = null;
     let pendingRow = null;
@@ -200,9 +200,89 @@
         console.log('💡 To generate a new password hash, run: generatePasswordHash("yourpassword")');
     }
 
+    // Show password overlay inside modal
+    function showModalPasswordOverlay(entryId, modalContent) {
+        // Create overlay if it doesn't exist
+        let overlay = document.getElementById('modal-password-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'modal-password-overlay';
+            overlay.className = 'modal-password-overlay';
+            overlay.innerHTML = `
+                <div class="modal-password-content">
+                    <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
+                    <h2 class="modal-password-title">This project is locked</h2>
+                    <p class="modal-password-description">Enter the passcode to view</p>
+                    <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
+                    <div class="modal-password-buttons">
+                        <button id="modal-unlock-button" class="password-button password-button-primary">Unlock</button>
+                    </div>
+                    <p id="modal-password-error" class="password-error" style="display: none;">Incorrect password</p>
+                </div>
+            `;
+        }
+
+        // Add to modal
+        modalContent.appendChild(overlay);
+
+        // Setup event listeners
+        const input = overlay.querySelector('#modal-password-input');
+        const unlockBtn = overlay.querySelector('#modal-unlock-button');
+        const error = overlay.querySelector('#modal-password-error');
+
+        // Focus input
+        setTimeout(() => input.focus(), 100);
+
+        // Handle unlock
+        const handleUnlock = async () => {
+            const password = input.value;
+
+            if (!password) {
+                error.textContent = 'Please enter a password';
+                error.style.display = 'block';
+                return;
+            }
+
+            const hash = await hashPassword(password);
+
+            if (hash === CORRECT_PASSWORD_HASH) {
+                // Store unlock state
+                const expiry = Date.now() + UNLOCK_DURATION;
+                localStorage.setItem('projectsUnlockedUntil', expiry);
+
+                // Hide all lock icons
+                hideLockIcons();
+
+                // Remove blur and hide overlay
+                modalContent.classList.remove('modal-locked');
+                hideModalPasswordOverlay();
+            } else {
+                error.textContent = 'Incorrect password';
+                error.style.display = 'block';
+                input.value = '';
+                input.focus();
+            }
+        };
+
+        unlockBtn.addEventListener('click', handleUnlock);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUnlock();
+            }
+        });
+    }
+
+    // Hide password overlay inside modal
+    function hideModalPasswordOverlay() {
+        const overlay = document.getElementById('modal-password-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
     // Open modal for vintage table entries - defined at module scope
-    function openVintageTableModal(entryId, row, hoverImageRect) {
-        console.log('openVintageTableModal called with:', entryId);
+    function openVintageTableModal(entryId, row, hoverImageRect, isLocked = false) {
+        console.log('openVintageTableModal called with:', entryId, 'isLocked:', isLocked);
         // Get entry data from fileData
         const entry = window.fileData[entryId];
 
@@ -252,17 +332,14 @@
                            muted
                            loop
                            playsinline
-                           preload="auto"
-                           class="modal-grid-image modal-grid-video"
-                           style="width: 100%; height: auto; display: block; background: #000;">
+                           preload="auto">
                         Your browser does not support the video tag.
                     </video>
                 `;
             } else {
                 return `
                     <img src="${mediaPath}"
-                         alt="${entry.title} - Image ${index + 1}"
-                         class="modal-grid-image">
+                         alt="${entry.title} - Image ${index + 1}">
                 `;
             }
         }).join('');
@@ -270,57 +347,47 @@
         // Ensure we have content to display
         if (!mediaHTML || mediaHTML.trim() === '') {
             console.warn('No media HTML generated, using fallback');
-            imageContainer.innerHTML = `
-                <div class="modal-image-grid">
-                    <img src="./img/placeholder.jpeg" alt="Placeholder" class="modal-grid-image">
-                </div>
-            `;
+            imageContainer.innerHTML = `<img src="./img/placeholder.jpeg" alt="Placeholder">`;
         } else {
-            imageContainer.innerHTML = `
-                <div class="modal-image-grid">
-                    ${mediaHTML}
-                </div>
-            `;
+            imageContainer.innerHTML = mediaHTML;
         }
 
         // Set text content from entry data
         textContainer.innerHTML = entry.content;
 
-        // Show modal with animation
+        // Clear any existing modal-row-1 elements from previous modal opens
+        const existingRow1 = modalContent.querySelectorAll('.modal-row-1');
+        existingRow1.forEach(el => {
+            if (el.parentElement === modalContent) {
+                el.remove();
+            }
+        });
+
+        // Move modal-row-1 to be a direct child of modalContent for sticky positioning
+        const row1 = textContainer.querySelector('.modal-row-1');
+        if (row1) {
+            modalContent.insertBefore(row1, modalContent.firstChild);
+        }
+
+        // Show modal with slide-up animation
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
-        console.log('Modal display set to:', modal.style.display);
-        console.log('Modal computed display:', window.getComputedStyle(modal).display);
-        console.log('Modal visibility:', window.getComputedStyle(modal).visibility);
-        console.log('Modal opacity:', window.getComputedStyle(modal).opacity);
-        console.log('Modal z-index:', window.getComputedStyle(modal).zIndex);
-        console.log('Modal position:', window.getComputedStyle(modal).position);
-        console.log('Modal bounding rect:', modal.getBoundingClientRect());
-
-        // Get close button for animation
-        const closeButton = modal.querySelector('.modal-close-button');
-
-        // Fade + Zoom animation
-        if (typeof gsap !== 'undefined') {
-            console.log('Running fade + zoom animation...');
-
-            // Set initial state - scaled down and transparent
-            gsap.set(modalContent, {
-                scale: 0.8,
-                autoAlpha: 0
-            });
-
-            // Animate to full size and opacity
-            gsap.to(modalContent, {
-                scale: 1,
-                autoAlpha: 1,
-                duration: 0.6,
-                ease: 'power2.out'
-            });
+        // If locked, add blur and show password overlay
+        if (isLocked) {
+            modalContent.classList.add('modal-locked');
+            showModalPasswordOverlay(entryId, modalContent);
         } else {
-            console.log('No GSAP available, modal should still be visible');
+            modalContent.classList.remove('modal-locked');
+            hideModalPasswordOverlay();
         }
+
+        // Trigger animation after display is set
+        requestAnimationFrame(() => {
+            modal.classList.add('active');
+        });
+
+        console.log('Modal opened with slide-up animation');
     }
 
     // Setup archive cards (can be called multiple times)
@@ -454,14 +521,9 @@
                 // Get hover image position before it disappears
                 const hoverImageRect = hoverImageContainer ? hoverImageContainer.getBoundingClientRect() : null;
 
-                // Check if locked and not unlocked
-                if (isLocked && !areProjectsUnlocked()) {
-                    console.log('Project is locked, showing password modal');
-                    showPasswordModal(entryId, card, hoverImageRect);
-                } else {
-                    console.log('Opening project modal');
-                    openVintageTableModal(entryId, card, hoverImageRect);
-                }
+                // Always open the modal, pass locked state
+                console.log('Opening project modal');
+                openVintageTableModal(entryId, card, hoverImageRect, isLocked && !areProjectsUnlocked());
             });
         });
 
@@ -719,37 +781,49 @@
                         <video src="${mediaPath}"
                                loop
                                playsinline
-                               preload="metadata"
-                               class="modal-grid-image modal-grid-video"
-                               style="width: 100%; height: auto; display: block; background: #000;">
+                               preload="metadata">
                             Your browser does not support the video tag.
                         </video>
                     `;
                 } else {
                     return `
                         <img src="${mediaPath}"
-                             alt="${file.title} - Image ${index + 1}"
-                             class="modal-grid-image">
+                             alt="${file.title} - Image ${index + 1}">
                     `;
                 }
             }).join('');
 
-            imageContainer.innerHTML = `
-                <div class="modal-image-grid">
-                    ${mediaHTML}
-                </div>
-            `;
+            imageContainer.innerHTML = mediaHTML;
 
             // Set text content
             const contentHTML = file.content || '<p>No content available.</p>';
             textContainer.innerHTML = contentHTML;
 
+            // Clear any existing modal-row-1 elements from previous modal opens
+            const existingRow1 = modalContent.querySelectorAll('.modal-row-1');
+            existingRow1.forEach(el => {
+                if (el.parentElement === modalContent) {
+                    el.remove();
+                }
+            });
+
+            // Move modal-row-1 to be a direct child of modalContent for sticky positioning
+            const row1 = textContainer.querySelector('.modal-row-1');
+            if (row1 && modalContent) {
+                modalContent.insertBefore(row1, modalContent.firstChild);
+            }
+
             // No slider functionality needed - using scrollable grid
 
-            // Show modal
+            // Show modal with slide-up animation
             if (modal) {
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
+
+                // Trigger animation after display is set
+                requestAnimationFrame(() => {
+                    modal.classList.add('active');
+                });
             }
         }
 
@@ -816,27 +890,24 @@
         // Close modal with animation
         const closeModal = () => {
             if (modal && modalContent) {
-                // Fade + Zoom out animation (reverse of open)
-                if (typeof gsap !== 'undefined') {
-                    gsap.to(modalContent, {
-                        scale: 0.8,
-                        autoAlpha: 0,
-                        duration: 0.5,
-                        ease: 'power2.in',
-                        onComplete: () => {
-                            modal.style.display = 'none';
-                            document.body.style.overflow = '';
-                        }
-                    });
-                } else {
+                // Slide down animation
+                modal.classList.remove('active');
+
+                // Wait for animation to complete before hiding
+                setTimeout(() => {
                     modal.style.display = 'none';
                     document.body.style.overflow = '';
-                }
+                }, 400); // Match the CSS transition duration
             }
         };
 
-        if (modalClose) {
-            modalClose.addEventListener('click', closeModal);
+        // Use event delegation for close button since it's dynamically generated
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'modal-close' || e.target.closest('#modal-close')) {
+                    closeModal();
+                }
+            });
         }
 
         if (modalOverlay) {

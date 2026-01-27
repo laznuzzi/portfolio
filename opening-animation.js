@@ -122,35 +122,44 @@
     }
 
     function replaceOWithAvatar(oElement) {
+        // Create wrapper for scalloped border
+        const avatarWrapper = document.createElement('div');
+        avatarWrapper.className = 'opening-avatar-wrapper';
+        avatarWrapper.style.position = 'absolute';
+        avatarWrapper.style.top = '40%';
+        avatarWrapper.style.left = '44%';
+        avatarWrapper.style.transform = 'translate(-50%, -50%)';
+        avatarWrapper.style.width = '.75em';
+        avatarWrapper.style.height = '.75em';
+
         // Create avatar image element
         const avatar = document.createElement('img');
         avatar.src = './img/avatar.jpeg';
         avatar.className = 'opening-avatar';
-        avatar.style.position = 'absolute';
-        avatar.style.top = '40%';
-        avatar.style.left = '44%';
-        avatar.style.transform = 'translate(-50%, -50%)';
-        avatar.style.width = '.75em';
-        avatar.style.height = '.75em';
+        avatar.style.width = '100%';
+        avatar.style.height = '100%';
         avatar.style.borderRadius = '50%';
         avatar.style.objectFit = 'cover';
-        avatar.style.opacity = '0';
 
-        // Add avatar to the o element
-        oElement.appendChild(avatar);
+        // Add avatar to wrapper, then wrapper to o element
+        avatarWrapper.appendChild(avatar);
+        oElement.appendChild(avatarWrapper);
 
-        // Animate: fade out "o" text and fade in avatar
-        gsap.timeline()
-            .to(oElement, {
-                color: 'transparent',
-                duration: 0.3,
-                ease: "power2.inOut"
-            })
-            .to(avatar, {
-                opacity: 1,
-                duration: 0.4,
-                ease: "power2.out"
-            }, "-=0.1");
+        // Make "o" text transparent immediately (no fade)
+        oElement.style.color = 'transparent';
+
+        // Sticker-slap animation for avatar (same as capsules)
+        gsap.set(avatarWrapper, {
+            opacity: 0,
+            scale: 0
+        });
+
+        gsap.to(avatarWrapper, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: "back.out(2)" // Bouncy "slap" effect
+        });
     }
 
     function shuffleArray(array) {
