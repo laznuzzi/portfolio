@@ -119,7 +119,7 @@
   /* Typography - Base sizes */
   --font-size-2xs: 0.625rem;      /* 10px - even number */
   --font-size-xs: 0.75rem;        /* 12px - even number */
-  --font-size-sm: 0.875rem;       /* 14px - even number */
+  --font-size-sm: 0.9375rem;      /* 15px */
   --font-size-base: 1rem;         /* 16px - base size, even number */
   --font-size-md: 1.125rem;       /* 18px - even number */
   --font-size-lg: 1.25rem;        /* 20px - even number */
@@ -140,6 +140,11 @@
   --font-weight-semibold: 600;
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
+
+  /* Typography - Font families */
+  /* --font-body: Main font for all body text, modals, cards, etc.
+     Excludes: opening animation, archives title, nav bar, vertical sidebar text */
+  --font-body: 'Chalet', sans-serif;
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -411,7 +416,7 @@ body {
     color: var(--text-primary);
     margin-bottom: var(--space-8);
     line-height: var(--line-height-tight);
-    font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
     font-weight: 500;
     font-size: clamp(2.5rem, 5vw, 4.5rem) !important;
   }
@@ -424,11 +429,11 @@ body {
     margin: 0 auto;
     font-weight: 400;
     color: var(--text-primary);
-    font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
   }
 
   .greeting-text {
-    font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
     font-weight: bold;
   }
 
@@ -1681,7 +1686,7 @@ body {
   justify-content: space-between;
   padding: 0 var(--space-3) var(--space-3) var(--space-3);
   font-size: var(--font-size-xs);
-  font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
   font-weight: 500;
   color: var(--text-secondary);
 }
@@ -1722,7 +1727,7 @@ body {
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-sm);
-  font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
 }
 
 .project-card + .project-card {
@@ -2457,7 +2462,7 @@ body {
 }
 
 .modal-password-description {
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   font-size: var(--font-size-base);
   margin: 0 0 var(--space-6) 0;
   color: var(--text-primary);
@@ -2466,7 +2471,7 @@ body {
 .modal-password-input {
   width: 100%;
   padding: var(--space-4);
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   font-size: var(--font-size-base);
   border: 2px solid var(--border-primary);
   border-radius: 4px;
@@ -2520,7 +2525,7 @@ body {
 .modal-content-columns {
   display: block;
   padding: 0;
-  font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
 }
 
 .modal-row {
@@ -2593,7 +2598,7 @@ body {
 
 /* Modal typography - applies to all content in modal */
 .project-modal-content h1 {
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   font-size: var(--font-size-lg);
   font-weight: 600;
   margin: 0;
@@ -2602,7 +2607,7 @@ body {
 }
 
 .project-modal-content h2 {
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   font-size: .9rem;
   font-weight: 700;
   margin: 0 0 var(--space-3) 0;
@@ -2610,7 +2615,7 @@ body {
 }
 
 .project-modal-content p {
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   font-size: var(--font-size-sm);
   line-height: 1.6;
   color: var(--text-primary);
@@ -2618,7 +2623,7 @@ body {
 }
 
 .project-modal-content a {
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   color: var(--text-primary);
   text-decoration: underline;
 }
@@ -2630,7 +2635,7 @@ body {
 /* Company and role metadata */
 .modal-company,
 .modal-role {
-  font-family: 'InputMono', monospace;
+  font-family: var(--font-body);
   font-size: var(--font-size-base);
   font-weight: 600;
   color: var(--text-primary);
