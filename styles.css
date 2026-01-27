@@ -83,9 +83,25 @@
 }
 
 @font-face {
-  font-family: 'InputMono-Light';
+  font-family: 'InputMono';
   src: url('./font/InputMono-Light.ttf') format('truetype');
   font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'InputMono';
+  src: url('./font/InputMono-Medium.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'InputMono';
+  src: url('./font/InputMono-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -262,9 +278,9 @@ body {
 .app-header {
   position: fixed;
   top: 0;
-  left: 2%;
-  right: 2%;
-  width: 96%;
+  left: 1%;
+  right: 1%;
+  width: 98%;
   z-index: 1000; /* High z-index to ensure it's above everything */
   padding: var(--space-3) var(--space-6);
   background-color: transparent;
@@ -316,14 +332,32 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   transition: opacity var(--transition-fast);
-  
+
   &:hover {
     opacity: 0.7;
   }
-  
+
   &:visited {
     color: var(--text-primary);
   }
+}
+
+/* ==================== VERTICAL SIDEBAR TEXT ==================== */
+.vertical-sidebar-text {
+  position: fixed;
+  left: 3%;
+  top: 60vh;
+  transform: rotate(-90deg);
+  transform-origin: left center;
+  font-size: var(--font-size-sm);
+  font-family: 'Buffon-Bold', serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  opacity: 0.3;
+  z-index: 100;
+  white-space: nowrap;
 }
 
 .main-container {
@@ -357,7 +391,7 @@ body {
     color: var(--text-primary);
     margin-bottom: var(--space-8);
     line-height: var(--line-height-tight);
-    font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 500;
     font-size: clamp(2.5rem, 5vw, 4.5rem) !important;
   }
@@ -370,11 +404,11 @@ body {
     margin: 0 auto;
     font-weight: 400;
     color: var(--text-primary);
-    font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
   .greeting-text {
-    font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: bold;
   }
 
@@ -1250,15 +1284,29 @@ body {
 /* Tab/lip - positioned to be visible in viewport */
 .footer-tab {
   position: fixed;
-  bottom: 32px; 
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100px;
-  height: 25px;
+  width: 60px;
+  height: 60px;
   background-color: #dbd7cc;
-  border-radius: 12px 12px 0 0;
+  border-radius: 50%;
   z-index: 1000;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.footer-tab-arrow {
+  font-family: 'Buffon-Bold', serif;
+  font-size: 32px;
+  color: var(--color-black);
+  user-select: none;
+  line-height: 1;
+  margin-top: -2px;
 }
 
 /* Footer preview bar at the bottom */
@@ -1524,7 +1572,8 @@ body {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  
+  cursor: pointer;
+
   /* Subtract the tab shape from the folder using SVG clip-path with smooth curves */
   /* Creates a cutout at the top center for the folder tab with rounded edges */
   clip-path: url(#folderClipPath);
@@ -1589,7 +1638,7 @@ body {
   justify-content: space-between;
   padding: 0 var(--space-3) var(--space-3) var(--space-3);
   font-size: var(--font-size-xs);
-  font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 500;
   color: var(--text-secondary);
 }
@@ -1618,7 +1667,7 @@ body {
 .project-card {
   display: grid;
   grid-template-columns: 50px 1fr 1fr 2fr;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-4);
   padding: 1.5rem var(--space-3);
   border-top: 2px solid #000000;
@@ -1630,7 +1679,7 @@ body {
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-sm);
-  font-family: 'InputMono-Light', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .project-card + .project-card {
@@ -1668,7 +1717,7 @@ body {
 }
 
 .project-card:hover .lock-icon {
-  opacity: 0.8;
+  opacity: 1;
   filter: invert(1);
 }
 
@@ -1679,7 +1728,7 @@ body {
   z-index: 1;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
@@ -1690,7 +1739,7 @@ body {
   z-index: 1;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
@@ -1713,7 +1762,7 @@ body {
   z-index: 1;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
@@ -1732,7 +1781,7 @@ body {
   z-index: 1;
   height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
@@ -1747,7 +1796,7 @@ body {
   text-align: center;
   margin-bottom: var(--space-2);
   opacity: 1;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
 .lock-icon img {
@@ -1801,12 +1850,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-primary);
-  border: 3px solid #000000;
+  background: #000000;
+  border: none;
   border-radius: 50%;
   font-family: 'Buffon-Bold', sans-serif;
   font-size: var(--font-size-xl);
-  color: var(--text-primary);
+  color: var(--bg-primary);
   font-weight: bold;
   z-index: 1;
 }
@@ -1823,11 +1872,11 @@ body {
 
 .hover-preview .hover-image-item {
   height: 100%;
-  width: 100%;
+  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4);
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -1839,7 +1888,7 @@ body {
   height: auto;
   object-fit: contain;
   display: block;
-  border-radius: 12px;
+  border-radius: 0;
 }
 
 .hover-preview .hover-image-wrapper {
@@ -1848,6 +1897,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
 .hover-preview .hover-image-wrapper video {
@@ -2188,6 +2238,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  font-family: 'InputMono', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Image side - 65% */
@@ -2235,23 +2286,22 @@ body {
   }
 
   h1 {
-    font-family: 'Bacute', 'Milagros', 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: var(--font-size-3xl);
-    font-weight: normal;
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
     margin-bottom: var(--space-4);
     color: var(--text-primary);
   }
 
   h2 {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
+    font-size: .9rem;
+    font-weight: 700;
     margin-top: var(--space-6);
     margin-bottom: var(--space-3);
     color: var(--text-primary);
   }
 
   p {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     line-height: 1.6;
     color: var(--text-secondary);
     margin-bottom: var(--space-4);

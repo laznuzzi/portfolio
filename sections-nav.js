@@ -70,6 +70,22 @@
         return false;
     }
 
+    // Hide all lock icons
+    function hideLockIcons() {
+        const lockIcons = document.querySelectorAll('.lock-icon');
+        lockIcons.forEach(icon => {
+            icon.style.display = 'none';
+        });
+    }
+
+    // Show all lock icons
+    function showLockIcons() {
+        const lockIcons = document.querySelectorAll('.lock-icon');
+        lockIcons.forEach(icon => {
+            icon.style.display = 'block';
+        });
+    }
+
     // Show password modal
     function showPasswordModal(entryId, row, hoverImageRect) {
         pendingEntryId = entryId;
@@ -127,6 +143,9 @@
             // Store unlock state with expiry
             const expiry = Date.now() + UNLOCK_DURATION;
             localStorage.setItem('projectsUnlockedUntil', expiry);
+
+            // Hide all lock icons since projects are now unlocked
+            hideLockIcons();
 
             // Hide modal and open pending project
             hidePasswordModal();
@@ -445,6 +464,11 @@
                 }
             });
         });
+
+        // Check if projects are already unlocked and hide lock icons
+        if (areProjectsUnlocked()) {
+            hideLockIcons();
+        }
 
         // Helper function for hiding hover image
         function hideHoverImage() {

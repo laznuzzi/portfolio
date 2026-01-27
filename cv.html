@@ -168,7 +168,7 @@
             color: var(--text-primary);
         }
 
-        @media (max-width: 768px) {
+        @media screen and (max-width: 768px) {
             .cv-page {
                 padding: var(--space-8) var(--space-4);
             }
@@ -180,6 +180,161 @@
             .cv-column-left,
             .cv-column-right {
                 width: 100%;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            /* Hide non-essential elements */
+            .border-frame,
+            .app-header {
+                display: none !important;
+            }
+
+            /* Reset page setup */
+            @page {
+                margin: 0.4in 0.5in;
+                size: letter portrait;
+            }
+
+            /* Optimize layout for printing */
+            body {
+                background: #fff !important;
+            }
+
+            .cv-page {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                font-size: 8.5pt;
+                line-height: 1.25;
+            }
+
+            .cv-header {
+                margin-bottom: 0.4rem;
+            }
+
+            /* Ensure columns stay side by side */
+            .cv-columns {
+                display: flex;
+                gap: 1rem;
+            }
+
+            .cv-column-left {
+                width: 28%;
+            }
+
+            .cv-column-right {
+                width: 72%;
+            }
+
+            /* Better typography for print */
+            .cv-name {
+                font-size: 17pt;
+                margin-bottom: 0.3rem;
+                color: #000;
+            }
+
+            .cv-section-title {
+                font-size: 10pt;
+                margin-bottom: 0.25rem;
+                padding-bottom: 0.05rem;
+                color: #000;
+            }
+
+            .cv-section {
+                margin-bottom: 0.6rem;
+            }
+
+            .cv-experience-company {
+                font-size: 10pt;
+                margin-bottom: 0.15rem;
+                color: #000;
+            }
+
+            .cv-experience-role {
+                font-size: 8.5pt;
+                font-weight: 600;
+                margin-bottom: 0.05rem;
+            }
+
+            .cv-experience-date,
+            .cv-education-details {
+                font-size: 7.5pt;
+                color: #666;
+            }
+
+            .cv-experience-date {
+                margin-bottom: 0.2rem;
+            }
+
+            .cv-experience-item {
+                margin-bottom: 0.5rem;
+            }
+
+            /* Ensure all text is black for printing */
+            body,
+            .cv-page,
+            .cv-contact-item,
+            .cv-contact-item a,
+            .cv-skill,
+            .cv-experience-bullets li {
+                color: #000 !important;
+                background: #fff !important;
+            }
+
+            /* Remove hover effects and transitions */
+            a {
+                text-decoration: none !important;
+                color: #000 !important;
+            }
+
+            /* Optimize spacing */
+            .cv-contact {
+                gap: 0.2rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .cv-contact-item {
+                font-size: 8pt;
+            }
+
+            .cv-skills {
+                gap: 0.1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .cv-skill {
+                font-size: 8pt;
+            }
+
+            .cv-education {
+                margin-bottom: 0.4rem;
+            }
+
+            .cv-education-item {
+                margin-bottom: 0.25rem;
+            }
+
+            .cv-education-school {
+                font-size: 8.5pt;
+                margin-bottom: 0.05rem;
+            }
+
+            .cv-experience-bullets {
+                margin-top: 0.2rem;
+                padding-left: 0;
+            }
+
+            .cv-experience-bullets li {
+                margin-bottom: 0.2rem;
+                padding-left: 1rem;
+                font-size: 8.5pt;
+                line-height: 1.25;
+            }
+
+            .cv-experience-bullets li::before {
+                left: 0.25rem;
             }
         }
     </style>

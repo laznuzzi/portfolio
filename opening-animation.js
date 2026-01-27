@@ -180,11 +180,11 @@
         // Capsule colors - all coral/bright red
         const bannerColor = '#FF6B6B';
 
-        // Word banners data
-        const words = ['Designer', 'Developer', 'Builder', 'Fixer', 'Thinker', 'Gardener', 'DIY-er'];
+        // Word banners data - shown initially
+        const words = ['Designer', 'Developer', 'Builder', 'Fixer'];
 
-        // Hidden "back pocket" words that appear on click
-        const backPocketWords = ['Maker', 'Learner', 'Nerd', 'Collaborator', 'Problem-Solver', 'Optimist', 'Questioner', 'Experimenter', 'Creator', 'Debugger', 'Hacker'];
+        // Hidden "back pocket" words that appear on click - EDIT HERE
+        const backPocketWords = ['Gardener', 'DIY-er', 'Learner', 'Reader', 'Hiker', 'Maker', 'Optimist'];
         let backPocketIndex = 0;
 
         // Get text font to calculate width
@@ -196,15 +196,12 @@
         const measureContext = measureCanvas.getContext('2d');
         measureContext.font = textFont;
 
-        // Define fixed positions for each capsule (spread across the screen)
+        // Define fixed positions for initial capsules (spread across the screen)
         const positions = [
             { x: '15%', y: '20%', rotation: -8 },  // Designer - top left
             { x: '75%', y: '15%', rotation: 12 },  // Developer - top right
-            { x: '35%', y: '35%', rotation: -15 }, // Builder - mid left
-            { x: '65%', y: '45%', rotation: 5 },   // Fixer - mid right
-            { x: '20%', y: '60%', rotation: 10 },  // Thinker - bottom left
-            { x: '80%', y: '70%', rotation: -12 }, // Gardener - bottom right
-            { x: '50%', y: '80%', rotation: 3 }    // DIY-er - bottom center
+            { x: '35%', y: '50%', rotation: -15 }, // Builder - mid left
+            { x: '65%', y: '55%', rotation: 5 }    // Fixer - mid right
         ];
 
         // Function to create a capsule banner
@@ -284,8 +281,14 @@
 
         // Add click listener for Easter egg capsules
         openingAnimation.addEventListener('click', (e) => {
-            // Get next word from back pocket
-            const word = backPocketWords[backPocketIndex % backPocketWords.length];
+            // Check if there are still unused words
+            if (backPocketIndex >= backPocketWords.length) {
+                console.log('All words have been revealed!');
+                return; // No more words to show
+            }
+
+            // Get next word from back pocket (no wrapping, linear progression)
+            const word = backPocketWords[backPocketIndex];
             backPocketIndex++;
 
             // Calculate click position as percentage
@@ -417,5 +420,42 @@
             }, 300);
         }
     });
+
+    // ==================== FOOTER TAB CLICK: Slide Up or Scroll to Archives ====================
+    const footerTab = document.querySelector('.footer-tab');
+    if (footerTab) {
+        footerTab.addEventListener('click', () => {
+            // Add highlight effect
+            const originalColor = '#dbd7cc';
+            const highlightColor = '#e8e5dc';
+
+            footerTab.style.backgroundColor = highlightColor;
+
+            // Check if we're on the opening animation screen
+            const currentScroll = window.scrollY || window.pageYOffset;
+
+            if (currentScroll < window.innerHeight * 0.5) {
+                // Still on opening animation - trigger slide up
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Already scrolled past opening - scroll to archives section
+                const archivesSection = document.querySelector('.archives-section');
+                if (archivesSection) {
+                    archivesSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+
+            // Remove highlight after animation
+            setTimeout(() => {
+                footerTab.style.backgroundColor = originalColor;
+            }, 600);
+        });
+    }
 
 })();

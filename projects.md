@@ -39,7 +39,7 @@ Built Square's Vibe Code Kit (passion project), a git package with built-in them
 ---
 
 # g2
-title: Support Automation Portal POC
+title: Agentic Console POC
 subtitle: Block
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
@@ -61,9 +61,9 @@ Prototyped a live, role-adaptive console experience on top of G2's workflow and 
 # rdm
 title: Remote Device Management
 subtitle: Square
-shortDescription: Centralized remote device hub for Square sellers to monitor and manage hardware fleets in real-time.
+shortDescription: Centralized, remote device hub on Square Dashboard web and Point of Sale, for sellers to monitor and manage hardware fleets in real-time.
 thumbnail: ./img/rdm-thumb.png
-hover: ./img/rdm-hover.mp4
+hover: ./img/rdm-hover.png
 modal: ./img/rdm-1.mp4, ./img/rdm-2.mp4, ./img/rdm-3.png, ./img/rdm-4.mp4, ./img/rdm-5.png
 
 **Role:** xxx
@@ -80,9 +80,9 @@ Led the design of a centralized portal for managing and monitoring devices remot
 # design-system
 title: GSK Design System
 subtitle: GlaxoSmithKline
-shortDescription: Global enterprise design system including pre-validated components, UI kits and tutorials, built on a custom Material UI architecture.
+shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
 thumbnail: ./img/dsm-thumb.jpg
-hover: ./img/dsm-hover.mp4
+hover: ./img/dsm-hover.jpg
 modal: ./img/dsm-1.mp4, ./img/dsm-2.jpg, ./img/dsm-3.png, ./img/dsm-4.png, ./img/dsm-5.jpg, ./img/dsm-6.jpg, ./img/dsm-7.mp4, ./img/dsm-8.mp4
 
 **Role:** Designer, Developer
@@ -93,6 +93,9 @@ At a global organization like GSK, digital product development was historically 
 
 ### Description
 Designed the GSK design system, serving as the primary bridge between Global Brand and engineering. Focused on the structural theming of Material UI to align with enterprise requirements and collaborated with partners at Google to refine the system's architecture. Designed and maintained the core UI kit and documentation, and spearheaded the launch strategy through global workshops and tutorials. By upskilling product teams in these new patterns, the system enabled the launch of 32+ websites and chatbots, accelerated deployment by 25%, and ensured 100% compliance with WCAG 2.1 AA standards by default.
+
+### Tech Stack
+Google Material MWC lit-themed web components. Sass mixins for build-time configuration and CSS Custom Properties for runtime theming. 
 
 ---
 

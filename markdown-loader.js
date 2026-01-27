@@ -160,11 +160,13 @@
                 </p>
             ` : ''}
 
-            ${project.timeline ? `
+            ${/* Hidden for now - timeline/year
+            project.timeline ? `
                 <p style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-bottom: var(--space-6);">
                     ${project.timeline}
                 </p>
-            ` : ''}
+            ` : '' */
+            ''}
 
             ${project.context ? `
                 <h2>Context</h2>
