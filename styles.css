@@ -2066,15 +2066,18 @@ body {
 
 @media (max-width: 768px) {
   /* Fix viewport height for mobile browsers with dynamic URL bars */
+  body {
+    height: 100vh; /* Fallback */
+    height: 100dvh; /* Dynamic viewport height - adapts as URL bar shows/hides */
+  }
+
   .opening-animation,
   .opening-text-container,
   .opening-icons-container,
   .physics-container,
   #main-content {
-    height: 100vh; /* Fallback for oldest browsers */
-    height: -webkit-fill-available; /* Fallback for Safari */
-    height: calc(var(--vh, 1vh) * 100); /* JS-calculated height */
-    height: 100dvh; /* Modern browsers with dynamic viewport support */
+    height: 100vh; /* Fallback */
+    height: 100dvh; /* Dynamic viewport height - adapts as URL bar shows/hides */
   }
 
   /* Hide header/nav bar on mobile */
