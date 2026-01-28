@@ -211,10 +211,10 @@
         const isMobile = window.innerWidth <= 768;
 
         const positions = isMobile ? [
-            { x: '20%', y: '15%', rotation: -8 },  // Designer - top left
-            { x: '80%', y: '15%', rotation: 12 },  // Developer - top right
-            { x: '15%', y: '70%', rotation: -15 }, // Builder - bottom left
-            { x: '85%', y: '70%', rotation: 5 }    // Fixer - bottom right
+            { x: '35%', y: '15%', rotation: -10 },  // Designer - top, slightly left
+            { x: '65%', y: '28%', rotation: 8 },    // Developer - top, slightly right
+            { x: '30%', y: '68%', rotation: -12 },  // Builder - bottom, slightly left
+            { x: '70%', y: '78%', rotation: 6 }     // Fixer - bottom, slightly right
         ] : [
             { x: '15%', y: '20%', rotation: -8 },  // Designer - top left
             { x: '75%', y: '15%', rotation: 12 },  // Developer - top right
@@ -230,9 +230,9 @@
 
             // Mobile responsive dimensions
             const isMobile = window.innerWidth <= 768;
-            const internalPadding = isMobile ? 20 : 40;
+            const internalPadding = isMobile ? 35 : 40;
             const borderWidth = isMobile ? 15 : 30;
-            const bannerHeight = isMobile ? 60 : 130;
+            const bannerHeight = isMobile ? 85 : 130;
 
             // Calculate banner width
             const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);

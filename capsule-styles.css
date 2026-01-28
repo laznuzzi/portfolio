@@ -56,7 +56,7 @@ Transparent capsules:
 /* ==================== MOBILE RESPONSIVE ==================== */
 @media (max-width: 768px) {
   :root {
-    /* Make capsules 50% smaller on mobile */
-    --capsule-text-font: 700 28.8px 'Buffon-Bold', serif;
+    /* Larger capsules on mobile for better visibility */
+    --capsule-text-font: 700 42px 'Buffon-Bold', serif;
   }
 }
