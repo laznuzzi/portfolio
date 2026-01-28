@@ -139,7 +139,7 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
+  --line-height-normal: 1.4;
 
   /* Typography - Font families */
   /* --font-body: Main font for all body text, modals, cards, etc.
@@ -179,7 +179,7 @@
   --z-modal: 50;
 
   /* Layout */
-  --max-width-container: 65vw;
+  --max-width-container: 55vw;
   --min-height-main: 90vh;
   --chat-height: 60vh;
   --sidebar-width: 20rem;
@@ -201,7 +201,7 @@
   --color-gray-900: #111827;
   --color-green-500: #10b981;
   --color-white: #ffffff;
-  --color-black: #000000;
+  --theme-dark: #141413;
 
   /* Extended semantic colors */
   --color-accent-yellow: #f59e0b;
@@ -350,6 +350,11 @@ body {
   }
 }
 
+/* Hide CV link */
+.nav-cv-link {
+  display: none;
+}
+
 .nav-icon {
   width: 18px;
   height: 18px;
@@ -466,7 +471,7 @@ body {
   }
 
   :root.dark & .intro-avatar {
-    border-color: var(--color-black);
+    border-color: var(--theme-dark);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 }
@@ -1076,7 +1081,7 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
-  border: 14px solid var(--color-black);
+  border: 14px solid var(--theme-dark);
   pointer-events: none;
   z-index: 10000;
   box-sizing: border-box;
@@ -1131,7 +1136,7 @@ body {
 .opening-subtitle-text {
   font-size: clamp(4.5rem, 14.4vw, 19.8rem);
   font-weight: bold;
-  color: var(--color-black);
+  color: var(--theme-dark);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1351,7 +1356,7 @@ body {
 .footer-tab-arrow {
   font-family: 'Buffon-Bold', serif;
   font-size: 32px;
-  color: var(--color-black);
+  color: var(--theme-dark);
   user-select: none;
   line-height: 1;
   margin-top: -2px;
@@ -1610,7 +1615,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 1200px;
+  max-width: 1050px;
   height: 100px;
   background-color: #9CAF88; /* Sage green color - matches folder in image */
   overflow: visible;
@@ -1641,7 +1646,7 @@ body {
   font-size: clamp(3rem, 12vw, 10rem);
   font-weight: bold;
   letter-spacing: -0.02em;
-  color: var(--color-black);
+  color: var(--theme-dark);
   font-family: 'Buffon-Bold', 'Chalet', sans-serif;
   line-height: 1.2;
   text-align: center;
@@ -1682,7 +1687,7 @@ body {
 
 .cards-header {
   width: 100%;
-  display: flex;
+  display: none; /* Hidden */
   justify-content: space-between;
   padding: 0 var(--space-3) var(--space-3) var(--space-3);
   font-size: var(--font-size-xs);
@@ -1703,7 +1708,7 @@ body {
   width: 100%;
   background: #f2f0e9;
   padding: 16px;
-  padding-bottom: 80px;
+  padding-bottom: 72px;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
@@ -1717,17 +1722,21 @@ body {
   grid-template-columns: 50px 1fr 1fr 2fr 50px;
   align-items: flex-start;
   gap: var(--space-4);
-  padding: 1.5rem var(--space-3);
-  border-top: 2px solid #000000;
-  border-bottom: 2px solid #000000;
+  padding: 1rem var(--space-3);
+  border-top: 2px solid var(--theme-dark);
+  border-bottom: 2px solid var(--theme-dark);
   cursor: pointer;
   position: relative;
   background: transparent;
-  min-height: 150px;
+  min-height: 120px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-sm);
   font-family: var(--font-body);
+}
+
+.project-card:first-child {
+  border-top: none;
 }
 
 .project-card + .project-card {
@@ -1746,7 +1755,7 @@ body {
   left: 0;
   width: 0;
   height: 100%;
-  background-color: var(--color-black);
+  background-color: var(--theme-dark);
   z-index: 0;
   transition: width 0.4s ease;
   pointer-events: none;
@@ -1782,7 +1791,6 @@ body {
 
 .card-title {
   font-weight: 500;
-  line-height: 1.2;
   position: relative;
   z-index: 1;
   height: 100%;
@@ -1846,7 +1854,7 @@ body {
   justify-content: center;
   font-family: 'Buffon-Bold', serif;
   font-size: var(--font-size-xl);
-  color: var(--color-black);
+  color: var(--theme-dark);
   transition: color 0.3s ease;
 }
 
@@ -1889,7 +1897,7 @@ body {
 }
 
 .lock-icon img {
-  width: 24px;
+  width: 20px;
   height: auto;
   display: inline-block;
 }
@@ -1957,7 +1965,7 @@ body {
   height: auto;
   object-fit: contain;
   display: block;
-  border-radius: 0;
+  border-radius: 8px;
 }
 
 .hover-preview .hover-image-wrapper {
@@ -2134,7 +2142,7 @@ body {
   .table-row {
     display: flex;
     flex-direction: column;
-    border: 4px solid #000000 !important;
+    border: 4px solid var(--theme-dark) !important;
     background: var(--bg-primary);
   }
 
@@ -2153,7 +2161,7 @@ body {
   .thumbnail {
     height: 200px;
     order: -1;
-    border-bottom: 4px solid #000000 !important;
+    border-bottom: 4px solid var(--theme-dark) !important;
   }
 
   .title {
@@ -2235,7 +2243,7 @@ body {
   position: relative;
   z-index: 100001;
   background-color: var(--color-surface-light);
-  border: 4px solid var(--color-black);
+  border: 4px solid var(--theme-dark);
   border-radius: 0;
   padding: var(--space-8) var(--space-6);
   max-width: 400px;
@@ -2269,7 +2277,7 @@ body {
   padding: var(--space-3);
   font-size: var(--font-size-base);
   font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  border: 3px solid var(--color-black);
+  border: 3px solid var(--theme-dark);
   border-radius: 0;
   background-color: var(--color-white);
   color: var(--text-primary);
@@ -2295,32 +2303,30 @@ body {
 }
 
 .password-button {
-  flex: 1;
   padding: var(--space-3) var(--space-4);
   font-size: var(--font-size-base);
   font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: bold;
-  border: 3px solid var(--color-black);
-  border-radius: 0;
+  border: 3px solid var(--theme-dark);
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .password-button-primary {
-  background-color: var(--color-black);
+  background-color: var(--theme-dark);
   color: var(--color-white);
 }
 
 .password-button-primary:hover {
-  background-color: #FF6B35;
-  border-color: #FF6B35;
+  background-color: #262624;
+  border-color: #262624;
 }
 
 :root.dark .password-button-primary {
   background-color: var(--color-white);
-  color: var(--color-black);
+  color: var(--theme-dark);
   border-color: var(--color-white);
 }
 
@@ -2454,7 +2460,7 @@ body {
   font-family: 'Buffon-Bold', serif;
   font-size: var(--font-size-xl);
   margin: 0 0 var(--space-4) 0;
-  color: var(--color-black);
+  color: var(--theme-dark);
 }
 
 :root.dark .modal-password-title {
@@ -2483,7 +2489,7 @@ body {
 
 .modal-password-input:focus {
   outline: none;
-  border-color: var(--color-black);
+  border-color: var(--theme-dark);
 }
 
 :root.dark .modal-password-input:focus {
@@ -2510,7 +2516,7 @@ body {
   border: none;
   font-family: 'Buffon-Bold', serif;
   font-size: var(--font-size-base);
-  color: var(--color-black);
+  color: var(--theme-dark);
   cursor: pointer;
   padding: 0;
   line-height: 1;
@@ -2602,7 +2608,7 @@ body {
   font-size: var(--font-size-lg);
   font-weight: 600;
   margin: 0;
-  color: var(--color-black);
+  color: var(--theme-dark);
   line-height: 1.2;
 }
 
@@ -2655,7 +2661,7 @@ body {
 }
 
 .modal-images-column video {
-  background: #000;
+  background: var(--theme-dark);
 }
 
 /* Mobile responsive modal */

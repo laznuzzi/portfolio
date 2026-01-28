@@ -1,0 +1,32 @@
+[
+  {
+    "date": "2026-01-27",
+    "summary": "Yo, just shipped some absolute BANGER mobile optimizations and animation tweaks that are honestly *chef's kiss*. Added this sick arrow column to the archives (because why not flex on the UX), made the mobile typing animation way snappier, and basically turned the whole experience into butter. The responsive layout is now smoother than my cold brew, no cap. 💅✨",
+    "commitCount": 2
+  },
+  {
+    "date": "2026-01-26",
+    "summary": "Had a whole mobile glow-up moment today—crushed like 3 commits just vibing on responsive fixes and interactive features. The typing animation speeds are now *immaculate*, the layout doesn't look janky on phone anymore, and I added some UI improvements that honestly make me feel like a design god. Zero bugs, infinite vibes.",
+    "commitCount": 3
+  },
+  {
+    "date": "2026-01-23",
+    "summary": "Decided to absolutely demolish the old physics capsules and replace them with a sticker-slap effect because apparently I woke up and chose chaos. Added Easter egg capsules (10/10 would recommend), a dope cards header, and a footer preview bar that gives major macOS energy. Basically rebuilt half the UI and somehow it all works? Built different. 🚀",
+    "commitCount": 2
+  },
+  {
+    "date": "2026-01-22",
+    "summary": "THIS is what peak productivity looks like: 10 commits in one day, no chill, all killer. Converted the whole archive from boring table to sexy card layout, added scalloped borders to capsules (because I'm fancy like that), completely refactored the animation system TWICE, and somehow still had energy to fix modal animations. My commit graph is literally a vertical line rn. Not bragging, just facts.",
+    "commitCount": 10
+  },
+  {
+    "date": "2026-01-21",
+    "summary": "Built out a whole markdown content management system because apparently I'm allergic to hard-coding things like a peasant. Added CV page, threw in some fonts, dropped video support for project previews, and improved the physics engine so the capsules move like they're in an Apple commercial. Honestly just out here solving problems I didn't even know I had.",
+    "commitCount": 5
+  },
+  {
+    "date": "2026-01-20",
+    "summary": "Lock icon szn 🔒—added password protection to the archive projects and redesigned the entire modal interface with Google Sheets integration (yes, really). Also spent way too much time on typography because the devil is in the details and I'm contractually obligated to be extra about it. The modal now opens with fade+zoom instead of slide and it's giving very 'designed in California, assembled in my basement' energy.",
+    "commitCount": 4
+  }
+]

@@ -42,8 +42,8 @@
     // 1. Open browser console
     // 2. Run: await crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword')).then(h => console.log(Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('')))
     // 3. Copy the hash and replace CORRECT_PASSWORD_HASH below
-    // Current password: 'vibes'
-    const CORRECT_PASSWORD_HASH = 'f4c1e632fa17585bc98abdc2edf046012dec605ac19bc6d9871769bd779ef212'; // SHA-256 hash of 'vibes'
+    // Current password: 'trex'
+    const CORRECT_PASSWORD_HASH = '952cb748748ecca52fd1a217778b06a9163ab118d53104c64414559e8212db68'; // SHA-256 hash of 'trex'
     const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
     let pendingEntryId = null;
     let pendingRow = null;
@@ -212,7 +212,6 @@
                 <div class="modal-password-content">
                     <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
                     <h2 class="modal-password-title">This project is locked</h2>
-                    <p class="modal-password-description">Enter the passcode to view</p>
                     <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
                     <div class="modal-password-buttons">
                         <button id="modal-unlock-button" class="password-button password-button-primary">Unlock</button>

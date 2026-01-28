@@ -4,43 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nazarena Luzzi Castro - CV</title>
+    <link rel="stylesheet" href="capsule-styles.css">
     <link rel="stylesheet" href="styles.css">
+    <!-- GSAP Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <style>
         /* CV-specific styles */
+        body.app-body {
+            background-color: #dbd7cc;
+        }
+
         .cv-page {
             max-width: 1000px;
             margin: 0 auto;
-            padding: var(--space-12) var(--space-8);
+            padding: var(--space-12);
             font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: var(--text-primary);
             line-height: 1.6;
+            font-size: var(--font-size-sm); /* Reduced body copy size */
+            background-color: var(--bg-primary);
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         .cv-header {
             margin-bottom: var(--space-12);
+            position: relative;
+        }
+
+        .cv-name-container {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .cv-capsules-container {
+            position: relative;
+            display: inline-block;
+            min-height: 120px;
+            width: 250px;
+            margin-left: var(--space-4);
+        }
+
+        /* Smaller capsules for CV page */
+        #cv-capsules-container .physics-banner {
+            transform-origin: center center;
+        }
+
+        #cv-capsules-container .banner-text {
+            font: 500 24px 'Buffon-Bold', serif;
+        }
+
+        @media screen and (max-width: 768px) {
+            .cv-name-container {
+                flex-direction: column;
+            }
+
+            .cv-capsules-container {
+                width: 100%;
+                min-height: 100px;
+                margin-left: 0;
+                margin-top: var(--space-2);
+            }
         }
 
         .cv-columns {
             display: flex;
             gap: var(--space-8);
             align-items: flex-start;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .cv-column-left {
             width: 30%;
             flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-sizing: border-box;
+            min-width: 0;
+            padding: var(--space-8);
         }
 
         .cv-column-right {
             width: 70%;
             flex-shrink: 0;
+            box-sizing: border-box;
+            min-width: 0;
+            padding: var(--space-8);
         }
 
         .cv-name {
             font-family: 'Buffon-Bold', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2rem, 4vw, 2.5rem);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
             margin-bottom: var(--space-4);
             color: var(--color-black);
         }
@@ -53,7 +112,7 @@
         }
 
         .cv-intro {
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-sm);
             margin-bottom: var(--space-10);
             max-width: 700px;
         }
@@ -64,10 +123,10 @@
 
         .cv-section-title {
             font-family: 'Buffon-Bold', serif;
-            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-size: clamp(1.125rem, 2.3vw, 1.25rem);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: var(--space-6);
+            margin-bottom: var(--space-2);
             color: var(--color-black);
             padding-bottom: var(--space-2);
         }
@@ -75,32 +134,41 @@
         .cv-contact {
             display: flex;
             flex-direction: column;
-            gap: var(--space-4);
-            margin-bottom: var(--space-8);
+            gap: var(--space-1);
         }
 
         .cv-contact-item {
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-sm);
         }
 
         .cv-contact-item a {
             color: var(--text-primary);
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
         }
 
         .cv-contact-item a:hover {
             text-decoration: underline;
         }
 
+        .cv-contact-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            display: inline-block;
+        }
+
         .cv-skills {
             display: flex;
             flex-direction: column;
-            gap: var(--space-2);
+            gap: var(--space-1);
             margin-bottom: var(--space-8);
         }
 
         .cv-skill {
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-sm);
         }
 
         .cv-education {
@@ -113,13 +181,25 @@
 
         .cv-education-school {
             font-weight: bold;
-            font-size: var(--font-size-base);
+            font-size: var(--font-size-sm);
             margin-bottom: var(--space-1);
         }
 
         .cv-education-details {
             font-size: var(--font-size-sm);
             color: var(--text-secondary);
+        }
+
+        .cv-references {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+            margin-top: auto;
+            padding-top: var(--space-8);
+        }
+
+        .cv-reference-text {
+            font-size: var(--font-size-sm);
         }
 
         .cv-experience {
@@ -131,41 +211,47 @@
         }
 
         .cv-experience-company {
-            font-family: 'Buffon-Bold', serif;
-            font-size: clamp(1.1rem, 2vw, 1.25rem);
-            margin-bottom: var(--space-2);
+            font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: var(--font-size-sm);
+            font-weight: 700;
             color: var(--color-black);
+            padding-top: var(--space-1);
+        }
+
+        .cv-experience-role-date {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .cv-experience-role {
-            font-weight: bold;
-            font-size: var(--font-size-base);
-            margin-bottom: var(--space-1);
+            font-weight: 300;
+            font-size: var(--font-size-sm);
+            flex: 1;
         }
 
         .cv-experience-date {
             font-size: var(--font-size-sm);
             color: var(--text-secondary);
-            margin-bottom: var(--space-4);
+            text-align: right;
+            white-space: nowrap;
         }
 
-        .cv-experience-bullets {
-            list-style: none;
+        .cv-experience-description {
             padding-left: 0;
         }
 
-        .cv-experience-bullets li {
-            font-size: var(--font-size-base);
+        .cv-experience-description p {
+            font-size: var(--font-size-sm);
             margin-bottom: var(--space-2);
-            padding-left: var(--space-6);
-            position: relative;
         }
 
-        .cv-experience-bullets li::before {
-            content: "•";
-            position: absolute;
-            left: var(--space-2);
-            color: var(--text-primary);
+        .cv-experience-description p:last-child {
+            margin-bottom: 0;
         }
 
         @media screen and (max-width: 768px) {
@@ -180,6 +266,7 @@
             .cv-column-left,
             .cv-column-right {
                 width: 100%;
+                padding: var(--space-4);
             }
         }
 
@@ -222,10 +309,12 @@
 
             .cv-column-left {
                 width: 28%;
+                padding: 0.5rem;
             }
 
             .cv-column-right {
                 width: 72%;
+                padding: 0.5rem;
             }
 
             /* Better typography for print */
@@ -247,25 +336,31 @@
             }
 
             .cv-experience-company {
-                font-size: 10pt;
+                font-size: 8.5pt;
                 margin-bottom: 0.15rem;
                 color: #000;
+            }
+
+            .cv-experience-role-date {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                gap: 0.5rem;
+                margin-bottom: 0.2rem;
             }
 
             .cv-experience-role {
                 font-size: 8.5pt;
                 font-weight: 600;
-                margin-bottom: 0.05rem;
+                flex: 1;
             }
 
             .cv-experience-date,
             .cv-education-details {
                 font-size: 7.5pt;
                 color: #666;
-            }
-
-            .cv-experience-date {
-                margin-bottom: 0.2rem;
+                text-align: right;
+                white-space: nowrap;
             }
 
             .cv-experience-item {
@@ -278,7 +373,7 @@
             .cv-contact-item,
             .cv-contact-item a,
             .cv-skill,
-            .cv-experience-bullets li {
+            .cv-experience-description p {
                 color: #000 !important;
                 background: #fff !important;
             }
@@ -321,20 +416,19 @@
                 margin-bottom: 0.05rem;
             }
 
-            .cv-experience-bullets {
+            .cv-experience-description {
                 margin-top: 0.2rem;
                 padding-left: 0;
             }
 
-            .cv-experience-bullets li {
+            .cv-experience-description p {
                 margin-bottom: 0.2rem;
-                padding-left: 1rem;
                 font-size: 8.5pt;
                 line-height: 1.25;
             }
 
-            .cv-experience-bullets li::before {
-                left: 0.25rem;
+            .cv-experience-description p:last-child {
+                margin-bottom: 0;
             }
         }
     </style>
@@ -359,14 +453,17 @@
     <!-- ==================== RESUME CONTENT ==================== -->
     <main class="cv-page">
         <div class="cv-header">
-            <h1 class="cv-name">Nazarena Luzzi Castro</h1>
+            <div class="cv-name-container">
+                <h1 class="cv-name">Nazarena Luzzi Castro</h1>
+                <div id="cv-capsules-container" class="cv-capsules-container"></div>
+            </div>
         </div>
 
         <div class="cv-columns">
             <!-- Left Column: 30% - Contact, Skills, Education -->
             <div class="cv-column-left">
                 <section class="cv-section">
-                    <h3 class="cv-section-title">Contact Me</h3>
+                    <h3 class="cv-section-title">Howdy</h3>
                     <div class="cv-contact">
                         <div class="cv-contact-item">
                             <a href="https://nazarenaluzzi.com" target="_blank">nazarenaluzzi.com</a>
@@ -378,10 +475,20 @@
                             <a href="tel:3025882926">302.588.2926</a>
                         </div>
                         <div class="cv-contact-item">
-                            <a href="https://www.linkedin.com/in/nazarena-luzzi-castro/" target="_blank">/nazarena-luzzi-castro</a>
+                            <a href="https://www.linkedin.com/in/nazarena-luzzi-castro/" target="_blank">
+                                <svg class="cv-contact-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                                /nazarena-luzzi-castro
+                            </a>
                         </div>
                         <div class="cv-contact-item">
-                            <a href="https://nluzzicastro.medium.com" target="_blank">/nluzzicastro.medium.com</a>
+                            <a href="https://nluzzicastro.medium.com" target="_blank">
+                                <svg class="cv-contact-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+                                </svg>
+                                /nluzzicastro.medium.com
+                            </a>
                         </div>
                     </div>
                 </section>
@@ -417,6 +524,13 @@
                         </div>
                     </div>
                 </section>
+
+                <section class="cv-section">
+                    <div class="cv-references">
+                        <div class="cv-reference-text">References available upon request</div>
+                        <div class="cv-reference-text">Further experience on LinkedIn</div>
+                    </div>
+                </section>
             </div>
 
             <!-- Right Column: 70% - Experience -->
@@ -426,59 +540,69 @@
             <div class="cv-experience">
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">GlaxoSmithKline</div>
-                    <div class="cv-experience-role">Lead Product Designer | Platforms</div>
-                    <div class="cv-experience-date">June 2020 – Present</div>
-                    <ul class="cv-experience-bullets">
-                        <li>Lead small Design pod and interns to deliver Developer Portal capabilities, enabling internal-facing teams to discover catalog solutions such as APIs and CICD templates, and securely manage RPA bots. This work includes E2E RPA lifecycle and systems documentation created in collaboration with BU partners, Tech Ops and Risk teams.</li>
-                        <li>Communicate value of Developer Portal and GSK design system across multiple levels of the organization by creating data-driven presentations in an effort to secure funding, drive product adoption, and align on internal business partners' objectives.</li>
-                    </ul>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">Lead Product Designer | Platforms</div>
+                        <div class="cv-experience-date">June 2020 – Present</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Lead small Design pod and interns to deliver Developer Portal capabilities, enabling internal-facing teams to discover catalog solutions such as APIs and CICD templates, and securely manage RPA bots. This work includes E2E RPA lifecycle and systems documentation created in collaboration with BU partners, Tech Ops and Risk teams.</p>
+                        <p>Communicate value of Developer Portal and GSK design system across multiple levels of the organization by creating data-driven presentations in an effort to secure funding, drive product adoption, and align on internal business partners' objectives.</p>
+                    </div>
                 </div>
 
                 <div class="cv-experience-item">
-                    <div class="cv-experience-company">GlaxoSmithKline</div>
-                    <div class="cv-experience-role">Senior Product Designer | Platforms</div>
-                    <div class="cv-experience-date">September 2018 – June 2020</div>
-                    <ul class="cv-experience-bullets">
-                        <li>Led design, customer management and strategic comms for the GSK design system in collaboration with Design, Engineering and Global Brand partners, enabling Tech teams to build better digital products at speed. This included assisting dev team with web component theming, design token mapping, and implementation documentation.</li>
-                    </ul>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">Senior Product Designer | Platforms</div>
+                        <div class="cv-experience-date">September 2018 – June 2020</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Led design, customer management and strategic comms for the GSK design system in collaboration with Design, Engineering and Global Brand partners, enabling Tech teams to build better digital products at speed. This included assisting dev team with web component theming, design token mapping, and implementation documentation.</p>
+                    </div>
                 </div>
 
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">Muhlenhaupt + Company</div>
-                    <div class="cv-experience-role">UX Lead</div>
-                    <div class="cv-experience-date">December 2016 – September 2018</div>
-                    <ul class="cv-experience-bullets">
-                        <li>Elevated design practices and established agency delivery process between internal team and clients by creating templates for project briefs, UX audits, and workshops.</li>
-                        <li>Led small team of designers and freelance developers to build marketing websites, mobile apps, and digital campaigns while working closely with clients, strategists, and leadership. This included presenting final work to clients.</li>
-                    </ul>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">UX Lead</div>
+                        <div class="cv-experience-date">December 2016 – September 2018</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Elevated design practices and established agency delivery process between internal team and clients by creating templates for project briefs, UX audits, and workshops.</p>
+                        <p>Led small team of designers and freelance developers to build marketing websites, mobile apps, and digital campaigns while working closely with clients, strategists, and leadership. This included presenting final work to clients.</p>
+                    </div>
                 </div>
 
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">Moody's Analytics</div>
-                    <div class="cv-experience-role">UX Designer | E-commerce</div>
-                    <div class="cv-experience-date">April 2015 – December 2016</div>
-                    <ul class="cv-experience-bullets">
-                        <li>Designed and improved the user experience of the Moody's Intranet platform and consumer-facing financial products such as CreditCycle.</li>
-                        <li>Accelerated development processes by partially coding the front-end UI and creating a Bootstrap-based design system that enabled the engineering team to easily theme applications and reduce duplicative work.</li>
-                    </ul>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">UX Designer | E-commerce</div>
+                        <div class="cv-experience-date">April 2015 – December 2016</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Designed and improved the user experience of the Moody's Intranet platform and consumer-facing financial products such as CreditCycle.</p>
+                        <p>Accelerated development processes by partially coding the front-end UI and creating a Bootstrap-based design system that enabled the engineering team to easily theme applications and reduce duplicative work.</p>
+                    </div>
                 </div>
 
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">SAP</div>
-                    <div class="cv-experience-role">Interactive Designer | Global Graphics</div>
-                    <div class="cv-experience-date">July 2014 – April 2015</div>
-                    <ul class="cv-experience-bullets">
-                        <li>Digitized sales print proposals into web-based experiences to improve effectiveness of customer pitches and increased US employees' engagement with Corporate Social Responsibility through the design of interactive data visualizations.</li>
-                    </ul>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">Interactive Designer | Global Graphics</div>
+                        <div class="cv-experience-date">July 2014 – April 2015</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Digitized sales print proposals into web-based experiences to improve effectiveness of customer pitches and increased US employees' engagement with Corporate Social Responsibility through the design of interactive data visualizations.</p>
+                    </div>
                 </div>
 
                 <div class="cv-experience-item">
-                    <div class="cv-experience-company">SAP</div>
-                    <div class="cv-experience-role">Graphic Designer | Global Graphics</div>
-                    <div class="cv-experience-date">May 2013 – July 2014</div>
-                    <ul class="cv-experience-bullets">
-                        <li>Collaborated with value engineers, executives, and writers, to conceptualize and design infographics, Big Data diagrams, and keynotes for strategy meetings.</li>
-                    </ul>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">Graphic Designer | Global Graphics</div>
+                        <div class="cv-experience-date">May 2013 – July 2014</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Collaborated with value engineers, executives, and writers, to conceptualize and design infographics, Big Data diagrams, and keynotes for strategy meetings.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -487,6 +611,115 @@
     </main>
 
     <script src="app.js"></script>
+    <script>
+        // ==================== CV CAPSULES ANIMATION ====================
+        (function() {
+            // Wait for GSAP to load
+            if (typeof gsap === 'undefined') {
+                console.error('GSAP not loaded');
+                return;
+            }
+
+            const capsulesContainer = document.getElementById('cv-capsules-container');
+            if (!capsulesContainer) return;
+
+            // Capsule colors - matching index page style
+            const bannerColor = '#FF6B6B';
+
+            // Words for CV capsules
+            const words = ['Designer', 'Developer', 'Builder'];
+
+            // Get text font to calculate width - smaller for CV
+            const textFont = '500 24px "Buffon-Bold", serif';
+
+            // Create a temporary canvas to measure text width
+            const measureCanvas = document.createElement('canvas');
+            const measureContext = measureCanvas.getContext('2d');
+            measureContext.font = textFont;
+
+            // Function to create a capsule banner
+            function createCapsule(word, position, delay = 0) {
+                // Measure text width
+                const textMetrics = measureContext.measureText(word);
+                const textWidth = textMetrics.width;
+
+                // Smaller dimensions for CV page
+                const internalPadding = 12;
+                const borderWidth = 8;
+                const bannerHeight = 40;
+
+                // Calculate banner width
+                const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
+
+                // Create DOM element for banner
+                const bannerElement = document.createElement('div');
+                bannerElement.className = 'physics-banner';
+                bannerElement.style.position = 'absolute';
+                bannerElement.style.left = position.x;
+                bannerElement.style.top = position.y;
+                bannerElement.style.width = `${bannerWidth}px`;
+                bannerElement.style.height = `${bannerHeight}px`;
+                bannerElement.style.zIndex = '10';
+                bannerElement.style.transform = `translate(-50%, -50%)`;
+                bannerElement.style.transformOrigin = 'center center';
+
+                // Set banner color via CSS variable
+                bannerElement.style.setProperty('--banner-fill-color', bannerColor);
+
+                // Create banner HTML structure
+                const encodedColor = bannerColor.replace('#', '%23');
+
+                bannerElement.innerHTML = `
+                    <span class="banner-text">${word}</span>
+                `;
+
+                // Apply scalloped corner styling via border-image
+                bannerElement.style.border = `${borderWidth}px solid`;
+                bannerElement.style.borderImageSource = `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="3" height="3" fill="${encodedColor}"><path d="M2 0H1C1 .6.6 1 0 1v1c.6 0 1 .4 1 1h1c0-.6.4-1 1-1V1a1 1 0 0 1-1-1Z"/></svg>')`;
+                bannerElement.style.borderImageSlice = '1 fill';
+
+                // Set display style
+                bannerElement.style.display = 'inline-flex';
+                bannerElement.style.alignItems = 'stretch';
+
+                // Add to container
+                capsulesContainer.appendChild(bannerElement);
+
+                // Sticker-slap animation with GSAP
+                // Start invisible and scaled down
+                gsap.set(bannerElement, {
+                    opacity: 0,
+                    scale: 0,
+                    rotation: position.rotation
+                });
+
+                // Animate in with a "slap" effect
+                gsap.to(bannerElement, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.4,
+                    delay: delay,
+                    ease: "back.out(2)", // Bouncy "slap" effect
+                });
+
+                return bannerElement;
+            }
+
+            // Define positions with random angles for CV capsules
+            // Positioned relative to the container next to the name
+            const positions = [
+                { x: '30%', y: '20%', rotation: -12 },  // Designer
+                { x: '70%', y: '50%', rotation: 8 },    // Developer
+                { x: '50%', y: '80%', rotation: -5 }    // Builder
+            ];
+
+            // Create capsules with staggered appearance
+            words.forEach((word, index) => {
+                const position = positions[index];
+                createCapsule(word, position, index * 0.1);
+            });
+        })();
+    </script>
 </body>
 </html>
 

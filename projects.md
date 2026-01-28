@@ -3,7 +3,7 @@ title: Design Sandbox
 subtitle: Block
 shortDescription: An AI-assisted code-prototyping tool for building on-brand interface grounded in Square and Cash App design languages.
 thumbnail: ./img/sandbox-thumb.png
-hover: ./img/sandbox-hover.mp4
+hover: ./img/sandbox-hover.png
 modal: ./img/sandbox1.jpg, ./img/sandbox2.jpg, ./img/sandbox3.jpg
 locked: true
 
@@ -23,7 +23,7 @@ title: Market Vibe Code Kit
 subtitle: Square
 shortDescription: Lightweight, IDE agnostic, ui-kit of Square design language with semantic tokens, components and starter page templates.
 thumbnail: ./img/vibe-thumb.jpg
-hover: ./img/vibe-hover.gif
+hover: ./img/vibe-code-hover.png
 modal: ./img/vibe1.jpg, ./img/vibe2.jpg
 locked: true
 
@@ -82,7 +82,7 @@ title: GSK Design System
 subtitle: GlaxoSmithKline
 shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
 thumbnail: ./img/dsm-thumb.jpg
-hover: ./img/dsm-hover.jpg
+hover: ./img/dsm-hover.png
 modal: ./img/dsm-1.mp4, ./img/dsm-2.jpg, ./img/dsm-3.png, ./img/dsm-4.png, ./img/dsm-5.jpg, ./img/dsm-6.jpg, ./img/dsm-7.mp4, ./img/dsm-8.mp4
 
 **Role:** Designer, Developer
@@ -100,11 +100,11 @@ Google Material MWC lit-themed web components. Sass mixins for build-time config
 ---
 
 # automation-portal
-title: Bot Automation Portal
+title: Robotic Process Automation Developer Portal
 subtitle: GlaxoSmithKline
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
 thumbnail: ./img/rpa-thumb.jpg
-hover: ./img/rpa-hover.jpg
+hover: ./img/rpa-hover.png
 modal: ./img/rpa-1.jpg, ./img/rpa-2.mp4, ./img/rpa-3.mp4, ./img/rpa-4.mp4, ./img/rpa-5.mp4, ./img/rpa-6.mp4, ./img/rpa-7.jpg, ./img/rpa-8.mp4
 
 **Role:** Designer
