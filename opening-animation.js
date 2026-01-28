@@ -1,6 +1,19 @@
 // ==================== OPENING ANIMATION WITH STICKER-SLAP CAPSULES ====================
 // Typing animation, then sticker-slap word capsules, then sticky footer reveal
 
+// Fix viewport height for mobile browsers (handles dynamic URL bar)
+function setViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// Set on load
+setViewportHeight();
+
+// Update on resize and orientation change
+window.addEventListener('resize', setViewportHeight);
+window.addEventListener('orientationchange', setViewportHeight);
+
 (function() {
     // ==================== EDIT TEXT HERE ====================
     // Each word on its own line to prevent wrapping during typing
