@@ -66,7 +66,7 @@ thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.png
 modal: ./img/rdm-1.mp4, ./img/rdm-2.mp4, ./img/rdm-3.png, ./img/rdm-4.mp4, ./img/rdm-5.png
 
-**Role:** xxx
+**Role:** Design lead | Web + iOS
 **Timeline:** Q2 2025 (4 Months)
 
 ### Context
@@ -85,17 +85,17 @@ thumbnail: ./img/dsm-thumb.jpg
 hover: ./img/dsm-hover.png
 modal: ./img/dsm-1.mp4, ./img/dsm-2.jpg, ./img/dsm-3.png, ./img/dsm-4.png, ./img/dsm-5.jpg, ./img/dsm-6.jpg, ./img/dsm-7.mp4, ./img/dsm-8.mp4
 
-**Role:** Designer, Developer
+**Role:** Lead designer, design engineer | Web
 **Timeline:** 2020
 
 ### Context
 At a global organization like GSK, digital product development was historically throttled by a decentralized approach to design and code. Without a common infrastructure, individual teams were rebuilding similar components from scratch, leading to fragmented user experiences and high technical debt.
 
 ### Description
-Designed the GSK design system, serving as the primary bridge between Global Brand and engineering. Focused on the structural theming of Material UI to align with enterprise requirements and collaborated with partners at Google to refine the system's architecture. Designed and maintained the core UI kit and documentation, and spearheaded the launch strategy through global workshops and tutorials. By upskilling product teams in these new patterns, the system enabled the launch of 32+ websites and chatbots, accelerated deployment by 25%, and ensured 100% compliance with WCAG 2.1 AA standards by default.
+Designed the GSK design system, serving as the primary bridge between Global Brand and engineering. Focused on the structural theming of Material UI to align with enterprise requirements and collaborated with partners at Google to refine the system's architecture. Designed and maintained the core UI kit and documentation, and spearheaded the launch strategy through global workshops and tutorials. 
 
 ### Tech Stack
-Google Material MWC lit-themed web components. Sass mixins for build-time configuration and CSS Custom Properties for runtime theming. 
+Google Material MWC LitElement web components. Vue, React, Angular and Vanilla JS starters. Sass mixins and CSS Custom Properties. 
 
 ---
 
@@ -107,11 +107,11 @@ thumbnail: ./img/rpa-thumb.jpg
 hover: ./img/rpa-hover.png
 modal: ./img/rpa-1.jpg, ./img/rpa-2.mp4, ./img/rpa-3.mp4, ./img/rpa-4.mp4, ./img/rpa-5.mp4, ./img/rpa-6.mp4, ./img/rpa-7.jpg, ./img/rpa-8.mp4
 
-**Role:** Designer
+**Role:** Design lead
 **Timeline:** Q1 2026 (2 Months)
 
 ### Context
 Fragmented deployment and strict regulatory requirements (SOX, GxP) slowed the automation workforce at GSK. Moving an RPA bot to production required four separate platforms and extensive manual checklists, creating a 13-day lead time per promotion and diverting technical leads to time-consuming manual support roles.
 
 ### Description
-Designed a centralized console to automate the promotion and governance of RPA bots. Replaced a manual, 13-day deployment process with a self-service workflow integrated into the GSK Developer Portal. Key work focused on mapping the E2E bot lifecycle with tech leads, risk teams and automation engineers, and building an automated screening tool that instantly evaluated business processes for automation suitability. By codifying SOX and GxP compliance rules into the platform, the project remediated all outstanding audit findings and accelerated future deployments, saving GSK over £11M in total.
+Designed a centralized console to automate the promotion and governance of RPA bots. Replaced a manual, 13-day deployment process with a self-service workflow integrated into the GSK Developer Portal. Key work focused on mapping the E2E bot lifecycle with tech leads, risk teams and automation engineers, and building an automated screening tool that instantly evaluated business processes for automation suitability. 

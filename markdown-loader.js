@@ -163,9 +163,6 @@
                 <div class="modal-column">
                     ${project.role ? `<p class="modal-role">${project.role}</p>` : ''}
                 </div>
-                <div class="modal-column modal-close-column">
-                    <button class="modal-close-button" id="modal-close" aria-label="Close modal">X</button>
-                </div>
             </div>
 
             <div class="modal-row modal-row-2">
