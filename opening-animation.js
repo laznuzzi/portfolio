@@ -408,39 +408,40 @@
             });
         }
 
-        // Pull down header to slide back down
+        // Pull down content to slide back down
         let touchStartY = 0;
         let touchStartTime = 0;
         let isDragging = false;
+        const mainContainer = document.querySelector('.main-container');
 
-        if (appHeaderEl && mainContentEl) {
-            appHeaderEl.addEventListener('touchstart', (e) => {
+        if (mainContainer && mainContentEl) {
+            mainContainer.addEventListener('touchstart', (e) => {
                 if (!hasTransitioned) return;
 
                 // Only allow pull-down if scrolled to top
-                const mainContainer = document.querySelector('.main-container');
-                if (mainContainer && mainContainer.scrollTop === 0) {
+                if (mainContainer.scrollTop === 0) {
                     touchStartY = e.touches[0].clientY;
                     touchStartTime = Date.now();
                     isDragging = true;
                 }
             }, { passive: true });
 
-            appHeaderEl.addEventListener('touchmove', (e) => {
+            mainContainer.addEventListener('touchmove', (e) => {
                 if (!isDragging || !hasTransitioned) return;
 
                 const touchY = e.touches[0].clientY;
                 const deltaY = touchY - touchStartY;
 
                 // Only allow downward drag
-                if (deltaY > 0) {
+                if (deltaY > 0 && mainContainer.scrollTop === 0) {
+                    // Prevent default scroll behavior when pulling down from top
                     e.preventDefault();
                     const dragAmount = Math.min(deltaY, window.innerHeight * 0.8);
                     gsap.set('#main-content', { top: dragAmount });
                 }
-            });
+            }, { passive: false }); // passive: false to allow preventDefault
 
-            appHeaderEl.addEventListener('touchend', (e) => {
+            mainContainer.addEventListener('touchend', (e) => {
                 if (!isDragging || !hasTransitioned) return;
                 isDragging = false;
 
