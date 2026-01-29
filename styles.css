@@ -2066,18 +2066,40 @@ body {
 
 @media (max-width: 768px) {
   /* Fix viewport height for mobile browsers with dynamic URL bars */
-  body {
-    height: 100vh; /* Fallback */
-    height: 100dvh; /* Dynamic viewport height - adapts as URL bar shows/hides */
+  html {
+    height: 100%;
   }
 
-  .opening-animation,
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .opening-animation {
+    min-height: 100vh;
+    min-height: calc(var(--mobile-vh, 1vh) * 100);
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
+    height: 100vh;
+    height: calc(var(--mobile-vh, 1vh) * 100);
+    height: -webkit-fill-available;
+    height: 100dvh;
+  }
+
   .opening-text-container,
   .opening-icons-container,
-  .physics-container,
+  .physics-container {
+    height: 100%;
+  }
+
   #main-content {
-    height: 100vh; /* Fallback */
-    height: 100dvh; /* Dynamic viewport height - adapts as URL bar shows/hides */
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
   }
 
   /* Hide header/nav bar on mobile */
