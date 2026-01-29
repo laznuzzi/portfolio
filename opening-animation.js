@@ -374,64 +374,107 @@
         verticalText.classList.remove('visible');
     }
 
-    // Animate tab and footer bar to slide up with scroll
-    gsap.to('.footer-tab, .main-content-footer-preview', {
-        y: '-100vh',
-        ease: "none",
-        scrollTrigger: {
-            trigger: '.scroll-trigger-spacer',
-            start: 'top top',
-            end: 'top+=100vh top',
-            scrub: 1,
-            markers: false
-        }
-    });
+    // Detect mobile for different interaction methods
+    const isMobileScroll = window.innerWidth <= 768;
 
-    gsap.to('#main-content', {
-        top: 0,
-        ease: "none",
-        scrollTrigger: {
-            trigger: '.scroll-trigger-spacer',
-            start: 'top top',
-            end: 'top+=100vh top',
-            scrub: 1,
-            markers: false,
-            onEnter: () => {
-                // Show nav, folder, and sidebar text as soon as animation starts
-                if (appHeader) {
-                    appHeader.style.opacity = '1';
-                    appHeader.style.visibility = 'visible';
-                    appHeader.style.pointerEvents = 'auto';
-                }
-                if (filingFolder) {
-                    filingFolder.style.opacity = '1';
-                    filingFolder.style.visibility = 'visible';
-                    filingFolder.style.pointerEvents = 'auto';
-                }
-                if (verticalText) {
-                    verticalText.classList.add('visible');
-                }
-            },
-            onLeaveBack: () => {
-                // Hide nav, folder, and sidebar text when scrolling back up past start
-                if (appHeader) {
-                    appHeader.style.opacity = '0';
-                    appHeader.style.visibility = 'hidden';
-                    appHeader.style.pointerEvents = 'none';
-                }
-                if (filingFolder) {
-                    filingFolder.style.opacity = '0';
-                    filingFolder.style.visibility = 'hidden';
-                    filingFolder.style.pointerEvents = 'none';
-                }
-                if (verticalText) {
-                    verticalText.classList.remove('visible');
+    if (isMobileScroll) {
+        // MOBILE: Tap to transition
+        const footerTab = document.querySelector('.footer-tab');
+        let hasTransitioned = false;
+
+        if (footerTab) {
+            footerTab.addEventListener('click', () => {
+                if (hasTransitioned) return; // Prevent double-tap
+                hasTransitioned = true;
+
+                // Instant visual feedback - scale button
+                gsap.to(footerTab, {
+                    scale: 0.8,
+                    duration: 0.1,
+                    ease: "power2.out"
+                });
+
+                // Animate main content sliding up (faster)
+                gsap.to('#main-content', {
+                    top: 0,
+                    duration: 0.35,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        // Enable scrolling in main content after transition
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+
+                // Hide footer tab quickly
+                gsap.to('.footer-tab, .main-content-footer-preview', {
+                    opacity: 0,
+                    duration: 0.2,
+                    ease: "power2.out"
+                });
+
+                console.log('Mobile tap transition initiated');
+            });
+        }
+    } else {
+        // DESKTOP: Scroll-triggered animation
+        gsap.to('.footer-tab, .main-content-footer-preview', {
+            y: '-100vh',
+            ease: "none",
+            scrollTrigger: {
+                trigger: '.scroll-trigger-spacer',
+                start: 'top top',
+                end: 'top+=100vh top',
+                scrub: 1,
+                markers: false
+            }
+        });
+
+        gsap.to('#main-content', {
+            top: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: '.scroll-trigger-spacer',
+                start: 'top top',
+                end: 'top+=100vh top',
+                scrub: 1,
+                markers: false,
+                onEnter: () => {
+                    // Show nav, folder, and sidebar text as soon as animation starts
+                    if (appHeader) {
+                        appHeader.style.opacity = '1';
+                        appHeader.style.visibility = 'visible';
+                        appHeader.style.pointerEvents = 'auto';
+                    }
+                    if (filingFolder) {
+                        filingFolder.style.opacity = '1';
+                        filingFolder.style.visibility = 'visible';
+                        filingFolder.style.pointerEvents = 'auto';
+                    }
+                    if (verticalText) {
+                        verticalText.classList.add('visible');
+                    }
+                },
+                onLeaveBack: () => {
+                    // Hide nav, folder, and sidebar text when scrolling back up past start
+                    if (appHeader) {
+                        appHeader.style.opacity = '0';
+                        appHeader.style.visibility = 'hidden';
+                        appHeader.style.pointerEvents = 'none';
+                    }
+                    if (filingFolder) {
+                        filingFolder.style.opacity = '0';
+                        filingFolder.style.visibility = 'hidden';
+                        filingFolder.style.pointerEvents = 'none';
+                    }
+                    if (verticalText) {
+                        verticalText.classList.remove('visible');
+                    }
                 }
             }
-        }
-    });
+        });
 
-    console.log('Slide-over animation initialized');
+        console.log('Desktop scroll animation initialized');
+    }
 
     // Optional: Skip animation on double-click
     let skipTimeout;

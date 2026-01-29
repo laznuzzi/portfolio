@@ -277,6 +277,7 @@ body {
 /* Scroll trigger spacer */
 .scroll-trigger-spacer {
   height: 200vh;
+  height: 200dvh; /* Use dynamic viewport height for URL bar flexibility */
   pointer-events: none;
 }
 
@@ -1081,6 +1082,7 @@ body {
   left: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh; /* Use dynamic viewport height for URL bar flexibility */
   border: 14px solid var(--theme-dark);
   pointer-events: none;
   z-index: 10000;
@@ -1098,6 +1100,7 @@ body {
   left: 0 !important;
   width: 100%;
   height: 100vh;
+  height: 100dvh; /* Use dynamic viewport height for URL bar flexibility */
   background-color: var(--bg-primary);
   z-index: 2;
   overflow: visible;
@@ -1331,7 +1334,7 @@ body {
   height: 100vh;
   height: 100dvh;
   z-index: 3; /* Above opening animation so it can slide over */
-  background-color: transparent;
+  background-color: var(--bg-primary); /* Opaque background to cover opening animation */
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -2076,7 +2079,7 @@ body {
     height: 100vh;
     height: 100dvh;
     height: -webkit-fill-available;
-    overflow: hidden;
+    overflow: hidden; /* No scroll - tap to transition instead */
   }
 
   .opening-animation {
@@ -2091,6 +2094,7 @@ body {
 
   #main-content {
     height: 100%;
+    overflow: hidden; /* Scrolling happens inside main-container instead */
   }
 
   .main-container {
