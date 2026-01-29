@@ -1080,9 +1080,10 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  height: 100vh;
-  height: 100dvh; /* Use dynamic viewport height for URL bar flexibility */
+  height: 100%;
   border: 14px solid var(--theme-dark);
   pointer-events: none;
   z-index: 10000;
@@ -2102,12 +2103,6 @@ body {
     overflow-y: auto;
     align-items: flex-start; /* Start content at top instead of centering */
     min-height: auto; /* Remove min-height constraint */
-  }
-
-  .border-frame {
-    height: 100vh;
-    height: 100dvh;
-    height: -webkit-fill-available;
   }
 
   /* Hide header/nav bar on mobile */

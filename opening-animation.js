@@ -378,34 +378,26 @@
     const isMobileScroll = window.innerWidth <= 768;
 
     if (isMobileScroll) {
-        // MOBILE: Tap to transition
+        // MOBILE: Tap to transition + swipe to go back
         const footerTab = document.querySelector('.footer-tab');
+        const mainContentEl = document.getElementById('main-content');
+        const appHeaderEl = document.getElementById('app-header');
         let hasTransitioned = false;
 
+        // Tap arrow to slide up
         if (footerTab) {
             footerTab.addEventListener('click', () => {
-                if (hasTransitioned) return; // Prevent double-tap
+                if (hasTransitioned) return;
                 hasTransitioned = true;
 
-                // Instant visual feedback - scale button
-                gsap.to(footerTab, {
-                    scale: 0.8,
-                    duration: 0.1,
-                    ease: "power2.out"
-                });
-
-                // Animate main content sliding up (faster)
+                // Animate main content sliding up
                 gsap.to('#main-content', {
                     top: 0,
                     duration: 0.35,
-                    ease: "power2.out",
-                    onComplete: () => {
-                        // Enable scrolling in main content after transition
-                        document.body.style.overflow = 'hidden';
-                    }
+                    ease: "power2.out"
                 });
 
-                // Hide footer tab quickly
+                // Hide footer tab
                 gsap.to('.footer-tab, .main-content-footer-preview', {
                     opacity: 0,
                     duration: 0.2,
@@ -414,6 +406,75 @@
 
                 console.log('Mobile tap transition initiated');
             });
+        }
+
+        // Pull down header to slide back down
+        let touchStartY = 0;
+        let touchStartTime = 0;
+        let isDragging = false;
+
+        if (appHeaderEl && mainContentEl) {
+            appHeaderEl.addEventListener('touchstart', (e) => {
+                if (!hasTransitioned) return;
+
+                // Only allow pull-down if scrolled to top
+                const mainContainer = document.querySelector('.main-container');
+                if (mainContainer && mainContainer.scrollTop === 0) {
+                    touchStartY = e.touches[0].clientY;
+                    touchStartTime = Date.now();
+                    isDragging = true;
+                }
+            }, { passive: true });
+
+            appHeaderEl.addEventListener('touchmove', (e) => {
+                if (!isDragging || !hasTransitioned) return;
+
+                const touchY = e.touches[0].clientY;
+                const deltaY = touchY - touchStartY;
+
+                // Only allow downward drag
+                if (deltaY > 0) {
+                    e.preventDefault();
+                    const dragAmount = Math.min(deltaY, window.innerHeight * 0.8);
+                    gsap.set('#main-content', { top: dragAmount });
+                }
+            });
+
+            appHeaderEl.addEventListener('touchend', (e) => {
+                if (!isDragging || !hasTransitioned) return;
+                isDragging = false;
+
+                const touchEndY = e.changedTouches[0].clientY;
+                const deltaY = touchEndY - touchStartY;
+                const velocity = deltaY / (Date.now() - touchStartTime);
+
+                // If dragged down more than 100px or fast swipe, slide back down
+                if (deltaY > 100 || velocity > 0.5) {
+                    // Slide back down to reveal opening animation
+                    gsap.to('#main-content', {
+                        top: `calc(100dvh - 60px)`,
+                        duration: 0.35,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            hasTransitioned = false;
+                        }
+                    });
+
+                    // Show footer tab again
+                    gsap.to('.footer-tab, .main-content-footer-preview', {
+                        opacity: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                } else {
+                    // Snap back to top
+                    gsap.to('#main-content', {
+                        top: 0,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
+                }
+            }, { passive: true });
         }
     } else {
         // DESKTOP: Scroll-triggered animation
