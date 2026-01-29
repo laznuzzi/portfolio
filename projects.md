@@ -4,17 +4,21 @@ subtitle: Block
 shortDescription: An AI-assisted code-prototyping tool for building on-brand interface grounded in Square and Cash App design languages.
 thumbnail: ./img/sandbox-thumb.png
 hover: ./img/sandbox-hover.png
-modal: ./img/sandbox1.jpg, ./img/sandbox2.jpg, ./img/sandbox3.jpg
+modal: ./img/sandbox-hover.png
 locked: true
 
 **Role:** Developer, Designer
 **Timeline:** Oct 2025 – Present
 
+### Context
+Teams were spending a large amount of time on setup rather than ideation. Designers and engineers repeatedly recreated brand, themes, and existing Square and Cash App surfaces from scratch, with no shared foundation to build from. This led to inconsistent experiments, duplicated effort, and slower iteration.
 
-Later evolved into Sandbox (as official project) —a lightweight, experimental tool for building AI-native interfaces in code using Square and Cash App design languages. Designed and developed new features, and focused on the intelligence layer of the tool, integrating ecosystem data and design system knowledge to seed LLM-driven workflows. Features include preconfigured branding and theming, reusable components and page templates, AI-assisted workflows, and context-aware generation grounded in Square's internal patterns—enabling faster, more intelligent iteration without production constraints.
+### Description
+Built an experimental tool for building AI-native interfaces in code using Square and Cash App design languages. Designed and developed new features, and focused on the intelligence layer of the tool, integrating ecosystem data and design system knowledge to seed LLM-driven workflows. Features include preconfigured branding and theming, reusable components and page templates, AI-assisted workflows, and context-aware generation grounded in Square's internal patterns—enabling faster, more intelligent iteration without production constraints.
 
 ### Tech Stack
-add here
+Tauri desktop app (Rust backend) with a React + TypeScript + Vite frontend, using TailwindCSS and   
+  custom Square and Cash App design systems built on shadcn/ui components.
 
 ---
 
@@ -23,8 +27,8 @@ title: Market Vibe Code Kit
 subtitle: Square
 shortDescription: Lightweight, IDE agnostic, ui-kit of Square design language with semantic tokens, components and starter page templates.
 thumbnail: ./img/vibe-thumb.jpg
-hover: ./img/vibe-code-hover.png
-modal: ./img/vibe1.jpg, ./img/vibe2.jpg
+hover: ./img/vibe-code-hover.mov
+modal: ./img/vibe-code-1.mov
 locked: true
 
 **Role:** Developer
@@ -79,6 +83,7 @@ Led the design of a centralized portal for managing and monitoring devices remot
 
 # design-system
 title: GSK Design System
+tags: box: Shipped in 2020
 subtitle: GlaxoSmithKline
 shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
 thumbnail: ./img/dsm-thumb.jpg
@@ -100,7 +105,7 @@ Google Material MWC LitElement web components. Vue, React, Angular and Vanilla J
 ---
 
 # automation-portal
-title: Robotic Process Automation Developer Portal
+title: Bot Developer Portal
 subtitle: GlaxoSmithKline
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
 thumbnail: ./img/rpa-thumb.jpg

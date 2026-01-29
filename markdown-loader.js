@@ -68,6 +68,7 @@
                 hover: '',
                 modal: [],
                 locked: false,
+                tags: [],
                 role: '',
                 timeline: '',
                 context: '',
@@ -99,6 +100,9 @@
                     project.modal = modalStr.split(',').map(s => s.trim());
                 } else if (line.startsWith('locked:')) {
                     project.locked = line.replace('locked:', '').trim() === 'true';
+                } else if (line.startsWith('tags:')) {
+                    const tagsStr = line.replace('tags:', '').trim();
+                    project.tags = tagsStr.split(',').map(s => s.trim()).filter(s => s);
                 }
                 // Parse role/timeline (bold text)
                 else if (line.startsWith('**Role:**')) {
@@ -150,12 +154,64 @@
         return projects;
     }
 
+    // Get icon SVG for tag type
+    function getTagIcon(tagType) {
+        const icons = {
+            box: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 4L8 1L14 4V12L8 15L2 12V4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 4L8 7L14 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 7V15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>`,
+            construction: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 2L3 6H13L9 2H7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 6V14H13V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 9H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M6 12H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>`,
+            code: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 6L2 8L5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11 6L14 8L11 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 4L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>`
+        };
+        return icons[tagType.toLowerCase()] || '';
+    }
+
     // Generate HTML content for modal
     function generateHTML(project) {
+        const tagsHTML = project.tags && project.tags.length > 0 
+            ? `<div class="project-tags">
+                ${project.tags.map(tag => {
+                    // Parse tag format: "iconType:Custom Text" or just "iconType"
+                    const tagParts = tag.split(':');
+                    const iconType = tagParts[0].trim().toLowerCase();
+                    const tagText = tagParts.length > 1 ? tagParts.slice(1).join(':').trim() : tagParts[0].trim();
+                    const icon = getTagIcon(iconType);
+                    
+                    return `<span class="project-tag" data-tag="${iconType}">
+                        ${icon ? `<span class="project-tag-icon">${icon}</span>` : ''}
+                        <span class="project-tag-text">${tagText}</span>
+                    </span>`;
+                }).join('')}
+            </div>`
+            : '';
+
         return `
             <div class="modal-row modal-row-1">
                 <div class="modal-column">
                     <h1>${project.title}</h1>
+                </div>
+                <div class="modal-column">
+                    <!-- Empty column -->
+                </div>
+                <div class="modal-column modal-close-column">
+                    <button id="modal-close" class="modal-close-button" aria-label="Close modal">×</button>
+                </div>
+            </div>
+
+            <div class="modal-row modal-row-2">
+                <div class="modal-column">
+                    ${tagsHTML}
                 </div>
                 <div class="modal-column">
                     ${project.subtitle ? `<p class="modal-company">${project.subtitle}</p>` : ''}
@@ -165,7 +221,7 @@
                 </div>
             </div>
 
-            <div class="modal-row modal-row-2">
+            <div class="modal-row modal-row-3">
                 ${project.context ? `
                     <div class="modal-column">
                         <h2>Context</h2>
@@ -180,7 +236,7 @@
 
                 ${project.techStack ? `
                     <div class="modal-column">
-                        <h2>Tech Stack</h2>
+                        <h2>Tech details</h2>
                         <p>${project.techStack}</p>
                     </div>
                 ` : '<div class="modal-column"></div>'}
