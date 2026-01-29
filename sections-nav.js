@@ -165,6 +165,7 @@
     function setupPasswordModal() {
         const unlockButton = document.getElementById('unlock-button');
         const cancelButton = document.getElementById('cancel-password-button');
+        const closeButton = document.getElementById('password-modal-close');
         const input = document.getElementById('password-input');
         const overlay = document.querySelector('.password-modal-overlay');
 
@@ -174,6 +175,10 @@
 
         if (cancelButton) {
             cancelButton.addEventListener('click', hidePasswordModal);
+        }
+
+        if (closeButton) {
+            closeButton.addEventListener('click', hidePasswordModal);
         }
 
         if (overlay) {
@@ -210,6 +215,7 @@
             overlay.className = 'modal-password-overlay';
             overlay.innerHTML = `
                 <div class="modal-password-content">
+                    <button class="password-modal-close modal-password-close" aria-label="Close">×</button>
                     <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
                     <h2 class="modal-password-title">This project is locked</h2>
                     <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
@@ -227,6 +233,7 @@
         // Setup event listeners
         const input = overlay.querySelector('#modal-password-input');
         const unlockBtn = overlay.querySelector('#modal-unlock-button');
+        const closeBtn = overlay.querySelector('.modal-password-close');
         const error = overlay.querySelector('#modal-password-error');
 
         // Focus input
@@ -269,6 +276,14 @@
                 handleUnlock();
             }
         });
+
+        // Close button closes both overlay and modal
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                hideModalPasswordOverlay();
+                closeModal();
+            });
+        }
     }
 
     // Hide password overlay inside modal
