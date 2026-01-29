@@ -2356,6 +2356,14 @@ body {
     padding-top: var(--space-12);
     padding-bottom: var(--space-12);
   }
+
+  /* Fix modal viewport on mobile */
+  .project-modal-content {
+    height: 90vh;
+    height: 90dvh; /* Use dynamic viewport height for URL bar */
+    padding-top: env(safe-area-inset-top, 20px); /* Account for notch/status bar */
+    border-radius: 12px 12px 0 0;
+  }
 }
 
 @media (max-width: 480px) {
