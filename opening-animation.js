@@ -1,22 +1,6 @@
 // ==================== OPENING ANIMATION WITH STICKER-SLAP CAPSULES ====================
 // Typing animation, then sticker-slap word capsules, then sticky footer reveal
 
-// Fix mobile viewport height issues
-(function() {
-    function setMobileVH() {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--mobile-vh', `${vh}px`);
-    }
-
-    if (window.innerWidth <= 768) {
-        setMobileVH();
-        window.addEventListener('resize', setMobileVH);
-        window.addEventListener('orientationchange', () => {
-            setTimeout(setMobileVH, 100);
-        });
-    }
-})();
-
 (function() {
     // ==================== EDIT TEXT HERE ====================
     // Each word on its own line to prevent wrapping during typing

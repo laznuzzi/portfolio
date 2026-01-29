@@ -2065,29 +2065,20 @@ body {
 /* ==================== RESPONSIVE: MOBILE (Cards Layout) ==================== */
 
 @media (max-width: 768px) {
-  /* Fix viewport height for mobile browsers with dynamic URL bars */
+  /* Fix viewport height - match colleague's approach exactly */
   html {
     height: 100%;
   }
 
   body {
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
-    height: auto;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: 100vh;
+    height: 100dvh;
+    height: -webkit-fill-available;
+    overflow: hidden;
   }
 
   .opening-animation {
-    min-height: 100vh;
-    min-height: calc(var(--mobile-vh, 1vh) * 100);
-    min-height: -webkit-fill-available;
-    min-height: 100dvh;
-    height: 100vh;
-    height: calc(var(--mobile-vh, 1vh) * 100);
-    height: -webkit-fill-available;
-    height: 100dvh;
+    height: 100%;
   }
 
   .opening-text-container,
@@ -2097,9 +2088,18 @@ body {
   }
 
   #main-content {
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
+    height: 100%;
+  }
+
+  .main-container {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .border-frame {
+    height: 100vh;
+    height: 100dvh;
+    height: -webkit-fill-available;
   }
 
   /* Hide header/nav bar on mobile */
