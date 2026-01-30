@@ -2360,13 +2360,8 @@ body {
   /* Fix modal viewport on mobile */
   .project-modal-content {
     height: 100dvh; /* Full height with dynamic viewport for URL bar adaptation */
-    padding-top: max(env(safe-area-inset-top), 20px); /* Account for notch/status bar */
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px); /* Safe area + breathing room below status bar */
     border-radius: 12px 12px 0 0;
-  }
-
-  /* Show close button on password modal on mobile */
-  .password-modal-close {
-    display: flex;
   }
 }
 
@@ -2439,29 +2434,7 @@ body {
   max-width: 400px;
   width: 90%;
   box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
-}
-
-.password-modal-close {
-  position: absolute;
-  top: var(--space-3);
-  right: var(--space-3);
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: transparent;
-  font-size: 32px;
-  line-height: 1;
-  color: var(--text-primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: transform 0.2s ease;
-}
-
-.password-modal-close:hover {
-  transform: scale(1.1);
+  text-align: center;
 }
 
 :root.dark .password-modal-content {
@@ -2474,13 +2447,6 @@ body {
   font-size: var(--font-size-2xl);
   font-weight: bold;
   color: var(--text-primary);
-  margin: 0 0 var(--space-3) 0;
-  text-align: center;
-}
-
-.password-modal-description {
-  font-size: var(--font-size-base);
-  color: var(--text-secondary);
   margin: 0 0 var(--space-6) 0;
   text-align: center;
 }

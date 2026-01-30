@@ -165,7 +165,6 @@
     function setupPasswordModal() {
         const unlockButton = document.getElementById('unlock-button');
         const cancelButton = document.getElementById('cancel-password-button');
-        const closeButton = document.getElementById('password-modal-close');
         const input = document.getElementById('password-input');
         const overlay = document.querySelector('.password-modal-overlay');
 
@@ -175,10 +174,6 @@
 
         if (cancelButton) {
             cancelButton.addEventListener('click', hidePasswordModal);
-        }
-
-        if (closeButton) {
-            closeButton.addEventListener('click', hidePasswordModal);
         }
 
         if (overlay) {
@@ -215,7 +210,6 @@
             overlay.className = 'modal-password-overlay';
             overlay.innerHTML = `
                 <div class="modal-password-content">
-                    <button class="password-modal-close modal-password-close" aria-label="Close">×</button>
                     <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
                     <h2 class="modal-password-title">This project is locked</h2>
                     <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
@@ -233,7 +227,6 @@
         // Setup event listeners
         const input = overlay.querySelector('#modal-password-input');
         const unlockBtn = overlay.querySelector('#modal-unlock-button');
-        const closeBtn = overlay.querySelector('.modal-password-close');
         const error = overlay.querySelector('#modal-password-error');
 
         // Focus input
@@ -276,14 +269,6 @@
                 handleUnlock();
             }
         });
-
-        // Close button closes both overlay and modal
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                hideModalPasswordOverlay();
-                closeModal();
-            });
-        }
     }
 
     // Hide password overlay inside modal
@@ -387,14 +372,9 @@
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
-        // If locked, add blur and show password overlay
-        if (isLocked) {
-            modalContent.classList.add('modal-locked');
-            showModalPasswordOverlay(entryId, modalContent);
-        } else {
-            modalContent.classList.remove('modal-locked');
-            hideModalPasswordOverlay();
-        }
+        // Always remove any locked state (password is validated before modal opens)
+        modalContent.classList.remove('modal-locked');
+        hideModalPasswordOverlay();
 
         // Trigger animation after display is set
         requestAnimationFrame(() => {
@@ -535,9 +515,15 @@
                 // Get hover image position before it disappears
                 const hoverImageRect = hoverImageContainer ? hoverImageContainer.getBoundingClientRect() : null;
 
-                // Always open the modal, pass locked state
-                console.log('Opening project modal');
-                openVintageTableModal(entryId, card, hoverImageRect, isLocked && !areProjectsUnlocked());
+                // If locked and not unlocked, show password modal FIRST
+                if (isLocked && !areProjectsUnlocked()) {
+                    console.log('Showing password modal before opening project');
+                    showPasswordModal(entryId, card, hoverImageRect);
+                } else {
+                    // Not locked or already unlocked - open modal directly
+                    console.log('Opening project modal directly');
+                    openVintageTableModal(entryId, card, hoverImageRect, false);
+                }
             });
         });
 
