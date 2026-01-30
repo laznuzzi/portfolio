@@ -2433,7 +2433,6 @@ body {
   padding: var(--space-8) var(--space-6);
   max-width: 400px;
   width: 90%;
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
@@ -2444,7 +2443,7 @@ body {
 
 .password-modal-title {
   font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: bold;
   color: var(--text-primary);
   margin: 0 0 var(--space-6) 0;
@@ -2453,31 +2452,31 @@ body {
 
 .password-input {
   width: 100%;
-  padding: var(--space-3);
+  padding: var(--space-4);
   font-size: var(--font-size-base);
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  border: 3px solid var(--theme-dark);
-  border-radius: 0;
-  background-color: var(--color-white);
+  font-family: var(--font-body);
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  background: var(--bg-primary);
   color: var(--text-primary);
   box-sizing: border-box;
   margin-bottom: var(--space-4);
   transition: border-color 0.2s ease;
 }
 
-:root.dark .password-input {
-  background-color: var(--bg-secondary);
-  border-color: var(--color-white);
-}
-
 .password-input:focus {
   outline: none;
-  border-color: #FF6B35;
+  border-color: var(--theme-dark);
+}
+
+:root.dark .password-input:focus {
+  border-color: var(--color-white);
 }
 
 .password-modal-buttons {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-4);
+  justify-content: center;
   margin-bottom: var(--space-2);
 }
 
