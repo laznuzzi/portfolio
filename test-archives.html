@@ -66,39 +66,14 @@
             position: relative;
             background: transparent;
             border-radius: 4px;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
             min-height: 200px;
-        }
-
-        /* Hover effect */
-        .test-project-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background-color: var(--theme-dark);
-            z-index: 0;
-            transition: width 0.3s ease;
-        }
-
-        .test-project-card:hover::after {
-            width: 100%;
-        }
-
-        .test-project-card:hover > * {
-            color: var(--bg-primary);
-        }
-
-        .test-project-card:hover .test-lock-icon {
             opacity: 1;
-            filter: invert(1);
         }
 
-        .test-project-card:hover .test-card-subtitle {
-            color: var(--bg-primary);
-            opacity: 0.7;
+        /* Fade other cards when hovering any card (but not the hovered one) */
+        .test-cards-container:has(.test-project-card:hover) .test-project-card:not(:hover) {
+            opacity: 0.5;
         }
 
         /* Card columns */
@@ -117,6 +92,7 @@
         }
 
         .test-card-tag {
+            display: none; /* Hidden for now */
             position: absolute;
             top: 8px;
             left: 8px;
@@ -129,13 +105,18 @@
             z-index: 2;
         }
 
-        .test-card-lock-column {
+        .test-card-title-row {
             position: relative;
             z-index: 1;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
             order: 2;
+        }
+
+        .test-card-title {
+            font-weight: 600;
+            font-size: var(--font-size-md);
         }
 
         .test-lock-icon {
@@ -143,14 +124,7 @@
             height: 20px;
             opacity: 0.5;
             transition: opacity 0.3s ease;
-        }
-
-        .test-card-title {
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-            font-size: var(--font-size-xl);
-            order: 3;
+            flex-shrink: 0;
         }
 
         .test-card-subtitle {
@@ -160,7 +134,7 @@
             font-size: var(--font-size-sm);
             padding-top: 8px; /* Space between border and text */
             border-top: 2px solid #000000;
-            order: 4;
+            order: 3;
         }
 
         .test-card-meta {
@@ -170,7 +144,7 @@
             font-size: var(--font-size-sm);
             padding-top: 8px; /* Space between border and text */
             border-top: 2px solid #000000;
-            order: 5;
+            order: 4;
         }
 
         .test-card-description {
@@ -180,7 +154,7 @@
             margin-top: auto; /* Pushes this and arrow to bottom */
             padding-top: 12px; /* Space between border and text */
             border-top: 2px solid #000000;
-            order: 6;
+            order: 5;
         }
 
         .test-card-arrow {
@@ -189,8 +163,33 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
+            font-family: 'Buffon-Bold', serif;
             font-size: 1.5rem;
-            order: 7;
+            order: 6;
+            transition: color 0.3s ease;
+        }
+
+        /* Bounce arrow on hover */
+        .test-project-card:hover .test-card-arrow {
+            animation: arrowBounce 0.6s ease-in-out;
+        }
+
+        @keyframes arrowBounce {
+            0% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(8px);
+            }
+            50% {
+                transform: translateX(0);
+            }
+            75% {
+                transform: translateX(8px);
+            }
+            100% {
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
@@ -209,12 +208,12 @@
                     <img src="./img/sandbox-thumb.png" alt="Design Sandbox" class="test-card-thumbnail">
                     <span class="test-card-tag">image</span>
                 </div>
-                <div class="test-card-lock-column">
+                <div class="test-card-title-row">
+                    <div class="test-card-title">Design Sandbox</div>
                     <svg class="test-lock-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm9 13H6v-8h12v8z"/>
                     </svg>
                 </div>
-                <div class="test-card-title">Design Sandbox</div>
                 <div class="test-card-subtitle">Block</div>
                 <div class="test-card-meta">Role: Developer, Designer</div>
                 <div class="test-card-description">An AI-assisted code-prototyping tool for building on-brand interface grounded in Square and Cash App design languages.</div>
@@ -227,12 +226,12 @@
                     <img src="./img/vibe-thumb.jpg" alt="Market Vibe Code Kit" class="test-card-thumbnail">
                     <span class="test-card-tag">image</span>
                 </div>
-                <div class="test-card-lock-column">
+                <div class="test-card-title-row">
+                    <div class="test-card-title">Market Vibe Code Kit</div>
                     <svg class="test-lock-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm9 13H6v-8h12v8z"/>
                     </svg>
                 </div>
-                <div class="test-card-title">Market Vibe Code Kit</div>
                 <div class="test-card-subtitle">Square</div>
                 <div class="test-card-meta">Role: Developer</div>
                 <div class="test-card-description">Lightweight, IDE agnostic, ui-kit of Square design language with semantic tokens, components and starter page templates.</div>
@@ -245,12 +244,12 @@
                     <img src="./img/g2-thumb.png" alt="Agentic Console POC" class="test-card-thumbnail">
                     <span class="test-card-tag">image</span>
                 </div>
-                <div class="test-card-lock-column">
+                <div class="test-card-title-row">
+                    <div class="test-card-title">Agentic Console POC</div>
                     <svg class="test-lock-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm9 13H6v-8h12v8z"/>
                     </svg>
                 </div>
-                <div class="test-card-title">Agentic Console POC</div>
                 <div class="test-card-subtitle">Block</div>
                 <div class="test-card-meta">Role: Designer, Developer</div>
                 <div class="test-card-description">A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.</div>
@@ -263,9 +262,9 @@
                     <img src="./img/rdm-thumb.png" alt="Remote Device Management" class="test-card-thumbnail">
                     <span class="test-card-tag">image</span>
                 </div>
-                <div class="test-card-lock-column">
+                <div class="test-card-title-row">
+                    <div class="test-card-title">Remote Device Management</div>
                 </div>
-                <div class="test-card-title">Remote Device Management</div>
                 <div class="test-card-subtitle">Square</div>
                 <div class="test-card-meta">Role: Design Lead</div>
                 <div class="test-card-description">Centralized, remote device hub on Square Dashboard web and Point of Sale, for sellers to monitor and manage hardware fleets in real-time.</div>
@@ -278,9 +277,9 @@
                     <img src="./img/dsm-thumb.jpg" alt="GSK Design System" class="test-card-thumbnail">
                     <span class="test-card-tag">image</span>
                 </div>
-                <div class="test-card-lock-column">
+                <div class="test-card-title-row">
+                    <div class="test-card-title">GSK Design System</div>
                 </div>
-                <div class="test-card-title">GSK Design System</div>
                 <div class="test-card-subtitle">GlaxoSmithKline</div>
                 <div class="test-card-meta">Role: Lead Designer, Design Engineer</div>
                 <div class="test-card-description">Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.</div>
@@ -293,9 +292,9 @@
                     <img src="./img/rpa-thumb.jpg" alt="Robotic Process Automation Developer Portal" class="test-card-thumbnail">
                     <span class="test-card-tag">image</span>
                 </div>
-                <div class="test-card-lock-column">
+                <div class="test-card-title-row">
+                    <div class="test-card-title">Robotic Process Automation Developer Portal</div>
                 </div>
-                <div class="test-card-title">Robotic Process Automation Developer Portal</div>
                 <div class="test-card-subtitle">GlaxoSmithKline</div>
                 <div class="test-card-meta">Role: Design Lead</div>
                 <div class="test-card-description">Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.</div>
