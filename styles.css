@@ -2455,7 +2455,7 @@ body {
   padding: var(--space-4);
   font-size: var(--font-size-base);
   font-family: var(--font-body);
-  border: 2px solid var(--border-primary);
+  border: 2px solid var(--theme-dark);
   border-radius: 4px;
   background: var(--bg-primary);
   color: var(--text-primary);
