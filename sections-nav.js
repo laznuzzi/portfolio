@@ -147,11 +147,17 @@
             // Hide all lock icons since projects are now unlocked
             hideLockIcons();
 
-            // Hide modal and open pending project
+            // Store pending values before hiding modal (hidePasswordModal clears them)
+            const entryToOpen = pendingEntryId;
+            const rowToOpen = pendingRow;
+            const rectToOpen = pendingHoverImageRect;
+
+            // Hide modal
             hidePasswordModal();
 
-            if (pendingEntryId) {
-                openVintageTableModal(pendingEntryId, pendingRow, pendingHoverImageRect);
+            // Open the project modal that triggered the password prompt
+            if (entryToOpen) {
+                openVintageTableModal(entryToOpen, rowToOpen, rectToOpen);
             }
         } else {
             error.textContent = 'Incorrect password';
