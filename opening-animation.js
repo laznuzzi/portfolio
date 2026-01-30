@@ -232,7 +232,7 @@
             const isMobile = window.innerWidth <= 768;
             const internalPadding = isMobile ? 35 : 40;
             const borderWidth = isMobile ? 15 : 30;
-            const bannerHeight = isMobile ? 85 : 130;
+            const bannerHeight = isMobile ? 76 : 130;
 
             // Calculate banner width
             const bannerWidth = textWidth + (internalPadding * 2) + (borderWidth * 2);
@@ -453,7 +453,7 @@
                 if (deltaY > 100 || velocity > 0.5) {
                     // Slide back down to reveal opening animation
                     gsap.to('#main-content', {
-                        top: `calc(100dvh - 60px)`,
+                        top: `calc(-50px + 100dvh)`,
                         duration: 0.35,
                         ease: "power2.out",
                         onComplete: () => {
