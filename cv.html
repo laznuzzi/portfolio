@@ -9,20 +9,51 @@
     <link rel="stylesheet" href="styles.css">
     <!-- GSAP Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         /* CV-specific styles */
         body.app-body {
             background-color: #dbd7cc;
         }
 
+        .download-pdf-button {
+            position: fixed;
+            top: var(--space-6);
+            right: var(--space-6);
+            width: 60px;
+            height: 60px;
+            background-color: var(--theme-dark);
+            color: var(--bg-primary);
+            border: 2px solid var(--theme-dark);
+            border-radius: 50%;
+            font-family: 'Buffon-Bold', serif;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .download-pdf-button:hover {
+            background-color: var(--bg-primary);
+            color: var(--theme-dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
         .cv-page {
             max-width: 1000px;
             margin: 4% auto;
-            padding: var(--space-12);
+            padding: var(--space-10) var(--space-14) var(--space-10) var(--space-14);
             font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: var(--text-primary);
+            color: #2a2a29;
             line-height: 1.6;
-            font-size: var(--font-size-sm); /* Reduced body copy size */
+            font-size: 0.875rem; /* 14px - between base (16px) and xs (12px) */
             background-color: var(--bg-primary);
             box-sizing: border-box;
             overflow-x: hidden;
@@ -35,7 +66,7 @@
 
         .cv-name-container {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             gap: var(--space-4);
             flex-wrap: wrap;
         }
@@ -64,21 +95,20 @@
 
             .cv-capsules-container {
                 width: 100%;
-                min-height: 100px;
+                min-height: 60px;
                 margin-left: 0;
                 margin-top: var(--space-2);
             }
         }
 
         .cv-columns {
-            display: flex;
+            display: grid;
+            grid-template-columns: 30% 1fr;
             gap: var(--space-8);
-            align-items: flex-start;
             box-sizing: border-box;
         }
 
         .cv-column-left {
-            flex: 0 0 30%;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -87,7 +117,6 @@
         }
 
         .cv-column-right {
-            flex: 1 1 0%;
             box-sizing: border-box;
             min-width: 0;
         }
@@ -97,18 +126,17 @@
             font-size: clamp(2rem, 4vw, 2.5rem);
             text-transform: uppercase;
             margin-bottom: var(--space-4);
-            color: var(--color-black);
+            color: #2a2a29;
         }
 
         .cv-greeting {
             font-family: 'Buffon-Bold', serif;
             font-size: clamp(1.5rem, 3vw, 2rem);
             margin-bottom: var(--space-6);
-            color: var(--color-black);
+            color: #2a2a29;
         }
 
         .cv-intro {
-            font-size: var(--font-size-sm);
             margin-bottom: var(--space-10);
             max-width: 700px;
         }
@@ -123,7 +151,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: var(--space-2);
-            color: var(--color-black);
+            color: #2a2a29;
             padding-bottom: var(--space-2);
         }
 
@@ -133,12 +161,8 @@
             gap: var(--space-1);
         }
 
-        .cv-contact-item {
-            font-size: var(--font-size-sm);
-        }
-
         .cv-contact-item a {
-            color: var(--text-primary);
+            color: #2a2a29;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -163,9 +187,6 @@
             margin-bottom: var(--space-8);
         }
 
-        .cv-skill {
-            font-size: var(--font-size-sm);
-        }
 
         .cv-education {
             margin-bottom: var(--space-8);
@@ -177,40 +198,38 @@
 
         .cv-education-school {
             font-weight: bold;
-            font-size: var(--font-size-sm);
             margin-bottom: var(--space-1);
         }
 
         .cv-education-details {
-            font-size: var(--font-size-sm);
-            color: var(--text-secondary);
+            color: #2a2a29;
+        }
+
+        .cv-section:has(.cv-references) {
+            margin-top: auto;
         }
 
         .cv-references {
             display: flex;
             flex-direction: column;
             gap: var(--space-1);
-            margin-top: auto;
             padding-top: var(--space-8);
+            margin-bottom: 34px;
         }
 
-        .cv-reference-text {
-            font-size: var(--font-size-sm);
-        }
 
         .cv-experience {
             margin-bottom: var(--space-8);
         }
 
         .cv-experience-item {
-            margin-bottom: var(--space-8);
+            margin-bottom: var(--space-6);
         }
 
         .cv-experience-company {
             font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: var(--font-size-sm);
             font-weight: 700;
-            color: var(--color-black);
+            color: #2a2a29;
             padding-top: var(--space-1);
         }
 
@@ -219,20 +238,20 @@
             justify-content: space-between;
             align-items: baseline;
             gap: var(--space-4);
-            margin-bottom: var(--space-4);
+            margin-bottom: var(--space-2);
             width: 100%;
             box-sizing: border-box;
         }
 
         .cv-experience-role {
             font-weight: 300;
-            font-size: var(--font-size-sm);
-            flex: 1;
+            background: #dcd7cc;
+    border-radius: 4px;
+    padding: 0px 6px 0px 6px;
         }
 
         .cv-experience-date {
-            font-size: var(--font-size-sm);
-            color: var(--text-secondary);
+            color: #2a2a29;
             text-align: right;
             white-space: nowrap;
         }
@@ -242,8 +261,9 @@
         }
 
         .cv-experience-description p {
-            font-size: var(--font-size-sm);
-            margin-bottom: var(--space-2);
+            margin-bottom: 0px;
+    margin-top: 8px;
+            color: #797972;
         }
 
         .cv-experience-description p:last-child {
@@ -430,6 +450,9 @@
     <!-- ==================== PERSISTENT BORDER FRAME ==================== -->
     <div class="border-frame"></div>
 
+    <!-- ==================== FLOATING DOWNLOAD BUTTON ==================== -->
+    <button onclick="generatePDF()" class="download-pdf-button">↓</button>
+
     <!-- ==================== HEADER SECTION ==================== -->
     <header id="app-header" class="app-header">
         <nav class="main-nav">
@@ -447,7 +470,7 @@
     <main class="cv-page">
         <div class="cv-header">
             <div class="cv-name-container">
-                <h1 class="cv-name">Nazarena Luzzi Castro</h1>
+                <h1 class="cv-name">Nazarena <br/>Luzzi Castro</h1>
                 <div id="cv-capsules-container" class="cv-capsules-container"></div>
             </div>
         </div>
@@ -489,20 +512,27 @@
                 <section class="cv-section">
                     <h3 class="cv-section-title">Skills</h3>
                     <div class="cv-skills">
-                        <div class="cv-skill">User-Centered Design</div>
-                        <div class="cv-skill">UI Design</div>
-                        <div class="cv-skill">Product Strategy</div>
-                        <div class="cv-skill">Service Design</div>
-                        <div class="cv-skill">Storytelling</div>
-                        <div class="cv-skill">Workshop Facilitation</div>
-                        <div class="cv-skill">Cross-Functional Collaboration</div>
-                        <div class="cv-skill">Design Thinking</div>
-                        <div class="cv-skill">User Research</div>
-                        <div class="cv-skill">Front-End Development</div>
-                        <div class="cv-skill">Design Leadership</div>
-                        <div class="cv-skill">Process Leadership</div>
-                        <div class="cv-skill">Analytics</div>
-                        <div class="cv-skill">Strategic Communications</div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Enterprise Tooling Design</div>
+                        </div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Design Systems Architecture</div>
+                        </div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Front-End Development</div>
+                        </div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Research & Facilitation</div>
+                        </div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Design Thinking</div>
+                        </div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Design Education</div>
+                        </div>
+                        <div class="cv-skill-category">
+                            <div class="cv-skill-title">Thought Leadership</div>
+                        </div>
                     </div>
                 </section>
 
@@ -532,71 +562,82 @@
                     <h3 class="cv-section-title">Experience</h3>
             <div class="cv-experience">
                 <div class="cv-experience-item">
-                    <div class="cv-experience-company">GlaxoSmithKline</div>
+                    <div class="cv-experience-company">Block</div>
                     <div class="cv-experience-role-date">
-                        <div class="cv-experience-role">Lead Product Designer | Platforms</div>
-                        <div class="cv-experience-date">June 2020 – Present</div>
+                        <div class="cv-experience-role">Principal Product Designer | Applied AI</div>
+                        <div class="cv-experience-date">Sep 2025 – Present</div>
                     </div>
                     <div class="cv-experience-description">
-                        <p>Lead small Design pod and interns to deliver Developer Portal capabilities, enabling internal-facing teams to discover catalog solutions such as APIs and CICD templates, and securely manage RPA bots. This work includes E2E RPA lifecycle and systems documentation created in collaboration with BU partners, Tech Ops and Risk teams.</p>
-                        <p>Communicate value of Developer Portal and GSK design system across multiple levels of the organization by creating data-driven presentations in an effort to secure funding, drive product adoption, and align on internal business partners' objectives.</p>
+                        <p>Design and build modular, extensible AI tooling, systems, and frameworks that improve how internal teams build at Block, including on-brand code-based prototyping tools and internal support hubs. Work hands-on with LLM-powered systems through rapid experimentation. Enable designers to contribute code through hands-on education and PR-based workflows.</p>
+                    </div>
+                </div>
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">Square</div>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">Staff (→ June 2024) / Principal Product Designer | Seller Platform</div>
+                        <div class="cv-experience-date">Aug 2021 – Sep 2025</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Drove roadmap and design strategy for seller-facing features spanning multiple quarters, including device management, multi-merchant accounts, and enterprise support workflows, leading teams through workshops, and hands-on design work. Contributed to platform vision and cross-team research that informed work beyond individual product areas.</p>
+                    </div>
+                </div>
+                <div class="cv-experience-item">
+                    <div class="cv-experience-company">GlaxoSmithKline</div>
+                    <div class="cv-experience-role-date">
+                        <div class="cv-experience-role">Staff Product Designer | Enterprise Platforms</div>
+                        <div class="cv-experience-date">Jun 2020 – Aug 2021</div>
+                    </div>
+                    <div class="cv-experience-description">
+                        <p>Led design work focused on internal developer tooling, contributing to the Developer Portal and shared capabilities such as APIs, CI/CD templates, and automation tooling. Owned E2E bot lifecycle experience and partnered with engineering, Ops, and Risk teams on systems design and documentation, driving adoption and alignment around a shared platform strategy.</p>
                     </div>
                 </div>
 
                 <div class="cv-experience-item">
                     <div class="cv-experience-role-date">
-                        <div class="cv-experience-role">Senior Product Designer | Platforms</div>
-                        <div class="cv-experience-date">September 2018 – June 2020</div>
+                        <div class="cv-experience-role">Senior Product Designer | Enterprise Platforms</div>
+                        <div class="cv-experience-date">Sep 2018 – Jun 2020</div>
                     </div>
                     <div class="cv-experience-description">
-                        <p>Led design, customer management and strategic comms for the GSK design system in collaboration with Design, Engineering and Global Brand partners, enabling Tech teams to build better digital products at speed. This included assisting dev team with web component theming, design token mapping, and implementation documentation.</p>
+                        <p>Designed and evolved the GSK design system, leading stakeholder engagement and strategic communication in partnership with engineering and Global Brand teams to enable product teams to ship reliable, consistent experiences more efficiently. Supported implementation through component theming, design-token mapping, and clear documentation.</p>
                     </div>
                 </div>
 
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">Muhlenhaupt + Company</div>
                     <div class="cv-experience-role-date">
-                        <div class="cv-experience-role">UX Lead</div>
-                        <div class="cv-experience-date">December 2016 – September 2018</div>
+                        <div class="cv-experience-role">Design Lead</div>
+                        <div class="cv-experience-date">Dec 2016 – Sep 2018</div>
                     </div>
                     <div class="cv-experience-description">
-                        <p>Elevated design practices and established agency delivery process between internal team and clients by creating templates for project briefs, UX audits, and workshops.</p>
-                        <p>Led small team of designers and freelance developers to build marketing websites, mobile apps, and digital campaigns while working closely with clients, strategists, and leadership. This included presenting final work to clients.</p>
+                        <p>
+                            Led design delivery across client engagements, establishing agency-wide practices that improved how teams scoped, designed, and delivered work with clients. Managed designers and freelance developers to deliver web, mobile, and digital campaign work.
+                        </p>
                     </div>
                 </div>
 
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">Moody's Analytics</div>
                     <div class="cv-experience-role-date">
-                        <div class="cv-experience-role">UX Designer | E-commerce</div>
-                        <div class="cv-experience-date">April 2015 – December 2016</div>
+                        <div class="cv-experience-role">UX Designer | Consumer Products</div>
+                        <div class="cv-experience-date">Apr 2015 – Dec 2016</div>
                     </div>
                     <div class="cv-experience-description">
-                        <p>Designed and improved the user experience of the Moody's Intranet platform and consumer-facing financial products such as CreditCycle.</p>
-                        <p>Accelerated development processes by partially coding the front-end UI and creating a Bootstrap-based design system that enabled the engineering team to easily theme applications and reduce duplicative work.</p>
+                        <p>Designed web and iOS product experiences as the sole designer embedded within a 23-engineer platform team. Created a reusable, Bootstrap-based design system and contributed front-end code to support consistent theming and faster delivery.</p>
                     </div>
                 </div>
 
+                <!--
                 <div class="cv-experience-item">
                     <div class="cv-experience-company">SAP</div>
                     <div class="cv-experience-role-date">
-                        <div class="cv-experience-role">Interactive Designer | Global Graphics</div>
+                        <div class="cv-experience-role">Interactive Graphic Designer | Global Graphics</div>
                         <div class="cv-experience-date">July 2014 – April 2015</div>
                     </div>
                     <div class="cv-experience-description">
-                        <p>Digitized sales print proposals into web-based experiences to improve effectiveness of customer pitches and increased US employees' engagement with Corporate Social Responsibility through the design of interactive data visualizations.</p>
+<p>Designed interactive and visual assets for global sales and corporate initiatives, including web-based experiences, infographics, and executive presentations. Collaborated with engineers, writers, and business partners to communicate complex data clearly and support customer pitches and internal engagement.</p>
                     </div>
                 </div>
-
-                <div class="cv-experience-item">
-                    <div class="cv-experience-role-date">
-                        <div class="cv-experience-role">Graphic Designer | Global Graphics</div>
-                        <div class="cv-experience-date">May 2013 – July 2014</div>
-                    </div>
-                    <div class="cv-experience-description">
-                        <p>Collaborated with value engineers, executives, and writers, to conceptualize and design infographics, Big Data diagrams, and keynotes for strategy meetings.</p>
-                    </div>
-                </div>
+                -->
             </div>
         </section>
             </div>
@@ -605,6 +646,123 @@
 
     <script src="app.js"></script>
     <script>
+        // ==================== PDF GENERATION ====================
+        async function generatePDF() {
+            const button = document.querySelector('.download-pdf-button');
+            const borderFrame = document.querySelector('.border-frame');
+            const capsulesContainer = document.querySelector('.cv-capsules-container');
+            const element = document.querySelector('.cv-page');
+
+            // Hide button and border during PDF generation
+            button.style.display = 'none';
+            borderFrame.style.display = 'none';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            let tempImageContainer = null;
+
+            if (capsulesContainer) {
+                try {
+                    // First, capture the capsules as an image
+                    const capsulesCanvas = await html2canvas(capsulesContainer, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: 'transparent',
+                        logging: false
+                    });
+
+                    // Convert capsules to image
+                    const capsulesDataUrl = capsulesCanvas.toDataURL('image/png');
+
+                    // Hide original capsules
+                    capsulesContainer.style.visibility = 'hidden';
+
+                    // Create temporary image container in the same position
+                    tempImageContainer = document.createElement('div');
+                    tempImageContainer.style.position = capsulesContainer.style.position || 'relative';
+                    tempImageContainer.style.display = capsulesContainer.style.display || 'inline-block';
+                    tempImageContainer.style.minHeight = window.getComputedStyle(capsulesContainer).minHeight;
+                    tempImageContainer.style.width = window.getComputedStyle(capsulesContainer).width;
+                    tempImageContainer.style.marginLeft = window.getComputedStyle(capsulesContainer).marginLeft;
+
+                    const img = document.createElement('img');
+                    img.src = capsulesDataUrl;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'contain';
+
+                    tempImageContainer.appendChild(img);
+                    capsulesContainer.parentNode.insertBefore(tempImageContainer, capsulesContainer);
+
+                    // Small delay to ensure image is loaded
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                } catch (err) {
+                    console.error('Failed to capture capsules:', err);
+                    // Continue without capsules if capture fails
+                }
+            }
+
+            try {
+                // Capture the page with html2canvas
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#dbd7cc',
+                    logging: false,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+
+                // Convert canvas to image
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+                // Create PDF with jsPDF
+                const { jsPDF } = window.jspdf;
+
+                // Letter size: 8.5 x 11 inches = 612 x 792 points
+                const pdf = new jsPDF('p', 'pt', 'letter');
+
+                const pdfWidth = 612;
+                const pdfHeight = 792;
+
+                // Add small margin to ensure nothing gets cut off
+                const margin = 5;
+                const availableWidth = pdfWidth - (margin * 2);
+                const availableHeight = pdfHeight - (margin * 2);
+
+                // Calculate scaling to fit content on one page with margin
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(availableWidth / imgWidth, availableHeight / imgHeight);
+
+                const scaledWidth = imgWidth * ratio;
+                const scaledHeight = imgHeight * ratio;
+
+                // Center the image
+                const xOffset = (pdfWidth - scaledWidth) / 2;
+                const yOffset = (pdfHeight - scaledHeight) / 2;
+
+                pdf.addImage(imgData, 'JPEG', xOffset, yOffset, scaledWidth, scaledHeight, '', 'FAST');
+                pdf.save('Nazarena_Luzzi_Castro_CV.pdf');
+            } catch (error) {
+                console.error('PDF generation failed:', error);
+                alert('Failed to generate PDF. Please try again.');
+            } finally {
+                // Remove temporary image container and restore original capsules
+                if (tempImageContainer) {
+                    tempImageContainer.remove();
+                }
+                if (capsulesContainer) {
+                    capsulesContainer.style.visibility = 'visible';
+                }
+
+                // Show button and border again
+                button.style.display = 'flex';
+                borderFrame.style.display = 'block';
+            }
+        }
+
         // ==================== CV CAPSULES ANIMATION ====================
         (function() {
             // Wait for GSAP to load
@@ -637,7 +795,7 @@
                 const textWidth = textMetrics.width;
 
                 // Smaller dimensions for CV page
-                const internalPadding = 12;
+                const internalPadding = 28;
                 const borderWidth = 8;
                 const bannerHeight = 40;
 
@@ -652,8 +810,7 @@
                 bannerElement.style.top = position.y;
                 bannerElement.style.width = `${bannerWidth}px`;
                 bannerElement.style.height = `${bannerHeight}px`;
-                bannerElement.style.zIndex = '10';
-                bannerElement.style.transform = `translate(-50%, -50%)`;
+                bannerElement.style.transform = `translate(-50%, -50%) rotate(${position.rotation}deg)`;
                 bannerElement.style.transformOrigin = 'center center';
 
                 // Set banner color via CSS variable
@@ -698,12 +855,11 @@
                 return bannerElement;
             }
 
-            // Define positions with random angles for CV capsules
-            // Positioned relative to the container next to the name
+            // Define positions for CV capsules - stacked with more vertical spacing
             const positions = [
-                { x: '30%', y: '20%', rotation: -12 },  // Designer
-                { x: '70%', y: '50%', rotation: 8 },    // Developer
-                { x: '50%', y: '80%', rotation: -5 }    // Builder
+                { x: '30%', y: '20%', rotation: -8 },   // Designer
+                { x: '60%', y: '50%', rotation: 5 },    // Developer
+                { x: '45%', y: '80%', rotation: -3 }    // Builder
             ];
 
             // Create capsules with staggered appearance

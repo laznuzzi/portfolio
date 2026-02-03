@@ -1,10 +1,10 @@
 # sandbox
 title: Design Sandbox
 subtitle: Block
-shortDescription: An AI-assisted code-prototyping tool for building on-brand interface grounded in Square and Cash App design languages.
+shortDescription: An AI-assisted code-prototyping tool and starter kit with components and templates for building on-brand interface with Square and Cash App design languages.
 thumbnail: ./img/sandbox-thumb.png
 hover: ./img/sandbox-hover.png
-modal: ./img/sandbox-hover.png
+modal: ./img/sandbox-hover.png, ./img/vibe-code-1.mov
 locked: true
 
 **Role:** Developer, Designer
@@ -14,16 +14,18 @@ locked: true
 Teams were spending a large amount of time on setup rather than ideation. Designers and engineers repeatedly recreated brand, themes, and existing Square and Cash App surfaces from scratch, with no shared foundation to build from. This led to inconsistent experiments, duplicated effort, and slower iteration.
 
 ### Description
-Built an experimental tool for building AI-native interfaces in code using Square and Cash App design languages. Designed and developed new features, and focused on the intelligence layer of the tool, integrating ecosystem data and design system knowledge to seed LLM-driven workflows. Features include preconfigured branding and theming, reusable components and page templates, AI-assisted workflows, and context-aware generation grounded in Square's internal patterns—enabling faster, more intelligent iteration without production constraints.
+Built Square's Vibe Code Kit (passion project), a git package with built-in themes, tokens, components, and page templates that users could install and use with any IDE. 
+
+Kit evolved into experimental tool for building AI-native interfaces in code using Square and Cash App design languages. Designed and developed new features, and focused on the intelligence layer of the tool, integrating ecosystem data and design system knowledge to seed LLM-driven workflows. Features include preconfigured branding and theming, reusable components and page templates, AI-assisted workflows, and context-aware generation grounded in Square's internal patterns—enabling faster, more intelligent iteration without production constraints.
 
 ### Tech Stack
-Tauri desktop app (Rust backend) with a React + TypeScript + Vite frontend, using TailwindCSS and   
-  custom Square and Cash App design systems built on shadcn/ui components.
+Vibe code kit: Shadcn
+Sandbox app: Tauri desktop app (Rust backend) with a React + TypeScript + Vite frontend, using TailwindCSS and custom Square and Cash App design systems built on shadcn/ui components.
 
 ---
 
-# vibe-code kit
-title: Market Vibe Code Kit
+# multi-ein
+title: Multi-Merchant Accounts
 subtitle: Square
 shortDescription: Lightweight, IDE agnostic, ui-kit of Square design language with semantic tokens, components and starter page templates.
 thumbnail: ./img/vibe-thumb.jpg
