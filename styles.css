@@ -1764,10 +1764,18 @@ body {
   text-transform: uppercase;
 }
 
-/* ==================== TEST FEATURED CARD (MODULAR) ==================== */
-/* Large featured card layout with offset grid - can be easily removed */
+/* ==================== LAYOUT 1: FEATURED CARDS (MODULAR) ==================== */
+/* Individual featured card layout - can be easily removed */
 
-.test-featured-card {
+.layout-1-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: var(--space-12);
+}
+
+.featured-card {
   width: 100%;
   background: #f2f0e9;
   border-radius: 0;
@@ -1778,6 +1786,24 @@ body {
   grid-template-rows: auto auto;
   gap: var(--space-10);
   font-family: 'NB International Pro', 'Chalet', sans-serif;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.featured-card:hover {
+  background: var(--theme-dark);
+}
+
+.featured-card:hover * {
+  color: var(--bg-primary);
+}
+
+.featured-card:hover .featured-card-arrow {
+  border-color: var(--bg-primary);
+}
+
+.featured-card:hover .featured-card-arrow img {
+  filter: invert(1);
 }
 
 .featured-card-title {
@@ -1849,6 +1875,21 @@ body {
   border: 2px solid var(--theme-dark);
   border-radius: 50%;
   margin-left: auto;
+}
+
+.featured-card-arrow img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.featured-card:hover .featured-card-arrow {
+  color: var(--bg-primary);
+  border-color: var(--bg-primary);
+}
+
+.featured-card:hover .featured-card-arrow img {
+  filter: invert(1);
 }
 
 /* ==================== TEST CARDS CONTAINER (MODULAR) ==================== */
@@ -2072,10 +2113,31 @@ body {
 
 .cards-container {
   width: 100%;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Layout 1 styling - individual cards without table background */
+.cards-container.layout-1-style {
+  background: transparent;
+  padding: 0;
+}
+
+.cards-container.layout-1-style .project-card {
   background: #f2f0e9;
-  padding: 16px;
-  padding-bottom: 72px;
-  border-radius: 4px;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0;
+  margin-bottom: var(--space-8);
+  font-family: 'NB International Pro', 'Chalet', sans-serif;
+}
+
+.cards-container.layout-1-style .cards-header {
+  display: none;
   display: flex;
   flex-direction: column;
   gap: 0;
