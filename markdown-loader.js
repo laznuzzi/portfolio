@@ -51,6 +51,85 @@
             console.log('Falling back to file-content.js');
         });
 
+    // Parse modal content - handles both images and text blocks
+    // Format: ./img/1.png, [text: Title :: Body | Title :: Body | Title :: Body], ./img/2.png
+    function parseModalContent(modalStr) {
+        const items = [];
+        const parts = modalStr.split(',');
+        let i = 0;
+
+        while (i < parts.length) {
+            const part = parts[i].trim();
+
+            // Check if this is a text block
+            if (part.startsWith('[text:')) {
+                // Collect the full text block (might span multiple comma-separated parts)
+                let textContent = part;
+
+                // If it doesn't end with ], keep collecting
+                if (!part.endsWith(']')) {
+                    i++;
+                    while (i < parts.length && !parts[i].includes(']')) {
+                        textContent += ',' + parts[i];
+                        i++;
+                    }
+                    if (i < parts.length) {
+                        textContent += ',' + parts[i];
+                    }
+                }
+
+                // Extract content between [text: and ]
+                const content = textContent.replace(/^\[text:\s*/, '').replace(/\]$/, '').trim();
+
+                // Split by | to get columns
+                const columns = content.split('|').map(col => {
+                    const colTrim = col.trim();
+
+                    // Check if column has title :: paragraph format
+                    if (colTrim.includes('::')) {
+                        const parts = colTrim.split('::');
+                        return {
+                            title: parts[0].trim(),
+                            body: parts.slice(1).join('::').trim()
+                        };
+                    } else {
+                        // Just body text
+                        return {
+                            title: '',
+                            body: colTrim
+                        };
+                    }
+                });
+
+                items.push({
+                    type: 'text-row',
+                    columns: columns
+                });
+            } else if (part) {
+                // Regular image/video path with optional caption
+                // Format: ./img/file.png::Caption text
+                let src = part;
+                let caption = '';
+
+                if (part.includes('::')) {
+                    const parts = part.split('::');
+                    src = parts[0].trim();
+                    caption = parts.slice(1).join('::').trim();
+                }
+
+                items.push({
+                    type: 'media',
+                    src: src,
+                    caption: caption
+                });
+            }
+
+            i++;
+        }
+
+        return items;
+    }
+
     // Parse markdown into project objects
     function parseMarkdown(markdown) {
         const projects = [];
@@ -71,15 +150,20 @@
                 tags: [],
                 role: '',
                 timeline: '',
+                people: [],
                 context: '',
                 description: '',
                 techStack: '',
                 githubLink: '',
-                shortDescription: ''
+                shortDescription: '',
+                title1: 'Context',
+                title2: 'Work',
+                title3: 'Tech details'
             };
 
             let currentSection = '';
             let contentLines = [];
+            let sectionIndex = 0; // Track which section we're on (0, 1, 2)
 
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
@@ -97,50 +181,59 @@
                     project.hover = line.replace('hover:', '').trim();
                 } else if (line.startsWith('modal:')) {
                     const modalStr = line.replace('modal:', '').trim();
-                    project.modal = modalStr.split(',').map(s => s.trim());
+                    project.modal = parseModalContent(modalStr);
                 } else if (line.startsWith('locked:')) {
                     project.locked = line.replace('locked:', '').trim() === 'true';
                 } else if (line.startsWith('tags:')) {
                     const tagsStr = line.replace('tags:', '').trim();
                     project.tags = tagsStr.split(',').map(s => s.trim()).filter(s => s);
+                } else if (line.startsWith('role:')) {
+                    project.role = line.replace('role:', '').trim();
+                } else if (line.startsWith('timeline:')) {
+                    project.timeline = line.replace('timeline:', '').trim();
+                } else if (line.startsWith('people:')) {
+                    const peopleStr = line.replace('people:', '').trim();
+                    project.people = peopleStr.split(',').map(s => s.trim()).filter(s => s);
+                } else if (line.startsWith('title1:')) {
+                    project.title1 = line.replace('title1:', '').trim();
+                } else if (line.startsWith('title2:')) {
+                    project.title2 = line.replace('title2:', '').trim();
+                } else if (line.startsWith('title3:')) {
+                    project.title3 = line.replace('title3:', '').trim();
                 }
-                // Parse role/timeline (bold text)
+                // Parse role/timeline (old bold text format - fallback)
                 else if (line.startsWith('**Role:**')) {
                     project.role = line.replace('**Role:**', '').trim();
                 } else if (line.startsWith('**Timeline:**')) {
                     project.timeline = line.replace('**Timeline:**', '').trim();
                 }
-                // Parse sections
-                else if (line.startsWith('### ')) {
-                    // Save previous section
-                    if (currentSection && contentLines.length > 0) {
+                // Parse sections (match ### with or without space)
+                else if (line.startsWith('###')) {
+                    // Save previous section by index
+                    if (contentLines.length > 0) {
                         const sectionContent = contentLines.join('\n').trim();
-                        if (currentSection === 'Context') project.context = sectionContent;
-                        else if (currentSection === 'Description') project.description = sectionContent;
-                        else if (currentSection === 'Tech Stack') project.techStack = sectionContent;
-                        else if (currentSection === 'Links') {
-                            const linkMatch = sectionContent.match(/\[.*?\]\((.*?)\)/);
-                            if (linkMatch) project.githubLink = linkMatch[1];
-                        }
+                        if (sectionIndex === 0) project.context = sectionContent;
+                        else if (sectionIndex === 1) project.description = sectionContent;
+                        else if (sectionIndex === 2) project.techStack = sectionContent;
+                    }
+                    // Move to next section
+                    if (contentLines.length > 0 || sectionIndex > 0) {
+                        sectionIndex++;
                     }
                     // Start new section
-                    currentSection = line.replace('### ', '').trim();
+                    currentSection = line.replace(/^###\s*/, '').trim();
                     contentLines = [];
                 } else if (line && !line.startsWith('---')) {
                     contentLines.push(line);
                 }
             }
 
-            // Save last section
-            if (currentSection && contentLines.length > 0) {
+            // Save last section by index
+            if (contentLines.length > 0) {
                 const sectionContent = contentLines.join('\n').trim();
-                if (currentSection === 'Context') project.context = sectionContent;
-                else if (currentSection === 'Description') project.description = sectionContent;
-                else if (currentSection === 'Tech Stack') project.techStack = sectionContent;
-                else if (currentSection === 'Links') {
-                    const linkMatch = sectionContent.match(/\[.*?\]\((.*?)\)/);
-                    if (linkMatch) project.githubLink = linkMatch[1];
-                }
+                if (sectionIndex === 0) project.context = sectionContent;
+                else if (sectionIndex === 1) project.description = sectionContent;
+                else if (sectionIndex === 2) project.techStack = sectionContent;
             }
 
             // Generate short description from description if not provided
@@ -196,47 +289,76 @@
             </div>`
             : '';
 
+        // Parse people by role (PM = Product, ENG = Engineering, DEng = Design Engineering)
+        const productPeople = [];
+        const engineeringPeople = [];
+        const designEngineeringPeople = [];
+
+        if (project.people && project.people.length > 0) {
+            project.people.forEach(person => {
+                const personTrim = person.trim();
+                const personLower = personTrim.toLowerCase();
+
+                if (personLower.includes('(deng)')) {
+                    designEngineeringPeople.push(personTrim.replace(/\s*\(DEng\)\s*/i, ''));
+                } else if (personLower.includes('(pm)')) {
+                    productPeople.push(personTrim.replace(/\s*\(PM\)\s*/i, ''));
+                } else if (personLower.includes('(eng)')) {
+                    engineeringPeople.push(personTrim.replace(/\s*\(ENG\)\s*/i, ''));
+                } else {
+                    // Default to product if no role specified
+                    productPeople.push(personTrim);
+                }
+            });
+        }
+
+        const productHTML = productPeople.length > 0 ? productPeople.join(', ') : '';
+        const engineeringHTML = engineeringPeople.length > 0 ? engineeringPeople.join(', ') : '';
+        const designEngineeringHTML = designEngineeringPeople.length > 0 ? designEngineeringPeople.join(', ') : '';
+
+        // Build metadata grid (1x3: Company | Role+Timeline | Product/Engineering)
+        // Tags are hidden but kept for later use in archives table
+        const metadataGridHTML = `
+            <div class="modal-metadata-grid">
+                <div class="metadata-cell metadata-cell-company">${project.subtitle || ''}</div>
+                <div class="metadata-cell metadata-cell-role-timeline">
+                    <div>${project.role || ''}</div>
+                    <div class="metadata-timeline">${project.timeline || ''}</div>
+                </div>
+                <div class="metadata-cell metadata-cell-people">
+                    ${productHTML ? `<div class="people-group"><span class="people-label">Product</span><div class="people-names">${productHTML}</div></div>` : ''}
+                    ${designEngineeringHTML ? `<div class="people-group"><span class="people-label">Design Engineering</span><div class="people-names">${designEngineeringHTML}</div></div>` : ''}
+                    ${engineeringHTML ? `<div class="people-group"><span class="people-label">Engineering</span><div class="people-names">${engineeringHTML}</div></div>` : ''}
+                </div>
+                <div class="metadata-cell metadata-cell-tags" style="display: none;">${tagsHTML ? tagsHTML.replace('<div class="project-tags">', '').replace('</div>', '') : ''}</div>
+            </div>
+        `;
+
         return `
-            <div class="modal-row modal-row-1">
-                <div class="modal-column">
+            <div class="modal-header-row">
+                <div class="modal-title-column">
                     <h1>${project.title}</h1>
-                </div>
-                <div class="modal-column">
-                    <!-- Empty column -->
-                </div>
-                <div class="modal-column modal-close-column">
                     <button id="modal-close" class="modal-close-button" aria-label="Close modal">×</button>
                 </div>
-            </div>
-
-            <div class="modal-row modal-row-2">
-                <div class="modal-column">
-                    ${tagsHTML}
-                </div>
-                <div class="modal-column">
-                    ${project.subtitle ? `<p class="modal-company">${project.subtitle}</p>` : ''}
-                </div>
-                <div class="modal-column">
-                    ${project.role ? `<p class="modal-role">${project.role}</p>` : ''}
-                </div>
+                ${metadataGridHTML}
             </div>
 
             <div class="modal-row modal-row-3">
                 ${project.context ? `
                     <div class="modal-column">
-                        <h2>Context</h2>
+                        <h2>${project.title1}</h2>
                         <p>${project.context}</p>
                     </div>
                 ` : '<div class="modal-column"></div>'}
 
                 <div class="modal-column">
-                    <h2>Work</h2>
+                    <h2>${project.title2}</h2>
                     <p>${project.description || 'Project description coming soon.'}</p>
                 </div>
 
                 ${project.techStack ? `
                     <div class="modal-column">
-                        <h2>Tech details</h2>
+                        <h2>${project.title3}</h2>
                         <p>${project.techStack}</p>
                     </div>
                 ` : '<div class="modal-column"></div>'}
@@ -278,9 +400,6 @@
             card.className = 'project-card';
             card.setAttribute('data-entry', project.id);
 
-            // Add lock icon SVG for locked projects
-            const lockIcon = project.locked ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>' : '';
-
             // Mark as locked
             if (project.locked) {
                 card.setAttribute('data-locked', 'true');
@@ -292,9 +411,32 @@
                 ? `<video src="${hoverImage}" autoplay loop muted playsinline></video>`
                 : `<img src="${hoverImage}" alt="${project.title}">`;
 
+            // Generate tags HTML for card
+            const cardTagsHTML = project.tags && project.tags.length > 0
+                ? `<div class="card-tags">
+                    ${project.tags.map(tag => {
+                        const tagParts = tag.split(':');
+                        const iconType = tagParts[0].trim().toLowerCase();
+                        const tagText = tagParts.length > 1 ? tagParts.slice(1).join(':').trim() : tagParts[0].trim();
+                        const icon = getTagIcon(iconType);
+
+                        return `<span class="card-tag" data-tag="${iconType}">
+                            ${icon ? `<span class="card-tag-icon">${icon}</span>` : ''}
+                            <span class="card-tag-text">${tagText}</span>
+                        </span>`;
+                    }).join('')}
+                </div>`
+                : '';
+
+            // Show lock icon in arrow column if locked, arrow if unlocked
+            const arrowContent = project.locked
+                ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>'
+                : '→';
+            const arrowClass = project.locked ? 'card-arrow card-arrow-locked' : 'card-arrow';
+
             card.innerHTML = `
-                <div class="card-lock-column">
-                    ${lockIcon}
+                <div class="card-logo">
+                    <img src="./img/square-logo.png" alt="${project.subtitle || 'Company'} logo">
                 </div>
                 <div class="card-title">
                     <div class="title-content">
@@ -303,12 +445,13 @@
                 </div>
                 <div class="card-subtitle">
                     <span class="subtitle-text">${project.subtitle || ''}</span>
+                    ${cardTagsHTML}
                 </div>
                 <div class="card-description">${project.shortDescription || ''}</div>
                 <div class="card-mobile-preview">
                     ${hoverMediaTag}
                 </div>
-                <div class="card-arrow">→</div>
+                <div class="${arrowClass}">${arrowContent}</div>
                 <div class="card-thumbnail">
                     <div class="thumbnail-wrapper">
                         <img src="${firstImage}" alt="${project.title}">

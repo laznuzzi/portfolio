@@ -70,19 +70,30 @@
         return false;
     }
 
-    // Hide all lock icons
+    // Hide all lock icons and replace with arrows
     function hideLockIcons() {
-        const lockIcons = document.querySelectorAll('.lock-icon');
-        lockIcons.forEach(icon => {
-            icon.style.display = 'none';
+        const cards = document.querySelectorAll('.project-card[data-locked="true"]');
+        cards.forEach(card => {
+            const arrowColumn = card.querySelector('.card-arrow');
+            if (arrowColumn) {
+                const lockIcon = arrowColumn.querySelector('.lock-icon');
+                if (lockIcon) {
+                    arrowColumn.innerHTML = '→';
+                    arrowColumn.classList.remove('card-arrow-locked');
+                }
+            }
         });
     }
 
-    // Show all lock icons
+    // Show all lock icons (replace arrows with lock icons for locked projects)
     function showLockIcons() {
-        const lockIcons = document.querySelectorAll('.lock-icon');
-        lockIcons.forEach(icon => {
-            icon.style.display = 'block';
+        const cards = document.querySelectorAll('.project-card[data-locked="true"]');
+        cards.forEach(card => {
+            const arrowColumn = card.querySelector('.card-arrow');
+            if (arrowColumn && !arrowColumn.querySelector('.lock-icon')) {
+                arrowColumn.innerHTML = '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>';
+                arrowColumn.classList.add('card-arrow-locked');
+            }
         });
     }
 
@@ -322,31 +333,78 @@
         }
 
         // Create image/video grid HTML from entry data
-        const images = (entry.images && Array.isArray(entry.images) && entry.images.length > 0) ? entry.images : ['./img/placeholder.jpeg'];
+        const images = (entry.images && Array.isArray(entry.images) && entry.images.length > 0)
+            ? entry.images
+            : ['./img/placeholder.jpeg'];
         console.log('Modal images/videos:', images);
         console.log('Entry object:', entry);
 
-        const mediaHTML = images.map((mediaPath, index) => {
-            const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
-            console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}`);
+        const mediaHTML = images.map((item, index) => {
+            // Handle structured format (new) or legacy string format (old)
+            if (typeof item === 'string') {
+                // Legacy format: plain string path
+                const mediaPath = item;
+                const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
+                console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}`);
 
-            if (isVideo) {
-                return `
-                    <video src="${mediaPath}"
-                           autoplay
-                           muted
-                           loop
-                           playsinline
-                           preload="auto">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
-            } else {
-                return `
-                    <img src="${mediaPath}"
-                         alt="${entry.title} - Image ${index + 1}">
-                `;
+                if (isVideo) {
+                    return `
+                        <video src="${mediaPath}"
+                               autoplay
+                               muted
+                               loop
+                               playsinline
+                               preload="auto">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                } else {
+                    return `
+                        <img src="${mediaPath}"
+                             alt="${entry.title} - Image ${index + 1}">
+                    `;
+                }
+            } else if (item.type === 'media') {
+                // New format: media object with optional caption
+                const mediaPath = item.src;
+                const caption = item.caption || '';
+                const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
+                console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}, caption: ${caption}`);
+
+                const captionHTML = caption ? `<div class="modal-media-caption">${caption}</div>` : '';
+
+                let mediaHTML;
+                if (isVideo) {
+                    mediaHTML = `
+                        <video src="${mediaPath}"
+                               autoplay
+                               muted
+                               loop
+                               playsinline
+                               preload="auto">
+                            Your browser does not support the video tag.
+                        </video>
+                    `;
+                } else {
+                    mediaHTML = `
+                        <img src="${mediaPath}"
+                             alt="${entry.title} - Image ${index + 1}">
+                    `;
+                }
+
+                return `<div class="modal-media-item">${captionHTML}${mediaHTML}</div>`;
+            } else if (item.type === 'text-row') {
+                // New format: text row with columns
+                const columnsHTML = item.columns.map(col => {
+                    const titleHTML = col.title ? `<h3>${col.title}</h3>` : '';
+                    const bodyHTML = col.body ? `<p>${col.body}</p>` : '';
+                    return `<div class="modal-text-column">${titleHTML}${bodyHTML}</div>`;
+                }).join('');
+
+                return `<div class="modal-text-row">${columnsHTML}</div>`;
             }
+
+            return ''; // Fallback for unknown types
         }).join('');
 
         // Ensure we have content to display

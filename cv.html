@@ -47,7 +47,7 @@
         }
 
         .cv-page {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 4% auto;
             padding: var(--space-10) var(--space-14) var(--space-10) var(--space-14);
             font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -142,7 +142,7 @@
         }
 
         .cv-section {
-            margin-bottom: var(--space-10);
+            margin-bottom: var(--space-2);
         }
 
         .cv-section-title {
@@ -184,7 +184,7 @@
             display: flex;
             flex-direction: column;
             gap: var(--space-1);
-            margin-bottom: var(--space-8);
+
         }
 
 
@@ -214,7 +214,7 @@
             flex-direction: column;
             gap: var(--space-1);
             padding-top: var(--space-8);
-            margin-bottom: 34px;
+            margin-bottom: 28px;
         }
 
 
@@ -409,7 +409,7 @@
 
             .cv-skills {
                 gap: 0.1rem;
-                margin-bottom: 0.6rem;
+       
             }
 
             .cv-skill {
@@ -513,19 +513,26 @@
                     <h3 class="cv-section-title">Skills</h3>
                     <div class="cv-skills">
                         <div class="cv-skill-category">
-                            <div class="cv-skill-title">Enterprise Tooling Design</div>
+                            <div class="cv-skill-title">Enterprise + Platform Design</div>
                         </div>
                         <div class="cv-skill-category">
                             <div class="cv-skill-title">Design Systems Architecture</div>
                         </div>
                         <div class="cv-skill-category">
+                            <div class="cv-skill-title">Developer Tooling</div>
+                        </div>
+                        <div class="cv-skill-category">
                             <div class="cv-skill-title">Front-End Development</div>
                         </div>
                         <div class="cv-skill-category">
-                            <div class="cv-skill-title">Research & Facilitation</div>
+                            <div class="cv-skill-title">Research & Synthesis</div>
                         </div>
+       
+                    <div class="cv-skill-category">
+                        <div class="cv-skill-title">LLMs + Agentic Workflows</div>
+                    </div>
                         <div class="cv-skill-category">
-                            <div class="cv-skill-title">Design Thinking</div>
+                            <div class="cv-skill-title">Design Thinking + Facilitation</div>
                         </div>
                         <div class="cv-skill-category">
                             <div class="cv-skill-title">Design Education</div>
@@ -664,21 +671,10 @@
 
             if (capsulesContainer) {
                 try {
-                    // First, capture the capsules as an image
-                    const capsulesCanvas = await html2canvas(capsulesContainer, {
-                        scale: 2,
-                        useCORS: true,
-                        backgroundColor: 'transparent',
-                        logging: false
-                    });
-
-                    // Convert capsules to image
-                    const capsulesDataUrl = capsulesCanvas.toDataURL('image/png');
-
                     // Hide original capsules
                     capsulesContainer.style.visibility = 'hidden';
 
-                    // Create temporary image container in the same position
+                    // Create temporary image container with static capsules image
                     tempImageContainer = document.createElement('div');
                     tempImageContainer.style.position = capsulesContainer.style.position || 'relative';
                     tempImageContainer.style.display = capsulesContainer.style.display || 'inline-block';
@@ -687,7 +683,7 @@
                     tempImageContainer.style.marginLeft = window.getComputedStyle(capsulesContainer).marginLeft;
 
                     const img = document.createElement('img');
-                    img.src = capsulesDataUrl;
+                    img.src = 'img/capsules.png';
                     img.style.width = '100%';
                     img.style.height = '100%';
                     img.style.objectFit = 'contain';
@@ -698,17 +694,20 @@
                     // Small delay to ensure image is loaded
                     await new Promise(resolve => setTimeout(resolve, 100));
                 } catch (err) {
-                    console.error('Failed to capture capsules:', err);
-                    // Continue without capsules if capture fails
+                    console.error('Failed to load capsules image:', err);
+                    // Continue without capsules if image fails to load
                 }
             }
 
             try {
+                // Get the actual background color of the cv-page
+                const bgColor = window.getComputedStyle(element).backgroundColor;
+
                 // Capture the page with html2canvas
                 const canvas = await html2canvas(element, {
                     scale: 2,
                     useCORS: true,
-                    backgroundColor: '#dbd7cc',
+                    backgroundColor: bgColor,
                     logging: false,
                     windowWidth: element.scrollWidth,
                     windowHeight: element.scrollHeight
@@ -725,6 +724,10 @@
 
                 const pdfWidth = 612;
                 const pdfHeight = 792;
+
+                // Fill entire PDF page with the CV background color
+                pdf.setFillColor(bgColor);
+                pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
 
                 // Add small margin to ensure nothing gets cut off
                 const margin = 5;
@@ -744,6 +747,27 @@
                 const yOffset = (pdfHeight - scaledHeight) / 2;
 
                 pdf.addImage(imgData, 'JPEG', xOffset, yOffset, scaledWidth, scaledHeight, '', 'FAST');
+
+                // Add clickable links to PDF
+                const links = element.querySelectorAll('a[href]');
+                links.forEach(link => {
+                    const rect = link.getBoundingClientRect();
+                    const pageRect = element.getBoundingClientRect();
+
+                    // Calculate position relative to the cv-page element
+                    const relativeX = rect.left - pageRect.left;
+                    const relativeY = rect.top - pageRect.top;
+
+                    // Scale coordinates to match PDF dimensions
+                    const pdfX = xOffset + (relativeX * ratio);
+                    const pdfY = yOffset + (relativeY * ratio);
+                    const pdfW = rect.width * ratio;
+                    const pdfH = rect.height * ratio;
+
+                    // Add link annotation
+                    pdf.link(pdfX, pdfY, pdfW, pdfH, { url: link.href });
+                });
+
                 pdf.save('Nazarena_Luzzi_Castro_CV.pdf');
             } catch (error) {
                 console.error('PDF generation failed:', error);
