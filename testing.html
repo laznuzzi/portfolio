@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing - Banner Designs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="testing-styles.css">
+</head>
+<body class="testing-body">
+    
+    <!-- ==================== TESTING CONTENT ==================== -->
+    <main class="testing-container">
+        <!-- Western Wanted Poster Shape using SVG -->
+        <div class="wanted-poster-shape">
+            <!-- Left corner (fixed size) -->
+            <div class="wanted-poster-corner wanted-poster-corner-left">
+                <svg viewBox="0 0 40.2 198.2" preserveAspectRatio="xMinYMid meet">
+                    <defs>
+                        <style>
+                            .wanted-fill {
+                                fill: #f5e6d3;
+                            }
+                        </style>
+                    </defs>
+                    <path class="wanted-fill" d="M40.2,198.2V0h-.8v.3C39.3,22.1,21.7,39.8,0,40v115.4c21.9,0,39.7,17.8,39.7,39.7s0,2.1-.1,3.2h.7Z"/>
+                </svg>
+            </div>
+            
+            <!-- Middle section (stretchable based on content) -->
+            <div class="wanted-poster-middle">
+                <svg class="wanted-poster-middle-svg" viewBox="0 0 355.5 198.2" preserveAspectRatio="none">
+                    <defs>
+                        <style>
+                            .wanted-fill {
+                                fill: #f5e6d3;
+                            }
+                        </style>
+                    </defs>
+                    <rect class="wanted-fill" x="0" y="0" width="355.5" height="198.2"/>
+                </svg>
+                <div class="wanted-poster-content">
+                    <!-- Content will go here - width adjusts automatically -->
+                    <span class="wanted-poster-text">Designer</span>
+                </div>
+            </div>
+            
+            <!-- Right corner (fixed size) -->
+            <div class="wanted-poster-corner wanted-poster-corner-right">
+                <svg viewBox="394.8 0 40.2 198.2" preserveAspectRatio="xMaxYMid meet">
+                    <defs>
+                        <style>
+                            .wanted-fill {
+                                fill: #f5e6d3;
+                            }
+                        </style>
+                    </defs>
+                    <path class="wanted-fill" d="M394.8,0v198.2h.8v-.3c0-21.8,17.6-39.5,39.3-39.6V42.8c-21.9,0-39.7-17.8-39.7-39.7s0-2.1.1-3.2h-.7Z"/>
+                </svg>
+            </div>
+        </div>
+        
+    </main>
+
+</body>
+</html>
+

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Nazarena Luzzi Castro - Design + Code</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="capsule-styles.css?v=19">
+    <link rel="stylesheet" href="styles.css?v=19">
+    <link rel="stylesheet" href="css/commit-diary.css?v=18">
+
+    <!-- GSAP Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <!-- Matter.js Physics Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XV4LJN0XM7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-XV4LJN0XM7');
+</script>
+
+
+</head>
+<body class="app-body">
+
+    <!-- ==================== PERSISTENT BORDER FRAME ==================== -->
+    <div class="border-frame"></div>
+
+    <!-- Scroll trigger for slide animation -->
+    <div class="scroll-trigger-spacer"></div>
+
+    <!-- ==================== OPENING ANIMATION SECTION ==================== -->
+    <div id="opening-animation" class="opening-animation">
+
+        <div class="opening-icons-container"></div>
+
+        <div class="opening-text-container">
+            <div class="opening-text-wrapper">
+                <div class="opening-large-text"></div>
+            </div>
+        </div>
+
+        <!-- Physics Canvas Container -->
+        <div id="physics-container" class="physics-container" style="display: none;"></div>
+
+        <!-- End of Selection -->
+```
+    </div>
+
+    <!-- Footer preview bar - separate from main content -->
+    <div class="main-content-footer-preview"></div>
+
+    <!-- Tab for pulling up main content -->
+    <div class="footer-tab">
+        <span class="footer-tab-arrow">↑</span>
+    </div>
+
+    <!-- Main content wrapper that will be hidden initially -->
+    <div id="main-content" class="main-content-hidden">
+
+    <!-- ==================== HEADER SECTION ==================== -->
+    <header id="app-header" class="app-header">
+        <nav class="main-nav">
+            <div class="nav-left">
+                <span class="nav-name">Nazarena Luzzi Castro</span>
+            </div>
+            <div class="nav-right">
+                <a href="cv.html" class="nav-link nav-cv-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span class="nav-text">CV</span>
+                </a>
+                <a href="https://www.linkedin.com/in/nazarena-luzzi-castro/" target="_blank" rel="noopener noreferrer" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span class="nav-text">LinkedIn</span>
+                </a>
+                <a href="https://github.com/laznuzzi" target="_blank" rel="noopener noreferrer" class="nav-link">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span class="nav-text">GitHub</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==================== VERTICAL SIDEBAR TEXT ==================== -->
+    <div class="vertical-sidebar-text">
+        Designed and coded by me
+        <svg class="terminal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <polyline points="7 9 10 12 7 15"></polyline>
+            <line x1="13" y1="15" x2="17" y2="15"></line>
+        </svg>
+    </div>
+
+    <!-- ==================== MAIN APPLICATION CONTAINER ==================== -->
+    <main id="main-app-container" class="main-container">
+        <div id="app-content-wrapper" class="content-wrapper">
+            
+            <!-- ==================== INTRO SECTION ==================== -->
+            <section id="intro-section" class="intro-section">
+                <div class="intro-content">
+                    <h1 id="intro-heading" class="intro-heading">
+                        <div class="intro-content-rest fade-in">
+                            <div class="intro-placeholder-text">
+                                I make stuff (and break stuff) on the Applied AI team @ Block, working on tools and systems that bring design and code intelligence into how we build products. My day-to-day is a mix of being hands-on in the details and helping set direction across teams. I talk about Design x AI a lot (and how AI still has such a long way to go), and also teach stuff (make code less scary to teams), which I love. I'm passionate about technical, ambiguous problems (the ones that make you sweat), but what I'm most passionate about is the people (the most important part, always). 
+                         <br /><br />
+                         Prior to Block, I was @ GlaxoSmithKline, doing a lot of 0-1's, like a design system and developer portal. I talked a lot about Design there too – guess it's kind of my thing.
+</div>
+                        </div>
+                    </h1>
+                </div>
+            </section>
+
+            <!-- ==================== MAIN CONTENT AREA ==================== -->
+            <section id="main-content-section" class="main-content-section">
+
+                <!-- ==================== ARCHIVES CARDS SECTION ==================== -->
+                <section class="archives-section">
+                    <h2 class="archives-title">Archives</h2>
+                    <p class="archives-subtitle">snippets. full upon request.</p>
+
+                    <!-- TEST: Large featured card layout -->
+                    <div class="test-featured-card">
+                        <h3 class="featured-card-title">On-Brand Generative UI</h3>
+                        <p class="featured-card-description">An AI-assisted code-prototyping tool and starter kit with components and templates for building on-brand interface with Square and Cash App design languages.</p>
+                        <div class="featured-card-image">
+                            <img src="./img/sandbox-hover.png" alt="On-Brand Generative UI">
+                        </div>
+                        <div class="featured-card-meta">
+                            <span class="featured-card-company">Block</span>
+                            <span class="featured-card-year">2026</span>
+                            <div class="featured-card-arrow">→</div>
+                        </div>
+                    </div>
+
+                    <!-- TEST: Individual card layout -->
+                    <div class="test-cards-container">
+                        <!-- Cards loaded dynamically via JS -->
+                    </div>
+
+                    <div class="cards-container">
+                        <div class="cards-header">
+                            <span class="cards-header-left">TLDRs of stuff I've built</span>
+                            <span class="cards-header-right">* Requires a password</span>
+                        </div>
+                        <!-- Project cards loaded dynamically from projects.md via markdown-loader.js -->
+                    </div>
+                </section>
+
+                <!-- ==================== MOBILE FOOTER ==================== -->
+                <footer class="mobile-footer">
+                    <div class="mobile-footer-icons">
+                        <a href="https://www.linkedin.com/in/nazarena-luzzi-castro/" target="_blank" rel="noopener noreferrer" class="mobile-footer-link">
+                            <svg class="mobile-footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/laznuzzi" target="_blank" rel="noopener noreferrer" class="mobile-footer-link">
+                            <svg class="mobile-footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="mobile-footer-text">
+                        <p class="mobile-footer-name">Nazarena Luzzi Castro</p>
+                        <p class="mobile-footer-copyright">&copy; <span id="copyright-year"></span></p>
+                    </div>
+                </footer>
+
+            </section>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Filing Folder Top - Fixed at bottom of page -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <clipPath id="folderClipPath" clipPathUnits="objectBoundingBox">
+                <!-- Smooth rounded cutout at top center with rounder corners -->
+                <path d="M 0 0 L 0 1 L 1 1 L 1 0 L 0.67 0 Q 0.66 0.05 0.655 0.1 Q 0.65 0.15 0.64 0.2 Q 0.625 0.28 0.58 0.33 Q 0.53 0.37 0.5 0.375 Q 0.47 0.37 0.42 0.33 Q 0.375 0.28 0.36 0.2 Q 0.35 0.15 0.345 0.1 Q 0.34 0.05 0.33 0 Z"/>
+            </clipPath>
+            <clipPath id="avatarScallop">
+                <!-- Scalloped circle with 8 scallops -->
+                <path d="M50,15 C52,13 54,13 56,15 C58,17 59,20 62,21 C65,22 68,21 70,23 C72,25 72,28 74,31 C76,34 78,36 78,39 C78,42 76,44 75,47 C74,50 74,53 72,55 C70,57 67,57 65,59 C63,61 62,64 59,65 C56,66 53,65 50,66 C47,67 44,68 41,67 C38,66 36,63 34,61 C32,59 31,57 29,54 C27,51 27,48 26,45 C25,42 26,39 26,36 C26,33 28,31 30,28 C32,25 32,22 34,20 C36,18 39,18 42,17 C45,16 48,17 50,15 Z"/>
+            </clipPath>
+        </defs>
+    </svg>
+    <div class="filing-folder-top"></div>
+
+    </div> <!-- End main-content -->
+
+    <!-- ==================== PASSWORD MODAL ==================== -->
+    <div id="password-modal" class="password-modal" style="display: none;">
+        <div class="password-modal-overlay"></div>
+        <div class="password-modal-content">
+            <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
+            <h2 class="password-modal-title">This project is locked</h2>
+            <input type="password" id="password-input" class="password-input" placeholder="Password" />
+            <div class="password-modal-buttons">
+                <button id="cancel-password-button" class="password-button password-button-secondary">Cancel</button>
+                <button id="unlock-button" class="password-button password-button-primary">Unlock</button>
+            </div>
+            <p id="password-error" class="password-error" style="display: none;">Incorrect password</p>
+        </div>
+    </div>
+
+    <!-- ==================== PROJECT MODAL ==================== -->
+    <div id="project-modal" class="project-modal" style="display: none;">
+        <div class="project-modal-overlay"></div>
+        <div id="project-modal-content" class="project-modal-content">
+            <div class="modal-content-columns" id="modal-text-container">
+                <!-- Text content columns will be inserted here -->
+            </div>
+            <div class="modal-images-column" id="modal-image-container">
+                <!-- Large images will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== COMMIT DIARY ==================== -->
+
+    <!-- Overlay for mobile (darkens background) -->
+    <div id="diary-overlay" class="diary-overlay"></div>
+
+    <!-- Diary Panel (slides in from left) -->
+    <div id="diary-panel" class="diary-panel">
+        <div class="diary-header">
+            <h2>Dev Diary</h2>
+            <button id="diary-close" class="diary-close" aria-label="Close diary">&times;</button>
+        </div>
+        <div id="diary-entries" class="diary-entries">
+            <!-- Entries loaded dynamically by JS -->
+        </div>
+    </div>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="opening-animation.js?v=18"></script>
+    <script src="markdown-loader.js"></script> <!-- Load content from projects.md -->
+    <script src="sections-nav.js"></script>
+    <script src="project-cards.js"></script> <!-- Project card deck interactions -->
+    <script src="app.js"></script>
+    <script src="js/commit-diary.js"></script> <!-- Commit diary functionality -->
+    
+    <!-- Set copyright year -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyrightYear = document.getElementById('copyright-year');
+            if (copyrightYear) {
+                copyrightYear.textContent = new Date().getFullYear();
+            }
+        });
+    </script>
+</body>
+</html>
