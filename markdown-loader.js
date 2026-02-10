@@ -469,7 +469,45 @@
 
         console.log('Archive cards updated with', projects.length, 'projects');
 
+        // Also populate test cards container
+        updateTestCards(projects);
+
         // Trigger event for sections-nav.js
         window.dispatchEvent(new CustomEvent('archiveTableUpdated'));
+    }
+
+    // Update test cards container with individual card layout
+    function updateTestCards(projects) {
+        const testContainer = document.querySelector('.test-cards-container');
+        if (!testContainer) return;
+
+        // Clear existing
+        testContainer.innerHTML = '';
+
+        // Create individual cards
+        projects.forEach((project, index) => {
+            const card = document.createElement('div');
+            card.className = 'test-project-card';
+            card.setAttribute('data-entry', project.id);
+
+            if (project.locked) {
+                card.setAttribute('data-locked', 'true');
+            }
+
+            const arrowContent = project.locked
+                ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>'
+                : '→';
+
+            card.innerHTML = `
+                <div class="test-card-title">${project.title}</div>
+                <div class="test-card-subtitle">${project.subtitle || ''}</div>
+                <div class="test-card-description">${project.shortDescription || ''}</div>
+                <div class="test-card-arrow">${arrowContent}</div>
+            `;
+
+            testContainer.appendChild(card);
+        });
+
+        console.log('Test cards updated with', projects.length, 'projects');
     }
 })();
