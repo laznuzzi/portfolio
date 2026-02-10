@@ -143,6 +143,7 @@
                 id: lines[0].trim(),
                 title: lines[0].trim(),
                 subtitle: '',
+                logo: '',
                 thumbnail: '',
                 hover: '',
                 modal: [],
@@ -173,6 +174,8 @@
                     project.title = line.replace('title:', '').trim();
                 } else if (line.startsWith('subtitle:')) {
                     project.subtitle = line.replace('subtitle:', '').trim();
+                } else if (line.startsWith('logo:')) {
+                    project.logo = line.replace('logo:', '').trim();
                 } else if (line.startsWith('shortDescription:')) {
                     project.shortDescription = line.replace('shortDescription:', '').trim();
                 } else if (line.startsWith('thumbnail:')) {
@@ -435,9 +438,6 @@
             const arrowClass = project.locked ? 'card-arrow card-arrow-locked' : 'card-arrow';
 
             card.innerHTML = `
-                <div class="card-logo">
-                    <img src="./img/square-logo.png" alt="${project.subtitle || 'Company'} logo">
-                </div>
                 <div class="card-title">
                     <div class="title-content">
                         <span class="title-text">${project.title}</span>

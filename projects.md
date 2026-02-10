@@ -1,6 +1,7 @@
 # sandbox
 title: On-Brand Generative UI
 subtitle: Block
+logo: ./img/logo-block.png
 shortDescription: An AI-assisted code-prototyping tool and starter kit with components and templates for building on-brand interface with Square and Cash App design languages.
 thumbnail: ./img/sandbox-thumb.png
 hover: ./img/sandbox-hover.png
@@ -30,6 +31,7 @@ Sandbox app: Tauri desktop app (Rust backend) with a React + TypeScript + Vite f
 # multi-ein
 title: Multi-Seller Platform Experience
 subtitle: Square
+logo: ./img/logo-square.png
 shortDescription: Core platform vision, model and features for complex sellers to organize, manage, and operate across multiple locations and legal entities.
 thumbnail: ./img/vibe-thumb.jpg
 hover: ./img/me-hover.png
@@ -56,6 +58,7 @@ Partnered with head of UXR on the strategic initiative to define Square’s upma
 # g2
 title: Agentic Console POC
 subtitle: Block
+logo: ./img/logo-block.png
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
 hover: ./img/g2-hover.mp4
@@ -82,6 +85,7 @@ Prototyped a live, role-adaptive console experience on top of G2's workflow and 
 # rdm
 title: Remote Device Management
 subtitle: Square
+logo: ./img/logo-square.png
 shortDescription: Centralized, remote device hub on Square Dashboard web and Point of Sale, for sellers to monitor and manage hardware fleets in real-time.
 thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.png
@@ -107,6 +111,7 @@ Built close relationships with hero enterprise sellers, co-evolving platform fro
 
 # design-system
 title: GSK Design System 
+logo: ./img/logo-gsk.png
 subtitle: GlaxoSmithKline
 shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
 thumbnail: ./img/dsm-thumb.jpg
@@ -134,6 +139,7 @@ Google Material MWC LitElement web components. Vue, React, Angular and Vanilla J
 # automation-portal
 title: Automation Developer Portal
 subtitle: GlaxoSmithKline
+logo: ./img/logo-gsk.png
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
 thumbnail: ./img/rpa-thumb.jpg
 hover: ./img/rpa-hover.png

@@ -1726,7 +1726,17 @@ body {
   font-family: 'Buffon-Bold', 'Chalet', sans-serif;
   line-height: 1.2;
   text-align: center;
-  margin: 0 0 var(--space-12);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.archives-subtitle {
+  font-size: var(--font-size-base);
+  font-weight: 100;
+  color: #868178;
+  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
+  text-align: center;
+  margin: -20px 0 var(--space-12);
   text-transform: uppercase;
 }
 
@@ -1965,8 +1975,8 @@ body {
 
 .project-card {
   display: grid;
-  /* Five-column layout: logo | title | company | description | arrow/lock */
-  grid-template-columns: auto 1.2fr 1.1fr 2fr auto;
+  /* Four-column layout: title | company | description | arrow/lock */
+  grid-template-columns: 1.2fr 1.1fr 2fr auto;
   align-items: flex-start;
   gap: var(--space-4);
   padding: 1rem var(--space-3);
@@ -1995,22 +2005,23 @@ body {
   border-bottom: none;
 }
 
-/* Hover background wipe effect with black */
+/* Hover background fade effect */
 .project-card::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 100%;
   background-color: var(--theme-dark);
   z-index: 0;
-  transition: width 0.4s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
 .project-card:hover::after {
-  width: 100%;
+  opacity: 1;
 }
 
 .project-card:hover > * {
@@ -2074,7 +2085,7 @@ body {
 }
 
 .subtitle-text {
-  display: none;
+  display: block;
   opacity: .5;
 }
 
@@ -2085,21 +2096,19 @@ body {
 
 /* Tags in card underneath company name */
 .card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+  display: none;
 }
 
 .card-tag {
   font-weight: 100;
   font-size: var(--font-size-sm);
-  background: #dcd7cc;
+  background: #e6e0d3;
   border-radius: 4px;
   padding: 0px 6px;
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  color: var(--text-primary);
+  color: #868178;
 }
 
 .card-tag-icon {
@@ -2123,7 +2132,6 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  opacity: .5;
 }
 
 .card-mobile-preview {
@@ -2140,12 +2148,18 @@ body {
   font-family: 'Buffon-Bold', serif;
   font-size: var(--font-size-xl);
   color: var(--theme-dark);
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--theme-dark);
+  border-radius: 50%;
+  align-items: center;
 }
 
 /* Bounce arrow back and forth on hover - only when it's an arrow, not a lock icon */
 .project-card:hover .card-arrow:not(.card-arrow-locked) {
   color: var(--bg-primary);
+  border-color: var(--bg-primary);
   animation: arrowBounce 0.6s ease-in-out;
 }
 
