@@ -43,8 +43,8 @@
 
             console.log('Markdown data loaded:', Object.keys(fileData).length, 'projects');
 
-            // Update table
-            updateVintageTable(projects);
+            // Update Layout 1 (featured cards)
+            updateLayout1(projects);
         })
         .catch(error => {
             console.error('Error loading markdown:', error);
@@ -381,7 +381,14 @@
     // Update archive cards
     function updateVintageTable(projects) {
         const container = document.querySelector('.cards-container');
-        if (!container) return;
+        if (!container) {
+            console.log('Old cards-container not found - skipping vintage table update');
+            // Continue to update new layouts
+            updateLayout1(projects);
+            updateTestCards(projects);
+            window.dispatchEvent(new CustomEvent('archiveTableUpdated'));
+            return;
+        }
 
         // Save the header element before clearing
         const header = container.querySelector('.cards-header');
@@ -469,11 +476,67 @@
 
         console.log('Archive cards updated with', projects.length, 'projects');
 
+        // Populate Layout 1 (featured cards)
+        updateLayout1(projects);
+
         // Also populate test cards container
         updateTestCards(projects);
 
         // Trigger event for sections-nav.js
         window.dispatchEvent(new CustomEvent('archiveTableUpdated'));
+    }
+
+    // Update Layout 1 - Featured card layout (replaces old table)
+    function updateLayout1(projects) {
+        const container = document.querySelector('.layout-1-container');
+        if (!container) {
+            console.error('Layout 1 container not found in DOM');
+            return;
+        }
+
+        console.log('Updating Layout 1 with', projects.length, 'projects');
+
+        // Clear existing
+        container.innerHTML = '';
+
+        // Create featured cards for each project
+        projects.forEach((project) => {
+            const card = document.createElement('div');
+            card.className = 'featured-card';
+            card.setAttribute('data-entry', project.id);
+
+            if (project.locked) {
+                card.setAttribute('data-locked', 'true');
+            }
+
+            const firstImage = project.hover || project.thumbnail || './img/placeholder.jpeg';
+            const arrowContent = project.locked
+                ? '<img src="./img/lock.svg" alt="Locked" />'
+                : '→';
+
+            // Extract year from timeline if possible
+            const timelineYear = project.timeline.match(/\d{4}/)?.[0] || '';
+
+            card.innerHTML = `
+                <h3 class="featured-card-title">${project.title}</h3>
+                <p class="featured-card-description">${project.shortDescription || ''}</p>
+                <div class="featured-card-image">
+                    <img src="${firstImage}" alt="${project.title}">
+                </div>
+                <div class="featured-card-meta">
+                    <span class="featured-card-company">${project.subtitle || ''}</span>
+                    <span class="featured-card-year">${timelineYear}</span>
+                    <div class="featured-card-arrow">${arrowContent}</div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        console.log('Layout 1 complete:', container.children.length, 'cards created');
+
+        // Dispatch event so sections-nav.js can set up click handlers
+        window.dispatchEvent(new CustomEvent('layout1Updated'));
     }
 
     // Update test cards container with individual card layout

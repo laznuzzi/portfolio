@@ -448,9 +448,31 @@
         console.log('Modal opened with slide-up animation');
     }
 
+    // Setup Layout 1 click handlers
+    function setupLayout1ClickHandlers() {
+        const cards = document.querySelectorAll('.featured-card');
+        console.log('Setting up', cards.length, 'featured cards');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const entryId = card.getAttribute('data-entry');
+                const isLocked = card.getAttribute('data-locked') === 'true';
+
+                console.log('Featured card clicked:', entryId, 'locked:', isLocked);
+
+                // Check if password is needed
+                if (isLocked && !areProjectsUnlocked()) {
+                    showPasswordModal(entryId, card, null);
+                } else {
+                    openVintageTableModal(entryId, card, null, false);
+                }
+            });
+        });
+    }
+
     // Setup archive cards (can be called multiple times)
     function setupTableRows() {
-        const projectCards = document.querySelectorAll('.project-card');
+        const projectCards = document.querySelectorAll('.project-card, .featured-card, .test-project-card');
         const modal = document.getElementById('project-modal');
 
         console.log('Setting up archive project cards:', projectCards.length);
@@ -608,8 +630,8 @@
     // Finder navigation functionality
     function setupFinderNavigation() {
         console.log('setupFinderNavigation called');
-        // Support both old .page-file buttons and new .project-card elements
-        const fileButtons = document.querySelectorAll('.page-file, .project-card');
+        // Support all card types
+        const fileButtons = document.querySelectorAll('.page-file, .project-card, .featured-card, .test-project-card');
         const modal = document.getElementById('project-modal');
 
         // Setup project cards initially
@@ -628,6 +650,12 @@
             }
             // Re-setup project cards
             setupTableRows();
+        });
+
+        // Listen for Layout 1 updates
+        window.addEventListener('layout1Updated', () => {
+            console.log('Layout 1 updated, setting up click handlers...');
+            setupLayout1ClickHandlers();
         });
 
         const modalContent = document.getElementById('project-modal-content');
