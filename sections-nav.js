@@ -440,6 +440,12 @@
         modalContent.classList.remove('modal-locked');
         hideModalPasswordOverlay();
 
+        // Reset scroll position of modal columns to top
+        const leftColumn = document.querySelector('.modal-left-column');
+        const rightColumn = document.querySelector('.modal-right-column');
+        if (leftColumn) leftColumn.scrollTop = 0;
+        if (rightColumn) rightColumn.scrollTop = 0;
+
         // Trigger animation after display is set
         requestAnimationFrame(() => {
             modal.classList.add('active');

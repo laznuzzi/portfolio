@@ -115,8 +115,7 @@
   /* Typography - Font families */
   /* --font-body: Main font for all body text, modals, cards, etc.
      Excludes: opening animation, archives title, nav bar, vertical sidebar text */
-  --font-body: 'Chalet', sans-serif;
-
+  --font-body: 'NB International Pro', 'Chalet', sans-serif;
   /* Spacing */
   --space-1: 0.25rem;   /* 4px */
   --space-2: 0.5rem;    /* 8px */
@@ -240,8 +239,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-weight: 100;
+  font-weight: 300;
   line-height: var(--line-height-normal);
   color: var(--text-primary);
   background: transparent; /* No background - let .app-body handle it */
@@ -418,7 +416,7 @@ body {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-    font-weight: 500;
+    font-weight: 300;
     color: var(--text-primary);
     font-family: var(--font-body);
   }
@@ -689,7 +687,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
+  font-family: 'Buffon-Bold', sans-serif;
   line-height: 0.85;
   text-align: center;
   text-transform: uppercase;
@@ -761,7 +759,6 @@ body {
   color: var(--color-text-muted);
   font-size: var(--font-size-base);
   z-index: 20;
-  font-family: 'Chalet', sans-serif;
   opacity: 1;
   pointer-events: none;
   animation: bounce 2s ease-in-out infinite;
@@ -963,7 +960,7 @@ body {
 .archives-section {
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-12) 0;
+  padding: var(--space-20) 0;
   padding-bottom: 30px;
   background: transparent;
   box-sizing: border-box;
@@ -1017,15 +1014,15 @@ body {
 }
 
 .mobile-footer-name {
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: var(--font-size-base);
-  font-weight: 100;
+  font-family: --font-body;
+  font-weight: 300;
   color: var(--text-primary);
   margin: 0;
 }
 
 .mobile-footer-copyright {
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: --font-body;
   font-size: var(--font-size-sm);
   font-weight: 100;
   color: var(--text-primary);
@@ -1038,7 +1035,7 @@ body {
   font-weight: bold;
   letter-spacing: -0.02em;
   color: var(--theme-dark);
-  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
+  font-family: 'Buffon-Bold', sans-serif;
   line-height: 1.2;
   text-align: center;
   margin: 0;
@@ -1046,10 +1043,10 @@ body {
 }
 
 .archives-subtitle {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-2xl);
   font-weight: 100;
-  color: var(--color-text-muted-gray);
-  font-family: 'Buffon-Bold', 'Chalet', sans-serif;
+  color: #b9b1a2;
+  font-family: 'Buffon-Bold', sans-serif;
   text-align: center;
   margin: -20px 0 var(--space-12);
   text-transform: uppercase;
@@ -1062,6 +1059,7 @@ body {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto var(--space-12);
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -1077,7 +1075,7 @@ body {
   grid-template-columns: 0.9fr 1.5fr 1fr;
   grid-template-rows: auto auto;
   gap: var(--space-10);
-  font-family: 'NB International Pro', 'Chalet', sans-serif;
+  font-family: var(--font-body);
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -1152,7 +1150,7 @@ body {
   align-items: center;
   font-size: var(--font-size-sm);
   color: var(--text-primary);
-  align-self: end;
+  align-self: start;
 }
 
 .featured-card-company {
@@ -1208,7 +1206,7 @@ body {
   border-bottom: none;
   border-radius: 0;
   margin-bottom: var(--space-8);
-  font-family: 'NB International Pro', 'Chalet', sans-serif;
+  font-family: var(--font-body);
 }
 
 /* ==================== LOCK ICON ==================== */
@@ -1627,6 +1625,16 @@ body {
   /* Modals - mobile responsive */
   .project-modal-content {
     height: 95vh;
+    flex-direction: column;
+  }
+
+  /* Stack columns vertically on mobile */
+  .modal-left-column,
+  .modal-right-column {
+    width: 100%;
+    min-width: auto;
+    height: auto;
+    position: relative;
   }
 
   /* Stack header on mobile */
@@ -1704,6 +1712,12 @@ body {
     padding-top: calc(env(safe-area-inset-top, 0px) + 50px); /* Safe area + breathing room below status bar */
     border-radius: 12px 12px 0 0;
   }
+
+  /* Adjust close button for mobile */
+  .modal-close-button {
+    top: calc(env(safe-area-inset-top, 0px) + 60px);
+    right: var(--space-6);
+  }
 }
 
 @media (max-width: 480px) {
@@ -1769,7 +1783,7 @@ body {
 }
 
 .password-modal-title {
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
   font-size: var(--font-size-xl);
   font-weight: bold;
   color: var(--text-primary);
@@ -1810,7 +1824,7 @@ body {
 .password-button {
   padding: var(--space-3) var(--space-4);
   font-size: var(--font-size-base);
-  font-family: 'Chalet', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
   font-weight: bold;
   border: 3px solid var(--theme-dark);
   border-radius: 999px;
@@ -1896,30 +1910,58 @@ body {
   background-color: var(--bg-primary);
   border: none;
   border-radius: 8px 8px 0 0;
-  width: 100vw;
-  max-width: 1200px;
+  width: 90vw;
+  max-width: 1600px;
   height: 94vh;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   z-index: 100000;
   display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
+  flex-direction: row;
+  overflow: hidden;
   pointer-events: all;
   transform: translateY(100%);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-modal.active .project-modal-content {
+  transform: translateY(0);
+}
+
+/* Modal left column - 25% fixed/sticky with content */
+.modal-left-column {
+  width: 25%;
+  min-width: 300px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-8);
+  position: sticky;
+  top: 0;
 
   /* Hide scrollbar */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
 }
 
-.project-modal-content::-webkit-scrollbar {
+.modal-left-column::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 
-.project-modal.active .project-modal-content {
-  transform: translateY(0);
+/* Modal right column - 75% scrollable with images */
+.modal-right-column {
+  width: 75%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-8);
+
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.modal-right-column::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 :root.dark .project-modal-content {
@@ -2007,21 +2049,25 @@ padding-bottom: 12px;
 
 /* Close button */
 .modal-close-button {
-  background: none;
-  border: none;
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  background: var(--bg-primary);
+  border: 2px solid var(--theme-dark);
+  border-radius: 50%;
   font-family: 'Buffon-Bold', serif;
-  font-size: 2rem;
+  font-size: 1.25rem;
   color: var(--theme-dark);
   cursor: pointer;
   padding: 0;
   line-height: 1;
   transition: opacity 0.2s ease;
-  width: auto;
-  height: auto;
-  display: inline-flex;
-  align-items: flex-start;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-self: start;
+  z-index: 100001;
 }
 
 .modal-close-button:hover {
@@ -2030,11 +2076,11 @@ padding-bottom: 12px;
 
 :root.dark .modal-close-button {
   color: var(--color-white);
+  border-color: var(--color-white);
 }
 
 /* Dark mode for metadata grid borders */
-:root.dark .modal-metadata-grid {
-  border-top-color: var(--color-white);
+:root.dark .metadata-cell {
   border-bottom-color: var(--color-white);
 }
 
@@ -2049,70 +2095,72 @@ padding-bottom: 12px;
 .modal-header-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: var(--space-6);
-  padding-top: var(--space-8);
-  padding-right: var(--space-8);
-  padding-left: var(--space-8);
-  padding-bottom: 0;
+  padding-bottom: var(--space-6);
   position: relative;
 }
 
 .modal-title-column {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   grid-column: 1 / -1;
+  padding-bottom: var(--space-10);
 }
 
 .modal-title-column h1 {
   font-size: 3rem;
   line-height: 1.1;
   margin: 0;
-  max-width: 50%;
+  width: 100%;
+  text-align: center;
+  text-decoration: underline;
 }
 
 .modal-metadata-grid {
   grid-column: 1 / -1;
 }
 
-/* 1x3 Metadata grid */
+/* Metadata grid - 3 centered rows with 1px borders */
 .modal-metadata-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
-  gap: var(--space-8);
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
-  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: auto;
+  margin-bottom: var(--space-12);
+  font-weight: 500;
 }
 
 .metadata-cell {
-  padding: var(--space-4) 0;
+  padding: var(--space-2) 0;
   font-family: var(--font-body);
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-bottom: 1px solid var(--theme-dark);
 }
 
-/* Company cell */
-.metadata-cell-company {
-  /* No extra styling needed */
+.metadata-cell:last-child {
+  border-bottom: none;
 }
 
-/* Role+Timeline cell with stacked layout */
-.metadata-cell-role-timeline {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-1);
+/* Company row - centered */
+.metadata-cell-company-timeline {
+  justify-content: center;
 }
 
 .metadata-timeline {
   font-weight: 100;
 }
 
-/* People in metadata grid with Product/Engineering groups */
+/* Role row - centered */
+.metadata-cell-role {
+  justify-content: center;
+}
+
+/* People row */
 .metadata-cell-people {
   flex-direction: column;
   align-items: flex-start;
@@ -2121,12 +2169,13 @@ padding-bottom: 12px;
 
 .people-group {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   gap: var(--space-3);
 }
 
 .people-label {
   font-weight: 500;
-  min-width: 110px;
   color: var(--text-primary);
   opacity: .4;
 }
@@ -2134,6 +2183,7 @@ padding-bottom: 12px;
 .people-names {
   font-weight: 100;
   line-height: 1.5;
+  text-align: right;
 }
 
 /* Tags in metadata grid - styled like CV roles */
@@ -2171,19 +2221,20 @@ padding-bottom: 12px;
 
 .modal-row {
   display: grid;
-  gap: var(--space-8);
-  padding: var(--space-8);
+  gap: var(--space-6);
+  padding: 0;
 }
 
 .modal-row-2 {
-  grid-template-columns: repeat(3, 1fr);
-  padding: 0 var(--space-8);
+  grid-template-columns: 1fr;
+  padding: 0;
   display: none;
 }
 
 .modal-row-3 {
-  grid-template-columns: repeat(3, 1fr);
-  padding: var(--space-8);
+  grid-template-columns: 1fr;
+  padding: 0;
+  padding-bottom: var(--space-6);
 }
 
 .modal-row-links {
@@ -2192,13 +2243,12 @@ padding-bottom: 12px;
   padding-top: 0;
 }
 
-/* Images column below */
+/* Images column - now in right column */
 .modal-images-column {
   width: 100%;
-  padding: var(--space-8);
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
   align-items: center;
 
   /* Custom scrollbar */
@@ -2225,6 +2275,8 @@ padding-bottom: 12px;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  padding: 0;
+  margin: 0;
 }
 
 /* Modal typography - applies to all content in modal */
@@ -2293,10 +2345,9 @@ padding-bottom: 12px;
 .project-modal-content h2 {
   font-family: var(--font-body);
   font-size: .9rem;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0;
   color: var(--text-primary);
-  opacity: .4;
 }
 
 .project-modal-content p {
@@ -2350,6 +2401,7 @@ padding-bottom: 12px;
   min-height: 48px;
   display: flex;
   align-items: center;
+  font-family: var(--font-body);
   font-size: var(--font-size-xs);
   font-weight: 500;
   color: var(--text-secondary);
