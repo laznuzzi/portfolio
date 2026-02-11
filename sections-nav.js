@@ -662,7 +662,36 @@
         window.addEventListener('layout1Updated', () => {
             console.log('Layout 1 updated, setting up click handlers...');
             setupLayout1ClickHandlers();
+            setupFolderTabFilters();
         });
+
+        // Setup folder tab filtering
+        function setupFolderTabFilters() {
+            const tabs = document.querySelectorAll('.folder-tab');
+            const cards = document.querySelectorAll('.featured-card');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const selectedCategory = tab.getAttribute('data-tab');
+
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Filter cards
+                    cards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+                        if (selectedCategory === 'work' && cardCategory === 'work') {
+                            card.style.display = 'grid';
+                        } else if (selectedCategory === 'experiments' && cardCategory === 'experiments') {
+                            card.style.display = 'grid';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
 
         const modalContent = document.getElementById('project-modal-content');
         const modalOverlay = modal?.querySelector('.project-modal-overlay');

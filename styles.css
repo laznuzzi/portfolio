@@ -198,7 +198,7 @@
   --color-card-bg-dark: #e4e0d4;    /* Darker beige for media borders */
   --color-footer-beige: #dbd7cc;    /* Footer and CV tag background */
   --color-avatar-border: #ff6b6b;   /* Avatar border accent */
-  --color-folder-green: #9CAF88;    /* Filing folder color */
+  --color-folder-green: #818242;    /* Filing folder color */
   --color-text-gray: #3d3d3a;       /* Dark gray text */
   --color-text-muted-gray: #868178; /* Muted gray text */
 
@@ -968,7 +968,7 @@ body {
 
 @media (min-width: 1200px) {
   .archives-section {
-    max-width: 56vw;
+    max-width: 1400px;
   }
 }
 
@@ -1055,14 +1055,85 @@ body {
 /* ==================== LAYOUT 1: FEATURED CARDS (MODULAR) ==================== */
 /* Individual featured card layout - can be easily removed */
 
+/* Folder tabs */
+.folder-tabs {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 100px;
+  display: flex;
+  gap: var(--space-2);
+  padding: 0;
+  padding-right: var(--space-8);
+}
+
+.folder-tab {
+  padding: var(--space-2) var(--space-6);
+  background: #b9b1a245;
+  border-radius: 16px 16px 0 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-transform: lowercase;
+  position: relative;
+}
+
+.folder-tab::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  border-bottom-right-radius: 8px;
+  box-shadow: 4px 4px 0 0 #b9b1a245;
+}
+
+.folder-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -8px;
+  width: 8px;
+  height: 8px;
+  background: transparent;
+  border-bottom-left-radius: 8px;
+  box-shadow: -4px 4px 0 0 #b9b1a245;
+}
+
+.folder-tab:hover {
+  background: #b9b1a260;
+}
+
+.folder-tab:hover::before {
+  box-shadow: 4px 4px 0 0 #b9b1a260;
+}
+
+.folder-tab:hover::after {
+  box-shadow: -4px 4px 0 0 #b9b1a260;
+}
+
+.folder-tab.active {
+  background: #b9b1a245;
+  font-weight: 500;
+}
+
 .layout-1-container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1000px;
   margin: 0 auto var(--space-12);
-  margin-top: 100px;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   gap: 0;
+  padding: var(--space-8);
+  background-color: #b9b1a245;
+  border-radius: 0 8px 8px 8px;
+  min-height: 600px;
 }
 
 .featured-card {

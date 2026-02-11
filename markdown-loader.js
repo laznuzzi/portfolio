@@ -152,6 +152,7 @@
                 role: '',
                 timeline: '',
                 people: [],
+                category: 'work',
                 context: '',
                 description: '',
                 techStack: '',
@@ -203,6 +204,8 @@
                     project.title2 = line.replace('title2:', '').trim();
                 } else if (line.startsWith('title3:')) {
                     project.title3 = line.replace('title3:', '').trim();
+                } else if (line.startsWith('category:')) {
+                    project.category = line.replace('category:', '').trim();
                 }
                 // Parse role/timeline (old bold text format - fallback)
                 else if (line.startsWith('**Role:**')) {
@@ -501,6 +504,7 @@
             const card = document.createElement('div');
             card.className = 'featured-card';
             card.setAttribute('data-entry', project.id);
+            card.setAttribute('data-category', project.category || 'work');
 
             if (project.locked) {
                 card.setAttribute('data-locked', 'true');
