@@ -179,19 +179,9 @@
   --theme-dark: #141413;
 
   /* Extended semantic colors */
-  --color-accent-yellow: #f59e0b;
-  --color-accent-yellow-light: #fef3c7;
   --color-surface-light: #efede8;
   --color-surface-dark: #231f28;
-  --color-surface-modal: #2c2c2c;
   --color-text-muted: #666;
-  --color-text-subdued: #888;
-  --color-traffic-red: #ff5f57;
-  --color-traffic-yellow: #ffbd2e;
-  --color-traffic-green: #28c840;
-  --color-interactive-hover: #4a4a4a;
-  --bg-body-gradient: linear-gradient(135deg, #c8e6f5 0%, #e3d5f2 100%);
-  --bg-intro-solid: #fff3c8;
 
   /* Project-specific colors */
   --color-card-bg: #f2f0e9;         /* Beige card background */
@@ -2035,6 +2025,18 @@ body {
   display: none; /* Chrome, Safari, Opera */
 }
 
+/* Right column title */
+.modal-right-title {
+  font-family: var(--font-body);
+  font-size: 4rem;
+  font-weight: 400;
+  width: 70%;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-8) 0;
+  padding: 0;
+}
+
 :root.dark .project-modal-content {
   background-color: var(--color-surface-dark);
   border-color: var(--color-white);
@@ -2353,7 +2355,7 @@ padding-bottom: 12px;
 /* Modal typography - applies to all content in modal */
 .project-modal-content h1 {
   font-family: var(--font-body);
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 500;
   margin: 0;
   color: var(--theme-dark);
@@ -2413,7 +2415,9 @@ padding-bottom: 12px;
   white-space: nowrap;
 }
 
-.project-modal-content h2 {
+/* H2 styles for content sections (Context, Work, etc.) in left column */
+.modal-column h2,
+.modal-text-column h2 {
   font-family: var(--font-body);
   font-size: .9rem;
   font-weight: 700;
