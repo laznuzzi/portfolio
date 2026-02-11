@@ -87,36 +87,24 @@
 
 /* ==================== CSS CUSTOM PROPERTIES ==================== */
 :root {
-  /* Typography - Base sizes */
-  --font-size-2xs: 0.625rem;      /* 10px - even number */
-  --font-size-xs: 0.75rem;        /* 12px - even number */
-  --font-size-sm: 0.9rem;      /* 15px */
-  --font-size-base: 1rem;         /* 16px - base size, even number */
-  --font-size-md: 1.125rem;       /* 18px - even number */
-  --font-size-lg: 1.25rem;        /* 20px - even number */
-  --font-size-xl: 1.5rem;         /* 24px - even number */
-  --font-size-2xl: 2rem;          /* 32px - even number */
-  --font-size-3xl: 2.5rem;        /* 40px - even number */
-  --font-size-4xl: 3rem;          /* 48px - even number */
+  /* ==================== TYPOGRAPHY ==================== */
+  /* Font sizes */
+  --font-size-xs: 0.75rem;        /* 12px */
+  --font-size-sm: 0.9rem;         /* 15px */
+  --font-size-base: 1rem;         /* 16px */
+  --font-size-md: 1.125rem;       /* 18px */
+  --font-size-lg: 1.25rem;        /* 20px */
+  --font-size-xl: 1.5rem;         /* 24px */
+  --font-size-2xl: 2rem;          /* 32px */
 
-  /* Typography - Responsive headings */
-  --font-size-heading-sm: clamp(1.25rem, 2vw, 1.5rem);
-  --font-size-heading-md: clamp(1.5rem, 3vw, 2rem);
-  --font-size-heading-lg: clamp(2rem, 4vw, 2.5rem);
-  --font-size-heading-xl: clamp(2.5rem, 5vw, 4.5rem);
-
-  /* Typography - Font weights and line heights */
+  /* Font properties */
   --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --line-height-tight: 1.25;
   --line-height-normal: 1.4;
 
-  /* Typography - Font families */
-  /* --font-body: Main font for all body text, modals, cards, etc.
-     Excludes: opening animation, archives title, nav bar, vertical sidebar text */
+  /* Font family */
   --font-body: 'NB International Pro', 'Chalet', sans-serif;
-  /* Spacing */
+
+  /* ==================== SPACING ==================== */
   --space-1: 0.25rem;   /* 4px */
   --space-2: 0.5rem;    /* 8px */
   --space-3: 0.75rem;   /* 12px */
@@ -125,56 +113,28 @@
   --space-8: 2rem;      /* 32px */
   --space-10: 2.5rem;   /* 40px */
   --space-12: 3rem;     /* 48px */
-  --space-14: 3.5rem;   /* 56px */
-  --space-16: 4rem;     /* 64px */
-  --space-18: 4.5rem;   /* 72px */
   --space-20: 5rem;     /* 80px */
 
-  /* Border radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-full: 9999px;
-
-  /* Shadows */
+  /* ==================== SHADOWS ==================== */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-  /* Transitions */
+  /* ==================== TRANSITIONS ==================== */
   --transition-fast: 0.15s ease-in-out;
   --transition-normal: 0.3s ease-in-out;
-  --transition-slow: 0.5s ease-in-out;
 
-  /* Z-index */
-  --z-dropdown: 10;
-  --z-sticky: 20;
-  --z-fixed: 30;
-  --z-modal: 50;
-
-  /* Layout */
+  /* ==================== LAYOUT ==================== */
   --max-width-container: 66vw;
   --min-height-main: 90vh;
   --chat-height: 60vh;
-  --sidebar-width: 20rem;
 
-  /* Colors */
-  --color-primary-50: #eff6ff;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-gray-50: #f9fafb;
+  /* ==================== COLORS ==================== */
+  /* Base colors */
   --color-gray-100: #faf9f5;
   --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
   --color-gray-400: #9ca3af;
   --color-gray-500: #6b7280;
   --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
-  --color-green-500: #10b981;
   --color-white: #ffffff;
   --theme-dark: #141413;
 
@@ -189,29 +149,21 @@
   --color-footer-beige: #dbd7cc;    /* Footer and CV tag background */
   --color-avatar-border: #ff6b6b;   /* Avatar border accent */
   --color-folder-green: #818242;    /* Filing folder color */
-  --color-text-gray: #3d3d3a;       /* Dark gray text */
-  --color-text-muted-gray: #868178; /* Muted gray text */
 
-  /* Semantic colors (light theme) */
+  /* Semantic colors (theme-aware) */
   --bg-primary: #f2f0e9;
   --bg-secondary: var(--color-white);
-  --bg-tertiary: var(--color-gray-50);
-  --text-primary: var(--color-gray-900);
+  --text-primary: #111827;
   --text-secondary: var(--color-gray-600);
-  --text-tertiary: var(--color-gray-500);
   --border-primary: var(--color-gray-200);
-  --border-secondary: var(--color-gray-300);
 
   /* Dark theme overrides */
   &.dark {
     --bg-primary: #120d19;
-    --bg-secondary: var(--color-gray-800);
-    --bg-tertiary: var(--color-gray-700);
+    --bg-secondary: #1f2937;
     --text-primary: var(--color-gray-100);
     --text-secondary: var(--color-gray-400);
-    --text-tertiary: var(--color-gray-500);
-    --border-primary: var(--color-gray-700);
-    --border-secondary: var(--color-gray-600);
+    --border-primary: #374151;
   }
 }
 
