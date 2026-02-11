@@ -1297,6 +1297,10 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+  border:2px solid var(--theme-dark);
+  border-radius: 8px;
+  overflow: hidden;
+  align-self: start;
 }
 
 .featured-card-meta {
@@ -1335,6 +1339,38 @@ body {
   width: 14px;
   height: 14px;
   object-fit: contain;
+}
+
+/* Featured card mobile responsive */
+@media (max-width: 768px) {
+  .featured-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .featured-card-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .featured-card-image {
+    grid-column: 1;
+    grid-row: 2;
+    max-height: 200px;
+    width: 100%;
+  }
+
+  .featured-card-description {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .featured-card-meta {
+    grid-column: 1;
+    grid-row: 4;
+  }
 }
 
 /* ==================== CARDS STRUCTURE ==================== */
