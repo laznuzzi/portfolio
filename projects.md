@@ -66,6 +66,7 @@ modal: ./img/g2-1.mp4::Workflow: Customer advocate resolving hardware issue, ./i
 locked: true
 role: Designer + developer
 timeline: July 2025
+category: experiments
 title1: Context
 title2: Approach
 title3: Concept
