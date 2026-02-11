@@ -230,7 +230,7 @@
                     <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
                     <h2 class="modal-password-title">This project is locked</h2>
                     <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
-                    <div class="modal-password-buttons">
+                    <div class="project-modal-password-buttons">
                         <button id="modal-unlock-button" class="password-button password-button-primary">Unlock</button>
                     </div>
                     <p id="modal-password-error" class="password-error" style="display: none;">Incorrect password</p>
