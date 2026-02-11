@@ -252,12 +252,12 @@
 
   /* Project-specific colors */
   --color-card-bg: #f2f0e9;         /* Beige card background */
-  --color-card-bg-dark: var(--color-card-bg-dark);    /* Darker beige for media borders */
-  --color-footer-beige: var(--color-footer-beige);    /* Footer and CV tag background */
-  --color-avatar-border: var(--color-avatar-border);   /* Avatar border accent */
-  --color-folder-green: var(--color-folder-green);    /* Filing folder color */
-  --color-text-gray: var(--color-text-gray);       /* Dark gray text */
-  --color-text-muted-gray: var(--color-text-muted-gray); /* Muted gray text */
+  --color-card-bg-dark: #e4e0d4;    /* Darker beige for media borders */
+  --color-footer-beige: #dbd7cc;    /* Footer and CV tag background */
+  --color-avatar-border: #ff6b6b;   /* Avatar border accent */
+  --color-folder-green: #9CAF88;    /* Filing folder color */
+  --color-text-gray: #3d3d3a;       /* Dark gray text */
+  --color-text-muted-gray: #868178; /* Muted gray text */
 
   /* Semantic colors (light theme) */
   --bg-primary: #f2f0e9;
@@ -1040,7 +1040,7 @@ body {
   height: 100vh;
   height: 100dvh;
   z-index: 3; /* Above opening animation so it can slide over */
-  background-color: var(--bg-primary); /* Opaque background to cover opening animation */
+  background-color: var(--color-footer-beige); /* Darker beige background to cover opening animation */
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -1094,11 +1094,6 @@ body {
 #main-app-container {
   background: transparent;
 }
-
-#main-content {
-  background: var(--color-footer-beige);
-}
-
 
 /* ==================== FILING FOLDER TOP ==================== */
 .filing-folder-top {
