@@ -1067,7 +1067,6 @@ body {
   color: var(--text-primary);
   cursor: pointer;
   transition: background 0.2s ease;
-  text-transform: lowercase;
   position: relative;
 }
 
@@ -2035,6 +2034,7 @@ body {
   color: var(--text-primary);
   margin: 0 0 var(--space-8) 0;
   padding: 0;
+  display: none;
 }
 
 :root.dark .project-modal-content {
