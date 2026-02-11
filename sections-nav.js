@@ -217,84 +217,6 @@
         console.log('💡 To generate a new password hash, run: generatePasswordHash("yourpassword")');
     }
 
-    // Show password overlay inside modal
-    function showModalPasswordOverlay(entryId, modalContent) {
-        // Create overlay if it doesn't exist
-        let overlay = document.getElementById('modal-password-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'modal-password-overlay';
-            overlay.className = 'modal-password-overlay';
-            overlay.innerHTML = `
-                <div class="modal-password-content">
-                    <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
-                    <h2 class="modal-password-title">This project is locked</h2>
-                    <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
-                    <div class="project-modal-password-buttons">
-                        <button id="modal-unlock-button" class="password-button password-button-primary">Unlock</button>
-                    </div>
-                    <p id="modal-password-error" class="password-error" style="display: none;">Incorrect password</p>
-                </div>
-            `;
-        }
-
-        // Add to modal
-        modalContent.appendChild(overlay);
-
-        // Setup event listeners
-        const input = overlay.querySelector('#modal-password-input');
-        const unlockBtn = overlay.querySelector('#modal-unlock-button');
-        const error = overlay.querySelector('#modal-password-error');
-
-        // Focus input
-        setTimeout(() => input.focus(), 100);
-
-        // Handle unlock
-        const handleUnlock = async () => {
-            const password = input.value;
-
-            if (!password) {
-                error.textContent = 'Please enter a password';
-                error.style.display = 'block';
-                return;
-            }
-
-            const hash = await hashPassword(password);
-
-            if (hash === CORRECT_PASSWORD_HASH) {
-                // Store unlock state
-                const expiry = Date.now() + UNLOCK_DURATION;
-                localStorage.setItem('projectsUnlockedUntil', expiry);
-
-                // Hide all lock icons
-                hideLockIcons();
-
-                // Remove blur and hide overlay
-                modalContent.classList.remove('modal-locked');
-                hideModalPasswordOverlay();
-            } else {
-                error.textContent = 'Incorrect password';
-                error.style.display = 'block';
-                input.value = '';
-                input.focus();
-            }
-        };
-
-        unlockBtn.addEventListener('click', handleUnlock);
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                handleUnlock();
-            }
-        });
-    }
-
-    // Hide password overlay inside modal
-    function hideModalPasswordOverlay() {
-        const overlay = document.getElementById('modal-password-overlay');
-        if (overlay) {
-            overlay.remove();
-        }
-    }
 
     // Open modal for vintage table entries - defined at module scope
     function openVintageTableModal(entryId, row, hoverImageRect, isLocked = false) {
@@ -438,7 +360,6 @@
 
         // Always remove any locked state (password is validated before modal opens)
         modalContent.classList.remove('modal-locked');
-        hideModalPasswordOverlay();
 
         // Trigger animation after display is set
         requestAnimationFrame(() => {
