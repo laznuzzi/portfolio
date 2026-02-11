@@ -319,21 +319,18 @@
         const engineeringHTML = engineeringPeople.length > 0 ? engineeringPeople.join(', ') : '';
         const designEngineeringHTML = designEngineeringPeople.length > 0 ? designEngineeringPeople.join(', ') : '';
 
-        // Build metadata grid (1x3: Company | Role+Timeline | Product/Engineering)
-        // Tags are hidden but kept for later use in archives table
+        // Build metadata grid (3 centered rows: Company, Timeline, Role)
         const metadataGridHTML = `
             <div class="modal-metadata-grid">
-                <div class="metadata-cell metadata-cell-company">${project.subtitle || ''}</div>
-                <div class="metadata-cell metadata-cell-role-timeline">
-                    <div>${project.role || ''}</div>
-                    <div class="metadata-timeline">${project.timeline || ''}</div>
+                <div class="metadata-cell metadata-cell-company">
+                    ${project.subtitle || ''}
                 </div>
-                <div class="metadata-cell metadata-cell-people">
-                    ${productHTML ? `<div class="people-group"><span class="people-label">Product</span><div class="people-names">${productHTML}</div></div>` : ''}
-                    ${designEngineeringHTML ? `<div class="people-group"><span class="people-label">Design Engineering</span><div class="people-names">${designEngineeringHTML}</div></div>` : ''}
-                    ${engineeringHTML ? `<div class="people-group"><span class="people-label">Engineering</span><div class="people-names">${engineeringHTML}</div></div>` : ''}
+                <div class="metadata-cell metadata-cell-timeline">
+                    ${project.timeline || ''}
                 </div>
-                <div class="metadata-cell metadata-cell-tags" style="display: none;">${tagsHTML ? tagsHTML.replace('<div class="project-tags">', '').replace('</div>', '') : ''}</div>
+                <div class="metadata-cell metadata-cell-role">
+                    ${project.role || ''}
+                </div>
             </div>
         `;
 
@@ -341,7 +338,7 @@
             <div class="modal-header-row">
                 <div class="modal-title-column">
                     <h1>${project.title}</h1>
-                    <button id="modal-close" class="modal-close-button" aria-label="Close modal">×</button>
+                    <button id="modal-close" class="modal-close-button" aria-label="Close modal">X</button>
                 </div>
                 ${metadataGridHTML}
             </div>

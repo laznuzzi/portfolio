@@ -61,7 +61,7 @@ subtitle: Block
 logo: ./img/logo-block.png
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
-hover: ./img/g2-hover.mp4
+hover: ./img/g2-thumb.png
 modal: ./img/g2-1.mp4::Workflow: Customer advocate resolving hardware issue, ./img/g2-2.png::Sales associate launchpad, ./img/g2-3.png::Account manager launchpad, ./img/g2-4.mp4::Workflow: Lead sourcing and vetting for sales
 locked: true
 role: Designer + developer
@@ -89,7 +89,7 @@ logo: ./img/logo-square.png
 shortDescription: Centralized, remote device hub on Square Dashboard web and Point of Sale, for sellers to monitor and manage hardware fleets in real-time.
 thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.png
-modal: ./img/rdm-1.mp4::Device fleet overview dashboard, ./img/rdm-2.mp4::Real-time device monitoring, ./img/rdm-3.png::Status by device types, ./img/rdm-4.mp4::Device detail blade explorations, ./img/rdm-5.png::Alert system and notifications
+modal: ./img/rdm-1.mp4::Device fleet overview dashboard, ./img/rdm-2.mp4::Real-time device monitoring, ./img/rdm-3.png::Status by device types, ./img/rdm-4.mp4::Exploration: Device details, ./img/rdm-5.png::Exploration: Data visualization, ./img/dev-codes.mov::Workflow: Bulk create device codes, ./img/dev-codes.png::Exploration: Device code details
 role: Design lead
 timeline: Q1 2022 – Q2 2023
 title1: Context
@@ -116,7 +116,7 @@ subtitle: GlaxoSmithKline
 shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
 thumbnail: ./img/dsm-thumb.jpg
 hover: ./img/dsm-hover.png
-modal: ./img/dsm-1.mp4, ./img/dsm-2.jpg, ./img/dsm-3.png, ./img/dsm-4.png, ./img/dsm-5.jpg, ./img/dsm-6.jpg, ./img/dsm-7.mp4, ./img/dsm-8.mp4
+modal: ./img/dsm-1.mp4::Launch walkthrough, ./img/dsm-2.jpg::Docs: CDN install, ./img/dsm-3.png::Sketch UI kit: Overview docs, ./img/dsm-4.png::Sketch UI kit: Typography guidelines, ./img/dsm-5.jpg:: Developer workflow and opportunity mapping, ./img/dsm-6.jpg::Developer Portal: Component in catalog, ./img/dsm-7.mp4::Adobe XD UI kit, ./img/dsm-8.mp4::Docs: npm install
 role: Designed system, UI kits, token map, documentation and tutorials.
 timeline: 2019 – 2020
 title1: Context
@@ -143,7 +143,7 @@ logo: ./img/logo-gsk.png
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
 thumbnail: ./img/rpa-thumb.jpg
 hover: ./img/rpa-hover.png
-modal: ./img/rpa-1.jpg, ./img/rpa-2.mp4, ./img/rpa-3.mp4, ./img/rpa-4.mp4, ./img/rpa-5.mp4, ./img/rpa-6.mp4, ./img/rpa-7.jpg, ./img/rpa-8.mp4
+modal: ./img/rpa-1.jpg::Detail: Bot promotion request, ./img/rpa-2.mp4::Workflow: Register bot, ./img/rpa-3.mp4::Workflow: Edit permissions, ./img/rpa-4.mp4::Workflow: Assess automation opportunity, ./img/rpa-5.mp4::Concept: Robotic process automation landing page, ./img/rpa-6.mp4::Blueprint: Prod files monitoring, ./img/rpa-7.jpg::Developer Portal: RPA bot catalog, ./img/rpa-8.mp4::Process: Workflow wireframes
 role: Designed experience, led service blueprint and systems documentation work. 
 timeline: 2020
 title1: Context
