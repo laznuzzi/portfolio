@@ -21,14 +21,7 @@
         console.error('fileData not loaded! Make sure file-content.js is loaded before sections-nav.js');
     }
 
-    // Drag functionality removed
-
-    // Resize functionality
-    let isResizing = false;
-    let startWidth;
-    let startHeight;
-    let startMouseX;
-    let startMouseY;
+    // Drag and resize functionality removed
 
     // Simplified modal - no tabs or multi-document tracking
 
@@ -217,84 +210,6 @@
         console.log('💡 To generate a new password hash, run: generatePasswordHash("yourpassword")');
     }
 
-    // Show password overlay inside modal
-    function showModalPasswordOverlay(entryId, modalContent) {
-        // Create overlay if it doesn't exist
-        let overlay = document.getElementById('modal-password-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'modal-password-overlay';
-            overlay.className = 'modal-password-overlay';
-            overlay.innerHTML = `
-                <div class="modal-password-content">
-                    <img src="./img/lock.svg" alt="Locked" class="modal-password-lock-icon" />
-                    <h2 class="modal-password-title">This project is locked</h2>
-                    <input type="password" id="modal-password-input" class="modal-password-input" placeholder="Password" />
-                    <div class="project-modal-password-buttons">
-                        <button id="modal-unlock-button" class="password-button password-button-primary">Unlock</button>
-                    </div>
-                    <p id="modal-password-error" class="password-error" style="display: none;">Incorrect password</p>
-                </div>
-            `;
-        }
-
-        // Add to modal
-        modalContent.appendChild(overlay);
-
-        // Setup event listeners
-        const input = overlay.querySelector('#modal-password-input');
-        const unlockBtn = overlay.querySelector('#modal-unlock-button');
-        const error = overlay.querySelector('#modal-password-error');
-
-        // Focus input
-        setTimeout(() => input.focus(), 100);
-
-        // Handle unlock
-        const handleUnlock = async () => {
-            const password = input.value;
-
-            if (!password) {
-                error.textContent = 'Please enter a password';
-                error.style.display = 'block';
-                return;
-            }
-
-            const hash = await hashPassword(password);
-
-            if (hash === CORRECT_PASSWORD_HASH) {
-                // Store unlock state
-                const expiry = Date.now() + UNLOCK_DURATION;
-                localStorage.setItem('projectsUnlockedUntil', expiry);
-
-                // Hide all lock icons
-                hideLockIcons();
-
-                // Remove blur and hide overlay
-                modalContent.classList.remove('modal-locked');
-                hideModalPasswordOverlay();
-            } else {
-                error.textContent = 'Incorrect password';
-                error.style.display = 'block';
-                input.value = '';
-                input.focus();
-            }
-        };
-
-        unlockBtn.addEventListener('click', handleUnlock);
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                handleUnlock();
-            }
-        });
-    }
-
-    // Hide password overlay inside modal
-    function hideModalPasswordOverlay() {
-        const overlay = document.getElementById('modal-password-overlay');
-        if (overlay) {
-            overlay.remove();
-        }
-    }
 
     // Open modal for vintage table entries - defined at module scope
     function openVintageTableModal(entryId, row, hoverImageRect, isLocked = false) {
@@ -393,15 +308,6 @@
                 }
 
                 return `<div class="modal-media-item">${captionHTML}${mediaHTML}</div>`;
-            } else if (item.type === 'text-row') {
-                // New format: text row with columns
-                const columnsHTML = item.columns.map(col => {
-                    const titleHTML = col.title ? `<h3>${col.title}</h3>` : '';
-                    const bodyHTML = col.body ? `<p>${col.body}</p>` : '';
-                    return `<div class="modal-text-column">${titleHTML}${bodyHTML}</div>`;
-                }).join('');
-
-                return `<div class="modal-text-row">${columnsHTML}</div>`;
             }
 
             return ''; // Fallback for unknown types
@@ -435,10 +341,6 @@
         // Show modal with slide-up animation
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-
-        // Always remove any locked state (password is validated before modal opens)
-        modalContent.classList.remove('modal-locked');
-        hideModalPasswordOverlay();
 
         // Reset scroll position of modal columns to top
         const leftColumn = document.querySelector('.modal-left-column');
@@ -660,7 +562,14 @@
 
         // Listen for Layout 1 updates
         window.addEventListener('layout1Updated', () => {
-            console.log('Layout 1 updated, setting up click handlers...');
+            console.log('Layout 1 updated, setting up click handlers and hover animations...');
+            // Remove old hover container if it exists
+            if (hoverImageContainer) {
+                hoverImageContainer.remove();
+                hoverImageContainer = null;
+            }
+            // Re-setup project cards (includes hover animation setup)
+            setupTableRows();
             setupLayout1ClickHandlers();
             setupFolderTabFilters();
         });
@@ -669,6 +578,20 @@
         function setupFolderTabFilters() {
             const tabs = document.querySelectorAll('.folder-tab');
             const cards = document.querySelectorAll('.featured-card');
+
+            // Function to filter cards based on category
+            function filterCards(selectedCategory) {
+                cards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    if (selectedCategory === 'work' && cardCategory === 'work') {
+                        card.style.display = 'grid';
+                    } else if (selectedCategory === 'experiments' && cardCategory === 'experiments') {
+                        card.style.display = 'grid';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -679,18 +602,16 @@
                     tab.classList.add('active');
 
                     // Filter cards
-                    cards.forEach(card => {
-                        const cardCategory = card.getAttribute('data-category');
-                        if (selectedCategory === 'work' && cardCategory === 'work') {
-                            card.style.display = 'grid';
-                        } else if (selectedCategory === 'experiments' && cardCategory === 'experiments') {
-                            card.style.display = 'grid';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
+                    filterCards(selectedCategory);
                 });
             });
+
+            // Apply initial filter based on active tab
+            const activeTab = document.querySelector('.folder-tab.active');
+            if (activeTab) {
+                const initialCategory = activeTab.getAttribute('data-tab');
+                filterCards(initialCategory);
+            }
         }
 
         const modalContent = document.getElementById('project-modal-content');
@@ -955,64 +876,7 @@
         }
 
 
-        // Removed tabs and multi-document functionality - simplified to single document display
-
-        // Create resize handle
-        const resizeHandle = document.createElement('div');
-        resizeHandle.className = 'modal-resize-handle';
-        if (modalContent) {
-            modalContent.appendChild(resizeHandle);
-        }
-
-        // Drag functionality removed
-
-        // Resize functionality
-        if (resizeHandle && modalContent) {
-            resizeHandle.addEventListener('mousedown', resizeStart);
-            document.addEventListener('mousemove', resize);
-            document.addEventListener('mouseup', resizeEnd);
-        }
-
-        // Drag functions removed
-
-        function resizeStart(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            isResizing = true;
-            startMouseX = e.clientX;
-            startMouseY = e.clientY;
-            startWidth = modalContent.offsetWidth;
-            startHeight = modalContent.offsetHeight;
-        }
-
-        function resize(e) {
-            if (isResizing) {
-                e.preventDefault();
-
-                const deltaX = e.clientX - startMouseX;
-                const deltaY = e.clientY - startMouseY;
-
-                let newWidth = startWidth + deltaX;
-                let newHeight = startHeight + deltaY;
-
-                // Apply constraints
-                const minWidth = 400;
-                const minHeight = 300;
-                const maxWidth = window.innerWidth * 0.9;
-                const maxHeight = window.innerHeight * 0.9;
-
-                newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
-                newHeight = Math.max(minHeight, Math.min(newHeight, maxHeight));
-
-                modalContent.style.width = `${newWidth}px`;
-                modalContent.style.height = `${newHeight}px`;
-            }
-        }
-
-        function resizeEnd(e) {
-            isResizing = false;
-        }
+        // Removed tabs, multi-document, drag, and resize functionality
 
         // Close modal with animation
         const closeModal = () => {
