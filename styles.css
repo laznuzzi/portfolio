@@ -244,7 +244,7 @@ body {
   align-items: center;
   width: 100%;
   max-width: 100%;
-  margin-top: 12px;
+  margin-top: var(--space-3);
 }
 
 .nav-left {
@@ -397,7 +397,7 @@ body {
     border-radius: var(--radius-full);
     display: inline-block;
     vertical-align: middle;
-    margin-left: -8px;
+    margin-left: calc(var(--space-2) * -1);
     margin-right: 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform var(--transition);
@@ -876,7 +876,7 @@ body {
 
 .main-container {
   background-color: transparent;
-  padding-top: 2rem;
+  padding-top: var(--space-8);
   min-height: 100vh;
 }
 
@@ -914,7 +914,7 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: var(--space-20) 0;
-  padding-bottom: 30px;
+  padding-bottom: var(--space-8);
   background: transparent;
   box-sizing: border-box;
 }
@@ -2040,7 +2040,7 @@ body {
 }
 
 .modal-password-title {
-padding-bottom: 12px;
+padding-bottom: var(--space-3);
 }
 
 :root.dark .modal-password-title {
@@ -2086,8 +2086,8 @@ padding-bottom: 12px;
 /* Close button */
 .modal-close-button {
   position: fixed;
-  top: 32px;
-  right: 32px;
+  top: var(--space-8);
+  right: var(--space-8);
   background: var(--bg-primary);
   border: 2px solid var(--color-dark);
   border-radius: var(--radius-full);
@@ -2533,11 +2533,11 @@ padding-bottom: 12px;
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 14px 16px;
+  padding: var(--space-4);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: var(--space-3);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   cursor: move;
   user-select: none;
