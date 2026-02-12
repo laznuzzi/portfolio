@@ -143,7 +143,6 @@
                 id: lines[0].trim(),
                 title: lines[0].trim(),
                 subtitle: '',
-                logo: '',
                 thumbnail: '',
                 hover: '',
                 modal: [],
@@ -175,8 +174,6 @@
                     project.title = line.replace('title:', '').trim();
                 } else if (line.startsWith('subtitle:')) {
                     project.subtitle = line.replace('subtitle:', '').trim();
-                } else if (line.startsWith('logo:')) {
-                    project.logo = line.replace('logo:', '').trim();
                 } else if (line.startsWith('shortDescription:')) {
                     project.shortDescription = line.replace('shortDescription:', '').trim();
                 } else if (line.startsWith('thumbnail:')) {
@@ -378,114 +375,6 @@
         `;
     }
 
-    // Update archive cards
-    function updateVintageTable(projects) {
-        const container = document.querySelector('.cards-container');
-        if (!container) {
-            console.log('Old cards-container not found - skipping vintage table update');
-            // Continue to update new layouts
-            updateLayout1(projects);
-            updateTestCards(projects);
-            window.dispatchEvent(new CustomEvent('archiveTableUpdated'));
-            return;
-        }
-
-        // Save the header element before clearing
-        const header = container.querySelector('.cards-header');
-
-        // Clear existing cards
-        container.innerHTML = '';
-
-        // Re-add the header if it existed
-        if (header) {
-            container.appendChild(header);
-        }
-
-        // Create cards
-        projects.forEach((project, index) => {
-            const firstImage = project.thumbnail || './img/placeholder.jpeg';
-            const hoverImage = project.hover || firstImage;
-
-            const card = document.createElement('div');
-            card.className = 'project-card';
-            card.setAttribute('data-entry', project.id);
-
-            // Mark as locked
-            if (project.locked) {
-                card.setAttribute('data-locked', 'true');
-            }
-
-            // Check if hover is a video file
-            const isVideo = /\.(mp4|mov|webm)$/i.test(hoverImage);
-            const hoverMediaTag = isVideo
-                ? `<video src="${hoverImage}" autoplay loop muted playsinline></video>`
-                : `<img src="${hoverImage}" alt="${project.title}">`;
-
-            // Generate tags HTML for card
-            const cardTagsHTML = project.tags && project.tags.length > 0
-                ? `<div class="card-tags">
-                    ${project.tags.map(tag => {
-                        const tagParts = tag.split(':');
-                        const iconType = tagParts[0].trim().toLowerCase();
-                        const tagText = tagParts.length > 1 ? tagParts.slice(1).join(':').trim() : tagParts[0].trim();
-                        const icon = getTagIcon(iconType);
-
-                        return `<span class="card-tag" data-tag="${iconType}">
-                            ${icon ? `<span class="card-tag-icon">${icon}</span>` : ''}
-                            <span class="card-tag-text">${tagText}</span>
-                        </span>`;
-                    }).join('')}
-                </div>`
-                : '';
-
-            // Show lock icon in arrow column if locked, arrow if unlocked
-            const arrowContent = project.locked
-                ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>'
-                : '→';
-            const arrowClass = project.locked ? 'card-arrow card-arrow-locked' : 'card-arrow';
-
-            card.innerHTML = `
-                <div class="card-title">
-                    <div class="title-content">
-                        <span class="title-text">${project.title}</span>
-                    </div>
-                </div>
-                <div class="card-subtitle">
-                    <span class="subtitle-text">${project.subtitle || ''}</span>
-                    ${cardTagsHTML}
-                </div>
-                <div class="card-description">${project.shortDescription || ''}</div>
-                <div class="card-mobile-preview">
-                    ${hoverMediaTag}
-                </div>
-                <div class="${arrowClass}">${arrowContent}</div>
-                <div class="card-thumbnail">
-                    <div class="thumbnail-wrapper">
-                        <img src="${firstImage}" alt="${project.title}">
-                        <div class="hover-preview">
-                            <div class="hover-image-wrapper">
-                                ${hoverMediaTag}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            container.appendChild(card);
-        });
-
-        console.log('Archive cards updated with', projects.length, 'projects');
-
-        // Populate Layout 1 (featured cards)
-        updateLayout1(projects);
-
-        // Also populate test cards container
-        updateTestCards(projects);
-
-        // Trigger event for sections-nav.js
-        window.dispatchEvent(new CustomEvent('archiveTableUpdated'));
-    }
-
     // Update Layout 1 - Featured card layout (replaces old table)
     function updateLayout1(projects) {
         const container = document.querySelector('.layout-1-container');
@@ -540,38 +429,4 @@
         window.dispatchEvent(new CustomEvent('layout1Updated'));
     }
 
-    // Update test cards container with individual card layout
-    function updateTestCards(projects) {
-        const testContainer = document.querySelector('.test-cards-container');
-        if (!testContainer) return;
-
-        // Clear existing
-        testContainer.innerHTML = '';
-
-        // Create individual cards
-        projects.forEach((project, index) => {
-            const card = document.createElement('div');
-            card.className = 'test-project-card';
-            card.setAttribute('data-entry', project.id);
-
-            if (project.locked) {
-                card.setAttribute('data-locked', 'true');
-            }
-
-            const arrowContent = project.locked
-                ? '<div class="lock-icon"><img src="./img/lock.svg" alt="Locked" /></div>'
-                : '→';
-
-            card.innerHTML = `
-                <div class="test-card-title">${project.title}</div>
-                <div class="test-card-subtitle">${project.subtitle || ''}</div>
-                <div class="test-card-description">${project.shortDescription || ''}</div>
-                <div class="test-card-arrow">${arrowContent}</div>
-            `;
-
-            testContainer.appendChild(card);
-        });
-
-        console.log('Test cards updated with', projects.length, 'projects');
-    }
 })();

@@ -302,11 +302,6 @@ body {
   }
 }
 
-/* Hide CV link */
-.nav-cv-link {
-  display: none;
-}
-
 .nav-icon {
   width: var(--icon-sm);
   height: var(--icon-sm);
@@ -1687,7 +1682,6 @@ body {
     font-size: var(--text-xs);
   }
 
-  .modal-row-2,
   .modal-row-3 {
     grid-template-columns: 1fr;
     gap: var(--space-4);
@@ -2224,12 +2218,6 @@ padding-bottom: var(--space-3);
   display: grid;
   gap: var(--space-6);
   padding: 0;
-}
-
-.modal-row-2 {
-  grid-template-columns: 1fr;
-  padding: 0;
-  display: none;
 }
 
 .modal-row-3 {
