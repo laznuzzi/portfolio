@@ -144,14 +144,12 @@
   --space-4: 1rem;      /* 16px */
   --space-5: 1.25rem;   /* 20px */
   --space-6: 1.5rem;    /* 24px */
-  --space-7: 1.875rem;  /* 30px */
   --space-8: 2rem;      /* 32px */
   --space-10: 2.5rem;   /* 40px */
   --space-12: 3rem;     /* 48px */
   --space-16: 4rem;     /* 64px */
   --space-20: 5rem;     /* 80px */
   --space-24: 6rem;     /* 96px */
-  --space-25: 6.25rem;  /* 100px */
 
   /* Semantic spacing - use for consistent component spacing */
   --gap-xs: var(--space-1);   /* Tight spacing - tags, chips */
@@ -196,11 +194,6 @@
   --size-md: 24px;
   --size-lg: 28px;
 
-  /* Component-specific sizes */
-  --size-footer-tab: 60px;
-  --size-footer-tab-mobile: 50px;
-  --size-folder-height: 100px;
-
   /* ==================== BORDER RADIUS ==================== */
   --radius-sm: 4px;     /* Tags, small buttons */
   --radius-md: 8px;     /* Cards, images */
@@ -224,7 +217,6 @@
   --min-height: 90vh;
 
   /* Container widths */
-  --container-xs: 400px;
   --container-sm: 800px;
   --container-md: 1000px;
   --container-lg: 1200px;
@@ -256,25 +248,8 @@
   --text-secondary: var(--color-gray-600);
   --text-tertiary: #b9b1a2;         /* Very muted text */
   --border: var(--color-gray-200);
-  --border-subtle: rgba(0, 0, 0, 0.08);  /* Very subtle borders */
   --surface-modal: #efede8;         /* Modal backgrounds */
   --accent-decorative: #818242;     /* Decorative elements */
-
-  /* Overlay colors */
-  --overlay-dark: rgba(0, 0, 0, 0.7);
-  --overlay-darker: rgba(0, 0, 0, 0.8);
-
-  /* Folder UI colors */
-  --color-folder-tab: rgba(185, 177, 162, 0.27);
-  --color-folder-tab-hover: rgba(185, 177, 162, 0.38);
-
-  /* Glass/frosted surfaces */
-  --glass-surface: rgba(255, 255, 255, 0.7);
-
-  /* Scrollbar colors */
-  --scrollbar-track: rgba(255, 255, 255, 0.1);
-  --scrollbar-thumb: rgba(255, 255, 255, 0.3);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
 
 }
 
@@ -695,7 +670,7 @@ p {
 
 .opening-scroll-indicator {
   position: absolute;
-  bottom: var(--space-7);
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   color: var(--text-secondary);
@@ -809,11 +784,11 @@ p {
 /* Tab/lip - positioned to be visible in viewport */
 .footer-tab {
   position: fixed;
-  bottom: var(--space-1);
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: var(--size-footer-tab);
-  height: var(--size-footer-tab);
+  width: 60px;
+  height: 60px;
   background-color: var(--color-beige-footer);
   border-radius: var(--radius-full);
   z-index: 1000;
@@ -839,7 +814,7 @@ p {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: var(--space-8);
+  height: 32px;
   background-color: var(--color-beige-footer);
   z-index: 999;
   pointer-events: none;
@@ -863,7 +838,7 @@ p {
   transform: translateX(-50%);
   width: 90%;
   max-width: var(--container-lg);
-  height: var(--size-folder-height);
+  height: 100px;
   background-color: var(--accent-decorative); /* Sage green color - matches folder in image */
   overflow: visible;
   z-index: 10; /* Above table so it can overlay */
@@ -982,7 +957,7 @@ p {
   width: 100%;
   max-width: var(--container-md);
   margin: 0 auto;
-  margin-top: var(--space-25);
+  margin-top: 100px;
   display: flex;
   gap: var(--space-2);
   padding: 0;
@@ -991,7 +966,7 @@ p {
 
 .folder-tab {
   padding: var(--space-2) var(--space-6);
-  background: var(--color-folder-tab);
+  background: rgba(185, 177, 162, 0.27);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   font-family: var(--font-body);
   font-size: var(--text-sm);
@@ -1007,11 +982,11 @@ p {
   position: absolute;
   bottom: 0;
   left: -8px;
-  width: var(--space-2);
-  height: var(--space-2);
+  width: 8px;
+  height: 8px;
   background: transparent;
   border-bottom-right-radius: 8px;
-  box-shadow: 4px 4px 0 0 var(--color-folder-tab);
+  box-shadow: 4px 4px 0 0 rgba(185, 177, 162, 0.27);
 }
 
 .folder-tab::after {
@@ -1019,27 +994,27 @@ p {
   position: absolute;
   bottom: 0;
   right: -8px;
-  width: var(--space-2);
-  height: var(--space-2);
+  width: 8px;
+  height: 8px;
   background: transparent;
   border-bottom-left-radius: 8px;
-  box-shadow: -4px 4px 0 0 var(--color-folder-tab);
+  box-shadow: -4px 4px 0 0 rgba(185, 177, 162, 0.27);
 }
 
 .folder-tab:hover {
-  background: var(--color-folder-tab-hover);
+  background: rgba(185, 177, 162, 0.38);
 }
 
 .folder-tab:hover::before {
-  box-shadow: 4px 4px 0 0 var(--color-folder-tab-hover);
+  box-shadow: 4px 4px 0 0 rgba(185, 177, 162, 0.38);
 }
 
 .folder-tab:hover::after {
-  box-shadow: -4px 4px 0 0 var(--color-folder-tab-hover);
+  box-shadow: -4px 4px 0 0 rgba(185, 177, 162, 0.38);
 }
 
 .folder-tab.active {
-  background: var(--color-folder-tab);
+  background: rgba(185, 177, 162, 0.27);
   font-weight: var(--font-weight-medium);
 }
 
@@ -1052,7 +1027,7 @@ p {
   flex-direction: column;
   gap: 0;
   padding: var(--space-8);
-  background-color: var(--color-folder-tab);
+  background-color: rgba(185, 177, 162, 0.27);
   border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
   min-height: 600px;
 }
@@ -1185,7 +1160,7 @@ p {
 }
 
 .lock-icon img {
-  width: var(--space-5);
+  width: 20px;
   height: auto;
   display: inline-block;
 }
@@ -1272,6 +1247,345 @@ p {
 
 /* ==================== RESPONSIVE: TABLET ==================== */
 
+@media (max-width: 1024px) {
+  .archives-section {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .hover-preview {
+    width: 375px;
+    height: 281px;
+  }
+}
+
+/* ==================== RESPONSIVE: MOBILE (Cards Layout) ==================== */
+
+@media (max-width: 768px) {
+  /* General layout adjustments */
+  .main-content-section {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .content-wrapper {
+    max-width: 95vw;
+  }
+
+  .intro-section {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .intro-text {
+    font-size: var(--text-lg);
+  }
+
+  /* Fix viewport height - match colleague's approach exactly */
+  html {
+    height: 100%;
+  }
+
+  body {
+    height: 100vh;
+    height: 100dvh;
+    height: -webkit-fill-available;
+    overflow: hidden; /* No scroll - tap to transition instead */
+  }
+
+  .opening-animation {
+    height: 100%;
+  }
+
+  .opening-text-container,
+  .opening-icons-container,
+  .physics-container {
+    height: 100%;
+  }
+
+  #main-content {
+    height: 100%;
+    overflow: hidden; /* Scrolling happens inside main-container instead */
+  }
+
+  .main-container {
+    height: 100%;
+    overflow-y: auto;
+    align-items: flex-start; /* Start content at top instead of centering */
+    min-height: auto; /* Remove min-height constraint */
+  }
+
+  /* Hide header/nav bar on mobile */
+  .app-header {
+    display: none !important;
+  }
+
+  /* Hide vertical sidebar text on mobile */
+  .vertical-sidebar-text {
+    display: none;
+  }
+
+  /* Opening animation - larger text for mobile (fewer lines) */
+  .opening-large-text,
+  .opening-subtitle-text {
+    font-size: var(--text-5xl);
+  }
+
+  .opening-avatar-wrapper {
+    width: 1em !important;
+    height: 1em !important;
+    border-width: 6px;
+  }
+
+  .opening-avatar-wrapper::before {
+    border-width: var(--border-normal);
+  }
+
+  /* Footer tab */
+  .footer-tab {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer-tab-arrow {
+    font-size: var(--text-xl);
+  }
+
+  .archives-section {
+    padding: var(--space-8) var(--space-5);
+  }
+
+  /* Project cards - stack vertically on mobile */
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    min-height: auto;
+    border-bottom: none !important;
+    margin-bottom: var(--space-6);
+  }
+
+  .project-card::after {
+    display: none !important; /* Remove hover wipe on mobile */
+  }
+
+  /* Hide filing folder and footer preview on mobile */
+  .filing-folder-top,
+  .main-content-footer-preview {
+    display: none !important;
+  }
+
+  /* Make main content start slightly visible at bottom (peeking out) */
+  #main-content {
+    top: calc(-50px + 100dvh);
+  }
+
+  /* Adjust footer tab size and position on mobile */
+  .footer-tab {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    animation: tabBounce 2s ease-in-out infinite;
+  }
+
+  .footer-tab-arrow {
+    font-size: var(--text-xl);
+  }
+
+  /* Bounce animation for footer tab on mobile */
+  @keyframes tabBounce {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-8px);
+    }
+  }
+
+  /* Disable hover preview on mobile */
+  .hover-preview {
+    display: none !important;
+  }
+
+  /* Show mobile footer */
+  .mobile-footer {
+    display: block;
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+
+  /* Featured cards - mobile responsive */
+  .featured-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .featured-card-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .featured-card-image {
+    grid-column: 1;
+    grid-row: 2;
+    max-height: 200px;
+    width: 100%;
+  }
+
+  .featured-card-description {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .featured-card-meta {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  /* Modals - mobile responsive */
+  .project-modal-content {
+    height: 95vh !important;
+    flex-direction: column !important;
+    display: flex !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Stack columns vertically on mobile */
+  .modal-left-column {
+    width: 100% !important;
+    min-width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    order: 1 !important;
+    padding: var(--space-6) !important;
+    overflow: visible !important;
+  }
+
+  .modal-right-column {
+    width: 100% !important;
+    min-width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    order: 2 !important;
+    padding: var(--space-6) !important;
+    padding-top: 0 !important;
+    overflow: visible !important;
+  }
+
+  .modal-right-title {
+    display: none !important; /* Hide the right column title on mobile */
+  }
+
+  .modal-content-columns {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Stack header on mobile */
+  .modal-header-row {
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .modal-title-column h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .modal-metadata-grid {
+    min-width: auto;
+    width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .metadata-cell {
+    padding: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .modal-row-3 {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  .modal-images-column {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .modal-images-column img,
+  .modal-images-column video {
+    border-radius: var(--radius-md) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Adjust media item borders on mobile */
+  .modal-media-item {
+    border: var(--border-thick) solid var(--color-beige-dark) !important;
+    border-radius: var(--radius-md) !important;
+    margin: var(--space-2) 0 !important;
+    overflow: hidden !important;
+    padding: 8px;
+  }
+
+  .modal-media-caption {
+    min-height: 36px !important;
+    font-size: var(--text-xs) !important;
+    border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+  }
+
+  /* Fix modal viewport on mobile */
+  .project-modal-content {
+    height: 100dvh; /* Full height with dynamic viewport for URL bar adaptation */
+    padding-top: calc(env(safe-area-inset-top, 0px) + 50px); /* Safe area + breathing room below status bar */
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  /* Absolute close button on mobile - stays fixed to modal top */
+  .modal-close-button {
+    position: absolute !important;
+    top: var(--space-6) !important;
+    right: var(--space-6) !important;
+    z-index: 100002 !important;
+    background: var(--bg-primary) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Make modal-content the positioning context for the button */
+  .project-modal-content {
+    position: relative !important;
+  }
+
+  /* Prevent button from affecting layout */
+  .modal-title-column {
+    padding-right: calc(40px + var(--space-4)) !important; /* Space for button */
+  }
+}
+
+@media (max-width: 480px) {
+  .archives-section {
+    padding: var(--space-4) var(--space-2);
+  }
+}
 
 /* ==================== PASSWORD MODAL ==================== */
 .password-modal {
@@ -1292,7 +1606,7 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--overlay-dark);
+  background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
 }
 
@@ -1303,7 +1617,7 @@ p {
   border: var(--border-thick) solid var(--color-dark);
   border-radius: 0;
   padding: var(--space-8) var(--space-6);
-  max-width: var(--container-xs);
+  max-width: 400px;
   width: 90%;
   text-align: center;
 }
@@ -1319,8 +1633,8 @@ p {
 }
 
 .password-modal-lock-icon {
-  width: var(--space-12);
-  height: var(--space-12);
+  width: 48px;
+  height: 48px;
   margin: 0 auto var(--space-6);
   display: block;
   opacity: 0.8;
@@ -1414,7 +1728,7 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--overlay-darker);
+  background-color: rgba(0, 0, 0, 0.8);
   pointer-events: all;
   opacity: 0;
   transition: opacity var(--transition);
@@ -1509,8 +1823,8 @@ p {
   cursor: pointer;
   padding: 0;
   transition: opacity var(--transition);
-  width: var(--space-10);
-  height: var(--space-10);
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1686,19 +2000,19 @@ p {
 
   /* Custom scrollbar */
   &::-webkit-scrollbar {
-    width: var(--space-2);
+    width: 8px;
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: var(--radius-sm);
 
     &:hover {
-      background: var(--scrollbar-thumb-hover);
+      background: rgba(255, 255, 255, 0.5);
     }
   }
 }
@@ -1767,15 +2081,15 @@ p {
   width: 100%;
   max-width: var(--container-lg);
   margin: var(--space-4) 0;
-  border: var(--space-4) solid var(--color-beige-dark);
-  border-top: var(--border-normal) solid var(--color-beige-dark);
+  border: 16px solid var(--color-beige-dark);
+  border-top: 2px solid var(--color-beige-dark);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-beige-dark);
 }
 
 .modal-media-caption {
-  min-height: var(--space-12);
+  min-height: 48px;
   display: flex;
   align-items: center;
   font-family: var(--font-body);
@@ -1804,7 +2118,7 @@ p {
 /* Mobile responsive modal - moved to consolidated mobile section below */
 
 .modal-titlebar {
-  background-color: var(--glass-surface);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: var(--space-4);
@@ -1812,7 +2126,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  border-bottom: var(--border-normal) solid var(--border-subtle);
+  border-bottom: var(--border-normal) solid rgba(0, 0, 0, 0.08);
   cursor: move;
   user-select: none;
   flex-shrink: 0;
@@ -1820,346 +2134,5 @@ p {
   border-top-right-radius: 16px;
   position: relative;
 
-}
-
-
-@media (max-width: 1024px) {
-  .archives-section {
-    padding: var(--space-8) var(--space-4);
-  }
-
-  .hover-preview {
-    width: 375px;
-    height: 281px;
-  }
-}
-
-/* ==================== RESPONSIVE: MOBILE (Cards Layout) ==================== */
-
-@media (max-width: 768px) {
-  /* General layout adjustments */
-  .main-content-section {
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .content-wrapper {
-    max-width: 95vw;
-  }
-
-  .intro-section {
-    padding: var(--space-8) var(--space-4);
-  }
-
-  .intro-text {
-    font-size: var(--text-lg);
-  }
-
-  /* Fix viewport height - match colleague's approach exactly */
-  html {
-    height: 100%;
-  }
-
-  body {
-    height: 100vh;
-    height: 100dvh;
-    height: -webkit-fill-available;
-    overflow: hidden; /* No scroll - tap to transition instead */
-  }
-
-  .opening-animation {
-    height: 100%;
-  }
-
-  .opening-text-container,
-  .opening-icons-container,
-  .physics-container {
-    height: 100%;
-  }
-
-  #main-content {
-    height: 100%;
-    overflow: hidden; /* Scrolling happens inside main-container instead */
-  }
-
-  .main-container {
-    height: 100%;
-    overflow-y: auto;
-    align-items: flex-start; /* Start content at top instead of centering */
-    min-height: auto; /* Remove min-height constraint */
-  }
-
-  /* Hide header/nav bar on mobile */
-  .app-header {
-    display: none !important;
-  }
-
-  /* Hide vertical sidebar text on mobile */
-  .vertical-sidebar-text {
-    display: none;
-  }
-
-  /* Opening animation - larger text for mobile (fewer lines) */
-  .opening-large-text,
-  .opening-subtitle-text {
-    font-size: var(--text-6xl);
-  }
-
-  .opening-avatar-wrapper {
-    width: 1em !important;
-    height: 1em !important;
-    border-width: 6px;
-  }
-
-  .opening-avatar-wrapper::before {
-    border-width: var(--border-normal);
-  }
-
-  /* Footer tab */
-  .footer-tab {
-    width: var(--size-footer-tab-mobile);
-    height: var(--size-footer-tab-mobile);
-  }
-
-  .footer-tab-arrow {
-    font-size: var(--text-xl);
-  }
-
-  .archives-section {
-    padding: var(--space-8) var(--space-5);
-  }
-
-  /* Project cards - stack vertically on mobile */
-  .project-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-4);
-    min-height: auto;
-    border-bottom: none !important;
-    margin-bottom: var(--space-6);
-  }
-
-  .project-card::after {
-    display: none !important; /* Remove hover wipe on mobile */
-  }
-
-  /* Hide filing folder and footer preview on mobile */
-  .filing-folder-top,
-  .main-content-footer-preview {
-    display: none !important;
-  }
-
-  /* Make main content start slightly visible at bottom (peeking out) */
-  #main-content {
-    top: calc(-50px + 100dvh);
-  }
-
-  /* Adjust footer tab size and position on mobile */
-  .footer-tab {
-    position: fixed;
-    bottom: var(--space-5);
-    left: 50%;
-    width: var(--size-footer-tab-mobile);
-    height: var(--size-footer-tab-mobile);
-    animation: tabBounce 2s ease-in-out infinite;
-  }
-
-  .footer-tab-arrow {
-    font-size: var(--text-xl);
-  }
-
-  /* Bounce animation for footer tab on mobile */
-  @keyframes tabBounce {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-8px);
-    }
-  }
-
-  /* Disable hover preview on mobile */
-  .hover-preview {
-    display: none !important;
-  }
-
-  /* Show mobile footer */
-  .mobile-footer {
-    display: block;
-    padding-top: var(--space-12);
-    padding-bottom: var(--space-12);
-  }
-
-  /* Featured cards - mobile responsive */
-  .featured-card {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
-    gap: var(--space-4);
-    padding: var(--space-6);
-  }
-
-  .featured-card-title {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .featured-card-image {
-    grid-column: 1;
-    grid-row: 2;
-    max-height: 200px;
-    width: 100%;
-  }
-
-  .featured-card-description {
-    grid-column: 1;
-    grid-row: 3;
-  }
-
-  .featured-card-meta {
-    grid-column: 1;
-    grid-row: 4;
-  }
-
-  /* Modals - mobile responsive */
-  .project-modal-content {
-    height: 95vh !important;
-    flex-direction: column !important;
-    display: flex !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-  }
-
-  /* Stack columns vertically on mobile */
-  .modal-left-column {
-    width: 100% !important;
-    min-width: auto !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    flex-shrink: 0 !important;
-    position: relative !important;
-    order: 1 !important;
-    padding: var(--space-6) !important;
-    overflow: visible !important;
-  }
-
-  .modal-right-column {
-    width: 100% !important;
-    min-width: auto !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    flex-shrink: 0 !important;
-    position: relative !important;
-    order: 2 !important;
-    padding: var(--space-6) !important;
-    padding-top: 0 !important;
-    overflow: visible !important;
-  }
-
-  .modal-right-title {
-    display: none !important; /* Hide the right column title on mobile */
-  }
-
-  .modal-content-columns {
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  /* Stack header on mobile */
-  .modal-header-row {
-    gap: var(--space-4);
-    padding: var(--space-6);
-  }
-
-  .modal-title-column h1 {
-    font-size: var(--text-2xl);
-  }
-
-  .modal-metadata-grid {
-    min-width: auto;
-    width: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-  }
-
-  .metadata-cell {
-    padding: var(--space-3);
-    font-size: var(--text-xs);
-  }
-
-  .modal-row-3 {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-    padding: var(--space-6);
-  }
-
-  .modal-images-column {
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  .modal-images-column img,
-  .modal-images-column video {
-    border-radius: var(--radius-md) !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    display: block !important;
-  }
-
-  /* Adjust media item borders on mobile */
-  .modal-media-item {
-    border: var(--border-thick) solid var(--color-beige-dark) !important;
-    border-radius: var(--radius-md) !important;
-    margin: var(--space-2) 0 !important;
-    overflow: hidden !important;
-    padding: var(--space-2);
-  }
-
-  .modal-media-caption {
-    min-height: 36px !important;
-    font-size: var(--text-xs) !important;
-    border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
-  }
-
-  /* Fix modal viewport on mobile */
-  .project-modal-content {
-    height: 100dvh; /* Full height with dynamic viewport for URL bar adaptation */
-    padding-top: calc(env(safe-area-inset-top, 0px) + 50px); /* Safe area + breathing room below status bar */
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  }
-
-  /* Absolute close button on mobile - stays fixed to modal top */
-  .modal-close-button {
-    position: absolute !important;
-    top: var(--space-6) !important;
-    right: var(--space-6) !important;
-    z-index: 100002 !important;
-    background: var(--bg-primary) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  /* Make modal-content the positioning context for the button */
-  .project-modal-content {
-    position: relative !important;
-  }
-
-  /* Prevent button from affecting layout */
-  .modal-title-column {
-    padding-right: calc(40px + var(--space-4)) !important; /* Space for button */
-  }
-}
-
-@media (max-width: 480px) {
-  .archives-section {
-    padding: var(--space-4) var(--space-2);
-  }
 }
 
