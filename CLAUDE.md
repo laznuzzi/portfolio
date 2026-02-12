@@ -1,12 +1,48 @@
 # Claude Development Guidelines
 
 ## Table of Contents
+- [Development Server](#development-server)
 - [Problem-Solving Approach](#problem-solving-approach)
 - [Code Organization Principles](#code-organization-principles)
 - [Animation Libraries](#animation-libraries)
 - [Design Token System](#design-token-system)
 - [File Structure](#file-structure)
 - [Project-Specific Notes](#project-specific-notes)
+
+---
+
+## Development Server
+
+### Running with Hot Reload
+
+**Always use live-server for development** - it provides automatic browser refresh when files change.
+
+```bash
+# Start server with hot reload (recommended)
+live-server --port=8080 --no-browser
+
+# Server will be available at: http://localhost:8080
+# Any changes to HTML, CSS, or JS files will auto-reload the browser
+```
+
+**Alternative (no hot reload):**
+```bash
+# Python simple server (no auto-reload)
+python3 -m http.server 8080
+```
+
+**Configuration:**
+- Default port: 8080
+- Files watched: All HTML, CSS, JS files in directory
+- Live reload: Automatic browser refresh on file changes
+
+**To stop the server:**
+```bash
+# Find and kill live-server
+pkill -f "live-server"
+
+# Or use Claude's TaskStop if running in background
+```
 
 ---
 

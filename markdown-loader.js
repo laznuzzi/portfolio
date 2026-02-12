@@ -51,81 +51,33 @@
             console.log('Falling back to file-content.js');
         });
 
-    // Parse modal content - handles both images and text blocks
-    // Format: ./img/1.png, [text: Title :: Body | Title :: Body | Title :: Body], ./img/2.png
+    // Parse modal content - handles images and videos with optional captions
+    // Format: ./img/1.png, ./img/2.png::Caption text, ./video.mp4::Video caption
     function parseModalContent(modalStr) {
         const items = [];
         const parts = modalStr.split(',');
-        let i = 0;
 
-        while (i < parts.length) {
-            const part = parts[i].trim();
+        parts.forEach(part => {
+            const trimmed = part.trim();
+            if (!trimmed) return;
 
-            // Check if this is a text block
-            if (part.startsWith('[text:')) {
-                // Collect the full text block (might span multiple comma-separated parts)
-                let textContent = part;
+            // Image/video path with optional caption
+            // Format: ./img/file.png::Caption text
+            let src = trimmed;
+            let caption = '';
 
-                // If it doesn't end with ], keep collecting
-                if (!part.endsWith(']')) {
-                    i++;
-                    while (i < parts.length && !parts[i].includes(']')) {
-                        textContent += ',' + parts[i];
-                        i++;
-                    }
-                    if (i < parts.length) {
-                        textContent += ',' + parts[i];
-                    }
-                }
-
-                // Extract content between [text: and ]
-                const content = textContent.replace(/^\[text:\s*/, '').replace(/\]$/, '').trim();
-
-                // Split by | to get columns
-                const columns = content.split('|').map(col => {
-                    const colTrim = col.trim();
-
-                    // Check if column has title :: paragraph format
-                    if (colTrim.includes('::')) {
-                        const parts = colTrim.split('::');
-                        return {
-                            title: parts[0].trim(),
-                            body: parts.slice(1).join('::').trim()
-                        };
-                    } else {
-                        // Just body text
-                        return {
-                            title: '',
-                            body: colTrim
-                        };
-                    }
-                });
-
-                items.push({
-                    type: 'text-row',
-                    columns: columns
-                });
-            } else if (part) {
-                // Regular image/video path with optional caption
-                // Format: ./img/file.png::Caption text
-                let src = part;
-                let caption = '';
-
-                if (part.includes('::')) {
-                    const parts = part.split('::');
-                    src = parts[0].trim();
-                    caption = parts.slice(1).join('::').trim();
-                }
-
-                items.push({
-                    type: 'media',
-                    src: src,
-                    caption: caption
-                });
+            if (trimmed.includes('::')) {
+                const splitParts = trimmed.split('::');
+                src = splitParts[0].trim();
+                caption = splitParts.slice(1).join('::').trim();
             }
 
-            i++;
-        }
+            items.push({
+                type: 'media',
+                src: src,
+                caption: caption
+            });
+        });
 
         return items;
     }
@@ -143,6 +95,7 @@
                 id: lines[0].trim(),
                 title: lines[0].trim(),
                 subtitle: '',
+                logo: '',
                 thumbnail: '',
                 hover: '',
                 modal: [],
@@ -174,6 +127,8 @@
                     project.title = line.replace('title:', '').trim();
                 } else if (line.startsWith('subtitle:')) {
                     project.subtitle = line.replace('subtitle:', '').trim();
+                } else if (line.startsWith('logo:')) {
+                    project.logo = line.replace('logo:', '').trim();
                 } else if (line.startsWith('shortDescription:')) {
                     project.shortDescription = line.replace('shortDescription:', '').trim();
                 } else if (line.startsWith('thumbnail:')) {
@@ -417,6 +372,11 @@
                     <span class="featured-card-company">${project.subtitle || ''}</span>
                     <span class="featured-card-year">${timelineYear}</span>
                     <div class="featured-card-arrow">${arrowContent}</div>
+                </div>
+                <div class="hover-preview">
+                    <div class="hover-image-wrapper">
+                        <img src="${firstImage}" alt="${project.title} hover">
+                    </div>
                 </div>
             `;
 
