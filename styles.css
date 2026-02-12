@@ -153,6 +153,7 @@
   --color-beige-light: #f2f0e9;     /* Card backgrounds */
   --color-beige-dark: #e4e0d4;      /* Media borders */
   --color-beige-footer: #dbd7cc;    /* Footer and tags */
+  --color-beige-muted: #b9b1a2;     /* Archives subtitle, folder tabs */
   --color-accent-red: #ff6b6b;      /* Avatar border */
   --color-accent-orange: #FF6B35;   /* CTA hover */
   --color-folder-green: #818242;    /* Filing folder */
@@ -997,7 +998,7 @@ body {
 .archives-subtitle {
   font-size: var(--text-2xl);
   font-weight: 100;
-  color: #b9b1a2;
+  color: var(--color-beige-muted);
   font-family: 'Buffon-Bold', sans-serif;
   text-align: center;
   margin: -20px 0 var(--space-12);
@@ -1021,7 +1022,7 @@ body {
 
 .folder-tab {
   padding: var(--space-2) var(--space-6);
-  background: #b9b1a245;
+  background: rgba(185, 177, 162, 0.27);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   font-family: var(--font-body);
   font-size: var(--text-sm);
@@ -1041,7 +1042,7 @@ body {
   height: 8px;
   background: transparent;
   border-bottom-right-radius: 8px;
-  box-shadow: 4px 4px 0 0 #b9b1a245;
+  box-shadow: 4px 4px 0 0 rgba(185, 177, 162, 0.27);
 }
 
 .folder-tab::after {
@@ -1053,23 +1054,23 @@ body {
   height: 8px;
   background: transparent;
   border-bottom-left-radius: 8px;
-  box-shadow: -4px 4px 0 0 #b9b1a245;
+  box-shadow: -4px 4px 0 0 rgba(185, 177, 162, 0.27);
 }
 
 .folder-tab:hover {
-  background: #b9b1a260;
+  background: rgba(185, 177, 162, 0.38);
 }
 
 .folder-tab:hover::before {
-  box-shadow: 4px 4px 0 0 #b9b1a260;
+  box-shadow: 4px 4px 0 0 rgba(185, 177, 162, 0.38);
 }
 
 .folder-tab:hover::after {
-  box-shadow: -4px 4px 0 0 #b9b1a260;
+  box-shadow: -4px 4px 0 0 rgba(185, 177, 162, 0.38);
 }
 
 .folder-tab.active {
-  background: #b9b1a245;
+  background: rgba(185, 177, 162, 0.27);
   font-weight: 500;
 }
 
@@ -1082,7 +1083,7 @@ body {
   flex-direction: column;
   gap: 0;
   padding: var(--space-8);
-  background-color: #b9b1a245;
+  background-color: rgba(185, 177, 162, 0.27);
   border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
   min-height: 600px;
 }
@@ -1861,8 +1862,8 @@ body {
 }
 
 .password-button-primary:hover {
-  background-color: #262624;
-  border-color: #262624;
+  background-color: var(--color-dark);
+  border-color: var(--color-dark);
 }
 
 :root.dark .password-button-primary {
@@ -1872,8 +1873,8 @@ body {
 }
 
 :root.dark .password-button-primary:hover {
-  background-color: #FF6B35;
-  border-color: #FF6B35;
+  background-color: var(--color-accent-orange);
+  border-color: var(--color-accent-orange);
   color: var(--color-white);
 }
 
@@ -1891,7 +1892,7 @@ body {
 }
 
 .password-error {
-  color: #ff0000;
+  color: var(--color-error);
   font-size: var(--text-sm);
   text-align: center;
   margin: 0;
@@ -2231,7 +2232,7 @@ padding-bottom: 12px;
 
 .metadata-cell-tags .project-tag {
   font-weight: 100;
-  background: #dcd7cc;
+  background: var(--color-beige-footer);
   border-radius: var(--radius-sm);
   padding: 0px 6px;
   display: inline-flex;
@@ -2559,10 +2560,10 @@ padding-bottom: 12px;
   padding: var(--space-6);
   overflow-y: auto;
   overflow-x: hidden;
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.7;
   font-size: var(--text-md);
-  background-color: #fff;
+  background-color: var(--color-white);
   display: flex !important;
   flex-direction: column;
   visibility: visible !important;
