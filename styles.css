@@ -220,7 +220,7 @@ body {
   opacity: 0; /* Hidden initially */
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity var(--transition), visibility var(--transition);
 }
 
 .app-header.visible {
@@ -310,7 +310,7 @@ body {
   visibility: hidden;
   z-index: 100;
   white-space: nowrap;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity var(--transition), visibility var(--transition);
 }
 
 .vertical-sidebar-text.visible {
@@ -831,7 +831,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition);
 }
 
 .footer-tab-arrow {
@@ -881,7 +881,7 @@ body {
   opacity: 0; /* Hidden initially */
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity var(--transition), visibility var(--transition);
   cursor: pointer;
 
   /* Subtract the tab shape from the folder using SVG clip-path with smooth curves */
@@ -1010,7 +1010,7 @@ body {
   font-weight: 400;
   color: var(--text-primary);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background var(--transition);
   position: relative;
 }
 
@@ -1081,7 +1081,7 @@ body {
   gap: var(--space-10);
   font-family: var(--font-body);
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background var(--transition);
 }
 
 .featured-card:hover {
@@ -1220,7 +1220,7 @@ body {
   text-align: center;
   margin-bottom: var(--space-2);
   opacity: 1;
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  transition: opacity var(--transition), filter var(--transition);
 }
 
 .lock-icon img {
@@ -1256,7 +1256,7 @@ body {
   transform: translate(-50%, -50%);
   overflow: hidden;
   border-radius: var(--radius-md);
-  transition: opacity 0.2s ease;
+  transition: opacity var(--transition);
 }
 
 .hover-preview.visible {
@@ -1802,7 +1802,7 @@ body {
   color: var(--text-primary);
   box-sizing: border-box;
   margin-bottom: var(--space-4);
-  transition: border-color 0.2s ease;
+  transition: border-color var(--transition);
 }
 
 .password-input:focus {
@@ -1826,7 +1826,7 @@ body {
   border: 3px solid var(--color-dark);
   border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition);
   letter-spacing: 0.05em;
 }
 
@@ -1882,7 +1882,7 @@ body {
   background-color: rgba(0, 0, 0, 0.8);
   pointer-events: all;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition);
 }
 
 .project-modal.active .project-modal-overlay {
@@ -2015,7 +2015,7 @@ padding-bottom: var(--space-3);
   background: var(--bg-primary);
   color: var(--text-primary);
   margin-bottom: var(--space-4);
-  transition: border-color 0.2s ease;
+  transition: border-color var(--transition);
 }
 
 .modal-password-input:focus {
@@ -2045,7 +2045,7 @@ padding-bottom: var(--space-3);
   cursor: pointer;
   padding: 0;
   line-height: 1;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--transition);
   width: 40px;
   height: 40px;
   display: flex;
@@ -2439,7 +2439,7 @@ padding-bottom: var(--space-3);
   cursor: se-resize;
   z-index: 10;
   opacity: 0.5;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition);
 }
 
 .modal-resize-handle::after {
