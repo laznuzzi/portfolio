@@ -88,17 +88,19 @@
 /* ==================== CSS CUSTOM PROPERTIES ==================== */
 :root {
   /* ==================== TYPOGRAPHY ==================== */
-  /* Font sizes */
+  /* Font sizes - Fixed (body text) */
   --text-xs: 0.75rem;        /* 12px */
   --text-sm: 0.9rem;         /* 15px */
   --text-base: 1rem;         /* 16px */
   --text-md: 1.125rem;       /* 18px */
   --text-lg: 1.25rem;        /* 20px */
-  --text-xl: 1.5rem;         /* 24px */
-  --text-2xl: 2rem;          /* 32px */
-  --text-3xl: 3rem;          /* 48px */
-  --text-4xl: 4rem;          /* 64px */
-  --text-5xl: 4.5rem;        /* 72px */
+
+  /* Font sizes - Responsive (headings) */
+  --text-xl: clamp(1.25rem, 3vw, 1.5rem);      /* 20-24px */
+  --text-2xl: clamp(1.5rem, 4vw, 2rem);        /* 24-32px */
+  --text-3xl: clamp(2rem, 5vw, 3rem);          /* 32-48px */
+  --text-4xl: clamp(2.5rem, 6vw, 4rem);        /* 40-64px */
+  --text-5xl: clamp(3rem, 8vw, 4.5rem);        /* 48-72px */
 
   /* Font properties */
   --font-weight-normal: 400;
