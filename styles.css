@@ -167,15 +167,6 @@
   --text-secondary: var(--color-gray-600);
   --border: var(--color-gray-200);
 
-  /* Dark theme overrides */
-  &.dark {
-    --bg-primary: #120d19;
-    --bg-secondary: #1f2937;
-    --text-primary: var(--color-gray-100);
-    --text-secondary: var(--color-gray-400);
-    --border: #374151;
-    --color-dark: #ffffff;  /* Inverted for dark mode */
-  }
 }
 
 /* ==================== BASE STYLES ==================== */
@@ -407,10 +398,6 @@ body {
     }
   }
 
-  :root.dark & .intro-avatar {
-    border-color: var(--color-dark);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
 }
 
 /* ==================== MAIN CONTENT SECTION ==================== */
@@ -553,9 +540,6 @@ body {
   margin: 0;
   font-weight: var(--font-weight-normal);
   
-  :root.dark & {
-    color: var(--color-gray-400);
-  }
 }
 
 @media print {
@@ -585,9 +569,6 @@ body {
   z-index: 10000;
   box-sizing: border-box;
 
-  :root.dark & {
-    border: none;
-  }
 }
 
 /* ==================== OPENING ANIMATION STYLES ==================== */
@@ -855,7 +836,7 @@ body {
 
 .footer-tab-arrow {
   font-family: 'Buffon-Bold', serif;
-  font-size: 32px;
+  font-size: var(--text-2xl);
   color: var(--color-dark);
   user-select: none;
   line-height: 1;
@@ -1800,10 +1781,6 @@ body {
   text-align: center;
 }
 
-:root.dark .password-modal-content {
-  background-color: var(--color-surface-dark);
-  border-color: var(--color-white);
-}
 
 .password-modal-title {
   font-family: var(--font-body);
@@ -1833,9 +1810,6 @@ body {
   border-color: var(--color-dark);
 }
 
-:root.dark .password-input:focus {
-  border-color: var(--color-white);
-}
 
 .password-modal-buttons {
   display: flex;
@@ -1866,17 +1840,7 @@ body {
   border-color: var(--color-dark);
 }
 
-:root.dark .password-button-primary {
-  background-color: var(--color-white);
-  color: var(--color-dark);
-  border-color: var(--color-white);
-}
 
-:root.dark .password-button-primary:hover {
-  background-color: var(--color-accent-orange);
-  border-color: var(--color-accent-orange);
-  color: var(--color-white);
-}
 
 .password-button-secondary {
   background-color: transparent;
@@ -1887,9 +1851,6 @@ body {
   background-color: var(--bg-secondary);
 }
 
-:root.dark .password-button-secondary {
-  border-color: var(--color-white);
-}
 
 .password-error {
   color: var(--color-error);
@@ -2000,10 +1961,6 @@ body {
   display: none;
 }
 
-:root.dark .project-modal-content {
-  background-color: var(--color-surface-dark);
-  border-color: var(--color-white);
-}
 
 /* Modal password overlay */
 .modal-password-overlay {
@@ -2021,9 +1978,6 @@ body {
   -webkit-backdrop-filter: blur(8px);
 }
 
-:root.dark .modal-password-overlay {
-  background: rgba(30, 30, 30, 0.2);
-}
 
 .modal-password-content {
   text-align: center;
@@ -2043,9 +1997,6 @@ body {
 padding-bottom: var(--space-3);
 }
 
-:root.dark .modal-password-title {
-  color: var(--color-white);
-}
 
 .modal-password-description {
   font-family: var(--font-body);
@@ -2072,9 +2023,6 @@ padding-bottom: var(--space-3);
   border-color: var(--color-dark);
 }
 
-:root.dark .modal-password-input:focus {
-  border-color: var(--color-white);
-}
 
 .project-modal-password-buttons {
   display: flex;
@@ -2110,15 +2058,8 @@ padding-bottom: var(--space-3);
   opacity: 0.6;
 }
 
-:root.dark .modal-close-button {
-  color: var(--color-white);
-  border-color: var(--color-white);
-}
 
 /* Dark mode for metadata grid borders */
-:root.dark .metadata-cell {
-  border-bottom-color: var(--color-white);
-}
 
 /* Content columns at top */
 .modal-content-columns {
@@ -2325,9 +2266,6 @@ padding-bottom: var(--space-3);
   line-height: 1.1;
 }
 
-:root.dark .project-modal-content h1 {
-  color: var(--color-white);
-}
 
 /* Project tags */
 .project-tags {
@@ -2353,10 +2291,6 @@ padding-bottom: var(--space-3);
   margin: 0;
 }
 
-:root.dark .project-tag {
-  background: var(--color-surface-dark);
-  border-color: var(--border);
-}
 
 .project-tag-icon {
   display: flex;
@@ -2520,10 +2454,6 @@ padding-bottom: var(--space-3);
   border-bottom-right-radius: 2px;
 }
 
-:root.dark .modal-resize-handle::after {
-  border-right-color: rgba(255, 255, 255, 0.3);
-  border-bottom-color: rgba(255, 255, 255, 0.3);
-}
 
 .modal-resize-handle:hover {
   opacity: 1;
@@ -2546,12 +2476,6 @@ padding-bottom: var(--space-3);
   border-top-right-radius: 16px;
   position: relative;
 
-  :root.dark & {
-    background-color: rgba(45, 45, 45, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  }
 }
 
 
@@ -2595,22 +2519,5 @@ padding-bottom: var(--space-3);
     background: rgba(0, 0, 0, 0.6);
   }
 
-  :root.dark & {
-    color: var(--text-secondary);
-    background-color: transparent;
-    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
-
-    &::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.6);
-    }
-  }
 }
 
