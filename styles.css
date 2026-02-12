@@ -355,7 +355,7 @@ body {
   }
 
   .intro-placeholder-text {
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
     line-height: 1.6;
     text-align: center;
     max-width: 800px;
@@ -1344,7 +1344,7 @@ body {
   }
 
   .intro-placeholder-text {
-    font-size: 1rem;
+    font-size: var(--text-base);
   }
 
   /* Fix viewport height - match colleague's approach exactly */
@@ -1427,7 +1427,7 @@ body {
   }
 
   .footer-tab-arrow {
-    font-size: 24px;
+    font-size: var(--text-xl);
   }
 
   .archives-section {
@@ -1517,7 +1517,7 @@ body {
   }
 
   .footer-tab-arrow {
-    font-size: 24px;
+    font-size: var(--text-xl);
   }
 
   /* Bounce animation for footer tab on mobile */
@@ -1648,7 +1648,7 @@ body {
   }
 
   .modal-title-column h1 {
-    font-size: 2rem;
+    font-size: var(--text-2xl);
   }
 
   .modal-metadata-grid {
@@ -2040,7 +2040,7 @@ padding-bottom: var(--space-3);
   border: 2px solid var(--color-dark);
   border-radius: var(--radius-full);
   font-family: 'Buffon-Bold', serif;
-  font-size: 1.25rem;
+  font-size: var(--text-lg);
   color: var(--color-dark);
   cursor: pointer;
   padding: 0;
@@ -2259,7 +2259,7 @@ padding-bottom: var(--space-3);
 /* Modal typography - applies to all content in modal */
 .project-modal-content h1 {
   font-family: var(--font-body);
-  font-size: 2rem;
+  font-size: var(--text-2xl);
   font-weight: 500;
   margin: 0;
   color: var(--color-dark);
