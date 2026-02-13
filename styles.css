@@ -246,7 +246,7 @@
   /* Surfaces (backgrounds) */
   --palette-surface-1: #f2f0e9;      /* Primary surface - body, modals */
   --palette-surface-2: #e4e0d4;      /* Elevated - borders, elevated surfaces, footer */
-  --palette-surface-3: #d9d3c7;      /* Folder tabs, muted elements */
+  --palette-surface-3: #d3cdc1;      /* Folder tabs, muted elements */
 
   /* Foregrounds (text, borders, frames) */
   --palette-foreground-primary: #1b1c1d;     /* Main text, strong borders */
@@ -1010,7 +1010,7 @@ p {
 
 .folder-tab {
   padding: var(--space-2) var(--space-6);
-  background: var(--bg-muted);
+  background: color-mix(in srgb, var(--bg-muted) 50%, transparent);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   font-family: var(--font-accent);
   font-size: var(--text-sm);
@@ -1030,7 +1030,7 @@ p {
   height: var(--space-2);
   background: transparent;
   border-bottom-right-radius: 8px;
-  box-shadow: 4px 4px 0 0 var(--bg-muted);
+  box-shadow: 4px 4px 0 0 color-mix(in srgb, var(--bg-muted) 50%, transparent);
 }
 
 .folder-tab::after {
@@ -1042,19 +1042,19 @@ p {
   height: var(--space-2);
   background: transparent;
   border-bottom-left-radius: 8px;
-  box-shadow: -4px 4px 0 0 var(--bg-muted);
+  box-shadow: -4px 4px 0 0 color-mix(in srgb, var(--bg-muted) 50%, transparent);
 }
 
 .folder-tab:hover {
-  background: var(--bg-muted-hover);
+  background: color-mix(in srgb, var(--bg-muted) 70%, transparent);
 }
 
 .folder-tab:hover::before {
-  box-shadow: 4px 4px 0 0 var(--bg-muted-hover);
+  box-shadow: 4px 4px 0 0 color-mix(in srgb, var(--bg-muted) 70%, transparent);
 }
 
 .folder-tab:hover::after {
-  box-shadow: -4px 4px 0 0 var(--bg-muted-hover);
+  box-shadow: -4px 4px 0 0 color-mix(in srgb, var(--bg-muted) 70%, transparent);
 }
 
 .folder-tab.active {
