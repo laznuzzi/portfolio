@@ -188,8 +188,10 @@
         // Sticker-slap animation: capsules appear with a quick scale/rotation animation
         // No physics engine needed - just GSAP animations
 
-        // Capsule colors - all coral/bright red
-        const bannerColor = '#FF6B6B';
+        // Get colors and fonts from CSS theme palette
+        const rootStyles = getComputedStyle(document.documentElement);
+        const bannerColor = rootStyles.getPropertyValue('--palette-banner-fill').trim() || '#FF6B6B';
+        const textFont = rootStyles.getPropertyValue('--capsule-text-font').trim();
 
         // Word banners data - shown initially
         const words = ['Designer', 'Developer', 'Builder', 'Fixer'];
@@ -197,10 +199,6 @@
         // Hidden "back pocket" words that appear on click - EDIT HERE
         const backPocketWords = ['Gardener', 'DIY-er', 'Learner', 'Reader', 'Hiker', 'Maker', 'Optimist'];
         let backPocketIndex = 0;
-
-        // Get text font to calculate width
-        const rootStyles = getComputedStyle(document.documentElement);
-        const textFont = rootStyles.getPropertyValue('--capsule-text-font').trim();
 
         // Create a temporary canvas to measure text width
         const measureCanvas = document.createElement('canvas');
