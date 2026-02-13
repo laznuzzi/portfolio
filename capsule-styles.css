@@ -4,28 +4,21 @@
    ========================================================== */
 
 :root {
-  /* Capsule fill color - references main theme */
-  --capsule-fill-color: var(--color-white);
+  /* Capsule fill color */
+  --capsule-fill-color: var(--palette-accent-1);
 
-  /* Capsule border/stroke color - references main theme */
-  --capsule-stroke-color: var(--text-primary);
+  /* Capsule border/stroke color */
+  --capsule-stroke-color: var(--palette-foreground-primary);
 
   /* Capsule border width (number only, no 'px') */
   --capsule-stroke-width: 3;
 
-  /* Text color inside capsules - references main theme */
-  --capsule-text-color: var(--text-primary);
+  /* Text color inside capsules */
+  --capsule-text-color: var(--palette-foreground-primary);
 
   /* Font styling for text inside capsules
      Format: weight size font-family */
   --capsule-text-font: 700 57.6px 'Buffon-Bold', serif;
-}
-
-/* Dark mode capsule styles */
-:root.dark {
-  --capsule-fill-color: #1a1a1a;
-  --capsule-stroke-color: var(--color-white);
-  --capsule-text-color: var(--color-white);
 }
 
 /* ==================== EXAMPLES ====================
