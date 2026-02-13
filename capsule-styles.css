@@ -18,7 +18,7 @@
 
   /* Font styling for text inside capsules
      Format: weight size font-family */
-  --capsule-text-font: 700 57.6px 'Buffon-Bold', serif;
+  --capsule-text-font: 700 57.6px var(--palette-font-heading);
 }
 
 /* ==================== EXAMPLES ====================
@@ -50,6 +50,6 @@ Transparent capsules:
 @media (max-width: 768px) {
   :root {
     /* Larger capsules on mobile for better visibility */
-    --capsule-text-font: 700 42px 'Buffon-Bold', serif;
+    --capsule-text-font: 700 42px var(--palette-font-heading);
   }
 }
