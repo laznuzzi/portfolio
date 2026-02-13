@@ -221,6 +221,77 @@
     URL.revokeObjectURL(url);
   }
 
+  function copyCSS() {
+    // Generate CSS code for :root variables
+    let css = '/* ==================== THEME PALETTE (Layer 1) ==================== */\n';
+    css += '/* Raw color values - THESE CHANGE WHEN THEME CHANGES */\n\n';
+
+    // Group by category
+    const categories = {
+      'Surfaces': [],
+      'Foregrounds': [],
+      'Accents': [],
+      'Typography': []
+    };
+
+    PALETTE_TOKENS.forEach(token => {
+      categories[token.category].push(token);
+    });
+
+    // Generate CSS for each category
+    Object.entries(categories).forEach(([category, tokens]) => {
+      if (category === 'Surfaces') {
+        css += '/* Surfaces (backgrounds) */\n';
+      } else if (category === 'Foregrounds') {
+        css += '\n/* Foregrounds (text, borders, frames) */\n';
+      } else if (category === 'Accents') {
+        css += '\n/* Accents */\n';
+      } else if (category === 'Typography') {
+        css += '\n/* Typography families (theme-dependent) */\n';
+      }
+
+      tokens.forEach(token => {
+        const value = getTokenValue(token.name);
+        const comment = token.description;
+
+        if (token.type === 'color') {
+          // For foreground-inverse, use var() reference
+          if (token.name === 'palette-foreground-inverse') {
+            css += `--${token.name}: var(--palette-surface-1);   /* ${comment} */\n`;
+          } else {
+            css += `--${token.name}: ${value};      /* ${comment} */\n`;
+          }
+        } else if (token.type === 'font') {
+          css += `--${token.name}: ${value};\n`;
+        }
+      });
+    });
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(css).then(() => {
+      alert('✅ CSS copied to clipboard!\n\nPaste this into styles.css to replace the existing palette tokens (lines 234-253).');
+    }).catch(err => {
+      console.error('Failed to copy CSS:', err);
+      // Fallback: show in a modal or textarea
+      const textarea = document.createElement('textarea');
+      textarea.value = css;
+      textarea.style.position = 'fixed';
+      textarea.style.top = '50%';
+      textarea.style.left = '50%';
+      textarea.style.transform = 'translate(-50%, -50%)';
+      textarea.style.width = '80%';
+      textarea.style.height = '400px';
+      textarea.style.zIndex = '100000';
+      textarea.style.padding = '20px';
+      textarea.style.fontFamily = 'monospace';
+      textarea.style.fontSize = '12px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      alert('Copy failed. Please manually copy the text from the textarea and press OK to close.');
+      document.body.removeChild(textarea);
+    });
+  }
+
   function importTheme() {
     const input = document.createElement('input');
     input.type = 'file';
@@ -379,6 +450,7 @@
       </div>
       <div class="theme-builder-actions">
         <button class="theme-btn-reset">Reset</button>
+        <button class="theme-btn-copy-css">Copy CSS</button>
         <button class="theme-btn-export">Export</button>
         <button class="theme-btn-import">Import</button>
       </div>
@@ -432,10 +504,12 @@
 
     // Action buttons
     const resetBtn = panelElement.querySelector('.theme-btn-reset');
+    const copyCssBtn = panelElement.querySelector('.theme-btn-copy-css');
     const exportBtn = panelElement.querySelector('.theme-btn-export');
     const importBtn = panelElement.querySelector('.theme-btn-import');
 
     if (resetBtn) resetBtn.onclick = resetToDefaults;
+    if (copyCssBtn) copyCssBtn.onclick = copyCSS;
     if (exportBtn) exportBtn.onclick = exportTheme;
     if (importBtn) importBtn.onclick = importTheme;
 
