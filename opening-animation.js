@@ -190,8 +190,24 @@
 
         // Get colors and fonts from CSS theme palette
         const rootStyles = getComputedStyle(document.documentElement);
-        const bannerColor = rootStyles.getPropertyValue('--palette-banner-fill').trim() || '#FF6B6B';
+        let bannerColor = rootStyles.getPropertyValue('--palette-banner-fill').trim() || '#FF6B6B';
         const textFont = rootStyles.getPropertyValue('--capsule-text-font').trim();
+
+        // Function to update all banner colors (called when theme changes)
+        window.updateBannerColors = function() {
+            const newColor = getComputedStyle(document.documentElement)
+                .getPropertyValue('--palette-banner-fill').trim() || '#FF6B6B';
+            bannerColor = newColor;
+
+            // Update all existing banners
+            const banners = document.querySelectorAll('.physics-banner');
+            banners.forEach(banner => {
+                const encodedColor = newColor.replace('#', '%23');
+                const borderWidth = banner.style.border.match(/\d+/)?.[0] || 30;
+                banner.style.setProperty('--banner-fill-color', newColor);
+                banner.style.borderImageSource = `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="3" height="3" fill="${encodedColor}"><path d="M2 0H1C1 .6.6 1 0 1v1c.6 0 1 .4 1 1h1c0-.6.4-1 1-1V1a1 1 0 0 1-1-1Z"/></svg>')`;
+            });
+        };
 
         // Word banners data - shown initially
         const words = ['Designer', 'Developer', 'Builder', 'Fixer'];

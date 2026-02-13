@@ -101,12 +101,9 @@
     }
   ];
 
-  const FONT_OPTIONS = {
-    'Current Fonts': [
-      { value: "'NB International Pro', 'Chalet', sans-serif", label: 'NB International Pro' },
-      { value: "'Buffon-Bold', serif", label: 'Buffon-Bold' },
-      { value: "'InputMono', 'Source Code Pro', monospace", label: 'InputMono' }
-    ],
+  // Font options will be populated dynamically
+  let FONT_OPTIONS = {
+    'Current Fonts': [],
     'System Fonts': [
       { value: 'system-ui, -apple-system, sans-serif', label: 'System Default' },
       { value: 'Arial, sans-serif', label: 'Arial' },
@@ -125,6 +122,59 @@
       { value: '__custom__', label: 'Enter custom font stack...' }
     ]
   };
+
+  // ==================== AUTO-DETECT CUSTOM FONTS ====================
+  async function loadCustomFonts() {
+    try {
+      const response = await fetch('styles.css');
+      const cssText = await response.text();
+
+      // Find all @font-face declarations and extract font-family names
+      const fontFaceRegex = /@font-face\s*\{[^}]*font-family:\s*['"]([^'"]+)['"][^}]*\}/gi;
+      const fonts = new Set();
+
+      let match;
+      while ((match = fontFaceRegex.exec(cssText)) !== null) {
+        fonts.add(match[1]);
+      }
+
+      // Convert to font options
+      const customFonts = Array.from(fonts).sort().map(font => {
+        // Determine generic family based on font name
+        let genericFamily = 'sans-serif';
+        if (font.toLowerCase().includes('mono')) {
+          genericFamily = 'monospace';
+        } else if (font.toLowerCase().includes('serif') || font.toLowerCase().includes('buffon')) {
+          genericFamily = 'serif';
+        } else if (font.toLowerCase().includes('written') || font.toLowerCase().includes('script')) {
+          genericFamily = 'cursive';
+        }
+
+        return {
+          value: `'${font}', ${genericFamily}`,
+          label: font
+        };
+      });
+
+      FONT_OPTIONS['Current Fonts'] = customFonts;
+
+      console.log(`🎨 Auto-detected ${customFonts.length} custom fonts from styles.css`);
+      return customFonts;
+    } catch (err) {
+      console.error('Failed to load custom fonts:', err);
+      // Fallback to manual list
+      FONT_OPTIONS['Current Fonts'] = [
+        { value: "'NB International Pro', sans-serif", label: 'NB International Pro' },
+        { value: "'Chalet', sans-serif", label: 'Chalet' },
+        { value: "'Buffon-Bold', serif", label: 'Buffon-Bold' },
+        { value: "'InputMono', monospace", label: 'InputMono' },
+        { value: "'ProtoMono', monospace", label: 'ProtoMono' },
+        { value: "'Written', cursive", label: 'Written' },
+        { value: "'Source Code Pro', monospace", label: 'Source Code Pro' }
+      ];
+      return FONT_OPTIONS['Current Fonts'];
+    }
+  }
 
   const STORAGE_KEY = 'portfolio-theme-builder';
 
@@ -158,6 +208,11 @@
       if (inverseHexInput) {
         inverseHexInput.value = value;
       }
+    }
+
+    // Special handling: Update banner colors when accent changes
+    if (tokenName === 'palette-accent-1' && typeof window.updateBannerColors === 'function') {
+      window.updateBannerColors();
     }
 
     // Auto-save to localStorage
@@ -660,8 +715,11 @@
 
   // ==================== INITIALIZATION ====================
 
-  function init() {
-    // Load saved theme first (before UI exists)
+  async function init() {
+    // Load custom fonts from stylesheet first
+    await loadCustomFonts();
+
+    // Load saved theme (before UI exists)
     loadFromLocalStorage();
 
     // Create UI
