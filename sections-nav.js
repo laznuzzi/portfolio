@@ -174,7 +174,7 @@
     // Setup password modal event listeners
     function setupPasswordModal() {
         const unlockButton = document.getElementById('unlock-button');
-        const cancelButton = document.getElementById('cancel-password-button');
+        const cancelLink = document.getElementById('password-modal-cancel');
         const input = document.getElementById('password-input');
         const overlay = document.querySelector('.password-modal-overlay');
 
@@ -182,8 +182,11 @@
             unlockButton.addEventListener('click', verifyAndUnlock);
         }
 
-        if (cancelButton) {
-            cancelButton.addEventListener('click', hidePasswordModal);
+        if (cancelLink) {
+            cancelLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                hidePasswordModal();
+            });
         }
 
         if (overlay) {
