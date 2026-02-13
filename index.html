@@ -33,6 +33,15 @@
   gtag('config', 'G-XV4LJN0XM7');
 </script>
 
+<!-- Posthog tag -->
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_t0JJXzT14D7BDu7UoDcylsxAnVag9yv4XMA6kGmVZ9r', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2026-01-30'
+    })
+</script>
+
 
 </head>
 <body class="app-body">
@@ -121,7 +130,7 @@
                 <!-- ==================== ARCHIVES CARDS SECTION ==================== -->
                 <section class="archives-section">
                     <h2 class="archives-title">Archives</h2>
-                    <p class="archives-subtitle">snippets. full upon request.</p>
+                    <p class="archives-subtitle">Snippets. Full upon request.</p>
 
                     <!-- Filing folder tabs -->
                     <div class="folder-tabs">
@@ -183,12 +192,13 @@
         <div class="password-modal-content">
             <img src="./img/lock.svg" alt="Locked" class="password-modal-lock-icon" />
             <h2 class="password-modal-title">This project is locked</h2>
+            <p class="password-modal-hint">Security question: What is my son's favorite dinosaur?</p>
             <input type="password" id="password-input" class="password-input" placeholder="Password" />
             <div class="password-modal-buttons">
-                <button id="cancel-password-button" class="password-button password-button-secondary">Cancel</button>
                 <button id="unlock-button" class="password-button password-button-primary">Unlock</button>
             </div>
             <p id="password-error" class="password-error" style="display: none;">Incorrect password</p>
+            <a href="#" id="password-modal-cancel" class="password-modal-cancel-link">I don't know</a>
         </div>
     </div>
 
@@ -242,5 +252,9 @@
             }
         });
     </script>
+
+    <!-- Theme Builder Dev Tool (Desktop only, dev mode only) -->
+    <link rel="stylesheet" href="theme-builder.css">
+    <script src="theme-builder.js"></script>
 </body>
 </html>
