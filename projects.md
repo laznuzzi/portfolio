@@ -5,7 +5,7 @@ logo: ./img/logo-block.png
 shortDescription: An AI-assisted code-prototyping tool and starter kit with components and templates for building on-brand interface with Square and Cash App design languages.
 thumbnail: ./img/sandbox-thumb.png
 hover: ./img/sandbox-hover.png
-modal: ./img/vibe-code-1.mov::Early stage starter kit docs with Square Market theme, ./img/sandbox-hover.png::Mid-stage version of sandbox app
+modal: ./img/vibe-code-1.mov::Early stage starter kit docs with Square Market theme, ./img/sandbox-1.png::App: Home with environment-ready themed starters and recent projects,./img/sandbox-2.png::App: Projects, ./img/sandbox-3.mov::Workflow: Create a project and add templates, ./img/sandbox-4.png::App: Template navigator, ./img/sandbox-5.mov::Workflow: Navigate through workflow template in canvas
 locked: true
 role: Developer and designer
 timeline: Q3 2025 – Present
@@ -33,7 +33,7 @@ title: Multi-Seller Platform Experience
 subtitle: Square
 logo: ./img/logo-square.png
 shortDescription: Core platform vision, model and features for complex sellers to organize, manage, and operate across multiple locations and legal entities.
-thumbnail: ./img/vibe-thumb.jpg
+thumbnail: ./img/me-thumb.png
 hover: ./img/me-hover.png
 modal: ./img/me-1.mov::Multiple legal entities support: Seller verification workflow, ./img/me-2.mov::Exploration of different account model architecture, ./img/me-3.png::Map of Square Dashboard features across configuration level, ./img/me-4.png::Evaluation map of seller needs against design approaches
 locked: true
@@ -62,7 +62,7 @@ logo: ./img/logo-block.png
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
 thumbnail: ./img/g2-thumb.png
 hover: ./img/g2-thumb.png
-modal: ./img/g2-1.mp4::Workflow: Customer advocate resolving hardware issue, ./img/g2-2.png::Sales associate launchpad, ./img/g2-3.png::Account manager launchpad, ./img/g2-4.mp4::Workflow: Lead sourcing and vetting for sales
+modal: ./img/g2-1.mov::Workflow: Customer advocate resolving hardware issue, ./img/g2-2.png::Sales associate launchpad, ./img/g2-3.png::Account manager launchpad, ./img/g2-4.mov::Workflow: Lead sourcing and vetting for sales
 locked: true
 role: Designer + developer
 timeline: July 2025
@@ -90,7 +90,7 @@ logo: ./img/logo-square.png
 shortDescription: Centralized, remote device hub on Square Dashboard web and Point of Sale, for sellers to monitor and manage hardware fleets in real-time.
 thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.png
-modal: ./img/rdm-1.mp4::Device fleet overview dashboard, ./img/rdm-2.mp4::Real-time device monitoring, ./img/rdm-3.png::Status by device types, ./img/rdm-4.mp4::Exploration: Device details, ./img/rdm-5.png::Exploration: Data visualization, ./img/dev-codes.mov::Workflow: Bulk create device codes, ./img/dev-codes.png::Exploration: Device code details
+modal: ./img/rdm-1.mov::Device fleet overview dashboard, ./img/rdm-2.mov::Real-time device monitoring, ./img/rdm-3.png::Status by device types, ./img/rdm-4.mov::Exploration: Device details, ./img/rdm-5.png::Exploration: Data visualization, ./img/dev-codes.mov::Workflow: Bulk create device codes, ./img/dev-codes.png::Exploration: Device code details
 role: Design lead
 timeline: Q1 2022 – Q2 2023
 title1: Context
@@ -142,7 +142,7 @@ title: Automation Developer Portal
 subtitle: GlaxoSmithKline
 logo: ./img/logo-gsk.png
 shortDescription: Self-service bot promotion engine that replaces manual audit gates with codified compliance rules.
-thumbnail: ./img/rpa-thumb.jpg
+thumbnail: ./img/rpa-thumb.png
 hover: ./img/rpa-hover.png
 modal: ./img/rpa-1.jpg::Detail: Bot promotion request, ./img/rpa-2.mp4::Workflow: Register bot, ./img/rpa-3.mp4::Workflow: Edit permissions, ./img/rpa-4.mp4::Workflow: Assess automation opportunity, ./img/rpa-5.mp4::Concept: Robotic process automation landing page, ./img/rpa-6.mp4::Blueprint: Prod files monitoring, ./img/rpa-7.jpg::Developer Portal: RPA bot catalog, ./img/rpa-8.mp4::Process: Workflow wireframes
 role: Designed experience, led service blueprint and systems documentation work. 
