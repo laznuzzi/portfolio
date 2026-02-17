@@ -354,7 +354,8 @@
                 card.setAttribute('data-locked', 'true');
             }
 
-            const firstImage = project.hover || project.thumbnail || './img/placeholder.jpeg';
+            const thumbnailImage = project.thumbnail || './img/placeholder.jpeg';
+            const hoverImage = project.hover || project.thumbnail || './img/placeholder.jpeg';
             const arrowContent = project.locked
                 ? '<img src="./img/lock.svg" alt="Locked" />'
                 : '→';
@@ -366,7 +367,7 @@
                 <h3 class="featured-card-title">${project.title}</h3>
                 <p class="featured-card-description">${project.shortDescription || ''}</p>
                 <div class="featured-card-image">
-                    <img src="${firstImage}" alt="${project.title}">
+                    <img src="${thumbnailImage}" alt="${project.title}">
                 </div>
                 <div class="featured-card-meta">
                     <span class="featured-card-company">${project.subtitle || ''}</span>
@@ -375,7 +376,7 @@
                 </div>
                 <div class="hover-preview">
                     <div class="hover-image-wrapper">
-                        <img src="${firstImage}" alt="${project.title} hover">
+                        <img src="${hoverImage}" alt="${project.title} hover">
                     </div>
                 </div>
             `;
