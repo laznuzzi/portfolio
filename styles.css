@@ -853,6 +853,7 @@ p {
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition);
+  animation: tabBounce 2s ease-in-out infinite;
 }
 
 .footer-tab-arrow {
@@ -861,6 +862,16 @@ p {
   color: var(--border-strong);
   user-select: none;
   margin-top: -2px;
+}
+
+/* Bounce animation for footer tab */
+@keyframes tabBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-8px);
+  }
 }
 
 /* Footer preview bar at the bottom */
