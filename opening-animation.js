@@ -495,6 +495,7 @@
         // DESKTOP: Scroll-triggered animation
         gsap.to('.footer-tab, .main-content-footer-preview', {
             y: '-100vh',
+            opacity: 0,
             ease: "none",
             scrollTrigger: {
                 trigger: '.scroll-trigger-spacer',
