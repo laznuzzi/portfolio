@@ -356,6 +356,9 @@
             modal.classList.add('active');
         });
 
+        // Update URL hash with project ID
+        history.pushState({ projectId: entryId }, '', `#${entryId}`);
+
         console.log('Modal opened with slide-up animation');
     }
 
@@ -887,6 +890,9 @@
                 // Slide down animation
                 modal.classList.remove('active');
 
+                // Remove URL hash
+                history.pushState('', document.title, window.location.pathname + window.location.search);
+
                 // Wait for animation to complete before hiding
                 setTimeout(() => {
                     modal.style.display = 'none';
@@ -1117,5 +1123,34 @@
             }
         });
     }
+
+    // ==================== URL HASH HANDLING ====================
+    // Handle browser back/forward and direct URLs with hash
+    function handleHashChange() {
+        const hash = window.location.hash.slice(1); // Remove the # symbol
+
+        if (hash && window.fileData && window.fileData[hash]) {
+            // Open modal for the project in the hash
+            openVintageTableModal(hash, null, null, false);
+
+            // Track pageview in PostHog if available
+            if (window.posthog) {
+                posthog.capture('$pageview', {
+                    $current_url: window.location.href
+                });
+            }
+        }
+    }
+
+    // Listen for hash changes (browser back/forward)
+    window.addEventListener('hashchange', handleHashChange);
+
+    // Check for hash on page load
+    window.addEventListener('load', () => {
+        // Wait a bit for fileData to be loaded
+        setTimeout(() => {
+            handleHashChange();
+        }, 500);
+    });
 
 })();
