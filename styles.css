@@ -1123,7 +1123,7 @@ p {
   margin-bottom: var(--space-6);
   display: grid;
   grid-template-columns: 0.9fr 1.5fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr auto;
   gap: var(--space-10);
   font-family: var(--font-body);
   cursor: pointer;

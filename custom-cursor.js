@@ -22,9 +22,9 @@
 
     // Smooth cursor animation
     function animateCursor() {
-        // Smooth lerp effect
-        cursorX += (mouseX - cursorX) * 0.2;
-        cursorY += (mouseY - cursorY) * 0.2;
+        // Smooth lerp effect (higher value = faster, more responsive)
+        cursorX += (mouseX - cursorX) * 0.6;
+        cursorY += (mouseY - cursorY) * 0.6;
 
         cursor.style.left = cursorX + 'px';
         cursor.style.top = cursorY + 'px';
