@@ -7,21 +7,28 @@ thumbnail: ./img/sandbox-thumb.png
 hover: ./img/sandbox-hover.png
 modal: ./img/vibe-code-1.mov::Early stage starter kit docs with Square Market theme, ./img/sandbox-1.png::App: Home with environment-ready themed starters and recent projects,./img/sandbox-2.png::App: Projects, ./img/sandbox-3.mov::Workflow: Create a project and add templates, ./img/sandbox-4.png::App: Template navigator, ./img/sandbox-5.mov::Workflow: Navigate through workflow template in canvas
 locked: true
-role: Developer and designer
+role: Developer + designer
 timeline: Q3 2025 – Present
-title1: Context
-title2: Work
-title3: Tech stack
+title1: No shared foundations for LLMs
+title2: Building a structured sandbox
+title3: Returning to modular foundations
+title4: Integrating production code
+title5: Tech details
 tags: ai, agentic code, enterprise tool, design system, app
 people: Nahiyan Khan (DEng)
 
 ### 
-Teams were spending a large amount of time on setup rather than ideation. Designers and engineers repeatedly recreated brand, themes, and existing Square and Cash App surfaces from scratch, with no shared foundation to build from. This led to inconsistent experiments, duplicated effort, and slower iteration.
+When AI in the design org boomed, teams were spending a large amount of time on setup rather than ideation. Designers and engineers repeatedly recreated brand, themes, and existing Square and Cash App surfaces from scratch, with no shared foundation to build from. This led to inconsistent experiments, duplicated effort, and slower iteration. Existing design systems were not optimized for rapid code-native experimentation or AI-assisted generation.
 
 ### 
-Built Square's Vibe Code Kit (passion project), a starter kit package with built-in themes, tokens, components, and page templates that users could install and use with any IDE. Used shadcn/ui as library.
+I wanted to do something about this, so for a few weeks, I spent post-kid-bedtime building a modular vibe code kit (leveraging shadUI) themed with the Square Market design language. I shared with Nahiyan (eng lead in Applied AI), and in a matter of days, the kit quickly evolved into a broader question: how much setup, scaffolding, and environment configuration do teams really need in order to experiment effectively?
+This is when we started sandbox: a standalone app with design languages, a canvas, and built-in LLM. The app included pre-seeded design languages, built-in chat, AI rules and guidelines grounded in those design systems, page templates, reusable components, hotspots, and inspect tooling. After many long nights, demos to Head of Design and Jack, we launched. 
 
-Kit evolved into experimental tool for building AI-native interfaces in code using Square and Cash App design languages. Designed and developed new features, and focused on the intelligence layer of the tool, integrating ecosystem data and design system knowledge to seed LLM-driven workflows. Features include preconfigured branding and theming, reusable components and page templates, AI-assisted workflows, and context-aware generation grounded in Square's internal patterns—enabling faster, more intelligent iteration without production constraints.
+###
+After launch, usage patterns showed that most designers preferred working in their own IDEs with flexible, cloneable tooling rather than a fixed environment. As a next phase, I abstracted the core primitives from the sandbox and returned to the original modular concept, creating a standalone local playground that anyone could clone and use to spin up Square or Cash projects. This version emphasized portability, composability, and alignment with existing workflows rather than replacing them. Then the next ask came in - "Can we just have production components in here?"
+
+###
+Currently, I'm focused on integrating the local sandbox model directly with production components and products from Squash and Cash repositories. I'm running a controlled set of experiments, each with a different build, to see which path gets us the most intelligent prototyping with the least drift. 
 
 ###
 Sandbox app: Tauri desktop app (Rust backend) with a React + TypeScript + Vite frontend, using TailwindCSS and custom Square and Cash App design systems built on shadcn/ui components.
@@ -29,7 +36,7 @@ Sandbox app: Tauri desktop app (Rust backend) with a React + TypeScript + Vite f
 ---
 
 # multi-ein
-title: Multi-Seller Platform Experience
+title: Multi-Merchant Platform Experience
 subtitle: Square
 logo: ./img/logo-square.png
 shortDescription: Core platform vision, model and features for complex sellers to organize, manage, and operate across multiple locations and legal entities.
@@ -38,25 +45,32 @@ hover: ./img/me-hover.png
 modal: ./img/me-1.mov::Multiple legal entities support: Seller verification workflow, ./img/me-2.mov::Exploration of different account model architecture, ./img/me-3.png::Map of Square Dashboard features across configuration level, ./img/me-4.png::Evaluation map of seller needs against design approaches
 locked: true
 role: Design lead
-timeline: Q4 2023 – Q3 2024
-title1: Context
-title2: Seller Experience
-title3: Platform Strategy
+timeline: Q2 2023 – Q3 2024
+title1: No shared definition of who we were building for
+title2: Crafting the "Upmarket" platform design strategy
+title3: Building the platform enablers
+title4: Enterprise adoption and compliance
 tags: platform strategy, feature, account configuration, web, taxes
 people: Graeme Britz (PM), Alison Tarwater (PM), Dax Shepherd (Eng), Curtis Wheeler (Eng)
 
 ### 
-As Square expanded upmarket, the platform remained optimized for single-entity and single-location sellers. This created friction across organization, permissions, compliance, reporting, and operational workflows for businesses operating at scale. Addressing these gaps required platform-first investments and a clearer definition of what “upmarket” meant for the product.
+In 2022, Square product teams increased their focus on building for larger sellers, or as we called them, “upmarket” sellers. They represented a big market opportunity for Square. At the time, teams had different definitions for who upmarket sellers were. In turn, the product began to quickly lack cohesion. Working cross-functionally became a struggle, and for sellers, the Square ecosystem began to break.
 
 ### 
-Led platform work to help complex sellers operate across many locations. Introduced custom location attributes and defined the vision for persistent manual and rule-based location groups, enabling bulk actions and scoped workflows across the dashboard.
+Partnered with the head of Research (Platform) to build a framework and set of upmarket seller archetypes that helped teams share the same understanding on who we are serving and align on what our approach should be. Uncovered product themes and opportunities across onboarding, configuration, permissions, support, and data visibility. Led UX audits, service blueprinting, and cross-team discussions to surface systemic gaps. This work shifted the conversation from adding segmented features to rethinking the platform foundations needed to support complex organizations.
 
 ### 
-Partnered with head of UXR on the strategic initiative to define Square’s upmarket seller model, identifying core platform opportunities, themes, and follow-on areas for teams to build against. Built on this foundation to lead multi-seller and multi-entity account work, including centralized account architecture and compliance remediation experiences.
+As design lead, drove the multi-entity initiative that restructured how accounts, entities, and locations relate to one another. Defined hierarchy models, permission scoping, and grouping behaviors so sellers could operate multiple legal entities under a unified structure rather than managing locations in isolation. Prioritized getting hierarchy and permission primitives right before expanding surface features to avoid long-term fragmentation.
+
+In parallel, led the design of location custom attributes and a broader platform groups vision, enabling sellers to define shared behaviors and configurations across subsets of their business instead of managing each location manually.
+
+### 
+These structural changes removed blockers for tax remediation and compliance workflows while positioning the platform to support complex organizations operating multiple businesses under a unified account. Although rolling out in phases, this foundation enables enterprise sellers to consider Square as a true end-to-end solution rather than a single-location tool.
+
 ---
 
 # g2
-title: Agentic Console POC
+title: Agentic Support Console (POC)
 subtitle: Block
 logo: ./img/logo-block.png
 shortDescription: A role-adaptive console POC showcasing how agentic UIs can automate internal workflows for Sales and Support.
@@ -67,19 +81,19 @@ locked: true
 role: Designer + developer
 timeline: July 2025
 category: experiments
-title1: Context
-title2: Approach
-title3: Concept
+title1: No shared model for approaching AI
+title2: Defining an automation framework
+title3: Prototyping a shared system
 tags: poc, agentic, automation, support, internal tool, experiment
 
 ###
-As teams across Block explored AI-driven efficiency, internal roles like Customer Service, Sales, and Account Management continued to rely on fragmented tools and manual workflows—slowing down resolution times, duplicating effort, and making it harder to operate proactively. Despite growing interest in automation, there was no shared vision for what an intelligent, scalable solution could look like across functions.
+As teams across Block explored AI-driven efficiency, internal roles like Customer Service, Sales, and Account Management continued to rely on fragmented tools and manual workflows. Despite growing interest in automation, and a recently launched productivity dashboard (g2), there was no shared model for how an intelligent, scalable solution should look like across functions. There was also no shared understanding of what should be automated, how agents should behave, or where human review belonged. Without a common model, conversations stayed abstract and execution stalled.
 
 ###
-Prototyped a live, role-adaptive console experience on top of G2's workflow and automation infrastructure. The proof of concept showcases how AI agents could surfac
+Established a practical framework for deciding what to automate, how agent responsibilities should be scoped, and how human oversight should function. Facilitated working sessions with operations, engineering, and platform leads to define boundaries for agent autonomy before prototyping. Grounded the framework in real operational flows — hardware case resolution, QBR preparation, and lead vetting — to avoid speculative use cases. Made a deliberate tradeoff to prioritize structured, reviewable automation over fully autonomous execution.
 
 ###
-Prototyped a live, role-adaptive console experience on top of G2's workflow and automation infrastructure. The proof of concept showcases how AI agents could surface relevant insights, suggest actions, and automate execution—shifting human effort from searching and decision-making to reviewing and approving. Designed modular experiences for CS, AM, and Sales, including flows like hardware case resolution, QBR prep, and lead vetting—highlighting how agentic UIs could reduce complexity, scale across roles, and drive alignment around what's possible.
+Built a role-adaptive console layered onto existing workflow systems to make the framework tangible. Demonstrated contextual insight surfacing, next-best action generation, and embedded approval controls across roles. The prototype acted as a concrete reference point for how agents, humans, and workflows could operate together within one shared system.
 
 ---
 
@@ -93,9 +107,9 @@ hover: ./img/rdm-hover.png
 modal: ./img/rdm-1.mov::Device fleet overview dashboard, ./img/rdm-2.mov::Real-time device monitoring, ./img/rdm-3.png::Status by device types, ./img/rdm-4.mov::Exploration: Device details, ./img/rdm-5.png::Exploration: Data visualization, ./img/dev-codes.mov::Workflow: Bulk create device codes, ./img/dev-codes.png::Exploration: Device code details
 role: Design lead
 timeline: Q1 2022 – Q2 2023
-title1: Context
-title2: Foundation: Device Hub
-title3: Evolution
+title1: In-person device management
+title2: Establishing a foundation
+title3: Expanding platform capabilities
 tags: platform, feature, web, ios/android, hardware
 people: Anjali Arakali (PM), Tyler Doyle (PM), Zachary Drayer (ENG), Joah (ENG)
 
@@ -103,37 +117,10 @@ people: Anjali Arakali (PM), Tyler Doyle (PM), Zachary Drayer (ENG), Joah (ENG)
 Before 2022, Square sellers managed devices like checkout systems, printers, and card readers in person. For larger sellers managing hundreds of devices, this meant relying on on-site staff and manual processes, losing significant time to setup, monitoring, and troubleshooting.
 
 ### 
-Led the design of Device Hub, a 0-1 remote device management platform that centralized device health, connectivity, and status into a single web experience. This work included leading design sprints with multiple hardware and device teams across Square to co-define the strategy, system models, and information architecture needed to support large device fleets across locations, while aligning with existing device management experiences on iOS and Android.
+Led the 0–1 definition and design of Device Hub, a remote device management platform. aligning hardware, Ran design sprints with multiple hardware and device teams across Square to co-define the strategy, system models, and information architecture needed to support large device fleets across locations, while aligning with existing device management experiences on iOS and Android. Partnered directly with enterprise sellers managing large fleets to validate onboarding friction and prioritize monitoring over custom visualization views and bulk actions in the initial release.
 
 ### 
-Built close relationships with hero enterprise sellers, co-evolving platform from basic monitoring to a more actionable system. Improved large-scale device onboarding through bulk device code configuration, which allowed sellers to apply settings across many devices at once. Also led work that introduced real-time diagnostic tests for device and network issues, improving issue analysis and giving both sellers and support teams clearer visibility into what was failing.
-
----
-
-# design-system
-title: GSK Design System 
-logo: ./img/logo-gsk.png
-subtitle: GlaxoSmithKline
-shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
-thumbnail: ./img/dsm-thumb.jpg
-hover: ./img/dsm-hover.png
-modal: ./img/dsm-1.mp4::Launch walkthrough, ./img/dsm-2.jpg::Docs: CDN install, ./img/dsm-3.png::Sketch UI kit: Overview docs, ./img/dsm-4.png::Sketch UI kit: Typography guidelines, ./img/dsm-5.jpg:: Developer workflow and opportunity mapping, ./img/dsm-6.jpg::Developer Portal: Component in catalog, ./img/dsm-7.mp4::Adobe XD UI kit, ./img/dsm-8.mp4::Docs: npm install
-role: Designed system, UI kits, token map, documentation and tutorials.
-timeline: 2019 – 2020
-title1: Context
-title2: Work
-title3: Tech Stack
-tags: MWC components, ui kit, material ui, documentation
-people: Alex Voorhees (DL), Jeff Taylor (Eng)
-
-###
-At a global organization like GSK, digital product development was historically throttled by a decentralized approach to design and code. Without a common infrastructure, individual teams were rebuilding similar components from scratch, leading to fragmented user experiences and high technical debt.
-
-###
-Designed the GSK design system, serving as the primary bridge between Global Brand and engineering. Focused on the structural theming of Material UI to align with enterprise requirements and collaborated with partners at Google to refine the system's architecture. Designed and maintained the core UI kit and documentation, and spearheaded the launch strategy through global workshops and tutorials. 
-
-###
-Google Material MWC LitElement web components. Vue, React, Angular and Vanilla JS starters. Sass mixins and CSS Custom Properties. 
+Expanded the platform beyond basic monitoring to a more actionable system. Designed bulk device code configuration so sellers could apply settings across many devices at once, dramatically simplifying onboarding and updates. Added real-time device and network diagnostics to shift sellers from reactive support escalation to structured self-serve troubleshooting, reducing reliance on support teams and making fleet management proactive rather than reactive.
 
 ---
 
@@ -145,16 +132,50 @@ shortDescription: Self-service bot promotion engine that replaces manual audit g
 thumbnail: ./img/rpa-thumb.png
 hover: ./img/rpa-hover.png
 modal: ./img/rpa-1.jpg::Detail: Bot promotion request, ./img/rpa-2.mp4::Workflow: Register bot, ./img/rpa-3.mp4::Workflow: Edit permissions, ./img/rpa-4.mp4::Workflow: Assess automation opportunity, ./img/rpa-5.mp4::Concept: Robotic process automation landing page, ./img/rpa-6.mp4::Blueprint: Prod files monitoring, ./img/rpa-7.jpg::Developer Portal: RPA bot catalog, ./img/rpa-8.mp4::Process: Workflow wireframes
-role: Designed experience, led service blueprint and systems documentation work. 
+role: Design lead
 timeline: 2020
-title1: Context
-title2: Work
-title3:
+title1: Manual and slow controls
+title2: Embedding compliance into workflows
+title3: Streamlining RPA bot deployment
 tags: rpa bots, dev portal, enterprise tool, sox compliance
-people: 
+people:
 
 ###
 Fragmented deployment and strict regulatory requirements (SOX, GxP) slowed the automation workforce at GSK. Moving an RPA bot to production required four separate platforms and extensive manual checklists, creating a 13-day lead time per promotion and diverting technical leads to time-consuming manual support roles.
 
 ###
-Designed a centralized console to automate the promotion and governance of RPA bots. Replaced a manual, 13-day deployment process with a self-service workflow integrated into the GSK Developer Portal. Key work focused on mapping the E2E bot lifecycle with tech leads, risk teams and automation engineers, and building an automated screening tool that instantly evaluated business processes for automation suitability. 
+Mapped the full bot lifecycle with engineering, risk, and automation teams to surface redundancies and undocumented decision points. Facilitated alignment sessions to consolidate ownership and clarify where compliance checks should become system-enforced rather than manually reviewed. Introduced an automated screening tool to validate automation suitability upstream, intentionally shifting risk evaluation earlier in the lifecycle.
+
+###
+Designed and launched a centralized promotion console within the Developer Portal that unified lifecycle tracking and embedded regulatory checkpoints directly into workflow logic. Developers could self-serve and promote their bots through environments, eliminatiing reduntant validation handoff and reducing the dependency on tech leads.
+
+---
+
+# design-system
+title: GSK Design System
+logo: ./img/logo-gsk.png
+subtitle: GlaxoSmithKline
+shortDescription: Global, enterprise design system including MWC LitElement components, starter pages, Sketch + Adobe XD UI kits and tutorials.
+thumbnail: ./img/dsm-thumb.jpg
+hover: ./img/dsm-hover.png
+modal: ./img/dsm-1.mp4::Launch walkthrough, ./img/dsm-2.jpg::Docs: CDN install, ./img/dsm-3.png::Sketch UI kit: Overview docs, ./img/dsm-4.png::Sketch UI kit: Typography guidelines, ./img/dsm-5.jpg:: Developer workflow and opportunity mapping, ./img/dsm-6.jpg::Developer Portal: Component in catalog, ./img/dsm-7.mp4::Adobe XD UI kit, ./img/dsm-8.mp4::Docs: npm install
+role: Lead designer + design engineer
+timeline: 2019 – 2020
+title1: Decentralized development
+title2: Establishing a shared foundation
+title3: Building the system end-to-end
+title4: Tech details
+tags: MWC components, ui kit, material ui, documentation
+people: Alex Voorhees (DL), Jeff Taylor (Eng)
+
+###
+At a global, 300-year-old pharmaceutical like GSK, digital product development was historically throttled by a decentralized approach to design and code. Without a common infrastructure, individual teams were rebuilding similar components from scratch, leading to fragmented user experiences and high technical debt.
+
+###
+Defined a token-based theming architecture aligned with enterprise brand requirements and served as the connective layer between Global Brand and engineering. Partnered with Google to pressure-test architectural decisions before scaling implementation. Conducted workshops and implementation sessions with distributed teams to identify friction in adoption and refined the system based on real integration constraints.
+
+###
+Designed the component, pattern and theme libraries. Built the UI kits for designers alongside production-ready components and multi-framework starters (Vue, React, Angular, Vanilla JS) so teams could implement without reinventing structure. Created practical usage guidelines, installation documentation, real examples, and starter templates to remove ambiguity for both designers and engineers. Co-led the launch strategy with GSK Brand team through workshops and tutorials.
+
+###
+Google Material MWC LitElement web components. Vue, React, Angular and Vanilla JS starters. Sass mixins and CSS custom properties. 

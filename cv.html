@@ -15,7 +15,7 @@
     <style>
         /* CV-specific styles */
         body.app-body {
-            background-color: #dbd7cc;
+            background-color: var(--bg-body); /* Lightest ivory/beige */
         }
 
         .download-pdf-button {
@@ -54,7 +54,7 @@
             color: #2a2a29;
             line-height: 1.6;
             font-size: 0.875rem; /* 14px - between base (16px) and xs (12px) */
-            background-color: var(--bg-primary);
+            background-color: var(--bg-body); /* Light ivory */
             box-sizing: border-box;
             overflow-x: hidden;
         }
@@ -726,7 +726,17 @@
                 const pdfHeight = 792;
 
                 // Fill entire PDF page with the CV background color
-                pdf.setFillColor(bgColor);
+                // Parse RGB values from computed style
+                const rgbMatch = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+                if (rgbMatch) {
+                    const r = parseInt(rgbMatch[1]);
+                    const g = parseInt(rgbMatch[2]);
+                    const b = parseInt(rgbMatch[3]);
+                    pdf.setFillColor(r, g, b);
+                } else {
+                    // Fallback to white if parsing fails
+                    pdf.setFillColor(255, 255, 255);
+                }
                 pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
 
                 // Add small margin to ensure nothing gets cut off
