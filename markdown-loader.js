@@ -105,19 +105,14 @@
                 timeline: '',
                 people: [],
                 category: 'work',
-                context: '',
-                description: '',
-                techStack: '',
                 githubLink: '',
                 shortDescription: '',
-                title1: 'Context',
-                title2: 'Work',
-                title3: 'Tech details'
+                sections: [] // Dynamic array for title/content pairs
             };
 
-            let currentSection = '';
+            let sectionTitles = {}; // Store title1, title2, title3, etc.
             let contentLines = [];
-            let sectionIndex = 0; // Track which section we're on (0, 1, 2)
+            let sectionIndex = -1; // Start at -1, increment when we see first ###
 
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
@@ -150,12 +145,13 @@
                 } else if (line.startsWith('people:')) {
                     const peopleStr = line.replace('people:', '').trim();
                     project.people = peopleStr.split(',').map(s => s.trim()).filter(s => s);
-                } else if (line.startsWith('title1:')) {
-                    project.title1 = line.replace('title1:', '').trim();
-                } else if (line.startsWith('title2:')) {
-                    project.title2 = line.replace('title2:', '').trim();
-                } else if (line.startsWith('title3:')) {
-                    project.title3 = line.replace('title3:', '').trim();
+                } else if (line.match(/^title\d+:/)) {
+                    // Capture title1, title2, title3, title4, etc.
+                    const match = line.match(/^title(\d+):\s*(.+)/);
+                    if (match) {
+                        const num = parseInt(match[1]);
+                        sectionTitles[num] = match[2].trim();
+                    }
                 } else if (line.startsWith('category:')) {
                     project.category = line.replace('category:', '').trim();
                 }
@@ -167,36 +163,45 @@
                 }
                 // Parse sections (match ### with or without space)
                 else if (line.startsWith('###')) {
-                    // Save previous section by index
-                    if (contentLines.length > 0) {
-                        const sectionContent = contentLines.join('\n').trim();
-                        if (sectionIndex === 0) project.context = sectionContent;
-                        else if (sectionIndex === 1) project.description = sectionContent;
-                        else if (sectionIndex === 2) project.techStack = sectionContent;
+                    // Save previous section
+                    if (sectionIndex >= 0 && contentLines.length > 0) {
+                        const sectionContent = contentLines.join('\n');
+                        if (sectionContent.trim()) {
+                            // sectionIndex 0 maps to title1, 1 maps to title2, etc.
+                            project.sections.push({
+                                title: sectionTitles[sectionIndex + 1] || `Section ${sectionIndex + 1}`,
+                                content: sectionContent
+                            });
+                        }
                     }
                     // Move to next section
-                    if (contentLines.length > 0 || sectionIndex > 0) {
-                        sectionIndex++;
-                    }
-                    // Start new section
-                    currentSection = line.replace(/^###\s*/, '').trim();
+                    sectionIndex++;
                     contentLines = [];
-                } else if (line && !line.startsWith('---')) {
-                    contentLines.push(line);
+                } else if (!line.startsWith('---')) {
+                    // Collect content lines including empty lines for paragraph breaks
+                    // Skip metadata lines (they have : near the start)
+                    const isMetadata = line && line.match(/^[a-zA-Z0-9]+\d*:/);
+                    if (sectionIndex >= 0 && !isMetadata) {
+                        contentLines.push(line);
+                    }
                 }
             }
 
-            // Save last section by index
-            if (contentLines.length > 0) {
-                const sectionContent = contentLines.join('\n').trim();
-                if (sectionIndex === 0) project.context = sectionContent;
-                else if (sectionIndex === 1) project.description = sectionContent;
-                else if (sectionIndex === 2) project.techStack = sectionContent;
+            // Save last section
+            if (sectionIndex >= 0 && contentLines.length > 0) {
+                const sectionContent = contentLines.join('\n');
+                if (sectionContent.trim()) {
+                    // sectionIndex 0 maps to title1, 1 maps to title2, etc.
+                    project.sections.push({
+                        title: sectionTitles[sectionIndex + 1] || `Section ${sectionIndex + 1}`,
+                        content: sectionContent
+                    });
+                }
             }
 
-            // Generate short description from description if not provided
-            if (!project.shortDescription && project.description) {
-                project.shortDescription = project.description.split('.')[0] + '.';
+            // Generate short description from first section if not provided
+            if (!project.shortDescription && project.sections.length > 0) {
+                project.shortDescription = project.sections[0].content.split('.')[0] + '.';
             }
 
             projects.push(project);
@@ -299,24 +304,22 @@
             </div>
 
             <div class="modal-row modal-row-3">
-                ${project.context ? `
-                    <div class="modal-column">
-                        <h2>${project.title1}</h2>
-                        <p>${project.context}</p>
-                    </div>
-                ` : '<div class="modal-column"></div>'}
+                ${project.sections && project.sections.length > 0
+                    ? project.sections.map(section => {
+                        // Split content into paragraphs (separated by double newlines)
+                        const paragraphs = section.content
+                            ? section.content.split('\n\n').filter(p => p.trim())
+                            : [];
 
-                <div class="modal-column">
-                    <h2>${project.title2}</h2>
-                    <p>${project.description || 'Project description coming soon.'}</p>
-                </div>
-
-                ${project.techStack ? `
-                    <div class="modal-column">
-                        <h2>${project.title3}</h2>
-                        <p>${project.techStack}</p>
-                    </div>
-                ` : '<div class="modal-column"></div>'}
+                        return `
+                            <div class="modal-column">
+                                <h2>${section.title}</h2>
+                                ${paragraphs.map(p => `<p>${p.trim()}</p>`).join('')}
+                            </div>
+                        `;
+                    }).join('')
+                    : '<div class="modal-column"><p>Content coming soon.</p></div>'
+                }
             </div>
 
             ${project.githubLink ? `
