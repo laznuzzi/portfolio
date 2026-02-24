@@ -34,6 +34,8 @@
                     role: project.role || '',
                     description: project.shortDescription || '',
                     images: project.modal,
+                    slider: project.slider || [],
+                    sliderCaption: project.sliderCaption || '',
                     content: content
                 };
             });
@@ -99,6 +101,8 @@
                 thumbnail: '',
                 hover: '',
                 modal: [],
+                slider: [], // Images for slider carousel
+                sliderCaption: '', // Caption for the slider
                 locked: false,
                 tags: [],
                 role: '',
@@ -110,9 +114,11 @@
                 sections: [] // Dynamic array for title/content pairs
             };
 
-            let sectionTitles = {}; // Store title1, title2, title3, etc.
+            let sectionTitles = {}; // Store title1, title2, title3, etc. (legacy fallback)
             let contentLines = [];
             let sectionIndex = -1; // Start at -1, increment when we see first ###
+            let currentLabel = null;
+            let currentTitle = null;
 
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
@@ -133,6 +139,13 @@
                 } else if (line.startsWith('modal:')) {
                     const modalStr = line.replace('modal:', '').trim();
                     project.modal = parseModalContent(modalStr);
+                } else if (line.startsWith('slider:')) {
+                    const sliderStr = line.replace('slider:', '').trim();
+                    console.log('Found slider field:', sliderStr);
+                    project.slider = parseModalContent(sliderStr);
+                    console.log('Parsed slider:', project.slider);
+                } else if (line.startsWith('sliderCaption:')) {
+                    project.sliderCaption = line.replace('sliderCaption:', '').trim();
                 } else if (line.startsWith('locked:')) {
                     project.locked = line.replace('locked:', '').trim() === 'true';
                 } else if (line.startsWith('tags:')) {
@@ -167,14 +180,24 @@
                     if (sectionIndex >= 0 && contentLines.length > 0) {
                         const sectionContent = contentLines.join('\n');
                         if (sectionContent.trim()) {
-                            // sectionIndex 0 maps to title1, 1 maps to title2, etc.
                             project.sections.push({
-                                title: sectionTitles[sectionIndex + 1] || `Section ${sectionIndex + 1}`,
+                                label: currentLabel,
+                                title: currentTitle || sectionTitles[sectionIndex + 1] || '',
                                 content: sectionContent
                             });
                         }
                     }
-                    // Move to next section
+                    // Extract label and title from "### Label | Title" format
+                    // Falls back to legacy titleN: metadata if no inline content
+                    const headingText = line.replace(/^###\s*/, '').trim();
+                    if (headingText.includes(' | ')) {
+                        const parts = headingText.split(' | ');
+                        currentLabel = parts[0].trim();
+                        currentTitle = parts.slice(1).join(' | ').trim();
+                    } else {
+                        currentLabel = null;
+                        currentTitle = headingText || null;
+                    }
                     sectionIndex++;
                     contentLines = [];
                 } else if (!line.startsWith('---')) {
@@ -191,9 +214,9 @@
             if (sectionIndex >= 0 && contentLines.length > 0) {
                 const sectionContent = contentLines.join('\n');
                 if (sectionContent.trim()) {
-                    // sectionIndex 0 maps to title1, 1 maps to title2, etc.
                     project.sections.push({
-                        title: sectionTitles[sectionIndex + 1] || `Section ${sectionIndex + 1}`,
+                        label: currentLabel,
+                        title: currentTitle || sectionTitles[sectionIndex + 1] || '',
                         content: sectionContent
                     });
                 }
@@ -305,15 +328,27 @@
 
             <div class="modal-row modal-row-3">
                 ${project.sections && project.sections.length > 0
-                    ? project.sections.map(section => {
+                    ? project.sections.map((section, index) => {
                         // Split content into paragraphs (separated by double newlines)
                         const paragraphs = section.content
                             ? section.content.split('\n\n').filter(p => p.trim())
                             : [];
 
+                        const bucketHeaderHTML = section.label
+                            ? `<div class="bucket-header">
+                                <span class="bucket-number">${index + 1}</span>
+                                <span class="bucket-label">${section.label}</span>
+                               </div>`
+                            : '';
+
+                        const titleHTML = section.title
+                            ? `<h2>${section.title}</h2>`
+                            : '';
+
                         return `
                             <div class="modal-column">
-                                <h2>${section.title}</h2>
+                                ${bucketHeaderHTML}
+                                ${titleHTML}
                                 ${paragraphs.map(p => `<p>${p.trim()}</p>`).join('')}
                             </div>
                         `;
