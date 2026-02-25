@@ -45,6 +45,7 @@
                     description: project.shortDescription || '',
                     thumbnail: project.thumbnail || '',
                     device: project.device || '',
+                    deviceImage: project.deviceImage || '',
                     images: sectionImages.length > 0 ? sectionImages : project.modal,
                     slider: project.slider || [],
                     sliderCaption: project.sliderCaption || '',
@@ -180,6 +181,8 @@
                         const num = parseInt(match[1]);
                         sectionTitles[num] = match[2].trim();
                     }
+                } else if (line.startsWith('device-image:')) {
+                    project.deviceImage = line.replace('device-image:', '').trim();
                 } else if (line.startsWith('device:')) {
                     project.device = line.replace('device:', '').trim();
                 } else if (line.startsWith('category:')) {

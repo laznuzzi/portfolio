@@ -291,6 +291,13 @@
                 placeholder.innerHTML = svg;
                 placeholder.classList.add('mermaid-rendered');
 
+                // Force Caveat font on all text — CSS can't always reach foreignObject content
+                placeholder.querySelectorAll('text, tspan, foreignObject *').forEach(el => {
+                    el.style.fontFamily = "'Caveat', cursive";
+                    el.style.fontSize = '20px';
+                    el.style.lineHeight = '1.1';
+                });
+
                 // Initialize pan + zoom if library is available
                 const svgEl = placeholder.querySelector('svg');
                 if (svgEl && typeof svgPanZoom !== 'undefined') {
@@ -460,10 +467,15 @@
             const hero = document.createElement('div');
             if (entry.device) {
                 hero.className = 'modal-hero-image modal-hero-image--device';
+                const deviceSrc = entry.deviceImage || entry.thumbnail;
+                const isDeviceVideo = /\.(mp4|mov|webm)$/i.test(deviceSrc);
+                const deviceMediaEl = isDeviceVideo
+                    ? `<video class="device-screen" src="${deviceSrc}" autoplay muted loop playsinline></video>`
+                    : `<img class="device-screen" src="${deviceSrc}" alt="${entry.title}">`;
                 hero.innerHTML = `
                     <div class="device device-${entry.device}">
                         <div class="device-frame">
-                            <img class="device-screen" src="${entry.thumbnail}" alt="${entry.title}">
+                            ${deviceMediaEl}
                         </div>
                         <div class="device-stripe"></div>
                         <div class="device-header"></div>
@@ -472,17 +484,27 @@
                         <div class="device-power"></div>
                     </div>`;
 
-                // After the modal is visible, measure the container and scale the device
-                // to fill the available width (total width minus the CSS padding on each side)
+                // Scale the device to fill the container, and re-scale on resize
                 requestAnimationFrame(() => {
                     const deviceEl = hero.querySelector('.device');
                     if (!deviceEl) return;
-                    const style = getComputedStyle(hero);
-                    const available = hero.clientWidth
-                        - parseFloat(style.paddingLeft)
-                        - parseFloat(style.paddingRight);
-                    const zoom = available / deviceEl.offsetWidth;
-                    deviceEl.style.zoom = String(zoom);
+
+                    // Capture natural width before any zoom is applied
+                    const naturalWidth = deviceEl.offsetWidth;
+
+                    const applyZoom = () => {
+                        const style = getComputedStyle(hero);
+                        const available = hero.clientWidth
+                            - parseFloat(style.paddingLeft)
+                            - parseFloat(style.paddingRight);
+                        deviceEl.style.zoom = String(available / naturalWidth);
+                    };
+
+                    applyZoom();
+
+                    // Re-scale whenever the hero container changes size
+                    const ro = new ResizeObserver(applyZoom);
+                    ro.observe(hero);
                 });
             } else {
                 hero.className = 'modal-hero-image';
