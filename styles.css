@@ -255,7 +255,7 @@
   /* Surfaces (backgrounds) */
   --palette-surface-1: #f2f0e9;      /* Primary surface - body, modals */
   --palette-surface-2: #e4e0d4;      /* Elevated - borders, elevated surfaces, footer */
-  --palette-surface-3: #d3cdc1;      /* Folder tabs, muted elements */
+  --palette-surface-3: #d9d3c6;      /* Folder tabs, muted elements */
 
   /* Foregrounds (text, borders, frames) */
   --palette-foreground-primary: #1b1c1d;     /* Main text, strong borders */
@@ -1627,7 +1627,6 @@ p {
   flex-direction: column;
   align-items: center;
   grid-column: 1 / -1;
-  padding-bottom: var(--space-10);
 }
 
 .project-modal-content .modal-title-column h1 {
@@ -1648,16 +1647,15 @@ p {
 
 /* Metadata grid - 3 centered rows with 1px borders */
 .modal-metadata-grid {
+  min-height: 160px;
   display: flex;
   flex-direction: column;
   gap: 0;
   min-width: auto;
-  margin-bottom: var(--space-12);
   font-weight: var(--font-weight-light);
 }
 
 .metadata-cell {
-  padding: var(--space-2) 0;
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--text-primary);
@@ -1665,7 +1663,6 @@ p {
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-bottom: var(--border-normal) solid var(--border-strong);
 }
 
 .metadata-cell:last-child {
@@ -1796,7 +1793,7 @@ p {
   align-items: center;
   gap: var(--space-2);
   background: var(--bg-elevated);
-  padding: 0 var(--space-2);
+  padding: var(--space-2);
   min-height: var(--space-8);
   border-radius: var(--radius-md);
 }
@@ -1805,11 +1802,12 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-1);
   background-color: var(--text-secondary);
   color: var(--bg-body);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   font-size: 10px;
   font-weight: var(--font-weight-bold);
   flex-shrink: 0;
@@ -1851,6 +1849,11 @@ p {
 .mermaid-placeholder svg {
   width: 100%;
   height: 100%;
+}
+
+.mermaid-placeholder svg text,
+.mermaid-placeholder svg tspan {
+  font-family: 'Caveat', cursive !important;
 }
 
 /* +/- zoom controls overlaid on diagram */

@@ -26,7 +26,7 @@ img: ./img/market-starter-1.png::Abstraction architecture, ./img/market-starter-
 After launch, usage patterns showed that most designers preferred working in their own IDEs with flexible, cloneable tooling rather than a fixed environment. As a next phase, I abstracted the core primitives from the sandbox and returned to the original modular concept, creating a standalone local playground that anyone could clone and use to spin up Square or Cash projects. This version emphasized portability, composability, and alignment with existing workflows rather than replacing them. Then the next ask came in - "Can we just have production components in here?"
 
 ### Build (again) | Integrating production code
-img: ./diagrams/sandbox-component-flow.mmd::Architecture: component flow for local sandbox with production components and templates, ./img/market-starter-5.png::Experiment 1: Local sandbox uses schemas from external Market component and Dashboard production repos to generate UI
+img: ./diagrams/sandbox-component-flow.mmd::Experiment 1: Local sandbox uses schemas from external Market component and Dashboard production repos to generate UI
 Currently, I'm focused on integrating the local sandbox model directly with production components and products from Squash and Cash repositories. I'm running a controlled set of experiments, each with a different build, to see which path gets us the most intelligent prototyping with the least drift.
 
 ### Stack | Tech details
