@@ -29,11 +29,23 @@
             projects.forEach((project, index) => {
                 const content = generateHTML(project);
 
+                // Build flat images array from per-section img: fields (with bucket info),
+                // falling back to the top-level modal: field for projects without per-section images
+                const sectionImages = (project.sections || []).flatMap((section, bucketIdx) =>
+                    (section.images || []).map((img, subIdx) => ({
+                        ...img,
+                        bucketIndex: bucketIdx,
+                        subIndex: subIdx + 1
+                    }))
+                );
+
                 fileData[project.id] = {
                     title: project.title,
                     role: project.role || '',
                     description: project.shortDescription || '',
-                    images: project.modal,
+                    thumbnail: project.thumbnail || '',
+                    device: project.device || '',
+                    images: sectionImages.length > 0 ? sectionImages : project.modal,
                     slider: project.slider || [],
                     sliderCaption: project.sliderCaption || '',
                     content: content
@@ -60,7 +72,7 @@
         const parts = modalStr.split(',');
 
         parts.forEach(part => {
-            const trimmed = part.trim();
+            const trimmed = part.trim().replace(/^img:\s*/i, '');
             if (!trimmed) return;
 
             // Image/video path with optional caption
@@ -74,8 +86,9 @@
                 caption = splitParts.slice(1).join('::').trim();
             }
 
+            const isMermaid = src.toLowerCase().endsWith('.mmd');
             items.push({
-                type: 'media',
+                type: isMermaid ? 'mermaid' : 'media',
                 src: src,
                 caption: caption
             });
@@ -111,6 +124,7 @@
                 category: 'work',
                 githubLink: '',
                 shortDescription: '',
+                device: '',
                 sections: [] // Dynamic array for title/content pairs
             };
 
@@ -119,6 +133,7 @@
             let sectionIndex = -1; // Start at -1, increment when we see first ###
             let currentLabel = null;
             let currentTitle = null;
+            let currentSectionImages = [];
 
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
@@ -165,6 +180,8 @@
                         const num = parseInt(match[1]);
                         sectionTitles[num] = match[2].trim();
                     }
+                } else if (line.startsWith('device:')) {
+                    project.device = line.replace('device:', '').trim();
                 } else if (line.startsWith('category:')) {
                     project.category = line.replace('category:', '').trim();
                 }
@@ -173,6 +190,10 @@
                     project.role = line.replace('**Role:**', '').trim();
                 } else if (line.startsWith('**Timeline:**')) {
                     project.timeline = line.replace('**Timeline:**', '').trim();
+                }
+                // Per-section images: "img: ./img/a.png::Caption, ./img/b.png"
+                else if (sectionIndex >= 0 && line.startsWith('img:')) {
+                    currentSectionImages = parseModalContent(line.replace('img:', '').trim());
                 }
                 // Parse sections (match ### with or without space)
                 else if (line.startsWith('###')) {
@@ -183,7 +204,8 @@
                             project.sections.push({
                                 label: currentLabel,
                                 title: currentTitle || sectionTitles[sectionIndex + 1] || '',
-                                content: sectionContent
+                                content: sectionContent,
+                                images: currentSectionImages
                             });
                         }
                     }
@@ -200,6 +222,7 @@
                     }
                     sectionIndex++;
                     contentLines = [];
+                    currentSectionImages = [];
                 } else if (!line.startsWith('---')) {
                     // Collect content lines including empty lines for paragraph breaks
                     // Skip metadata lines (they have : near the start)
@@ -217,7 +240,8 @@
                     project.sections.push({
                         label: currentLabel,
                         title: currentTitle || sectionTitles[sectionIndex + 1] || '',
-                        content: sectionContent
+                        content: sectionContent,
+                        images: currentSectionImages
                     });
                 }
             }
@@ -335,7 +359,7 @@
                             : [];
 
                         const bucketHeaderHTML = section.label
-                            ? `<div class="bucket-header">
+                            ? `<div class="bucket-header" data-bucket="${index}">
                                 <span class="bucket-number">${index + 1}</span>
                                 <span class="bucket-label">${section.label}</span>
                                </div>`

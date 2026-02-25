@@ -1,0 +1,56 @@
+graph LR
+    %% Market Repo (via npm)
+    Market["📦 Market Repo<br/><i>Published to npm</i>"]
+    MarketComps["@market/react<br/>MarketButton<br/>MarketTable<br/>...43 components"]
+    MarketTokens["@market/monochrome<br/>--core-* tokens<br/>--market-* tokens"]
+
+    Market --> MarketComps
+    Market --> MarketTokens
+
+    %% Dashboard Repo
+    Dash["📦 Dashboard Repo<br/><i>Internal monorepo</i>"]
+    DashTemplates["frontend/templates/<br/>Handlebars pages"]
+
+    Dash --> DashTemplates
+
+    %% Starter Kit (nested in Dashboard)
+    StarterKit["📦 starter-kit/<br/><i>Nested in Dashboard</i>"]
+
+    Dash --> StarterKit
+
+    %% Installation Flow
+    NPM["npm install<br/>@market/react<br/>@market/monochrome"]
+    Dash --> NPM
+    NPM --> MarketComps
+    NPM --> MarketTokens
+
+    %% Schema Extraction
+    Extract["extract-template.js<br/><i>Handlebars → JSON</i>"]
+    DashTemplates --> Extract
+    Extract --> Schemas["schemas/pages/<br/>items-page.json<br/>orders-page.json"]
+
+    %% Component Catalog
+    Catalog["schemas/components/<br/>market-catalog.json"]
+    MarketComps -.->|"documents"| Catalog
+
+    %% Registry
+    Registry["components/market/<br/>registry.ts"]
+    Catalog --> Registry
+    MarketComps --> Registry
+
+    %% Rendering
+    Render["lib/json-render.tsx"]
+    Schemas --> Render
+    Registry --> Render
+
+    %% User Pages
+    UserPages["projects/<br/><i>User pages</i>"]
+    Render --> UserPages
+    MarketTokens -.->|"styles"| UserPages
+
+    %% Styling
+    style Market fill:#ffe0b2,stroke:#e65100,stroke-width:2px
+    style Dash fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style StarterKit fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
+    style Schemas fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style UserPages fill:#c8e6c9,stroke:#1b5e20,stroke-width:3px

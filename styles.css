@@ -1631,7 +1631,7 @@ p {
 }
 
 .project-modal-content .modal-title-column h1 {
-  font-size: var(--text-4xl);
+  font-size: var(--text-3xl);
   line-height: var(--line-height-tight);
   margin: 0;
   width: 100%;
@@ -1796,7 +1796,7 @@ p {
   align-items: center;
   gap: var(--space-2);
   background: var(--bg-elevated);
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-2);
   min-height: var(--space-8);
   border-radius: var(--radius-md);
 }
@@ -1807,13 +1807,14 @@ p {
   justify-content: center;
   width: 18px;
   height: 18px;
-  background-color: var(--text-primary);
+  background-color: var(--text-secondary);
   color: var(--bg-body);
   border-radius: var(--radius-full);
   font-size: 10px;
   font-weight: var(--font-weight-bold);
   flex-shrink: 0;
   line-height: 1;
+  font-family: var(--font-body);
 }
 
 .bucket-label {
@@ -1823,12 +1824,92 @@ p {
   color: var(--text-secondary);
 }
 
+.bucket-header.active {
+  background: var(--text-primary);
+}
+
+.bucket-header.active .bucket-label {
+  color: var(--bg-body);
+}
+
+.bucket-header.active .bucket-number {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+}
+
+/* Mermaid diagram container */
+.mermaid-placeholder {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  background-color: #ffff;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.mermaid-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* +/- zoom controls overlaid on diagram */
+.diagram-controls {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  z-index: 10;
+}
+
+.diagram-btn {
+  width: 28px;
+  height: 28px;
+  background: var(--bg-body);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background var(--transition-fast);
+}
+
+.diagram-btn:hover {
+  background: var(--bg-secondary);
+}
+
+/* Sub-number circle in the image caption row: 1.1, 1.2, 2.1 etc. */
+.media-sub-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 20px;
+  padding: 0 var(--space-1);
+  background-color: var(--text-secondary);
+  color: var(--bg-body);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-right: var(--space-2);
+}
+
 /* Modal typography - applies to all content in modal */
 /* H2 styles for content sections (Context, Work, etc.) */
 .project-modal-content h2 {
   font-family: var(--font-body);
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
   margin: 0;
   color: var(--text-primary);
 }
@@ -1865,11 +1946,43 @@ p {
   background: var(--border-strong);
 }
 
+/* Hero image — thumbnail shown at top of the image column, no caption */
+.modal-hero-image {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin: var(--space-2) 0;
+  border: var(--space-4) solid var(--text-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--text-primary);
+}
+
+.modal-hero-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-sm);
+}
+
+/* Device mockup variant — centers and scales the device to fit */
+.modal-hero-image--device {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8) var(--space-6);
+  overflow: hidden;
+}
+
+.modal-hero-image--device .device {
+  flex-shrink: 0;
+}
+
 /* Media item wrapper with caption */
 .modal-media-item {
   width: 100%;
   max-width: var(--container-lg);
-  margin: var(--space-4) 0;
+  margin: var(--space-2) 0;
   border: var(--space-4) solid var(--bg-elevated);
   border-top: var(--border-normal) solid var(--bg-elevated);
   border-radius: var(--radius-lg);

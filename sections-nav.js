@@ -214,6 +214,122 @@
     }
 
 
+    // ==================== BUCKET SCROLL OBSERVER ====================
+    // Highlights the bucket header matching the image currently visible
+    // in the right scroll column. Activates on scroll; cleans up on each modal open.
+    function initBucketObserver(scrollContainer, textContainer, leftColumn) {
+        // Remove any previous listener
+        if (scrollContainer._bucketScrollHandler) {
+            scrollContainer.removeEventListener('scroll', scrollContainer._bucketScrollHandler);
+            delete scrollContainer._bucketScrollHandler;
+        }
+
+        const mediaItems = Array.from(
+            document.querySelectorAll('#modal-image-container .modal-media-item[data-bucket]')
+        );
+        const bucketHeaders = Array.from(
+            textContainer.querySelectorAll('.bucket-header[data-bucket]')
+        );
+
+        if (!mediaItems.length || !bucketHeaders.length) return;
+
+        let activeBucket = null;
+
+        const setActive = (bucketStr) => {
+            if (bucketStr === activeBucket) return;
+            activeBucket = bucketStr;
+            bucketHeaders.forEach(h => {
+                h.classList.toggle('active', h.dataset.bucket === bucketStr);
+            });
+
+            // If the newly active section isn't fully in view on the left, scroll it in
+            const activeHeader = bucketHeaders.find(h => h.dataset.bucket === bucketStr);
+            if (activeHeader && leftColumn) {
+                const containerRect = leftColumn.getBoundingClientRect();
+                const headerRect = activeHeader.getBoundingClientRect();
+                const isVisible = headerRect.top >= containerRect.top
+                    && headerRect.bottom <= containerRect.bottom;
+                if (!isVisible) {
+                    const targetScrollTop = leftColumn.scrollTop
+                        + headerRect.top - containerRect.top
+                        - 24; // 24px breathing room above the header
+                    leftColumn.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+                }
+            }
+        };
+
+        const handler = () => {
+            // Find the last media item whose top edge has scrolled past 35% of the container.
+            // Start from null so no bucket activates until the user actually scrolls.
+            const threshold = scrollContainer.getBoundingClientRect().top
+                + scrollContainer.clientHeight * 0.85;
+            let current = null;
+            for (const item of mediaItems) {
+                if (item.getBoundingClientRect().top <= threshold) current = item;
+            }
+            if (current) setActive(current.dataset.bucket);
+        };
+
+        scrollContainer._bucketScrollHandler = handler;
+        scrollContainer.addEventListener('scroll', handler, { passive: true });
+    }
+
+    // ==================== MERMAID DIAGRAM RENDERER ====================
+    // Fetches .mmd files referenced in media items and renders them as inline SVGs
+    async function renderMermaidDiagrams(container) {
+        if (typeof mermaid === 'undefined') return;
+        const placeholders = container.querySelectorAll('.mermaid-placeholder[data-mermaid-src]');
+        if (!placeholders.length) return;
+
+        for (const placeholder of placeholders) {
+            const src = placeholder.dataset.mermaidSrc;
+            try {
+                const res = await fetch(src);
+                const definition = await res.text();
+                const id = 'mermaid-' + Math.random().toString(36).slice(2, 8);
+                const { svg } = await mermaid.render(id, definition);
+                placeholder.innerHTML = svg;
+                placeholder.classList.add('mermaid-rendered');
+
+                // Initialize pan + zoom if library is available
+                const svgEl = placeholder.querySelector('svg');
+                if (svgEl && typeof svgPanZoom !== 'undefined') {
+                    svgEl.style.width = '100%';
+                    svgEl.style.height = '100%';
+
+                    const panZoom = svgPanZoom(svgEl, {
+                        zoomEnabled: true,
+                        panEnabled: true,
+                        controlIconsEnabled: false,
+                        fit: true,
+                        center: true,
+                        minZoom: 0.3,
+                        maxZoom: 8,
+                        zoomScaleSensitivity: 0.3
+                    });
+
+                    // Inject +/reset/- controls
+                    const controls = document.createElement('div');
+                    controls.className = 'diagram-controls';
+                    controls.innerHTML = `
+                        <button class="diagram-btn" title="Zoom in">+</button>
+                        <button class="diagram-btn" title="Reset">↺</button>
+                        <button class="diagram-btn" title="Zoom out">−</button>
+                    `;
+                    placeholder.appendChild(controls);
+
+                    const [zoomIn, reset, zoomOut] = controls.querySelectorAll('.diagram-btn');
+                    zoomIn.addEventListener('click', () => panZoom.zoomIn());
+                    reset.addEventListener('click', () => { panZoom.resetZoom(); panZoom.center(); });
+                    zoomOut.addEventListener('click', () => panZoom.zoomOut());
+                }
+            } catch (e) {
+                console.error('Mermaid render failed:', src, e);
+                placeholder.textContent = 'Diagram could not be loaded.';
+            }
+        }
+    }
+
     // Open modal for vintage table entries - defined at module scope
     function openVintageTableModal(entryId, row, hoverImageRect, isLocked = false) {
         console.log('openVintageTableModal called with:', entryId, 'isLocked:', isLocked);
@@ -282,6 +398,18 @@
                              alt="${entry.title} - Image ${index + 1}">
                     `;
                 }
+            } else if (item.type === 'mermaid') {
+                const bucketAttr = item.bucketIndex !== undefined ? ` data-bucket="${item.bucketIndex}"` : '';
+                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
+                const subLabelHTML = hasSubLabel
+                    ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>`
+                    : '';
+                const caption = item.caption || '';
+                const captionRowHTML = (hasSubLabel || caption)
+                    ? `<div class="modal-media-caption">${subLabelHTML}${caption}</div>`
+                    : '';
+                return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}<div class="mermaid-placeholder" data-mermaid-src="${item.src}"></div></div>`;
+
             } else if (item.type === 'media') {
                 // New format: media object with optional caption
                 const mediaPath = item.src;
@@ -289,7 +417,15 @@
                 const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
                 console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}, caption: ${caption}`);
 
-                const captionHTML = caption ? `<div class="modal-media-caption">${caption}</div>` : '';
+                const bucketAttr = item.bucketIndex !== undefined ? ` data-bucket="${item.bucketIndex}"` : '';
+                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
+                const subLabelHTML = hasSubLabel
+                    ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>`
+                    : '';
+                // Sub-label circle and caption share the same caption row
+                const captionRowHTML = (hasSubLabel || caption)
+                    ? `<div class="modal-media-caption">${subLabelHTML}${caption}</div>`
+                    : '';
 
                 let mediaHTML;
                 if (isVideo) {
@@ -310,18 +446,85 @@
                     `;
                 }
 
-                return `<div class="modal-media-item">${captionHTML}${mediaHTML}</div>`;
+                return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}${mediaHTML}</div>`;
             }
 
             return ''; // Fallback for unknown types
         }).join('');
 
-        // Ensure we have content to display
-        if (!mediaHTML || mediaHTML.trim() === '') {
-            console.warn('No media HTML generated, using fallback');
-            imageContainer.innerHTML = `<img src="./img/placeholder.jpeg" alt="Placeholder">`;
+        // Clear image container
+        imageContainer.innerHTML = '';
+
+        // Hero image — thumbnail shown at top, no caption or bucket label
+        if (entry.thumbnail) {
+            const hero = document.createElement('div');
+            if (entry.device) {
+                hero.className = 'modal-hero-image modal-hero-image--device';
+                hero.innerHTML = `
+                    <div class="device device-${entry.device}">
+                        <div class="device-frame">
+                            <img class="device-screen" src="${entry.thumbnail}" alt="${entry.title}">
+                        </div>
+                        <div class="device-stripe"></div>
+                        <div class="device-header"></div>
+                        <div class="device-sensors"></div>
+                        <div class="device-btns"></div>
+                        <div class="device-power"></div>
+                    </div>`;
+
+                // After the modal is visible, measure the container and scale the device
+                // to fill the available width (total width minus the CSS padding on each side)
+                requestAnimationFrame(() => {
+                    const deviceEl = hero.querySelector('.device');
+                    if (!deviceEl) return;
+                    const style = getComputedStyle(hero);
+                    const available = hero.clientWidth
+                        - parseFloat(style.paddingLeft)
+                        - parseFloat(style.paddingRight);
+                    const zoom = available / deviceEl.offsetWidth;
+                    deviceEl.style.zoom = String(zoom);
+                });
+            } else {
+                hero.className = 'modal-hero-image';
+                hero.innerHTML = `<img src="${entry.thumbnail}" alt="${entry.title}">`;
+            }
+            imageContainer.appendChild(hero);
+        }
+
+        console.log('Entry slider:', entry.slider);
+
+        // Add slider if exists (append as DOM node, not HTML string)
+        if (entry.slider && entry.slider.length > 0) {
+            console.log('Rendering slider with', entry.slider.length, 'images');
+            const sliderImages = entry.slider.map(item => ({
+                src: item.src,
+                caption: item.caption
+            }));
+
+            // Create slider container
+            const sliderContainer = document.createElement('div');
+            sliderContainer.className = 'slider-container-wrapper';
+
+            if (window.initImageSlider) {
+                window.initImageSlider(sliderImages, sliderContainer, entry.sliderCaption);
+                imageContainer.appendChild(sliderContainer);
+                console.log('Slider appended to DOM');
+            } else {
+                console.warn('Image slider not loaded - window.initImageSlider not found');
+            }
         } else {
-            imageContainer.innerHTML = mediaHTML;
+            console.log('No slider for this project');
+        }
+
+        // Add regular images
+        if (mediaHTML && mediaHTML.trim()) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = mediaHTML;
+            while (tempDiv.firstChild) {
+                imageContainer.appendChild(tempDiv.firstChild);
+            }
+        } else if (imageContainer.children.length === 0) {
+            imageContainer.innerHTML = `<img src="./img/placeholder.jpeg" alt="Placeholder">`;
         }
 
         // Set text content from entry data
@@ -350,6 +553,12 @@
         const rightColumn = document.querySelector('.modal-right-column');
         if (leftColumn) leftColumn.scrollTop = 0;
         if (rightColumn) rightColumn.scrollTop = 0;
+
+        // Highlight bucket header matching the visible image as right column scrolls
+        if (rightColumn) initBucketObserver(rightColumn, textContainer, leftColumn);
+
+        // Fetch and render any .mmd diagram placeholders
+        renderMermaidDiagrams(imageContainer);
 
         // Trigger animation after display is set
         requestAnimationFrame(() => {
