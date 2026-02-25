@@ -2206,7 +2206,7 @@ p {
 
   /* Hide header/nav bar on mobile */
   .app-header {
-    display: none !important;
+    display: none;
   }
 
   /* Hide vertical sidebar text on mobile */
@@ -2221,8 +2221,8 @@ p {
   }
 
   .opening-avatar-wrapper {
-    width: 1em !important;
-    height: 1em !important;
+    width: 1em;
+    height: 1em;
     border-width: 6px;
   }
 
@@ -2251,18 +2251,18 @@ p {
     gap: var(--space-3);
     padding: var(--space-4);
     min-height: auto;
-    border-bottom: none !important;
+    border-bottom: none;
     margin-bottom: var(--space-6);
   }
 
   .project-card::after {
-    display: none !important; /* Remove hover wipe on mobile */
+    display: none; /* Remove hover wipe on mobile */
   }
 
   /* Hide filing folder and footer preview on mobile */
   .filing-folder-top,
   .main-content-footer-preview {
-    display: none !important;
+    display: none;
   }
 
   /* Make main content start slightly visible at bottom (peeking out) */
@@ -2296,7 +2296,7 @@ p {
 
   /* Disable hover preview on mobile */
   .hover-preview {
-    display: none !important;
+    display: none;
   }
 
   /* Show mobile footer */
@@ -2342,56 +2342,56 @@ p {
 
   /* Modals - mobile responsive */
   .project-modal-content {
-    height: 95vh !important;
-    flex-direction: column !important;
-    display: flex !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    scrollbar-width: none !important; /* Hide scrollbar Firefox */
-    -ms-overflow-style: none !important; /* Hide scrollbar IE/Edge */
+    height: 95vh;
+    flex-direction: column;
+    display: flex;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
   }
 
   .project-modal-content::-webkit-scrollbar {
-    display: none !important; /* Hide scrollbar Chrome/Safari */
+    display: none; /* Hide scrollbar Chrome/Safari */
   }
 
   /* Stack columns vertically on mobile */
   .modal-left-column {
-    width: 100% !important;
-    min-width: auto !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    flex-shrink: 0 !important;
-    position: relative !important;
-    order: 1 !important;
-    padding: var(--space-6) !important;
-    overflow: visible !important;
+    width: 100%;
+    min-width: auto;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+    flex-shrink: 0;
+    position: relative;
+    order: 1;
+    padding: var(--space-6);
+    overflow: visible;
   }
 
   .modal-right-column {
-    width: 100% !important;
-    min-width: auto !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    flex-shrink: 0 !important;
-    position: relative !important;
-    order: 2 !important;
-    padding: var(--space-6) !important;
-    padding-top: 0 !important;
-    overflow: visible !important;
+    width: 100%;
+    min-width: auto;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+    flex-shrink: 0;
+    position: relative;
+    order: 2;
+    padding: var(--space-6);
+    padding-top: 0;
+    overflow: visible;
   }
 
   .modal-right-title {
-    display: none !important; /* Hide the right column title on mobile */
+    display: none; /* Hide the right column title on mobile */
   }
 
   .modal-content-columns {
-    height: auto !important;
-    overflow: visible !important;
+    height: auto;
+    overflow: visible;
   }
 
   /* Stack header on mobile */
@@ -2421,35 +2421,35 @@ p {
   }
 
   .modal-images-column {
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .modal-images-column img,
   .modal-images-column video {
-    border-radius: var(--radius-md) !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    display: block !important;
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
   }
 
   /* Adjust media item borders on mobile */
   .modal-media-item {
-    border: var(--border-thick) solid var(--bg-elevated) !important;
-    border-radius: var(--radius-md) !important;
-    margin: var(--space-2) 0 !important;
-    overflow: hidden !important;
+    border: var(--border-thick) solid var(--bg-elevated);
+    border-radius: var(--radius-md);
+    margin: var(--space-2) 0;
+    overflow: hidden;
     padding: var(--space-2);
   }
 
   .modal-media-caption {
-    min-height: 36px !important;
-    font-size: var(--text-xs) !important;
-    border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+    min-height: 36px;
+    font-size: var(--text-xs);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   /* Fix modal viewport on mobile */
