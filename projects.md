@@ -9,13 +9,14 @@ locked: true
 role: Developer + designer
 timeline: Q3 2025 – Present
 device: macbook-pro
+device-image: ./img/sandbox-mock.png
 tags: ai, agentic code, enterprise tool, design system, app
 people: Nahiyan Khan (DEng)
 
 ### Context | No shared foundations for LLMs
 When AI in the design org boomed, teams were spending a large amount of time on setup rather than ideation. Designers and engineers repeatedly recreated brand, themes, and existing Square and Cash App surfaces from scratch, with no shared foundation to build from. This led to inconsistent designs, duplicated effort, and slower iteration. Existing design systems were not optimized for rapid code-native experimentation or AI-assisted generation.
 
-### Build | Building a structured sandbox
+### Build + validate | Building a structured sandbox
 img: ./img/vibe-code-1.mov::Early stage starter kit docs with Square Market theme, ./img/sandbox-1.png::App: Home with environment-ready themed starters and recent projects, ./img/sandbox-2.png::App: Prototypes, ./img/sandbox-3.mov::Workflow: Create a project and add templates, ./img/sandbox-4.png::App: Template navigator, ./img/sandbox-5.mov::Workflow: Navigate through workflow template in canvas
 I wanted to do something about this, so for a few weeks, I spent post-kid-bedtime building a modular vibe code kit (leveraging shadUI) themed with the Square Market design language. When I had the POC ready (~10 components, installable), I shared Applied AI team. In a matter of days, the kit quickly evolved into a broader question: how much setup, scaffolding, and environment configuration do teams really need in order to experiment effectively?
 
@@ -25,7 +26,7 @@ This is when I joined forces with their lead design eng, Nahiyan, and started sa
 img: ./img/market-starter-1.png::Abstraction architecture, ./img/market-starter-2.png::Workflow architecture for building pages, ./img/market-starter-3.mov::Local sandbox docs, ./img/market-starter-4.mov::Local sandbox build
 After launch, usage patterns showed that most designers preferred working in their own IDEs with flexible, cloneable tooling rather than a fixed environment. As a next phase, I abstracted the core primitives from the sandbox and returned to the original modular concept, creating a standalone local playground that anyone could clone and use to spin up Square or Cash projects. This version emphasized portability, composability, and alignment with existing workflows rather than replacing them. Then the next ask came in - "Can we just have production components in here?"
 
-### Build (again) | Integrating production code
+### Build (again, and again) | Integrating production code
 img: ./diagrams/sandbox-component-flow.mmd::Experiment 1: Local sandbox uses schemas from external Market component and Dashboard production repos to generate UI
 Currently, I'm focused on integrating the local sandbox model directly with production components and products from Squash and Cash repositories. I'm running a controlled set of experiments, each with a different build, to see which path gets us the most intelligent prototyping with the least drift.
 
@@ -41,29 +42,29 @@ logo: ./img/logo-square.png
 shortDescription: Core platform vision, model and features for complex sellers to organize, manage, and operate across multiple locations and legal entities.
 thumbnail: ./img/me-thumb.png
 hover: ./img/me-hover.png
-sliderCaption: Account architecture exploration
-slider: ./img/me-3.png::Evaluation, ./img/me-4.png::Evaluation
+// sliderCaption: Account architecture exploration
+// slider: ./img/me-3.png::Evaluation, ./img/me-4.png::Evaluation
 locked: true
 role: Design lead
+device: macbook-pro
+device-image: ./img/me-mock.mov
 timeline: Q2 2023 – Q3 2024
-tags: platform strategy, feature, account configuration, web, taxes
-people: Graeme Britz (PM), Alison Tarwater (PM), Dax Shepherd (Eng), Curtis Wheeler (Eng)
 
 ### Context | No shared definition of who we were building for
-img: ./img/me-1.mov::Multiple legal entities support: Seller verification workflow
 In 2022, Square product teams increased their focus on building for larger sellers, or as we called them, "upmarket" sellers. They represented a big market opportunity for Square. At the time, teams had different definitions for who upmarket sellers were. In turn, the product began to quickly lack cohesion. Working cross-functionally became a struggle, and for sellers, the Square ecosystem began to break.
 
-### Approach | Crafting the "Upmarket" platform design strategy
-img: ./img/me-2.mov::Exploration of different account model architecture
+### Research + strategy | Crafting the "Upmarket" platform design strategy
+img: ./img/me-7.mov::Discovery: Literary and design reviews across Square product teams, ./img/me-9.png::Ideation: Co-design workshops with Square teams to ideate on key opportunity workflows, 
 Partnered with the head of Research (Platform) to build a framework and set of upmarket seller archetypes that helped teams share the same understanding on who we are serving and align on what our approach should be. Uncovered product themes and opportunities across onboarding, configuration, permissions, support, and data visibility. Led UX audits, service blueprinting, and cross-team discussions to surface systemic gaps. This work shifted the conversation from adding segmented features to rethinking the platform foundations needed to support complex organizations.
 
 ### Design | Building the platform enablers
-img: ./img/me-3.png::Map of Square Dashboard features across configuration level, ./img/me-4.png::Evaluation map of seller needs against design approaches
+img: ./img/me-2.mov::Exploration of different account model architecture, ./img/me-mock.mov::Vision: Manage multiple businesses from a central place, ./img/me-8.mov::Tax notices and business verification workflows, ./img/me-1.mov::Workflow: Verify additional business entities, ./img/me-5.mov::Workflow: Create location custom attribute, ./img/me-6.mov::Workflow: Create location group
 As design lead, drove the multi-entity initiative that restructured how accounts, entities, and locations relate to one another. Defined hierarchy models, permission scoping, and grouping behaviors so sellers could operate multiple legal entities under a unified structure rather than managing locations in isolation. Prioritized getting hierarchy and permission primitives right before expanding surface features to avoid long-term fragmentation.
 
-In parallel, led the design of location custom attributes and a broader platform groups vision, enabling sellers to define shared behaviors and configurations across subsets of their business instead of managing each location manually.
+In parallel, I led the design of location custom attributes and a broader platform groups vision, enabling sellers to define shared behaviors and configurations across subsets of their business instead of managing each location manually.
 
 ### Outcome | Enterprise adoption and compliance
+img: ./img/me-outcome-1.png::Square for Enterprises: Organization dashboard, ./img/me-outcome-2.png::Square for Enterprises: Reporting by location group, ./img/me-outcome-3.png::Square for Enterprises: Merchant onboarding for organizations
 These structural changes removed blockers for tax remediation and compliance workflows while positioning the platform to support complex organizations operating multiple businesses under a unified account. Although rolling out in phases, this foundation enables enterprise sellers to consider Square as a true end-to-end solution rather than a single-location tool.
 
 ---
@@ -79,7 +80,6 @@ locked: true
 role: Designer + developer
 timeline: July 2025
 category: experiments
-tags: poc, agentic, automation, support, internal tool, experiment
 
 ### Context | No shared model for approaching AI
 img: ./img/g2-1.mov::Workflow: Customer advocate resolving hardware issue, ./img/g2-2.png::Sales associate launchpad
@@ -104,19 +104,19 @@ thumbnail: ./img/rdm-thumb.png
 hover: ./img/rdm-hover.png
 role: Design lead
 timeline: Q1 2022 – Q2 2023
-tags: platform, feature, web, ios/android, hardware
-people: Anjali Arakali (PM), Tyler Doyle (PM), Zachary Drayer (ENG), Joah (ENG)
+device: macbook-pro
+device-image: ./img/rdm-mock.png
 
 ### Context | In-person device management
-img: ./img/rdm-1.mov::Device fleet overview dashboard, ./img/rdm-2.mov::Real-time device monitoring, ./img/rdm-3.png::Status by device types
+img: ./img/rdm-7.png::Hardware Hub: Space in each POS where sellers could manage locally connected devices
 Before 2022, Square sellers managed devices like checkout systems, printers, and card readers in person. For larger sellers managing hundreds of devices, this meant relying on on-site staff and manual processes, losing significant time to setup, monitoring, and troubleshooting.
 
 ### Approach | Establishing a foundation
-img: ./img/rdm-4.mov::Exploration: Device details, ./img/rdm-5.png::Exploration: Data visualization
-Led the 0–1 definition and design of Device Hub, a remote device management platform. aligning hardware, Ran design sprints with multiple hardware and device teams across Square to co-define the strategy, system models, and information architecture needed to support large device fleets across locations, while aligning with existing device management experiences on iOS and Android. Partnered directly with enterprise sellers managing large fleets to validate onboarding friction and prioritize monitoring over custom visualization views and bulk actions in the initial release.
+img: ./img/rdm-3.mov::Discovery: Design sprint synthesis + feature evaluation + prioritization ./img/rdm-3.png::Framework: Status definitions + status by device type, ./img/rdm-4.png::Framework: Logic for device metadata, ./img/rdm-4.mov::Exploration: Device details, ./img/rdm-5.png::Exploration: Data visualization, ./img/rdm-1.mov::Device fleet overview dashboard, ./img/rdm-2.mov::Real-time device monitoring
+Led the 0–1 definition and design of Device Hub, a remote device management platform. Ran design sprints with multiple hardware and device teams across Square to co-define the strategy, system models, and information architecture needed to support large device fleets across locations, while aligning with existing device management experiences on iOS and Android. Partnered directly with enterprise sellers managing large fleets to validate onboarding friction and prioritize monitoring over custom visualization views and bulk actions in the initial release.
 
-### Outcome | Expanding platform capabilities
-img: ./img/dev-codes.mov::Workflow: Bulk create device codes, ./img/dev-codes.png::Exploration: Device code details
+### Evolution | Expanding platform capabilities
+img: ./img/rdm-network-2.mov::Exploration: Diagnostic test flow and visual patterns, ./img/rdm-network-1.mov::Workflow: Run device diagnostic test, ./img/dev-codes.mov::Workflow: Bulk create device codes, ./img/dev-codes.png::Exploration: Device code details
 Expanded the platform beyond basic monitoring to a more actionable system. Designed bulk device code configuration so sellers could apply settings across many devices at once, dramatically simplifying onboarding and updates. Added real-time device and network diagnostics to shift sellers from reactive support escalation to structured self-serve troubleshooting, reducing reliance on support teams and making fleet management proactive rather than reactive.
 
 ---

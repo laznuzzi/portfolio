@@ -1650,6 +1650,7 @@ p {
   min-height: 160px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0;
   min-width: auto;
   font-weight: var(--font-weight-light);
@@ -1673,74 +1674,6 @@ p {
 .metadata-cell-role {
   justify-content: center;
 }
-
-/* People row */
-
-/*
-.metadata-cell-people {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-}
-
-.people-group {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: var(--space-3);
-}
-
-.people-label {
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-  opacity: .4;
-}
-
-.people-names {
-  font-weight: var(--font-weight-light);
-  line-height: var(--line-height-normal);
-  text-align: right;
-}
-
-*/
-
-
-/* Tags in metadata grid - styled like CV roles */
-
-/*
-.metadata-cell-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  align-items: center;
-}
-
-.metadata-cell-tags .project-tag {
-  font-weight: var(--font-weight-light);
-  background: var(--bg-footer);
-  border-radius: var(--radius-sm);
-  padding: 0px 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--text-sm);
-}
-
-.metadata-cell-tags .project-tag-icon {
-  display: flex;
-  align-items: center;
-}
-
-.metadata-cell-tags .project-tag-text {
-  line-height: var(--line-height-normal);
-  font-size: inherit;
-}
-
-.metadata-cell-tags .project-tag {
-  margin: 0;
-}
-
-*/
 
 .modal-row {
   display: grid;
@@ -1781,7 +1714,7 @@ p {
 .modal-column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
   padding: 0;
   margin: 0;
 }
@@ -1852,7 +1785,8 @@ p {
 }
 
 .mermaid-placeholder svg text,
-.mermaid-placeholder svg tspan {
+.mermaid-placeholder svg tspan,
+.mermaid-placeholder svg foreignObject * {
   font-family: 'Caveat', cursive !important;
 }
 
@@ -1911,8 +1845,8 @@ p {
 /* H2 styles for content sections (Context, Work, etc.) */
 .project-modal-content h2 {
   font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
   margin: 0;
   color: var(--text-primary);
 }
@@ -1943,10 +1877,6 @@ p {
   height: auto;
   object-fit: contain;
   display: block;
-}
-
-.modal-images-column video {
-  background: var(--border-strong);
 }
 
 /* Hero image — thumbnail shown at top of the image column, no caption */
@@ -1981,6 +1911,18 @@ p {
   flex-shrink: 0;
 }
 
+/* Device screen media — stretch to fill the 600×375 screen slot exactly (provide 1200×750 for retina) */
+.modal-hero-image--device .device-screen {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+}
+
+.modal-hero-image--device video.device-screen {
+  object-fit: fill;
+}
+
 /* Media item wrapper with caption */
 .modal-media-item {
   width: 100%;
@@ -2013,10 +1955,6 @@ p {
   object-fit: contain;
   display: block;
   border-radius: var(--radius-sm);
-}
-
-.modal-media-item video {
-  background: var(--border-strong);
 }
 
 /* ==================== IMAGE SLIDER ==================== */
