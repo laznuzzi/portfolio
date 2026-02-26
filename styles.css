@@ -1911,16 +1911,71 @@ p {
   flex-shrink: 0;
 }
 
-/* Device screen media — stretch to fill the 600×375 screen slot exactly (provide 1200×750 for retina) */
+/* Device screen media — fill width and clip height if taller than the screen slot (provide 1200×750 for retina) */
 .modal-hero-image--device .device-screen {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
+  object-position: top;
   display: block;
 }
 
 .modal-hero-image--device video.device-screen {
-  object-fit: fill;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Two images/videos stacked vertically under one caption */
+.media-pair {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.media-pair img,
+.media-pair video {
+  width: 100%;
+  display: block;
+}
+
+/* Audio toggle button overlay for specific videos */
+.video-audio-wrapper {
+  position: relative;
+}
+
+.audio-toggle-btn {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s ease;
+  z-index: 2;
+}
+
+.audio-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.audio-toggle-btn .sound-waves {
+  display: none;
+}
+
+.audio-toggle-btn.unmuted .mute-x {
+  display: none;
+}
+
+.audio-toggle-btn.unmuted .sound-waves {
+  display: block;
 }
 
 /* Media item wrapper with caption */

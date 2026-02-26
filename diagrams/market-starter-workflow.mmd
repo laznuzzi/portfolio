@@ -1,0 +1,50 @@
+%%{init: {'look': 'handDrawn', 'theme': 'base', 'themeVariables': {'actorBkg': '#e3f2fd', 'actorBorder': '#1565c0', 'actorTextColor': '#000000', 'noteBkgColor': '#fff9c4', 'noteBorderColor': '#f57f17', 'activationBkgColor': '#e8f5e9', 'activationBorderColor': '#2e7d32', 'sequenceNumberColor': '#000000'}}}%%
+sequenceDiagram
+    participant User as 👤 User
+    participant LLM as 🤖 LLM
+    participant AI_Files as 📁 .ai/
+    participant Market as 🧩 components/market/
+    participant Projects as 📂 src/projects/
+    participant Router as 🗺️ Auto-Router
+    participant Browser as 🌐 Browser
+
+    User->>LLM: "Create a customer list page with search and table"
+
+    Note over LLM: Step 1: Read Intelligence
+    LLM->>AI_Files: Read component-metadata.json
+    AI_Files-->>LLM: 43 components catalog
+    LLM->>AI_Files: Read claude-code-rules.md
+    AI_Files-->>LLM: Generation rules & patterns
+    LLM->>AI_Files: Read component-selection-guide.md
+    AI_Files-->>LLM: Decision trees
+
+    Note over LLM: Step 2: Analyze Request
+    LLM->>LLM: Parse intent → List page
+    LLM->>LLM: Identify features → Search + Table
+    LLM->>LLM: Determine entity → Customers
+
+    Note over LLM: Step 3: Select Components
+    LLM->>Market: Check MarketSearch available
+    Market-->>LLM: ✓ Available
+    LLM->>Market: Check MarketTable available
+    Market-->>LLM: ✓ Available
+
+    Note over LLM: Step 4: Generate Code
+    LLM->>Projects: Create customers/ListPage.tsx
+    LLM->>Projects: Write imports from @/components/market
+    LLM->>Projects: Write TypeScript interface
+    LLM->>Projects: Write component with state
+    LLM->>Projects: Apply design tokens
+    LLM->>Projects: Add TODO comments
+
+    Note over Router: Step 5: Auto-Route
+    Projects->>Router: New file detected
+    Router->>Router: Generate route /customers/list-page
+
+    Note over User: Step 6: Test & Iterate
+    LLM-->>User: ✓ Created customers/ListPage.tsx
+    User->>Browser: Open http://localhost:5174/customers/list-page
+    Browser-->>User: Page renders!
+
+    User->>LLM: "Add pagination to this page"
+    Note over LLM: Repeat cycle with context

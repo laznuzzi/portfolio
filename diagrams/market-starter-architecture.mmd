@@ -1,0 +1,53 @@
+%%{init: {'look': 'handDrawn', 'theme': 'base'}}%%
+graph TB
+    Root["📁 market-starter-kit/"]
+    Src["📁 src/"]
+    Dots["..."]
+
+    CompMarket["📁 components/market/<br/>Market Components (shadUI)"]
+    Projects["📁 projects/<br/>🔥 CREATE YOUR PAGES HERE"]
+    Templates["📁 templates/<br/>Example Pages"]
+    Styles["📁 styles/<br/>Design Tokens & Themes"]
+    Data["📁 data/<br/>Icons & Metadata"]
+
+    MyProject["📁 my-project<br/>Your pages go here"]
+    YourFeature["📁 your-feature/<br/>Create new folders anytime"]
+    CompList["MarketButton<br/>MarketCard<br/>MarketTable<br/>MarketInput<br/>...43 components"]
+
+    Root --> Src
+    Root --> Dots
+
+    Src --> CompMarket
+    Src --> Projects
+    Src --> Templates
+    Src --> Styles
+    Src --> Data
+
+    CompMarket --> MyProject
+    CompMarket --> YourFeature
+
+    Projects -.->|"import components"| CompList
+    Projects -.-> MyProject
+    Projects -.-> YourFeature
+
+    CompList --> MyProject
+    CompList --> YourFeature
+
+    Templates -.-> MyProject
+    Templates -.-> YourFeature
+    Styles -.-> MyProject
+    Styles -.-> YourFeature
+    Data -.-> MyProject
+    Data -.-> YourFeature
+
+    classDef root fill:#e3f2fd,stroke:#1565c0,stroke-width:3px
+    classDef library fill:#ffe0b2,stroke:#e65100,stroke-width:3px
+    classDef userWork fill:#c8e6c9,stroke:#1b5e20,stroke-width:3px
+    classDef projects fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
+    classDef files fill:#f5f5f5,stroke:#616161,stroke-width:2px
+
+    class Root,Src root
+    class CompMarket,Templates,Styles,Data library
+    class Projects projects
+    class MyProject,YourFeature userWork
+    class CompList,Dots files

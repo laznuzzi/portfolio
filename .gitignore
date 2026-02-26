@@ -1,2 +1,5 @@
 # CV content files — keep local only
-cv-*.md
+cv/cv-*.md
+
+# Slides app — self-contained, local only
+slides/

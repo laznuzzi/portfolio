@@ -77,20 +77,28 @@
             if (!trimmed) return;
 
             // Image/video path with optional caption
-            // Format: ./img/file.png::Caption text
-            let src = trimmed;
+            // Single:  ./img/file.png::Caption text
+            // Pair:    ./img/a.png + ./img/b.png::Shared caption
+            let srcs = trimmed;
             let caption = '';
 
             if (trimmed.includes('::')) {
                 const splitParts = trimmed.split('::');
-                src = splitParts[0].trim();
+                srcs = splitParts[0].trim();
                 caption = splitParts.slice(1).join('::').trim();
             }
 
-            const isMermaid = src.toLowerCase().endsWith('.mmd');
+            // Pair: two paths separated by " + "
+            if (srcs.includes(' + ')) {
+                const srcList = srcs.split(' + ').map(s => s.trim()).filter(s => s);
+                items.push({ type: 'media-pair', srcs: srcList, caption });
+                return;
+            }
+
+            const isMermaid = srcs.toLowerCase().endsWith('.mmd');
             items.push({
                 type: isMermaid ? 'mermaid' : 'media',
-                src: src,
+                src: srcs,
                 caption: caption
             });
         });
@@ -135,9 +143,23 @@
             let currentLabel = null;
             let currentTitle = null;
             let currentSectionImages = [];
+            let inImgBlock = false;  // true while collecting multiline img: entries
+            let imgBlockLines = [];  // accumulated img entry lines
 
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
+
+                // Multiline img: continuation — any line starting with ./ or diagrams/ while in an img block
+                if (inImgBlock && (line.startsWith('./') || line.startsWith('diagrams/'))) {
+                    imgBlockLines.push(line.replace(/,\s*$/, ''));
+                    continue;
+                }
+                // Flush img block when the continuation ends
+                if (inImgBlock) {
+                    currentSectionImages = parseModalContent(imgBlockLines.join(', '));
+                    inImgBlock = false;
+                    imgBlockLines = [];
+                }
 
                 // Parse metadata
                 if (line.startsWith('title:')) {
@@ -194,12 +216,23 @@
                 } else if (line.startsWith('**Timeline:**')) {
                     project.timeline = line.replace('**Timeline:**', '').trim();
                 }
-                // Per-section images: "img: ./img/a.png::Caption, ./img/b.png"
+                // Per-section images — supports single-line and multiline formats:
+                //   img: ./a.png::Caption, ./b.png::Caption
+                //   img: ./a.png::Caption,
+                //   ./b.png::Caption
                 else if (sectionIndex >= 0 && line.startsWith('img:')) {
-                    currentSectionImages = parseModalContent(line.replace('img:', '').trim());
+                    const firstEntry = line.replace('img:', '').trim().replace(/,\s*$/, '');
+                    imgBlockLines = firstEntry ? [firstEntry] : [];
+                    inImgBlock = true;
                 }
                 // Parse sections (match ### with or without space)
                 else if (line.startsWith('###')) {
+                    // Flush any pending img block before closing the section
+                    if (inImgBlock) {
+                        currentSectionImages = parseModalContent(imgBlockLines.join(', '));
+                        inImgBlock = false;
+                        imgBlockLines = [];
+                    }
                     // Save previous section
                     if (sectionIndex >= 0 && contentLines.length > 0) {
                         const sectionContent = contentLines.join('\n');
