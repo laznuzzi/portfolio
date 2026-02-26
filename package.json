@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Portfolio site with opening animation",
   "scripts": {
-    "dev": "live-server --port=3000 --watch=*.html,*.css,*.js --wait=200"
+    "dev": "live-server --port=3000 --watch=*.html,*.css,*.js --wait=200",
+    "convert": "./bin/convert-movs.sh"
   },
   "devDependencies": {
     "live-server": "^1.2.2"

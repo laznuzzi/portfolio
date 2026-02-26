@@ -30,6 +30,9 @@
     let currentRowIndex = -1;
     let hoverImageContainer = null;
 
+    // Tracks the active IntersectionObserver for modal videos
+    let videoObserver = null;
+
     // ==================== PASSWORD PROTECTION ====================
     // TO CHANGE PASSWORD:
     // 1. Open browser console
@@ -274,6 +277,47 @@
         scrollContainer.addEventListener('scroll', handler, { passive: true });
     }
 
+    // ==================== VIDEO INTERSECTION OBSERVER ====================
+    // Plays videos only when they scroll into view inside the modal
+    function setupVideoIntersectionObserver(container) {
+        if (videoObserver) {
+            videoObserver.disconnect();
+            videoObserver = null;
+        }
+
+        const videos = container.querySelectorAll('video:not(.device-screen)');
+        if (!videos.length) return;
+
+        const scrollContainer = document.querySelector('.modal-right-column');
+
+        videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.play().catch(() => {});
+                } else {
+                    entry.target.pause();
+                }
+            });
+        }, {
+            root: scrollContainer || null,
+            threshold: 0.3
+        });
+
+        videos.forEach(video => videoObserver.observe(video));
+    }
+
+    // Wires up audio toggle buttons for videos that have them
+    function setupAudioToggles(container) {
+        container.querySelectorAll('.audio-toggle-btn').forEach(btn => {
+            const video = btn.closest('.video-audio-wrapper').querySelector('video');
+            btn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                btn.classList.toggle('unmuted', !video.muted);
+                btn.setAttribute('aria-label', video.muted ? 'Unmute' : 'Mute');
+            });
+        });
+    }
+
     // ==================== MERMAID DIAGRAM RENDERER ====================
     // Fetches .mmd files referenced in media items and renders them as inline SVGs
     async function renderMermaidDiagrams(container) {
@@ -391,11 +435,10 @@
                 if (isVideo) {
                     return `
                         <video src="${mediaPath}"
-                               autoplay
                                muted
                                loop
                                playsinline
-                               preload="auto">
+                               preload="metadata">
                             Your browser does not support the video tag.
                         </video>
                     `;
@@ -436,15 +479,28 @@
 
                 let mediaHTML;
                 if (isVideo) {
+                    const hasAudio = mediaPath.includes('design-system-design-1');
+                    const audioBtn = hasAudio ? `
+                        <button class="audio-toggle-btn" aria-label="Unmute" title="Toggle sound">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                <line x1="23" y1="9" x2="17" y2="15" class="mute-x"/>
+                                <line x1="17" y1="9" x2="23" y2="15" class="mute-x"/>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-waves"/>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" class="sound-waves"/>
+                            </svg>
+                        </button>` : '';
                     mediaHTML = `
-                        <video src="${mediaPath}"
-                               autoplay
-                               muted
-                               loop
-                               playsinline
-                               preload="auto">
-                            Your browser does not support the video tag.
-                        </video>
+                        <div class="${hasAudio ? 'video-audio-wrapper' : ''}">
+                            <video src="${mediaPath}"
+                                   muted
+                                   loop
+                                   playsinline
+                                   preload="metadata">
+                                Your browser does not support the video tag.
+                            </video>
+                            ${audioBtn}
+                        </div>
                     `;
                 } else {
                     mediaHTML = `
@@ -454,6 +510,25 @@
                 }
 
                 return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}${mediaHTML}</div>`;
+
+            } else if (item.type === 'media-pair') {
+                const bucketAttr = item.bucketIndex !== undefined ? ` data-bucket="${item.bucketIndex}"` : '';
+                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
+                const subLabelHTML = hasSubLabel
+                    ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>`
+                    : '';
+                const captionRowHTML = (hasSubLabel || item.caption)
+                    ? `<div class="modal-media-caption">${subLabelHTML}${item.caption || ''}</div>`
+                    : '';
+
+                const pairHTML = item.srcs.map(src => {
+                    const isVideo = /\.(mp4|mov|webm)$/i.test(src);
+                    return isVideo
+                        ? `<video src="${src}" muted loop playsinline preload="metadata"></video>`
+                        : `<img src="${src}" alt="${entry.title}">`;
+                }).join('');
+
+                return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}<div class="media-pair">${pairHTML}</div></div>`;
             }
 
             return ''; // Fallback for unknown types
@@ -581,6 +656,12 @@
 
         // Fetch and render any .mmd diagram placeholders
         renderMermaidDiagrams(imageContainer);
+
+        // Play videos only when scrolled into view
+        setupVideoIntersectionObserver(imageContainer);
+
+        // Wire up audio toggle for videos that support it
+        setupAudioToggles(imageContainer);
 
         // Trigger animation after display is set
         requestAnimationFrame(() => {
