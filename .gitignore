@@ -3,3 +3,7 @@ cv/cv-*.md
 
 # Slides app — self-contained, local only
 slides/
+
+# Archived / unused assets
+img/_archives/
+img/mov/
