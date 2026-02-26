@@ -1,0 +1,55 @@
+/* ==================== CAPSULE STYLING ====================
+   HIDDEN FOR TESTING - Using banner shapes instead
+   Edit these values to customize the physics capsules in the opening animation
+   ========================================================== */
+
+:root {
+  /* Capsule fill color */
+  --capsule-fill-color: var(--palette-accent-1);
+
+  /* Capsule border/stroke color */
+  --capsule-stroke-color: var(--palette-foreground-primary);
+
+  /* Capsule border width (number only, no 'px') */
+  --capsule-stroke-width: 3;
+
+  /* Text color inside capsules */
+  --capsule-text-color: var(--palette-foreground-primary);
+
+  /* Font styling for text inside capsules
+     Format: weight size font-family */
+  --capsule-text-font: 700 57.6px var(--palette-font-heading);
+}
+
+/* ==================== EXAMPLES ====================
+
+Light colored capsules:
+--capsule-fill-color: #fef3c7;
+--capsule-stroke-color: #f59e0b;
+--capsule-text-color: #92400e;
+
+No border capsules:
+--capsule-stroke-width: 0;
+
+Larger text:
+--capsule-text-font: 400 36px Milagros, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+
+Transparent capsules:
+--capsule-fill-color: rgba(255, 255, 255, 0.3);
+
+*/
+
+/* Canvas must be visible for mouse tracking, but we make it transparent */
+.physics-container canvas {
+  display: block !important; /* CRITICAL: Must be visible for mouse events */
+  opacity: 0 !important; /* Invisible but still captures mouse */
+  pointer-events: auto !important; /* Must capture mouse events */
+}
+
+/* ==================== MOBILE RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    /* Larger capsules on mobile for better visibility */
+    --capsule-text-font: 700 42px var(--palette-font-heading);
+  }
+}

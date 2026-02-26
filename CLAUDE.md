@@ -401,30 +401,47 @@ color: var(--color-accent-yellow);
 
 ```
 📁 Project Root
-├── 📄 index.html              # Main HTML structure
-├── 📄 styles.css              # Main styles + design tokens
-├── 📄 capsule-styles.css      # Capsule animation customization
+├── 📄 index.html                    # Main HTML structure
+├── 📄 styles.css                    # Main styles + design tokens
 │
-├── 📄 opening-animation.js    # Opening sequence (typing + physics)
-├── 📄 app.js                  # Core app (theme, initialization)
-├── 📄 sections-nav.js         # Modal logic (drag, resize, interactions)
-├── 📄 file-content.js         # Static content data
+├── 📁 js/                           # All application JavaScript
+│   ├── 📄 opening-animation.js      # Opening sequence (typing + physics)
+│   ├── 📄 sections-nav.js           # Modal logic (drag, resize, interactions)
+│   ├── 📄 markdown-loader.js        # Loads projects.md into the UI
+│   ├── 📄 project-cards.js          # Project card deck interactions
+│   ├── 📄 custom-cursor.js          # Custom cursor behavior
+│   ├── 📄 image-slider.js           # Image slider component
+│   └── 📄 commit-diary.js           # Commit diary functionality
 │
-├── 📄 DESIGN-TOKENS.md        # Design system documentation
-├── 📄 CLAUDE.md               # This file - dev guidelines
-└── 📄 CLEANUP-PLAN.md         # Codebase cleanup documentation
+├── 📁 css/                          # Component stylesheets
+│   ├── 📄 capsule-styles.css        # Physics capsule customization
+│   └── 📄 commit-diary.css          # Commit diary styles
+│
+├── 📁 theme-builder/                # Dev tool — theme token editor
+│   ├── 📄 theme-builder.js          # Theme builder logic
+│   ├── 📄 theme-builder.css         # Theme builder UI styles
+│   └── 📄 themes.html               # Token reference page
+│
+├── 📁 slides/                       # Slide presentation app (gitignored)
+│
+├── 📄 DESIGN-TOKENS.md              # Design system documentation
+└── 📄 CLAUDE.md                     # This file - dev guidelines
 ```
 
 ### File Responsibilities
 
 | File | Purpose | Contains |
 |------|---------|----------|
-| `opening-animation.js` | Opening animation only | GSAP animations, Matter.js physics, typing effect |
-| `app.js` | Core app logic | Theme toggle, initialization, typewriter functions |
-| `sections-nav.js` | UI interactions | Modal open/close, drag, resize, navigation |
-| `file-content.js` | Content data | Static content for file modals |
+| `js/opening-animation.js` | Opening animation only | GSAP animations, Matter.js physics, typing effect |
+| `js/sections-nav.js` | UI interactions | Modal open/close, drag, resize, navigation |
+| `js/markdown-loader.js` | Content loading | Fetches and parses projects.md |
+| `js/project-cards.js` | Card interactions | Project card deck behavior |
+| `js/custom-cursor.js` | Custom cursor | Cursor tracking and hover states |
+| `js/image-slider.js` | Image slider | Slider component logic |
+| `js/commit-diary.js` | Commit diary | Commit history display |
 | `styles.css` | All styles + tokens | Design tokens, component styles, layouts |
-| `capsule-styles.css` | Capsule overrides | Physics capsule customization |
+| `css/capsule-styles.css` | Capsule overrides | Physics capsule customization |
+| `theme-builder/theme-builder.js` | Theme editor | Live token editing dev tool |
 
 ---
 

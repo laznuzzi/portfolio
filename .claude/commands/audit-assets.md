@@ -4,21 +4,22 @@ Audit the `img/` folder against `projects.md` and rename any files that don't ma
 
 ## Naming convention
 
-Every content image follows: **`{project-id}-{bucket}-{n}.{ext}`**
+Every content image lives in a **project subfolder** and follows: **`img/{project-id}/{project-id}-{bucket}-{n}.{ext}`**
 
-- **project-id** — the slug on the `# slug` line that opens each project block (e.g. `# sandbox` → `sandbox`)
+- **project-id** — the slug on the `# slug` line that opens each project block (e.g. `# sandbox` → `sandbox`, subfolder `img/sandbox/`)
 - **bucket** — the first word of the section label before `|`, lowercased, alphanumeric only (e.g. `### Build + validate | ...` → `build`, `### Research + strategy | ...` → `research`)
-- **n** — 1-based sequential position of that file within the bucket's `img:` list, counting only `img/` files (not diagrams)
+- **n** — 1-based sequential position of that file within the bucket's `img:` list, counting only `img/` files (not diagrams). Each file in a pair counts as its own sequential n.
 - **ext** — unchanged from the current file
 
 ### What to exclude from renaming
 
 - Thumbnails: `*-thumb.*`
 - Hover images: `*-hover.*`
-- Device frame images: `*-mock.*` (unless it's a `device-image:` that was already renamed into the convention — leave those alone)
-- Logos: `logo-*`
+- Device frame images: `*-mock.*`
+- Logos: `logo-*` (stay at `img/` root, shared across projects)
+- Utility files at root: `lock.svg`, `placeholder.jpeg`, `avatar.jpeg`, `capsules.png`
 - Diagrams: `.mmd` files referenced in `img:` fields
-- Files in `img/mov/` (already archived originals)
+- Files in `img/mov/` and `img/_archives/`
 - Any file not referenced anywhere in `projects.md`
 
 ### Special case: `device-image:`
@@ -40,7 +41,7 @@ The `device-image:` field uses the same file as one of the `img:` entries in the
      - Compute expected filename: `{project-id}-{bucket}-{n}.{ext}`
    - Also note any `device-image:` values that point to the same file as an `img:` entry
 
-3. **List actual files** in `img/` (excluding `img/mov/` and excluded categories above).
+3. **List actual files** in each `img/{project-id}/` subfolder (excluding `img/mov/`, `img/_archives/`, and excluded categories above).
 
 4. **Produce a diff table** with three columns:
    - Current filename
