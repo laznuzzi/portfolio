@@ -7,6 +7,7 @@
     constructor() {
       this.diaryData = [];
       this.isOpen = false;
+      this.isLoaded = false;
       this.panel = null;
       this.icon = null;
       this.closeBtn = null;
@@ -30,11 +31,8 @@
       // Make the vertical text clickable
       this.icon.classList.add('diary-trigger');
 
-      // Fetch diary data
-      await this.loadData();
-
       // Set up event listeners
-      this.icon.addEventListener('click', () => this.toggle());
+      // this.icon.addEventListener('click', () => this.toggle()); // diary hidden for now
       this.closeBtn.addEventListener('click', () => this.close());
 
       // Close on overlay click (mobile)
@@ -49,7 +47,7 @@
         }
       });
 
-      console.log('Commit diary initialized with', this.diaryData.length, 'entries');
+      console.log('Commit diary initialized');
     }
 
     async loadData() {
@@ -77,31 +75,25 @@
       }
     }
 
-    open() {
-      this.render();
+    async open() {
       this.panel.classList.add('open');
       this.isOpen = true;
+      if (this.overlay) this.overlay.classList.add('visible');
 
-      // Show overlay on mobile
-      if (this.overlay) {
-        this.overlay.classList.add('visible');
+      if (!this.isLoaded) {
+        this.entriesContainer.innerHTML = '<p class="diary-loading">Pulling the logs<span class="diary-asterisk-inline">*</span></p>';
+        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+        await Promise.all([this.loadData(), delay(3500)]);
+        this.isLoaded = true;
       }
 
-      // Prevent body scroll when panel is open
-      document.body.style.overflow = 'hidden';
+      this.render();
     }
 
     close() {
       this.panel.classList.remove('open');
       this.isOpen = false;
-
-      // Hide overlay
-      if (this.overlay) {
-        this.overlay.classList.remove('visible');
-      }
-
-      // Restore body scroll
-      document.body.style.overflow = '';
+      if (this.overlay) this.overlay.classList.remove('visible');
     }
 
     render() {
@@ -140,16 +132,14 @@
   }
 
   // Initialize when DOM is ready
-  // DISABLED: Uncomment to re-enable diary functionality
-  // if (document.readyState === 'loading') {
-  //   document.addEventListener('DOMContentLoaded', () => {
-  //     const diary = new CommitDiary();
-  //     diary.init();
-  //   });
-  // } else {
-  //   // DOM already loaded
-  //   const diary = new CommitDiary();
-  //   diary.init();
-  // }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const diary = new CommitDiary();
+      diary.init();
+    });
+  } else {
+    const diary = new CommitDiary();
+    diary.init();
+  }
 
 })();

@@ -7,3 +7,6 @@ slides/
 # Archived / unused assets
 img/_archives/
 img/mov/
+
+# Local reference docs
+docs/asset-list.md

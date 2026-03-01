@@ -5,8 +5,8 @@
 
 @font-face {
   font-family: 'Chalet';
-  src: url('./font/Chalet-Medium.woff2') format('woff2'),
-       url('./font/Chalet-Medium.otf') format('opentype');
+  src: url('../font/Chalet-Medium.woff2') format('woff2'),
+       url('../font/Chalet-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -14,8 +14,8 @@
 
 @font-face {
   font-family: 'Chalet';
-  src: url('./font/Chalet-Bold.woff2') format('woff2'),
-       url('./font/Chalet-Bold.ttf') format('truetype');
+  src: url('../font/Chalet-Bold.woff2') format('woff2'),
+       url('../font/Chalet-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -23,7 +23,7 @@
 
 @font-face {
   font-family: 'NB International Pro';
-  src: url('./font/NB-International-Pro-Light.woff') format('woff');
+  src: url('../font/NB-International-Pro-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -31,7 +31,7 @@
 
 @font-face {
   font-family: 'NB International Pro';
-  src: url('./font/NB-International-Pro-Regular.woff') format('woff');
+  src: url('../font/NB-International-Pro-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -39,7 +39,7 @@
 
 @font-face {
   font-family: 'NB International Pro';
-  src: url('./font/NB-International-Pro-Bold.woff') format('woff');
+  src: url('../font/NB-International-Pro-Bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -47,7 +47,7 @@
 
 @font-face {
   font-family: 'Buffon-Bold';
-  src: url('./font/Buffon-Bold.otf') format('opentype');
+  src: url('../font/Buffon-Bold.otf') format('opentype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -55,7 +55,7 @@
 
 @font-face {
   font-family: 'InputMono';
-  src: url('./font/InputMono-Light.ttf') format('truetype');
+  src: url('../font/InputMono-Light.ttf') format('truetype');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
@@ -63,7 +63,7 @@
 
 @font-face {
   font-family: 'InputMono';
-  src: url('./font/InputMono-Medium.ttf') format('truetype');
+  src: url('../font/InputMono-Medium.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -71,7 +71,7 @@
 
 @font-face {
   font-family: 'InputMono';
-  src: url('./font/InputMono-Bold.ttf') format('truetype');
+  src: url('../font/InputMono-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -79,7 +79,7 @@
 
 @font-face {
   font-family: 'Written';
-  src: url('./font/Written.ttf') format('truetype');
+  src: url('../font/Written.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -87,7 +87,7 @@
 
 @font-face {
   font-family: 'ProtoMono';
-  src: url('./font/ProtoMono-MediumShadow.woff') format('woff');
+  src: url('../font/ProtoMono-MediumShadow.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
