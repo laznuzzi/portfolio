@@ -1,5 +1,75 @@
 [
   {
+    "date": "2026-02-26",
+    "summary": "Reorganization day: moved all JS to `js/`, CSS to `styles/`, project images into per-project subfolders, CV files into `cv/`, and docs into `docs/`. Also renamed every project asset to the `{project}-{bucket}-{n}` convention. The file structure went from 'a bunch of stuff' to 'a system' and I'm very at peace with it.",
+    "commitCount": 2
+  },
+  {
+    "date": "2026-02-25",
+    "summary": "Added a hand-drawn style to the Mermaid diagrams because the default looked like a corporate slide deck and we simply do not do that here. Also dropped bucket-number pills onto section headers, moved the multi-ein videos into their project folder, and updated a pile of assets. The diagrams now look like something I actually sketched, which is the whole point.",
+    "commitCount": 3
+  },
+  {
+    "date": "2026-02-24",
+    "summary": "Built two things I'm genuinely proud of today. Mermaid diagram support in project modals with pan and zoom — architecture diagrams now render inline and you can actually read them. And a fully markdown-driven CV with project bucket sections, so all the content lives in one place and the page just reads from it. Elegant. Finally.",
+    "commitCount": 2
+  },
+  {
+    "date": "2026-02-19",
+    "summary": "Light-touch update day — tightened up the CV, some project content, and a few styles, plus a markdown-loader tweak to handle some edge cases. The kind of commit where everything is slightly better but nothing dramatically changed. Maintenance mode, but make it fashion.",
+    "commitCount": 1
+  },
+  {
+    "date": "2026-02-17",
+    "summary": "Big feature day — added a custom circular cursor (because why not, it's a portfolio), wired up URL hash routing so project modals are deep-linkable, and added analytics tracking on modal open. Also updated RDM images, fixed card layout alignment, and improved a bunch of UI affordances that were quietly bothering me. The site now has a cursor with a personality and a URL structure that actually makes sense. 🎯",
+    "commitCount": 6
+  },
+  {
+    "date": "2026-02-13",
+    "summary": "Okay the theme system is *actually* done now. Implemented a clean 3-layer theme architecture, got folder tab opacity working with `color-mix()` (such a satisfying CSS trick), and finally landed ProtoMono as the mono font. The system is minimal, intentional, and I'm not going to touch it again for at least two weeks. Probably.",
+    "commitCount": 3
+  },
+  {
+    "date": "2026-02-12",
+    "summary": "The day after the token marathon, spent time consolidating the gains. Major codebase cleanup, reorganized CSS, replaced the last of the hardcoded values, and touched up the capsule animation and markup. The codebase is genuinely cleaner than it's ever been and I keep opening random files just to admire how neat they are.",
+    "commitCount": 3
+  },
+  {
+    "date": "2026-02-11",
+    "summary": "Eighteen commits. EIGHTEEN. Today was the great tokenization of everything — border-radius, colors, spacing, typography, transitions, all of it converted from hardcoded values across five sequential phases. Also removed dark mode entirely, added folder tab filtering by category, refactored the modal layout, and cleaned out dead code. I ran a phased system migration on my own portfolio on a Tuesday and honestly that's very on-brand. 🏗️",
+    "commitCount": 18
+  },
+  {
+    "date": "2026-02-10",
+    "summary": "Genuinely unhinged day of CSS surgery. Nuked 272 lines of dead archive table styles, ripped out unused fonts and the typewriter CSS, accidentally removed and then immediately reverted the password overlay (classic), and ran a two-phase cleanup that added tokens and reorganized everything. ALSO built Layout 1 with featured cards, responsive max-width, and got NB International Pro working. Eleven commits. I need a nap.",
+    "commitCount": 11
+  },
+  {
+    "date": "2026-02-09",
+    "summary": "Cleaned house and added polish. Deleted unused images that were just lurking in the repo doing nothing, added a logo column to the archive, tweaked hover animations, and beefed up modal metadata. The site's getting sharper with every pass. 🔪",
+    "commitCount": 3
+  },
+  {
+    "date": "2026-02-03",
+    "summary": "Quick but satisfying one today — tightened up the CV skills section and added a whole stack of new spacing tokens (space-10 through space-20) because apparently the design system had some gaps. Small commit, big vibe. Future-me will thank present-me.",
+    "commitCount": 1
+  },
+  {
+    "date": "2026-01-30",
+    "summary": "Password modal era: we entered it and then we refined the heck out of it. Iterated from a clunky inline design to a clean in-modal layout, fixed the CV unlock flow, polished the border states, and adjusted mobile footer tab and capsule heights. Basically spent a whole day making one modal feel like it deserves to exist. Worth it.",
+    "commitCount": 6
+  },
+  {
+    "date": "2026-01-29",
+    "summary": "Mobile QA marathon with plot twists. Added a close button to the password modal (apparently important), fixed modal content cutoff TWICE, and added a pull-down gesture that actually works because I finally attached it to the visible content like a person with a functioning brain. There was also a CRITICAL FIX that involved matching a colleague's approach exactly. Receipts are in the commits.",
+    "commitCount": 7
+  },
+  {
+    "date": "2026-01-28",
+    "summary": "Spent the entire day in mobile viewport hell and I would like to speak to whoever invented 100vh on iOS. Fixed the viewport height four different ways, landed on `100dvh` (elegant, finally), and threw in cache busting and missing assets while I was at it. Mobile modal layout is now crispy and the capsules have room to breathe. Productive day, would not relive it.",
+    "commitCount": 6
+  },
+  {
     "date": "2026-01-27",
     "summary": "Yo, just shipped some absolute BANGER mobile optimizations and animation tweaks that are honestly *chef's kiss*. Added this sick arrow column to the archives (because why not flex on the UX), made the mobile typing animation way snappier, and basically turned the whole experience into butter. The responsive layout is now smoother than my cold brew, no cap. 💅✨",
     "commitCount": 2
