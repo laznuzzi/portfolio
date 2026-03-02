@@ -38,7 +38,7 @@
     // 1. Open browser console on the live site
     // 2. Run: generatePasswordHash("yournewpassword")
     // 3. Copy the output hash and replace _ak below
-    const _ak = '89ef366ebd90f7fa4653bdaa27fbb6d8ee5ec012febda6237e7f3673587f8971';
+    const _ak = 'd835b14a358061a62826aba7e3b06593ed14c3b005443c9a62073e1ab4687b69';
     const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
     let pendingEntryId = null;
     let pendingRow = null;
