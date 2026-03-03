@@ -35,24 +35,30 @@
 
     // ==================== PASSWORD PROTECTION ====================
     // TO CHANGE PASSWORD:
-    // 1. Open browser console
-    // 2. Run: await crypto.subtle.digest('SHA-256', new TextEncoder().encode('yourpassword')).then(h => console.log(Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('')))
-    // 3. Copy the hash and replace CORRECT_PASSWORD_HASH below
-    // Current password: 'trex'
-    const CORRECT_PASSWORD_HASH = '952cb748748ecca52fd1a217778b06a9163ab118d53104c64414559e8212db68'; // SHA-256 hash of 'trex'
+    // 1. Open browser console on the live site
+    // 2. Run: generatePasswordHash("yournewpassword")
+    // 3. Copy the output hash and replace _ak below
+    const _ak = 'd835b14a358061a62826aba7e3b06593ed14c3b005443c9a62073e1ab4687b69';
     const UNLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
     let pendingEntryId = null;
     let pendingRow = null;
     let pendingHoverImageRect = null;
 
-    // Hash password using SHA-256
+    // Rate limiting state
+    let _failedAttempts = 0;
+    let _lockoutUntil = 0;
+
+    // Derive key using PBKDF2 (100k iterations — intentionally slow to resist brute force)
     async function hashPassword(password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hash = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hash));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
+        const enc = new TextEncoder();
+        const keyMaterial = await crypto.subtle.importKey(
+            'raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']
+        );
+        const bits = await crypto.subtle.deriveBits(
+            { name: 'PBKDF2', salt: enc.encode('portfolio-salt-2024'), iterations: 100000, hash: 'SHA-256' },
+            keyMaterial, 256
+        );
+        return Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
     // Check if projects are currently unlocked
@@ -138,6 +144,14 @@
         const error = document.getElementById('password-error');
         const password = input.value;
 
+        // Rate limiting check
+        if (Date.now() < _lockoutUntil) {
+            const remaining = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+            error.textContent = `Too many attempts. Try again in ${remaining}s`;
+            error.style.display = 'block';
+            return;
+        }
+
         if (!password) {
             error.textContent = 'Please enter a password';
             error.style.display = 'block';
@@ -146,7 +160,9 @@
 
         const hash = await hashPassword(password);
 
-        if (hash === CORRECT_PASSWORD_HASH) {
+        if (hash === _ak) {
+            _failedAttempts = 0;
+
             // Store unlock state with expiry
             const expiry = Date.now() + UNLOCK_DURATION;
             localStorage.setItem('projectsUnlockedUntil', expiry);
@@ -167,7 +183,14 @@
                 openVintageTableModal(entryToOpen, rowToOpen, rectToOpen);
             }
         } else {
-            error.textContent = 'Incorrect password';
+            _failedAttempts++;
+            if (_failedAttempts >= 5) {
+                _lockoutUntil = Date.now() + 30000; // 30s lockout after 5 failures
+                _failedAttempts = 0;
+                error.textContent = 'Too many attempts. Try again in 30s';
+            } else {
+                error.textContent = 'Incorrect password';
+            }
             error.style.display = 'block';
             input.value = '';
             input.focus();
@@ -204,16 +227,13 @@
             });
         }
 
-        // Expose helper function to console for easy password hash generation
+        // Expose helper to console for regenerating the hash when changing passwords
         window.generatePasswordHash = async function(password) {
             const hash = await hashPassword(password);
-            console.log('Password Hash for "' + password + '":');
             console.log(hash);
-            console.log('\nReplace CORRECT_PASSWORD_HASH in sections-nav.js with this hash.');
+            console.log('Replace _ak in sections-nav.js with the value above.');
             return hash;
         };
-
-        console.log('💡 To generate a new password hash, run: generatePasswordHash("yourpassword")');
     }
 
 
