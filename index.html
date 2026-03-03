@@ -203,17 +203,13 @@
     <div id="project-modal" class="project-modal" style="display: none;">
         <div class="project-modal-overlay"></div>
         <div id="project-modal-content" class="project-modal-content">
-            <div class="modal-left-column">
-                <div class="modal-content-columns" id="modal-text-container">
-                    <!-- Text content columns will be inserted here -->
-                </div>
-            </div>
-            <div class="modal-right-column">
-                <h2 class="modal-right-title">Placeholder Title Goes Here</h2>
-                <div class="modal-images-column" id="modal-image-container">
-                    <!-- Large images will be inserted here -->
-                </div>
-            </div>
+            <!-- modal-row-1 (title + metadata) is injected here by JS -->
+
+            <!-- Preamble: hero image + slider (not tied to any bucket) -->
+            <div id="modal-preamble" class="modal-preamble"></div>
+
+            <!-- Per-bucket sections: text left, images right (desktop); stacked (mobile) -->
+            <div id="modal-buckets-container" class="modal-buckets-container"></div>
         </div>
     </div>
 

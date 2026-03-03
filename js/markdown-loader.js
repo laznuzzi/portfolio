@@ -386,40 +386,43 @@
                 ${metadataGridHTML}
             </div>
 
-            <div class="modal-row modal-row-3">
-                ${project.sections && project.sections.length > 0
-                    ? project.sections.map((section, index) => {
-                        // Split content into paragraphs (separated by double newlines)
-                        const paragraphs = section.content
-                            ? section.content.split('\n\n').filter(p => p.trim())
-                            : [];
+            ${project.sections && project.sections.length > 0
+                ? project.sections.map((section, index) => {
+                    const paragraphs = section.content
+                        ? section.content.split('\n\n').filter(p => p.trim())
+                        : [];
 
-                        const bucketHeaderHTML = section.label
-                            ? `<div class="bucket-header" data-bucket="${index}">
-                                <span class="bucket-number">${index + 1}</span>
-                                <span class="bucket-label">${section.label}</span>
-                               </div>`
-                            : '';
+                    const bucketHeaderHTML = section.label
+                        ? `<div class="bucket-header">
+                            <span class="bucket-number">${index + 1}</span>
+                            <span class="bucket-label">${section.label}</span>
+                           </div>`
+                        : '';
 
-                        const titleHTML = section.title
-                            ? `<h2>${section.title}</h2>`
-                            : '';
+                    const titleHTML = section.title
+                        ? `<h2>${section.title}</h2>`
+                        : '';
 
-                        return `
-                            <div class="modal-column">
+                    return `
+                        <div class="modal-bucket" data-bucket="${index}">
+                            <div class="modal-bucket-text">
                                 ${bucketHeaderHTML}
                                 ${titleHTML}
                                 ${paragraphs.map(p => `<p>${p.trim()}</p>`).join('')}
                             </div>
-                        `;
-                    }).join('')
-                    : '<div class="modal-column"><p>Content coming soon.</p></div>'
-                }
-            </div>
+                            <div class="modal-bucket-images"></div>
+                        </div>
+                    `;
+                }).join('')
+                : `<div class="modal-bucket" data-bucket="0">
+                       <div class="modal-bucket-text"><p>Content coming soon.</p></div>
+                       <div class="modal-bucket-images"></div>
+                   </div>`
+            }
 
             ${project.githubLink ? `
-                <div class="modal-row modal-row-links">
-                    <div class="modal-column">
+                <div class="modal-links-row">
+                    <div class="modal-bucket-text">
                         <h2>Links</h2>
                         <p><a href="${project.githubLink}" target="_blank" rel="noopener noreferrer">View on GitHub →</a></p>
                     </div>
