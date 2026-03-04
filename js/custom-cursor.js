@@ -4,6 +4,9 @@
 (function() {
     'use strict';
 
+    // Don't initialise on touch devices — they have no mouse cursor
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     // Create cursor element
     const cursor = document.createElement('div');
     cursor.classList.add('custom-cursor');

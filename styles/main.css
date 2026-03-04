@@ -356,6 +356,12 @@ body {
   height: 24px;
 }
 
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
 p {
   font-family: var(--font-body);
 }
@@ -1519,65 +1525,79 @@ p {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   z-index: 100000;
   display: flex;
-  flex-direction: row;
-  overflow: hidden;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
   pointer-events: all;
   transform: translateY(100%);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.project-modal-content::-webkit-scrollbar {
+  display: none;
 }
 
 .project-modal.active .project-modal-content {
   transform: translateY(0);
 }
 
-/* Modal left column - 25% fixed/sticky with content */
-.modal-left-column {
-  width: 25%;
-  min-width: 300px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+/* Modal header row — full-width top section with title + metadata */
+.modal-header-row {
   padding: var(--space-8);
-  position: sticky;
-  top: 0;
-
-  /* Hide scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  padding-bottom: var(--space-6);
 }
 
-.modal-left-column::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+/* Preamble — hero image + slider above bucketed content */
+.modal-preamble {
+  width: 100%;
+  padding: 0 var(--space-8) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Modal right column - 75% scrollable with images */
-.modal-right-column {
-  width: 75%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+/* Container for all per-bucket sections */
+.modal-buckets-container {
+  width: 100%;
+}
+
+/* Each bucket: two-column grid (text left, images right) on desktop */
+.modal-bucket {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  border-top: var(--border-normal) solid var(--border-primary);
+}
+
+/* Bucket text — left column */
+.modal-bucket-text {
   padding: var(--space-8);
-
-  /* Hide scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-.modal-right-column::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+/* Bucket images — right column */
+.modal-bucket-images {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
 }
 
-/* Right column title */
-.modal-right-title {
-  font-family: var(--font-body);
-  font-size: var(--text-4xl);
-  font-weight: var(--font-weight-normal);
-  width: 70%;
-  line-height: var(--line-height-tight);
-  color: var(--text-primary);
-  margin: 0 0 var(--space-8) 0;
-  padding: 0;
+.modal-bucket-images:empty {
   display: none;
+}
+
+/* Links row at the bottom of bucketed content */
+.modal-links-row {
+  border-top: var(--border-normal) solid var(--border-primary);
+}
+
+.modal-links-row .modal-bucket-text {
+  padding: var(--space-8);
 }
 /* Close button */
 .modal-close-button {
@@ -1608,17 +1628,10 @@ p {
 
 /* Dark mode for metadata grid borders */
 
-/* Content columns at top */
-.modal-content-columns {
-  display: block;
-  padding: 0;
-}
-
 /* New header row with title and metadata grid */
 .modal-header-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  padding-bottom: var(--space-6);
   position: relative;
 }
 
@@ -1670,53 +1683,25 @@ p {
   border-bottom: none;
 }
 
+@media (max-width: 768px) {
+  .modal-metadata-grid {
+    min-height: 80px;
+  }
+}
+
 /* Role row - centered */
 .metadata-cell-role {
   justify-content: center;
 }
 
-.modal-row {
-  display: grid;
-  gap: var(--space-6);
-  padding: 0;
-}
-
-.modal-row-3 {
-  grid-template-columns: 1fr;
-  padding: 0;
-  padding-bottom: var(--space-6);
-}
-
-.modal-row-links {
-  grid-template-columns: 1fr;
-  padding: var(--space-8);
-  padding-top: 0;
-}
-
-/* Images column - now in right column */
-.modal-images-column {
+/* Images within each bucket */
+.modal-bucket-images img,
+.modal-bucket-images video {
   width: 100%;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  /* Hide scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-}
-
-/* Modal column wrapper */
-.modal-column {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: 0;
-  margin: 0;
+  max-width: var(--container-lg);
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 /* ==================== BUCKET SECTIONS ====================  */
@@ -1755,18 +1740,6 @@ p {
   color: var(--text-secondary);
 }
 
-.bucket-header.active {
-  background: var(--text-primary);
-}
-
-.bucket-header.active .bucket-label {
-  color: var(--bg-body);
-}
-
-.bucket-header.active .bucket-number {
-  background-color: var(--bg-body);
-  color: var(--text-primary);
-}
 
 /* Mermaid diagram container */
 .mermaid-placeholder {
@@ -1869,15 +1842,6 @@ p {
   opacity: 0.7;
 }
 
-/* Large images in modal */
-.modal-images-column img,
-.modal-images-column video {
-  width: 100%;
-  max-width: var(--container-lg);
-  height: auto;
-  object-fit: contain;
-  display: block;
-}
 
 /* Hero image — thumbnail shown at top of the image column, no caption */
 .modal-hero-image {
@@ -2151,6 +2115,10 @@ p {
     padding: var(--space-8) var(--space-4);
   }
 
+  .archives-subtitle {
+    margin: 0 0 var(--space-12);
+  }
+
   .intro-text {
     font-size: var(--text-lg);
   }
@@ -2351,46 +2319,37 @@ p {
     display: none; /* Hide scrollbar Chrome/Safari */
   }
 
-  /* Stack columns vertically on mobile */
-  .modal-left-column {
-    width: 100%;
-    min-width: auto;
-    max-width: 100%;
-    height: auto;
-    min-height: auto;
-    flex-shrink: 0;
-    position: relative;
-    order: 1;
-    padding: var(--space-6);
-    overflow: visible;
+  /* Stack bucket columns: text on top, images below */
+  .modal-bucket {
+    grid-template-columns: 1fr;
   }
 
-  .modal-right-column {
-    width: 100%;
-    min-width: auto;
-    max-width: 100%;
-    height: auto;
-    min-height: auto;
-    flex-shrink: 0;
-    position: relative;
-    order: 2;
+  .modal-bucket-text {
     padding: var(--space-6);
+  }
+
+  .modal-bucket-images {
+    padding: var(--space-4) var(--space-6);
     padding-top: 0;
-    overflow: visible;
   }
 
-  .modal-right-title {
-    display: none; /* Hide the right column title on mobile */
-  }
-
-  .modal-content-columns {
+  .modal-bucket-images img,
+  .modal-bucket-images video {
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 100%;
     height: auto;
-    overflow: visible;
+    display: block;
+  }
+
+  .modal-preamble {
+    padding: 0 var(--space-6) var(--space-4);
   }
 
   /* Stack header on mobile */
   .modal-header-row {
     gap: var(--space-4);
+    padding: var(--space-6);
   }
 
   .project-modal-content .modal-title-column h1 {
@@ -2405,30 +2364,8 @@ p {
   }
 
   .metadata-cell {
-    padding: var(--space-3);
-    font-size: var(--text-xs);
-  }
-
-  .modal-row-3 {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-
-  .modal-images-column {
     padding: 0;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .modal-images-column img,
-  .modal-images-column video {
-    border-radius: var(--radius-md);
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    display: block;
+    font-size: var(--text-xs);
   }
 
   /* Adjust media item borders on mobile */
@@ -2444,6 +2381,7 @@ p {
     min-height: 36px;
     font-size: var(--text-xs);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
+    margin-bottom: var(--space-3);
   }
 
   /* Fix modal viewport on mobile */

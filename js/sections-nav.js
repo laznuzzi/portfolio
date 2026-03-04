@@ -238,65 +238,6 @@
 
 
     // ==================== BUCKET SCROLL OBSERVER ====================
-    // Highlights the bucket header matching the image currently visible
-    // in the right scroll column. Activates on scroll; cleans up on each modal open.
-    function initBucketObserver(scrollContainer, textContainer, leftColumn) {
-        // Remove any previous listener
-        if (scrollContainer._bucketScrollHandler) {
-            scrollContainer.removeEventListener('scroll', scrollContainer._bucketScrollHandler);
-            delete scrollContainer._bucketScrollHandler;
-        }
-
-        const mediaItems = Array.from(
-            document.querySelectorAll('#modal-image-container .modal-media-item[data-bucket]')
-        );
-        const bucketHeaders = Array.from(
-            textContainer.querySelectorAll('.bucket-header[data-bucket]')
-        );
-
-        if (!mediaItems.length || !bucketHeaders.length) return;
-
-        let activeBucket = null;
-
-        const setActive = (bucketStr) => {
-            if (bucketStr === activeBucket) return;
-            activeBucket = bucketStr;
-            bucketHeaders.forEach(h => {
-                h.classList.toggle('active', h.dataset.bucket === bucketStr);
-            });
-
-            // If the newly active section isn't fully in view on the left, scroll it in
-            const activeHeader = bucketHeaders.find(h => h.dataset.bucket === bucketStr);
-            if (activeHeader && leftColumn) {
-                const containerRect = leftColumn.getBoundingClientRect();
-                const headerRect = activeHeader.getBoundingClientRect();
-                const isVisible = headerRect.top >= containerRect.top
-                    && headerRect.bottom <= containerRect.bottom;
-                if (!isVisible) {
-                    const targetScrollTop = leftColumn.scrollTop
-                        + headerRect.top - containerRect.top
-                        - 24; // 24px breathing room above the header
-                    leftColumn.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
-                }
-            }
-        };
-
-        const handler = () => {
-            // Find the last media item whose top edge has scrolled past 35% of the container.
-            // Start from null so no bucket activates until the user actually scrolls.
-            const threshold = scrollContainer.getBoundingClientRect().top
-                + scrollContainer.clientHeight * 0.85;
-            let current = null;
-            for (const item of mediaItems) {
-                if (item.getBoundingClientRect().top <= threshold) current = item;
-            }
-            if (current) setActive(current.dataset.bucket);
-        };
-
-        scrollContainer._bucketScrollHandler = handler;
-        scrollContainer.addEventListener('scroll', handler, { passive: true });
-    }
-
     // ==================== VIDEO INTERSECTION OBSERVER ====================
     // Plays videos only when they scroll into view inside the modal
     function setupVideoIntersectionObserver(container) {
@@ -308,7 +249,7 @@
         const videos = container.querySelectorAll('video:not(.device-screen)');
         if (!videos.length) return;
 
-        const scrollContainer = document.querySelector('.modal-right-column');
+        const scrollContainer = document.getElementById('project-modal-content');
 
         videoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -437,18 +378,11 @@
 
         const modal = document.getElementById('project-modal');
         const modalContent = document.getElementById('project-modal-content');
-        const imageContainer = document.getElementById('modal-image-container');
-        const textContainer = document.getElementById('modal-text-container');
+        const preamble = document.getElementById('modal-preamble');
+        const bucketsContainer = document.getElementById('modal-buckets-container');
 
-        console.log('Modal elements found:', {
-            modal: !!modal,
-            modalContent: !!modalContent,
-            imageContainer: !!imageContainer,
-            textContainer: !!textContainer
-        });
-
-        if (!modal || !modalContent || !imageContainer || !textContainer) {
-            console.error('Modal elements not found - one or more elements missing');
+        if (!modal || !modalContent || !preamble || !bucketsContainer) {
+            console.error('Modal elements not found');
             return;
         }
 
@@ -457,127 +391,23 @@
             hoverImageContainer.classList.remove('visible');
         }
 
-        // Create image/video grid HTML from entry data
-        const images = (entry.images && Array.isArray(entry.images) && entry.images.length > 0)
-            ? entry.images
-            : ['./img/placeholder.jpeg'];
-        console.log('Modal images/videos:', images);
-        console.log('Entry object:', entry);
+        // ── 1. Mount text content ─────────────────────────────────────────────
+        // Parse entry.content: move header row to top of modalContent,
+        // put per-bucket sections into bucketsContainer
+        const contentTemp = document.createElement('div');
+        contentTemp.innerHTML = entry.content;
 
-        const mediaHTML = images.map((item, index) => {
-            // Handle structured format (new) or legacy string format (old)
-            if (typeof item === 'string') {
-                // Legacy format: plain string path
-                const mediaPath = item;
-                const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
-                console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}`);
+        modalContent.querySelectorAll('.modal-header-row').forEach(el => el.remove());
+        const headerRow = contentTemp.querySelector('.modal-header-row');
+        if (headerRow) {
+            contentTemp.removeChild(headerRow);
+            modalContent.insertBefore(headerRow, modalContent.firstChild);
+        }
+        bucketsContainer.innerHTML = contentTemp.innerHTML;
 
-                if (isVideo) {
-                    return `
-                        <video src="${mediaPath}"
-                               muted
-                               loop
-                               playsinline
-                               preload="metadata">
-                            Your browser does not support the video tag.
-                        </video>
-                    `;
-                } else {
-                    return `
-                        <img src="${mediaPath}"
-                             alt="${entry.title} - Image ${index + 1}">
-                    `;
-                }
-            } else if (item.type === 'mermaid') {
-                const bucketAttr = item.bucketIndex !== undefined ? ` data-bucket="${item.bucketIndex}"` : '';
-                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
-                const subLabelHTML = hasSubLabel
-                    ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>`
-                    : '';
-                const caption = item.caption || '';
-                const captionRowHTML = (hasSubLabel || caption)
-                    ? `<div class="modal-media-caption">${subLabelHTML}${caption}</div>`
-                    : '';
-                return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}<div class="mermaid-placeholder" data-mermaid-src="${item.src}"></div></div>`;
+        // ── 2. Preamble: hero image + slider ──────────────────────────────────
+        preamble.innerHTML = '';
 
-            } else if (item.type === 'media') {
-                // New format: media object with optional caption
-                const mediaPath = item.src;
-                const caption = item.caption || '';
-                const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
-                console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}, caption: ${caption}`);
-
-                const bucketAttr = item.bucketIndex !== undefined ? ` data-bucket="${item.bucketIndex}"` : '';
-                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
-                const subLabelHTML = hasSubLabel
-                    ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>`
-                    : '';
-                // Sub-label circle and caption share the same caption row
-                const captionRowHTML = (hasSubLabel || caption)
-                    ? `<div class="modal-media-caption">${subLabelHTML}${caption}</div>`
-                    : '';
-
-                let mediaHTML;
-                if (isVideo) {
-                    const hasAudio = mediaPath.includes('design-system-design-1');
-                    const audioBtn = hasAudio ? `
-                        <button class="audio-toggle-btn" aria-label="Unmute" title="Toggle sound">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                                <line x1="23" y1="9" x2="17" y2="15" class="mute-x"/>
-                                <line x1="17" y1="9" x2="23" y2="15" class="mute-x"/>
-                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-waves"/>
-                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" class="sound-waves"/>
-                            </svg>
-                        </button>` : '';
-                    mediaHTML = `
-                        <div class="${hasAudio ? 'video-audio-wrapper' : ''}">
-                            <video src="${mediaPath}"
-                                   muted
-                                   loop
-                                   playsinline
-                                   preload="metadata">
-                                Your browser does not support the video tag.
-                            </video>
-                            ${audioBtn}
-                        </div>
-                    `;
-                } else {
-                    mediaHTML = `
-                        <img src="${mediaPath}"
-                             alt="${entry.title} - Image ${index + 1}">
-                    `;
-                }
-
-                return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}${mediaHTML}</div>`;
-
-            } else if (item.type === 'media-pair') {
-                const bucketAttr = item.bucketIndex !== undefined ? ` data-bucket="${item.bucketIndex}"` : '';
-                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
-                const subLabelHTML = hasSubLabel
-                    ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>`
-                    : '';
-                const captionRowHTML = (hasSubLabel || item.caption)
-                    ? `<div class="modal-media-caption">${subLabelHTML}${item.caption || ''}</div>`
-                    : '';
-
-                const pairHTML = item.srcs.map(src => {
-                    const isVideo = /\.(mp4|mov|webm)$/i.test(src);
-                    return isVideo
-                        ? `<video src="${src}" muted loop playsinline preload="metadata"></video>`
-                        : `<img src="${src}" alt="${entry.title}">`;
-                }).join('');
-
-                return `<div class="modal-media-item"${bucketAttr}>${captionRowHTML}<div class="media-pair">${pairHTML}</div></div>`;
-            }
-
-            return ''; // Fallback for unknown types
-        }).join('');
-
-        // Clear image container
-        imageContainer.innerHTML = '';
-
-        // Hero image — thumbnail shown at top, no caption or bucket label
         if (entry.thumbnail) {
             const hero = document.createElement('div');
             if (entry.device) {
@@ -599,14 +429,10 @@
                         <div class="device-power"></div>
                     </div>`;
 
-                // Scale the device to fill the container, and re-scale on resize
                 requestAnimationFrame(() => {
                     const deviceEl = hero.querySelector('.device');
                     if (!deviceEl) return;
-
-                    // Capture natural width before any zoom is applied
                     const naturalWidth = deviceEl.offsetWidth;
-
                     const applyZoom = () => {
                         const style = getComputedStyle(hero);
                         const available = hero.clientWidth
@@ -614,107 +440,117 @@
                             - parseFloat(style.paddingRight);
                         deviceEl.style.zoom = String(available / naturalWidth);
                     };
-
                     applyZoom();
-
-                    // Re-scale whenever the hero container changes size
-                    const ro = new ResizeObserver(applyZoom);
-                    ro.observe(hero);
+                    new ResizeObserver(applyZoom).observe(hero);
                 });
             } else {
                 hero.className = 'modal-hero-image';
                 hero.innerHTML = `<img src="${entry.thumbnail}" alt="${entry.title}">`;
             }
-            imageContainer.appendChild(hero);
+            preamble.appendChild(hero);
         }
 
-        console.log('Entry slider:', entry.slider);
-
-        // Add slider if exists (append as DOM node, not HTML string)
         if (entry.slider && entry.slider.length > 0) {
-            console.log('Rendering slider with', entry.slider.length, 'images');
-            const sliderImages = entry.slider.map(item => ({
-                src: item.src,
-                caption: item.caption
-            }));
-
-            // Create slider container
+            const sliderImages = entry.slider.map(item => ({ src: item.src, caption: item.caption }));
             const sliderContainer = document.createElement('div');
             sliderContainer.className = 'slider-container-wrapper';
-
             if (window.initImageSlider) {
                 window.initImageSlider(sliderImages, sliderContainer, entry.sliderCaption);
-                imageContainer.appendChild(sliderContainer);
-                console.log('Slider appended to DOM');
+                preamble.appendChild(sliderContainer);
+            }
+        }
+
+        // ── 3. Distribute media by bucket ─────────────────────────────────────
+        const images = (entry.images && Array.isArray(entry.images) && entry.images.length > 0)
+            ? entry.images
+            : [];
+
+        const renderMediaItemHTML = (item, index) => {
+            if (typeof item === 'string') {
+                const isVideo = /\.(mp4|mov|webm)$/i.test(item);
+                return isVideo
+                    ? `<video src="${item}" muted loop playsinline preload="metadata">Your browser does not support the video tag.</video>`
+                    : `<img src="${item}" alt="${entry.title} - Image ${index + 1}">`;
+
+            } else if (item.type === 'mermaid') {
+                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
+                const subLabelHTML = hasSubLabel ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>` : '';
+                const caption = item.caption || '';
+                const captionRowHTML = (hasSubLabel || caption) ? `<div class="modal-media-caption">${subLabelHTML}${caption}</div>` : '';
+                return `<div class="modal-media-item">${captionRowHTML}<div class="mermaid-placeholder" data-mermaid-src="${item.src}"></div></div>`;
+
+            } else if (item.type === 'media') {
+                const isVideo = /\.(mp4|mov|webm)$/i.test(item.src);
+                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
+                const subLabelHTML = hasSubLabel ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>` : '';
+                const captionRowHTML = (hasSubLabel || item.caption) ? `<div class="modal-media-caption">${subLabelHTML}${item.caption || ''}</div>` : '';
+
+                let mediaEl;
+                if (isVideo) {
+                    const hasAudio = item.src.includes('design-system-design-1');
+                    const audioBtn = hasAudio ? `
+                        <button class="audio-toggle-btn" aria-label="Unmute" title="Toggle sound">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                                <line x1="23" y1="9" x2="17" y2="15" class="mute-x"/>
+                                <line x1="17" y1="9" x2="23" y2="15" class="mute-x"/>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" class="sound-waves"/>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" class="sound-waves"/>
+                            </svg>
+                        </button>` : '';
+                    mediaEl = `<div class="${hasAudio ? 'video-audio-wrapper' : ''}"><video src="${item.src}" muted loop playsinline preload="metadata">Your browser does not support the video tag.</video>${audioBtn}</div>`;
+                } else {
+                    mediaEl = `<img src="${item.src}" alt="${entry.title} - Image ${index + 1}">`;
+                }
+                return `<div class="modal-media-item">${captionRowHTML}${mediaEl}</div>`;
+
+            } else if (item.type === 'media-pair') {
+                const hasSubLabel = item.bucketIndex !== undefined && item.subIndex !== undefined;
+                const subLabelHTML = hasSubLabel ? `<span class="media-sub-label">${item.bucketIndex + 1}.${item.subIndex}</span>` : '';
+                const captionRowHTML = (hasSubLabel || item.caption) ? `<div class="modal-media-caption">${subLabelHTML}${item.caption || ''}</div>` : '';
+                const pairHTML = item.srcs.map(src => {
+                    const isVideo = /\.(mp4|mov|webm)$/i.test(src);
+                    return isVideo
+                        ? `<video src="${src}" muted loop playsinline preload="metadata"></video>`
+                        : `<img src="${src}" alt="${entry.title}">`;
+                }).join('');
+                return `<div class="modal-media-item">${captionRowHTML}<div class="media-pair">${pairHTML}</div></div>`;
+            }
+            return '';
+        };
+
+        images.forEach((item, index) => {
+            const html = renderMediaItemHTML(item, index);
+            if (!html) return;
+
+            if (item.bucketIndex !== undefined) {
+                const bucketImagesEl = bucketsContainer.querySelector(`.modal-bucket[data-bucket="${item.bucketIndex}"] .modal-bucket-images`);
+                if (bucketImagesEl) bucketImagesEl.insertAdjacentHTML('beforeend', html);
             } else {
-                console.warn('Image slider not loaded - window.initImageSlider not found');
-            }
-        } else {
-            console.log('No slider for this project');
-        }
-
-        // Add regular images
-        if (mediaHTML && mediaHTML.trim()) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = mediaHTML;
-            while (tempDiv.firstChild) {
-                imageContainer.appendChild(tempDiv.firstChild);
-            }
-        } else if (imageContainer.children.length === 0) {
-            imageContainer.innerHTML = `<img src="./img/placeholder.jpeg" alt="Placeholder">`;
-        }
-
-        // Set text content from entry data
-        textContainer.innerHTML = entry.content;
-
-        // Clear any existing modal-row-1 elements from previous modal opens
-        const existingRow1 = modalContent.querySelectorAll('.modal-row-1');
-        existingRow1.forEach(el => {
-            if (el.parentElement === modalContent) {
-                el.remove();
+                // Legacy string format (no bucket) — append to preamble
+                preamble.insertAdjacentHTML('beforeend', html);
             }
         });
 
-        // Move modal-row-1 to be a direct child of modalContent for sticky positioning
-        const row1 = textContainer.querySelector('.modal-row-1');
-        if (row1) {
-            modalContent.insertBefore(row1, modalContent.firstChild);
+        if (images.length === 0 && !entry.thumbnail) {
+            preamble.innerHTML = `<img src="./img/placeholder.jpeg" alt="Placeholder">`;
         }
 
-        // Show modal with slide-up animation
+        // ── 4. Show modal ─────────────────────────────────────────────────────
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        modalContent.scrollTop = 0;
 
-        // Reset scroll position of modal columns to top
-        const leftColumn = document.querySelector('.modal-left-column');
-        const rightColumn = document.querySelector('.modal-right-column');
-        if (leftColumn) leftColumn.scrollTop = 0;
-        if (rightColumn) rightColumn.scrollTop = 0;
-
-        // Highlight bucket header matching the visible image as right column scrolls
-        if (rightColumn) initBucketObserver(rightColumn, textContainer, leftColumn);
-
-        // Fetch and render any .mmd diagram placeholders
-        renderMermaidDiagrams(imageContainer);
-
-        // Play videos only when scrolled into view
-        setupVideoIntersectionObserver(imageContainer);
-
-        // Wire up audio toggle for videos that support it
-        setupAudioToggles(imageContainer);
-
-        // Fit device screen image based on its aspect ratio
+        renderMermaidDiagrams(bucketsContainer);
+        setupVideoIntersectionObserver(modalContent);
+        setupAudioToggles(bucketsContainer);
         setupDeviceScreen(modal);
 
-        // Trigger animation after display is set
         requestAnimationFrame(() => {
             modal.classList.add('active');
         });
 
-        // Update URL hash with project ID
         history.pushState({ projectId: entryId }, '', `#${entryId}`);
-
-        console.log('Modal opened with slide-up animation');
     }
 
     // Setup Layout 1 click handlers
@@ -1166,63 +1002,36 @@
                 popover.style.display = 'none';
             }
 
-            const imageContainer = document.getElementById('modal-image-container');
-            const textContainer = document.getElementById('modal-text-container');
+            const preamble = document.getElementById('modal-preamble');
+            const bucketsContainer = document.getElementById('modal-buckets-container');
 
-            if (!imageContainer || !textContainer) {
+            if (!preamble || !bucketsContainer) {
                 console.error('Modal containers not found');
                 return;
             }
 
-            console.log('Setting modal content for:', fileId);
-            console.log('File data:', file);
+            // Mount content: header row to top of modalContent, rest to bucketsContainer
+            const contentTemp = document.createElement('div');
+            contentTemp.innerHTML = file.content || '<p>No content available.</p>';
 
-            // Create image/video grid HTML (vertical scrollable grid)
+            modalContent.querySelectorAll('.modal-header-row').forEach(el => el.remove());
+            const headerRow = contentTemp.querySelector('.modal-header-row');
+            if (headerRow) {
+                contentTemp.removeChild(headerRow);
+                modalContent.insertBefore(headerRow, modalContent.firstChild);
+            }
+            bucketsContainer.innerHTML = contentTemp.innerHTML;
+
+            // All images go to preamble (no bucket indexing for document files)
+            preamble.innerHTML = '';
             const images = file.images && file.images.length > 0 ? file.images : ['./img/placeholder.jpeg'];
-            console.log('Modal images/videos:', images);
-
             const mediaHTML = images.map((mediaPath, index) => {
                 const isVideo = /\.(mp4|mov|webm)$/i.test(mediaPath);
-                console.log(`Media ${index}: ${mediaPath}, isVideo: ${isVideo}`);
-
-                if (isVideo) {
-                    return `
-                        <video src="${mediaPath}"
-                               loop
-                               playsinline
-                               preload="metadata">
-                            Your browser does not support the video tag.
-                        </video>
-                    `;
-                } else {
-                    return `
-                        <img src="${mediaPath}"
-                             alt="${file.title} - Image ${index + 1}">
-                    `;
-                }
+                return isVideo
+                    ? `<video src="${mediaPath}" loop playsinline preload="metadata">Your browser does not support the video tag.</video>`
+                    : `<img src="${mediaPath}" alt="${file.title} - Image ${index + 1}">`;
             }).join('');
-
-            imageContainer.innerHTML = mediaHTML;
-
-            // Set text content
-            const contentHTML = file.content || '<p>No content available.</p>';
-            textContainer.innerHTML = contentHTML;
-
-            // Clear any existing modal-row-1 elements from previous modal opens
-            const existingRow1 = modalContent.querySelectorAll('.modal-row-1');
-            existingRow1.forEach(el => {
-                if (el.parentElement === modalContent) {
-                    el.remove();
-                }
-            });
-
-            // Move modal-row-1 to be a direct child of modalContent for sticky positioning
-            const row1 = textContainer.querySelector('.modal-row-1');
-            if (row1 && modalContent) {
-                modalContent.insertBefore(row1, modalContent.firstChild);
-            }
-
-            // No slider functionality needed - using scrollable grid
+            preamble.innerHTML = mediaHTML;
 
             // Show modal with slide-up animation
             if (modal) {
