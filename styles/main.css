@@ -356,6 +356,12 @@ body {
   height: 24px;
 }
 
+@media (pointer: coarse) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
 p {
   font-family: var(--font-body);
 }
@@ -2109,6 +2115,10 @@ p {
     padding: var(--space-8) var(--space-4);
   }
 
+  .archives-subtitle {
+    margin: 0 0 var(--space-12);
+  }
+
   .intro-text {
     font-size: var(--text-lg);
   }
@@ -2371,7 +2381,7 @@ p {
     min-height: 36px;
     font-size: var(--text-xs);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    margin-bottom: var(--space-1);
+    margin-bottom: var(--space-3);
   }
 
   /* Fix modal viewport on mobile */
